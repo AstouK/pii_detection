@@ -1,0 +1,322 @@
+"""
+Sweep 2 LLM review.
+
+Reviews ambiguous documents identified by Sweep 1 using an LLM.
+The goal is to reduce false positives while preserving recall.
+"""
+
+import re
+import time
+import requests
+import json
+import textwrap
+import pandas as pd
+
+from config.settings import (
+    OPENROUTER_API_URL,
+    OPENROUTER_MODEL,
+    require_openrouter_api_key,
+)
+
+
+_RETRY_DELAYS = [10, 20, 40]
+
+# ── Set up Logging ────────────────────────────────────
+
+import logging
+logger = logging.getLogger(__name__)
+
+# Compliance note:
+# OpenRouter may route requests through infrastructure that does not guarantee
+# EU data residency. For production use with real personal data, replace this
+# with a GDPR-compliant provider such as Azure OpenAI in an EU region, Mistral
+# with appropriate data processing terms, or another approved enterprise provider.
+
+# ─────────────────────────────────────────────────────────────
+# 1. Context-aware text extraction for LLM
+# ─────────────────────────────────────────────────────────────
+
+def extract_llm_text(text: str, entities: list, window: int = 200) -> str:
+    """
+    Build a minimal text snippet for the LLM by extracting context windows
+    around each detected entity.
+
+    Handles two cases:
+      - Presidio entities: have start/end offsets → extract surrounding window
+      - Regex-only entities: start=None/end=None → fall back to full text
+        (these were detected without offsets so we must pass the whole document)
+
+    Returns the original text unchanged if no offset-bearing entities exist,
+    ensuring the LLM always receives something to classify.
+    """
+    if not isinstance(text, str) or not text.strip():
+        return ""
+
+    if not entities:
+        return text  # no entity hints at all → send full text
+
+    # Separate entities with and without offsets
+    offset_entities = [
+        e for e in entities
+        if e.get("start") is not None and e.get("end") is not None
+    ]
+
+    # If all detections came from regex (no offsets), send full text
+    if not offset_entities:
+        return text
+
+    # Build merged context windows from offset entities
+    spans = [
+        (max(0, e["start"] - window), min(len(text), e["end"] + window))
+        for e in offset_entities
+    ]
+    spans.sort()
+
+    merged = [spans[0]]
+    for curr_start, curr_end in spans[1:]:
+        prev_start, prev_end = merged[-1]
+        if curr_start <= prev_end:
+            merged[-1] = (prev_start, max(prev_end, curr_end))
+        else:
+            merged.append((curr_start, curr_end))
+
+    return "\n\n---\n\n".join(text[s:e].strip() for s, e in merged)
+
+
+# ─────────────────────────────────────────────────────────────
+# 2. Prompt
+# ─────────────────────────────────────────────────────────────
+
+def build_llm_prompt(doc_text: str) -> str:
+    return textwrap.dedent(f"""
+        You are a data protection assistant specialised in GDPR compliance.
+
+        Determine whether the following text contains personal data as defined under
+        GDPR Article 4. Personal data includes any information relating to an
+        identified or identifiable natural person, such as:
+
+        - Real names of individuals
+        - Email addresses
+        - Phone numbers
+        - Passport numbers, ID card numbers, or other government-issued identifiers
+        - Financial identifiers (IBAN, credit card numbers)
+        - Medical or professional licence numbers
+        - Any information that directly identifies a person
+        - Any information that indirectly identifies a person when combined with context
+          (e.g., a unique employee ID used only for one person)
+
+        Important: The following are NOT personal data and must NOT be flagged:
+        - Company VAT numbers or Tax IDs (e.g., DE + 9 digits)
+        - Generic invoice numbers, order numbers, tracking numbers, ticket numbers
+        - Random alphanumeric strings without personal context
+        - Product IDs, system IDs, database keys, UUIDs, hashes
+        - Dates, times, or locations without a link to a specific person
+        - Job titles or roles without a named or identifiable person
+
+        Passport detection rule:
+        - Only classify a passport or ID number as personal data if the text clearly
+          indicates it belongs to a person (e.g., "passport", "Reisepass", "ID number",
+          "Ausweis", "Passnummer"). Do NOT treat standalone 8–9 digit numbers as PII.
+
+        Your task:
+        - Be conservative with false positives.
+        - Only return true if the text clearly contains personal data.
+        - If uncertain, return false.
+
+        Respond ONLY with valid JSON, no preamble, no markdown:
+
+        {{
+          "contains_pii": true or false,
+          "reason": "one sentence explanation"
+        }}
+
+        Text:
+        \"\"\"{doc_text}\"\"\"
+    """).strip()
+
+
+# ─────────────────────────────────────────────────────────────
+# 3. OpenRouter API call (with retry on rate limit)
+# ─────────────────────────────────────────────────────────────
+
+_JSON_RE = re.compile(r"\{.*?\}", re.DOTALL)
+
+
+def call_llm(prompt: str) -> tuple[bool, str]:
+    """
+    Call the configured model via OpenRouter.
+
+    Returns:
+        tuple[bool, str]: A tuple containing:
+            - contains_pii: whether the model detected personal data
+            - reason: one-sentence explanation or error message
+
+    Retries up to 3 times on rate limits.
+    On unrecoverable failure, returns (False, <error description>).
+    """
+
+    api_key = require_openrouter_api_key()
+
+    headers = {
+        "Authorization": f"Bearer {api_key}",
+        "Content-Type": "application/json",
+        "HTTP-Referer": "https://github.com/gdpr-scanner",
+        "X-Title": "GDPR PII Scanner",
+    }
+
+    logger.debug("Sending request to OpenRouter")
+    logger.debug("Model: %s", OPENROUTER_MODEL)
+    logger.debug("Prompt preview: %s ...", prompt[:300].replace("\n", " "))
+
+    delays = [0] + _RETRY_DELAYS
+
+    for attempt, delay in enumerate(delays):
+        if delay:
+            logger.warning(
+                "Rate limit received. Waiting %s seconds before retry %s/%s.",
+                delay,
+                attempt,
+                len(_RETRY_DELAYS),
+            )
+            time.sleep(delay)
+
+        try:
+            response = requests.post(
+                OPENROUTER_API_URL,
+                headers=headers,
+                json={
+                    "model": OPENROUTER_MODEL,
+                    "messages": [{"role": "user", "content": prompt}],
+                    "temperature": 0,
+                    "response_format": {"type": "json_object"},
+                },
+                timeout=120,
+            )
+
+            if response.status_code == 429:
+                if attempt < len(_RETRY_DELAYS):
+                    continue
+
+                return False, (
+                    f"Rate limit exceeded after "
+                    f"{len(_RETRY_DELAYS)} retries"
+                )
+
+            response.raise_for_status()
+
+            logger.debug("OpenRouter HTTP status: %s", response.status_code)
+
+            api_response = response.json()
+            msg = api_response["choices"][0]["message"]["content"]
+
+            if isinstance(msg, list):
+                msg = msg[0].get("text", "")
+
+            content = msg
+            logger.debug("OpenRouter response preview: %s", content[:300])
+
+            break
+
+        except requests.HTTPError as e:
+            return False, (
+                f"HTTP error {e.response.status_code}: "
+                f"{e.response.text[:200]}"
+            )
+
+        except requests.RequestException as e:
+            return False, f"Request failed: {e}"
+
+        except (KeyError, IndexError) as e:
+            return False, f"Unexpected API response structure: {e}"
+
+    else:
+        return False, "All retries exhausted"
+
+    content_fixed = re.sub(
+        r'"contains_pii"\s*:\s*,',
+        '"contains_pii": false,',
+        content,
+    )
+
+    try:
+        parsed = json.loads(content_fixed)
+
+    except json.JSONDecodeError:
+        match = _JSON_RE.search(content_fixed)
+
+        if match:
+            try:
+                parsed = json.loads(match.group())
+
+            except json.JSONDecodeError:
+                return False, (
+                    f"JSON parse error. Raw response: {content[:300]}"
+                )
+
+        else:
+            return False, f"No JSON found in response: {content[:300]}"
+
+    raw_val = parsed.get("contains_pii", False)
+
+    if isinstance(raw_val, str):
+        contains_pii = raw_val.strip().lower() == "true"
+    else:
+        contains_pii = bool(raw_val)
+
+    reason = parsed.get("reason", "")
+
+    return contains_pii, reason
+
+
+# ─────────────────────────────────────────────────────────────
+# 4. MAIN ENTRY POINT FOR SWEEP 2
+# ─────────────────────────────────────────────────────────────
+
+def run_llm(df: pd.DataFrame) -> pd.DataFrame:
+    """
+    Sweep 2: LLM review for documents flagged by Sweep 1.
+
+    Adds columns:
+      llm_pii    (bool)  — LLM verdict
+      llm_reason (str)   — LLM explanation or error message
+
+    Does NOT compute final_pii — that is the pipeline's responsibility.
+    """
+    df["llm_pii"]    = False
+    df["llm_reason"] = ""
+
+    flagged = df[df["needs_llm_review"]]
+
+    if flagged.empty:
+        return df
+
+    logger.info("Running LLM review on %s flagged documents", len(flagged))
+
+    total = len(flagged)
+    for i, (idx, row) in enumerate(flagged.iterrows(), start=1):
+        if i % 10 == 0 or i == total:
+            logger.info("LLM review progress: %s/%s documents", i, total)
+
+        text = extract_llm_text(
+            text     = str(row.get("full_text", "") or ""),
+            entities = row.get("entities", []) or [],
+        )
+
+        if not text.strip():
+            df.at[idx, "llm_reason"] = "empty text after extraction"
+            continue
+
+        prompt           = build_llm_prompt(text)
+        contains, reason = call_llm(prompt)
+
+        df.at[idx, "llm_pii"]    = contains
+        df.at[idx, "llm_reason"] = reason
+
+    n_positive = df.loc[flagged.index, "llm_pii"].sum()
+    logger.info(
+        "Sweep 2 completed. LLM flagged %s/%s documents as containing PII.",
+        int(n_positive),
+        len(flagged),
+    )
+
+    return df

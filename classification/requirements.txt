@@ -1,0 +1,10 @@
+pandas
+numpy
+presidio-analyzer
+presidio-anonymizer
+spacy
+pymupdf
+pdfplumber
+pillow
+pytesseract
+openpyxl
