@@ -1,7 +1,7 @@
 # Create environment
 python -m venv .venv
 
-# Activate
+# Activate Envireonment
 source .venv/bin/activate
 
 # Install dependencies
