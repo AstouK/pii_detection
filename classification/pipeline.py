@@ -32,7 +32,7 @@ logger = logging.getLogger(__name__)
 # ── Configuration ───────────────────────────────────
 
 PROVIDERS_TO_RUN = [
-    "openrouter",
+    #"openrouter",
     "qwen",
 ]
 

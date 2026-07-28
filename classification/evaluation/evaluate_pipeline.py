@@ -39,7 +39,7 @@ logger = logging.getLogger(__name__)
 # ── Configuration ───────────────────────────────────
 
 PROVIDERS_TO_EVALUATE = [
-    "openrouter",
+    #"openrouter",
     "qwen",
 ]
 
