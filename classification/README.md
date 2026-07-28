@@ -46,6 +46,9 @@ classification/
 ├── pipeline.py
 ├── evaluation/
 ├── data/
+├── results/
+│   ├── openrouter/
+│   └── qwen/
 └── README.md
 ```
 
@@ -163,7 +166,8 @@ This minimizes token usage and operational cost.
 
 - Extracts relevant text surrounding detected entities
 - Builds a GDPR-focused classification prompt
-- Sends requests to OpenRouter
+- Routes requests to the configured LLM provider
+- Supports multiple LLM providers
 - Parses and validates JSON responses
 - Adds final LLM classifications
 
@@ -190,7 +194,7 @@ Examples:
 #### Main Entry Point
 
 ```python
-run_llm(df)
+run_llm(df, provider)
 ```
 
 Adds:
@@ -202,6 +206,39 @@ llm_reason
 
 to the DataFrame.
 
+#### Supported Providers
+
+The LLM reviewer supports multiple providers through a provider routing layer.
+
+Current providers:
+
+```text
+openrouter
+qwen
+```
+
+Provider selection is passed into:
+
+```python
+run_llm(df, provider)
+```
+
+which internally routes requests through:
+
+```python
+call_llm(prompt, provider)
+```
+
+Examples:
+
+```python
+run_llm(df, provider="openrouter")
+```
+
+```python
+run_llm(df, provider="qwen")
+```
+
 ---
 
 ### `pipeline.py`
@@ -210,29 +247,43 @@ Production entry point for the complete classification workflow.
 
 Current execution flow:
 
-```python
-df = pd.read_excel(
-    "classification/data/pii_dataset.xlsx",
-    parse_dates=["file_created_date", "last_modified_date"],
-)
-
-df = run_presidio_regex(df)
-df = run_llm(df)
-
-df.to_csv("final_output.csv", index=False)
+```text
+Load dataset
+        |
+        v
+Run Sweep 1 once
+        |
+        v
+For each configured provider:
+        |
+        +--> OpenRouter
+        |
+        +--> Qwen
+        |
+        v
+Run Sweep 2
+        |
+        v
+Save provider-specific results
 ```
 
 #### Pipeline Steps
 
-1. Load input dataset
+1. Load the input dataset
 2. Run Sweep 1 (Presidio + Regex)
-3. Run Sweep 2 (LLM Review)
-4. Export results
+3. Create a copy of Sweep 1 results for each provider
+4. Run Sweep 2 (LLM Review) for each provider
+5. Generate provider-specific outputs
+6. Save results with timestamps
+
+This design avoids rerunning Sweep 1 for every provider and allows direct comparison of LLM performance.
 
 #### Output
 
+Pipeline outputs are written to:
+
 ```text
-final_output.csv
+classification/results/
 ```
 
 ---
@@ -269,13 +320,13 @@ Person names
 Technology:
 
 ```text
-OpenRouter
+Multiple LLM providers: OpenRouter, Qwen
 ```
 
-Current model:
+Current models:
 
 ```text
-openai/gpt-4o-mini
+openai/gpt-4o-mini, qwen3.7-plus
 ```
 
 Purpose:
@@ -321,13 +372,6 @@ From the project root:
 ```bash
 source .venv/bin/activate
 python -m classification.pipeline
-```
-
-Do not run:
-
-```bash
-cd classification
-python pipeline.py
 ```
 
 The module should always be executed from the repository root to ensure imports resolve correctly.
@@ -419,34 +463,6 @@ Only uncertain documents are escalated to the LLM layer.
 
 ---
 
-## Compliance Note
-
-The current implementation uses OpenRouter for experimentation and evaluation.
-
-For production use involving real personal data, the provider should be replaced with a GDPR-compliant alternative such as:
-
-- Azure OpenAI in an EU region
-- Mistral API with appropriate contractual safeguards
-- Another approved enterprise provider
-
-Do not process real personal data using a provider that has not been validated for compliance requirements.
-
----
-
-## Future Improvements
-
-Planned enhancements include:
-
-- Structured logging instead of `print()` statements
-- Automated unit tests
-- Configurable input/output paths
-- Improved batch processing
-- Better retry and failure handling
-- Provider abstraction layer
-- GDPR-compliant production LLM provider
-
----
-
 ## Dependencies
 
 Classification-specific dependencies are maintained in:
@@ -486,7 +502,7 @@ pii_detector.py
 ### Second Sweep
 
 ```python
-run_llm(df)
+run_llm(df, provider)
 ```
 
 File:
@@ -508,6 +524,41 @@ File:
 ```text
 pipeline.py
 ```
+
+## Results
+
+Pipeline outputs are written to:
+
+```text
+classification/results/
+```
+
+Provider-specific outputs are stored separately:
+
+```text
+classification/results/
+├── openrouter/
+└── qwen/
+```
+
+Output filenames contain:
+
+- provider model name
+- execution timestamp
+
+Example:
+
+```text
+classification/results/openrouter/
+└── openai_gpt-4o-mini_20260728_133454.csv
+
+classification/results/qwen/
+└── qwen3.7-plus_20260728_133454.csv
+```
+
+All providers within the same pipeline execution share the same timestamp, allowing direct comparison between model outputs.
+
+
 ## Evaluation
 
 The evaluation framework is documented separately.
@@ -516,3 +567,65 @@ See:
 
 ```text
 classification/evaluation/README.md
+
+## Provider Benchmarking
+
+The pipeline supports running multiple LLM providers against the same dataset.
+
+Example configuration:
+
+```python
+PROVIDERS_TO_RUN = [
+    "openrouter",
+    "qwen",
+]
+```
+
+For each provider:
+
+1. Sweep 1 results are reused.
+2. Sweep 2 is executed independently.
+3. A separate output file is generated.
+4. Results can be evaluated using the evaluation framework.
+
+This enables direct comparison of:
+
+- Accuracy
+- Precision
+- Recall
+- F1 Score
+- Cost
+- Latency
+- False positive rate
+- False negative rate
+
+without changing the classification logic.
+
+## Compliance Note
+
+The current implementation uses OpenRouter for experimentation and evaluation.
+
+For production use involving real personal data, the provider should be replaced with a GDPR-compliant alternative such as:
+
+- Azure OpenAI in an EU region
+- Mistral API with appropriate contractual safeguards
+- Another approved enterprise provider
+
+Do not process real personal data using a provider that has not been validated for compliance requirements.
+
+---
+
+## Future Improvements
+
+Planned enhancements include:
+
+- Structured logging instead of `print()` statements
+- Automated unit tests
+- Configurable input/output paths
+- Improved batch processing
+- Better retry and failure handling
+- Provider abstraction layer
+- GDPR-compliant production LLM provider
+- Additional LLM providers (Azure OpenAI, Claude, Gemini)Show more lines
+
+---

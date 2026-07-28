@@ -12,19 +12,12 @@ import json
 import textwrap
 import pandas as pd
 
-from config.settings import (
-    OPENROUTER_API_URL,
-    OPENROUTER_MODEL,
-    require_openrouter_api_key,
-)
-
-
-_RETRY_DELAYS = [10, 20, 40]
-
 # ── Set up Logging ────────────────────────────────────
 
 import logging
 logger = logging.getLogger(__name__)
+
+# ── Set up Providers ────────────────────────────────────
 
 # Compliance note:
 # OpenRouter may route requests through infrastructure that does not guarantee
@@ -32,6 +25,32 @@ logger = logging.getLogger(__name__)
 # with a GDPR-compliant provider such as Azure OpenAI in an EU region, Mistral
 # with appropriate data processing terms, or another approved enterprise provider.
 
+SUPPORTED_PROVIDERS = {
+    "openrouter",
+    "qwen",
+}
+
+# Qwen
+from openai import OpenAI
+
+from config.settings import (
+    QWEN_API_KEY,
+    QWEN_MODEL,
+)
+
+client = OpenAI(
+    api_key=QWEN_API_KEY,
+    base_url="https://dashscope-intl.aliyuncs.com/compatible-mode/v1",
+)
+
+# OpenRouter (gpt-4o-mini)
+from config.settings import (
+    OPENROUTER_API_URL,
+    OPENROUTER_MODEL,
+    require_openrouter_api_key,
+)
+
+_RETRY_DELAYS = [2, 5, 20] # Waiting time in seconds in case of lagging request
 # ─────────────────────────────────────────────────────────────
 # 1. Context-aware text extraction for LLM
 # ─────────────────────────────────────────────────────────────
@@ -136,13 +155,117 @@ def build_llm_prompt(doc_text: str) -> str:
 
 
 # ─────────────────────────────────────────────────────────────
-# 3. OpenRouter API call (with retry on rate limit)
+# 3. API Provider calls (with retry on rate limit)
 # ─────────────────────────────────────────────────────────────
 
 _JSON_RE = re.compile(r"\{.*?\}", re.DOTALL)
 
+def call_qwen(prompt: str) -> tuple[bool, str]:
+    """
+    Send prompt to Qwen via DashScope.
 
-def call_llm(prompt: str) -> tuple[bool, str]:
+    Returns:
+        (contains_pii, reason)
+    """
+
+    logger.debug("Sending request to Qwen")
+    logger.debug("Model: %s", QWEN_MODEL)
+
+    delays = [0] + _RETRY_DELAYS
+
+    for attempt, delay in enumerate(delays):
+
+        if delay:
+            logger.warning(
+                "Rate limit received. Waiting %s seconds before retry %s/%s.",
+                delay,
+                attempt,
+                len(_RETRY_DELAYS),
+            )
+            time.sleep(delay)
+
+        try:
+
+            completion = client.chat.completions.create(
+                model=QWEN_MODEL,
+                messages=[
+                    {
+                        "role": "user",
+                        "content": prompt,
+                    }
+                ],
+                temperature=0,
+            )
+
+            content = completion.choices[0].message.content
+
+            logger.debug(
+                "Qwen response preview: %s",
+                content[:300],
+            )
+
+            break
+
+        except Exception as e:
+
+            error_msg = str(e).lower()
+
+            if "429" in error_msg:
+                if attempt < len(_RETRY_DELAYS):
+                    continue
+
+                return False, (
+                    f"Rate limit exceeded after "
+                    f"{len(_RETRY_DELAYS)} retries"
+                )
+
+            logger.error("Qwen request failed: %s", e)
+
+            return False, f"Request failed: {e}"
+
+    else:
+        return False, "All retries exhausted"
+
+    content_fixed = re.sub(
+        r'"contains_pii"\s*:\s*,',
+        '"contains_pii": false,',
+        content,
+    )
+
+    try:
+        parsed = json.loads(content_fixed)
+
+    except json.JSONDecodeError:
+
+        match = _JSON_RE.search(content_fixed)
+
+        if match:
+            try:
+                parsed = json.loads(match.group())
+
+            except json.JSONDecodeError:
+                return False, (
+                    f"JSON parse error. Raw response: {content[:300]}"
+                )
+
+        else:
+            return False, (
+                f"No JSON found in response: {content[:300]}"
+            )
+
+    raw_val = parsed.get("contains_pii", False)
+
+    if isinstance(raw_val, str):
+        contains_pii = raw_val.strip().lower() == "true"
+    else:
+        contains_pii = bool(raw_val)
+
+    reason = parsed.get("reason", "")
+
+    return contains_pii, reason
+
+
+def call_openrouter(prompt: str) -> tuple[bool, str]:
     """
     Call the configured model via OpenRouter.
 
@@ -267,54 +390,128 @@ def call_llm(prompt: str) -> tuple[bool, str]:
 
     return contains_pii, reason
 
+def call_llm(
+    prompt: str,
+    provider: str,
+) -> tuple[bool, str]:
+    """
+    Route the prompt to the selected LLM provider.
+
+    Args:
+        prompt: Prompt sent to the LLM.
+        provider: Provider name. Supported values:
+            - "openrouter"
+            - "qwen"
+
+    Returns:
+        tuple[bool, str]:
+            - contains_pii
+            - reason
+    """
+
+    provider = provider.lower().strip()
+
+    if provider == "openrouter":
+        return call_openrouter(prompt)
+
+    if provider == "qwen":
+        return call_qwen(prompt)
+
+    raise ValueError(
+        f"Unsupported LLM provider: {provider}. "
+        "Expected 'openrouter' or 'qwen'."
+    )
 
 # ─────────────────────────────────────────────────────────────
 # 4. MAIN ENTRY POINT FOR SWEEP 2
 # ─────────────────────────────────────────────────────────────
 
-def run_llm(df: pd.DataFrame) -> pd.DataFrame:
+def run_llm(
+    df: pd.DataFrame,
+    provider: str,
+) -> pd.DataFrame:
     """
     Sweep 2: LLM review for documents flagged by Sweep 1.
 
-    Adds columns:
-      llm_pii    (bool)  — LLM verdict
-      llm_reason (str)   — LLM explanation or error message
+    Args:
+        df: DataFrame containing Sweep 1 results.
+        provider: LLM provider to use. Supported values include:
+            - "openrouter"
+            - "qwen"
 
-    Does NOT compute final_pii — that is the pipeline's responsibility.
+    Adds columns:
+        llm_pii: bool
+            LLM verdict.
+        llm_reason: str
+            LLM explanation or error message.
+        llm_provider: str
+            Provider used for the LLM review.
+
+    Does NOT compute final_pii.
+    That remains the pipeline's responsibility.
     """
-    df["llm_pii"]    = False
+
+    provider = provider.lower().strip()
+
+    df["llm_pii"] = False
     df["llm_reason"] = ""
+    df["llm_provider"] = provider
 
     flagged = df[df["needs_llm_review"]]
 
     if flagged.empty:
+        logger.info(
+            "No documents require LLM review for provider '%s'",
+            provider,
+        )
         return df
 
-    logger.info("Running LLM review on %s flagged documents", len(flagged))
+    logger.info(
+        "Running LLM review with provider '%s' on %s flagged documents",
+        provider,
+        len(flagged),
+    )
 
     total = len(flagged)
+
     for i, (idx, row) in enumerate(flagged.iterrows(), start=1):
         if i % 10 == 0 or i == total:
-            logger.info("LLM review progress: %s/%s documents", i, total)
+            logger.info(
+                "LLM review progress for provider '%s': %s/%s documents",
+                provider,
+                i,
+                total,
+            )
 
         text = extract_llm_text(
-            text     = str(row.get("full_text", "") or ""),
-            entities = row.get("entities", []) or [],
+            text=str(row.get("full_text", "") or ""),
+            entities=row.get("entities", []) or [],
         )
 
         if not text.strip():
+            logger.warning(
+                "Skipping row %s for provider '%s' because extracted text is empty",
+                idx,
+                provider,
+            )
             df.at[idx, "llm_reason"] = "empty text after extraction"
             continue
 
-        prompt           = build_llm_prompt(text)
-        contains, reason = call_llm(prompt)
+        prompt = build_llm_prompt(text)
 
-        df.at[idx, "llm_pii"]    = contains
+        contains, reason = call_llm(
+            prompt=prompt,
+            provider=provider,
+        )
+
+        df.at[idx, "llm_pii"] = contains
         df.at[idx, "llm_reason"] = reason
 
     n_positive = df.loc[flagged.index, "llm_pii"].sum()
+
     logger.info(
-        "Sweep 2 completed. LLM flagged %s/%s documents as containing PII.",
+        "Sweep 2 completed for provider '%s'. LLM flagged %s/%s documents as containing PII.",
+        provider,
         int(n_positive),
         len(flagged),
     )
