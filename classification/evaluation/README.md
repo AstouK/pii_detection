@@ -35,7 +35,13 @@ Ground Truth Normalization
 Sweep 1: Presidio + Regex
         |
         v
-Sweep 2: LLM Review
++-----------------------+
+| Provider Evaluation   |
++-----------------------+
+        |
+        +--> OpenRouter
+        |
+        +--> Qwen
         |
         v
 Final Classification
@@ -55,6 +61,36 @@ evaluation/
 ├── README.md
 └── results/
 ```
+
+---
+## Multi-Provider Evaluation
+
+The evaluation pipeline supports benchmarking multiple LLM providers against the same dataset.
+
+Current supported providers:
+
+```text
+openrouter
+qwen
+```
+
+The workflow is:
+
+1. Run Sweep 1 once.
+2. Create a copy of the Sweep 1 results.
+3. Execute Sweep 2 using a specific provider.
+4. Compute final predictions.
+5. Generate metrics.
+6. Save provider-specific outputs.
+
+This design ensures that all providers are evaluated on identical Sweep 1 inputs, allowing direct comparison of:
+
+- Accuracy
+- Precision
+- Recall
+- F1 Score
+- False Positive Rate
+- False Negative Rate
 
 ---
 
@@ -365,11 +401,13 @@ The evaluation pipeline:
 
 1. Loads the labeled dataset
 2. Normalizes ground-truth columns
-3. Executes Sweep 1
-4. Executes Sweep 2
-5. Computes final predictions
-6. Calculates performance metrics
-7. Prints results
+3. Executes Sweep 1 once
+4. Creates provider-specific copies of the Sweep 1 results
+5. Executes Sweep 2 for each configured provider
+6. Computes final predictions
+7. Calculates performance metrics
+8. Exports provider-specific outputs
+9. Prints benchmark results
 
 ---
 
@@ -395,25 +433,40 @@ PHONE_NUMBER      0.995  1.000  0.980  0.990
 ```
 
 ---
-
 ## Results Export
 
-Metric dictionaries can be converted into a tabular format using:
+Evaluation outputs are stored under:
+
+```text
+classification/evaluation/results/
+```
+
+Provider-specific results are written to separate folders.
+
+Example:
+
+```text
+classification/evaluation/results/
+├── openrouter/
+│   ├── openai_gpt-4o-mini_20260728_153000_predictions.csv
+│   └── openai_gpt-4o-mini_20260728_153000_metrics.xlsx
+│
+└── qwen/
+    ├── qwen3.7-plus_20260728_153000_predictions.csv
+    └── qwen3.7-plus_20260728_153000_metrics.xlsx
+```
+
+Metric dictionaries can be converted to tabular format using:
 
 ```python
 metrics_to_dataframe(metrics)
 ```
 
-and exported:
-
-```python
-summary.to_excel("eval_results.xlsx")
-```
-
-This enables:
+and exported for:
 
 - experiment tracking
 - benchmark comparisons
+- model evaluation
 - reporting
 - thesis documentation
 
@@ -426,6 +479,7 @@ The evaluation framework was designed to:
 - Measure the effectiveness of each pipeline stage separately
 - Detect sources of false positives and false negatives
 - Quantify the impact of LLM review
+- Compare multiple LLM providers on identical inputs
 - Support future model and rule-set comparisons
 - Provide reproducible evaluation results
 
@@ -442,3 +496,7 @@ Planned enhancements include:
 - Multiple dataset support
 - Entity extraction evaluation at span level
 - Evaluation result dashboards
+- Automated provider comparison reports
+- Cost-per-document benchmarking
+- Latency benchmarking
+- Statistical significance testing between models
