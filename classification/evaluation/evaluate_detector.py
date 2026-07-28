@@ -76,6 +76,9 @@ def _entity_detected(row: pd.Series, entity_type: str) -> bool:
 # ─────────────────────────────────────────────────────────────
 
 def confusion(y_true: pd.Series, y_pred: pd.Series):
+    y_true = y_true.astype(bool)
+    y_pred = y_pred.astype(bool)
+    
     tp = (y_pred & y_true).sum()
     tn = (~y_pred & ~y_true).sum()
     fp = (y_pred & ~y_true).sum()
@@ -154,7 +157,6 @@ def _print_entity_table(entity_metrics: dict[str, dict]) -> None:
     print(header)
     print("  " + "─" * (len(header) - 2))
     for etype, m in entity_metrics.items():
-        detected = m["TP"] + m["FP"]  # rows where Sweep 1 fired
         print(
             f"  {etype:<20} "
             f"{m['accuracy']:>6.4f} "
@@ -169,7 +171,7 @@ def _print_entity_table(entity_metrics: dict[str, dict]) -> None:
 # Main print_metrics (replaces the original)
 # ─────────────────────────────────────────────────────────────
 
-def print_metrics(df: pd.DataFrame) -> dict:
+def print_metrics(df: pd.DataFrame, provider: str | None = None,) -> dict:
     """
     Compute and print evaluation metrics for:
       - Sweep 1 (detected_pii  — strong PII only)
@@ -183,10 +185,13 @@ def print_metrics(df: pd.DataFrame) -> dict:
 
     Returns dict of all metric dicts for downstream use.
     """
+
+    provider_label = provider or "unknown"
+
     sep = "=" * 50
 
     print(f"\n{sep}")
-    print("  EVALUATION METRICS")
+    print(f"Provider: {provider}")
     print(f"{sep}\n")
 
     metrics = {}
@@ -212,7 +217,7 @@ def print_metrics(df: pd.DataFrame) -> dict:
         m2 = compute_metrics(
             flagged["ground_truth_pii"],
             flagged["llm_pii"].astype(bool),
-            label="sweep2_llm",
+            label=f"sweep2_{provider_label}",
         )
         _print_block(m2)
         metrics["sweep2_llm"] = m2
@@ -220,7 +225,11 @@ def print_metrics(df: pd.DataFrame) -> dict:
     # ── Final decision ────────────────────────────────────────
     if "final_pii" in df.columns:
         print("\n▶ Final Decision  (final_pii = Sweep 1 OR Sweep 2)")
-        m3 = _doc_metrics(df, "final_pii", "final")
+        m3 = _doc_metrics(
+            df,
+            "final_pii",
+            f"final_{provider_label}",
+        )
         if m3:
             _print_block(m3)
             metrics["final"] = m3
