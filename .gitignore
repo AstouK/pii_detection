@@ -30,3 +30,15 @@ build/
 # Logs
 logs/
 *.log
+
+# Classification runtime results
+classification/results/**
+!classification/results/
+!classification/results/**/
+!classification/results/**/.gitkeep
+
+# Evaluation results
+classification/evaluation/results/**
+!classification/evaluation/results/
+!classification/evaluation/results/**/
+!classification/evaluation/results/**/.gitkeep
