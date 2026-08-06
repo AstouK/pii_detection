@@ -19,3 +19,14 @@ dynamic = ["dependencies"]
 
 [tool.setuptools.dynamic]
 dependencies = {file = ["requirements.txt"]}
+
+# Code Formatting
+[tool.ruff]
+lint.select = ["I"]
+line-length=120
+
+# CLI Shortcuts (classification module)
+[project.scripts]
+classify = "classification.pipeline:main"
+eval-classification = "classification.evaluation.evaluate_pipeline:main"
+update-dataset = "classification.data.update_dataset_schema:main"
