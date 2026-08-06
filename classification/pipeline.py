@@ -32,11 +32,11 @@ logger = logging.getLogger(__name__)
 # ── Configuration ───────────────────────────────────
 
 PROVIDERS_TO_RUN = [
-    #"openrouter",
+    # "openrouter",
     "qwen",
 ]
 
-TEST_ROWS = 10 # Current max is 500
+TEST_ROWS = 10  # Current max is 500
 
 
 # ── Paths ───────────────────────────────────────────
@@ -50,6 +50,7 @@ RESULTS_DIR.mkdir(parents=True, exist_ok=True)
 
 
 # ── Helper functions ────────────────────────────────
+
 
 def get_model_name(provider: str) -> str:
     """
@@ -75,12 +76,7 @@ def make_safe_filename(value: str) -> str:
         openai/gpt-4o-mini -> openai_gpt-4o-mini
     """
 
-    return (
-        value
-        .replace("/", "_")
-        .replace(":", "_")
-        .replace(" ", "_")
-    )
+    return value.replace("/", "_").replace(":", "_").replace(" ", "_")
 
 
 def build_output_file(provider: str, timestamp: str) -> Path:
@@ -150,10 +146,7 @@ def run_provider_pipeline(
         provider=provider,
     )
 
-    df_provider["final_pii"] = (
-        df_provider["detected_pii"]
-        | df_provider["llm_pii"]
-    )
+    df_provider["final_pii"] = df_provider["detected_pii"] | df_provider["llm_pii"]
 
     output_file = build_output_file(
         provider=provider,

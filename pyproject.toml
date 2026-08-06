@@ -1,5 +1,5 @@
 [build-system]
-requires = ["setuptools", "wheel"]
+requires = ["setuptools>=61", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
@@ -15,18 +15,12 @@ authors = [
 description = "Personal Data Detection"
 requires-python = ">=3.10"
 
-dynamic = ["dependencies"]
+dependencies = []
 
-[tool.setuptools.dynamic]
-dependencies = {file = ["requirements.txt"]}
-
-# Code Formatting
-[tool.ruff]
-lint.select = ["I"]
-line-length=120
-
-# CLI Shortcuts (classification module)
 [project.scripts]
 classify = "classification.pipeline:main"
 eval-classification = "classification.evaluation.evaluate_pipeline:main"
 update-dataset = "classification.data.update_dataset_schema:main"
+
+[tool.setuptools.packages.find]
+include = ["classification*", "config*"]

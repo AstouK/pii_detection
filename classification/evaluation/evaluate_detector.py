@@ -35,16 +35,10 @@ _TRUTHY = {"yes", "true", "1", "y", "ja"}
 # Normalisation
 # ─────────────────────────────────────────────────────────────
 
+
 def _to_bool_series(series: pd.Series) -> pd.Series:
     """Convert yes/no (or True/False / 1/0) Series to boolean. NaN → False."""
-    return (
-        series
-        .fillna(False)
-        .astype(str)
-        .str.strip()
-        .str.lower()
-        .isin(_TRUTHY)
-    )
+    return series.fillna(False).astype(str).str.strip().str.lower().isin(_TRUTHY)
 
 
 def normalise_ground_truth(df: pd.DataFrame) -> pd.DataFrame:
@@ -63,6 +57,7 @@ def normalise_ground_truth(df: pd.DataFrame) -> pd.DataFrame:
 # Entity-type detection helper
 # ─────────────────────────────────────────────────────────────
 
+
 def _entity_detected(row: pd.Series, entity_type: str) -> bool:
     """Return True if entity_type appears in Sweep 1's per_type_conf dict."""
     conf_dict = row.get("per_type_conf", {})
@@ -75,10 +70,11 @@ def _entity_detected(row: pd.Series, entity_type: str) -> bool:
 # Core metric helpers
 # ─────────────────────────────────────────────────────────────
 
+
 def confusion(y_true: pd.Series, y_pred: pd.Series):
     y_true = y_true.astype(bool)
     y_pred = y_pred.astype(bool)
-    
+
     tp = (y_pred & y_true).sum()
     tn = (~y_pred & ~y_true).sum()
     fp = (y_pred & ~y_true).sum()
@@ -90,23 +86,27 @@ def compute_metrics(y_true: pd.Series, y_pred: pd.Series, label: str = "") -> di
     tp, tn, fp, fn = confusion(y_true, y_pred)
     n = len(y_true)
     acc = (tp + tn) / n if n > 0 else 0.0
-    p   = tp / (tp + fp) if (tp + fp) > 0 else 0.0
-    r   = tp / (tp + fn) if (tp + fn) > 0 else 0.0
-    f1  = 2 * p * r / (p + r) if (p + r) > 0 else 0.0
+    p = tp / (tp + fp) if (tp + fp) > 0 else 0.0
+    r = tp / (tp + fn) if (tp + fn) > 0 else 0.0
+    f1 = 2 * p * r / (p + r) if (p + r) > 0 else 0.0
     return {
-        "label":     label,
-        "n":         n,
-        "accuracy":  round(acc, 4),
-        "precision": round(p,   4),
-        "recall":    round(r,   4),
-        "f1":        round(f1,  4),
-        "TP": tp, "TN": tn, "FP": fp, "FN": fn,
+        "label": label,
+        "n": n,
+        "accuracy": round(acc, 4),
+        "precision": round(p, 4),
+        "recall": round(r, 4),
+        "f1": round(f1, 4),
+        "TP": tp,
+        "TN": tn,
+        "FP": fp,
+        "FN": fn,
     }
 
 
 # ─────────────────────────────────────────────────────────────
 # Document-level metrics (pred column already in df)
 # ─────────────────────────────────────────────────────────────
+
 
 def _doc_metrics(df: pd.DataFrame, pred_col: str, label: str) -> dict:
     if pred_col not in df.columns:
@@ -117,6 +117,7 @@ def _doc_metrics(df: pd.DataFrame, pred_col: str, label: str) -> dict:
 # ─────────────────────────────────────────────────────────────
 # Per-entity-type metrics
 # ─────────────────────────────────────────────────────────────
+
 
 def compute_entity_metrics(df: pd.DataFrame) -> dict[str, dict]:
     """
@@ -130,7 +131,7 @@ def compute_entity_metrics(df: pd.DataFrame) -> dict[str, dict]:
         gt_col = f"{etype}_yes_no"
         if gt_col not in df.columns:
             continue
-        gt_bool   = df[gt_col].astype(bool)
+        gt_bool = df[gt_col].astype(bool)
         pred_bool = df.apply(lambda r: _entity_detected(r, etype), axis=1)
         results[etype] = compute_metrics(gt_bool, pred_bool, label=f"sweep1_{etype}")
     return results
@@ -139,6 +140,7 @@ def compute_entity_metrics(df: pd.DataFrame) -> dict[str, dict]:
 # ─────────────────────────────────────────────────────────────
 # Pretty-print helpers
 # ─────────────────────────────────────────────────────────────
+
 
 def _print_block(m: dict) -> None:
     print(f"  Accuracy : {m['accuracy']:.4f}")
@@ -171,7 +173,11 @@ def _print_entity_table(entity_metrics: dict[str, dict]) -> None:
 # Main print_metrics (replaces the original)
 # ─────────────────────────────────────────────────────────────
 
-def print_metrics(df: pd.DataFrame, provider: str | None = None,) -> dict:
+
+def print_metrics(
+    df: pd.DataFrame,
+    provider: str | None = None,
+) -> dict:
     """
     Compute and print evaluation metrics for:
       - Sweep 1 (detected_pii  — strong PII only)
@@ -236,7 +242,7 @@ def print_metrics(df: pd.DataFrame, provider: str | None = None,) -> dict:
 
         if m1 and m3:
             print(f"\n  Accuracy gain Sweep 1 → Final : {m3['accuracy'] - m1['accuracy']:+.4f}")
-            print(f"  F1 gain       Sweep 1 → Final : {m3['f1']       - m1['f1']:+.4f}")
+            print(f"  F1 gain       Sweep 1 → Final : {m3['f1'] - m1['f1']:+.4f}")
 
     # ── Per-entity-type ───────────────────────────────────────
     print(f"\n{sep}")
@@ -253,6 +259,7 @@ def print_metrics(df: pd.DataFrame, provider: str | None = None,) -> dict:
 # ─────────────────────────────────────────────────────────────
 # Summary DataFrame (for saving / further analysis)
 # ─────────────────────────────────────────────────────────────
+
 
 def metrics_to_dataframe(metrics: dict) -> pd.DataFrame:
     """

@@ -42,3 +42,6 @@ classification/evaluation/results/**
 !classification/evaluation/results/
 !classification/evaluation/results/**/
 !classification/evaluation/results/**/.gitkeep
+
+# Microsoft Oryx build artifacts
+oryx-build-commands.txt

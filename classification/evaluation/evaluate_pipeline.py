@@ -39,7 +39,7 @@ logger = logging.getLogger(__name__)
 # ── Configuration ───────────────────────────────────
 
 PROVIDERS_TO_EVALUATE = [
-    #"openrouter",
+    # "openrouter",
     "qwen",
 ]
 
@@ -57,6 +57,7 @@ RESULTS_DIR.mkdir(parents=True, exist_ok=True)
 
 
 # ── Helpers ─────────────────────────────────────────
+
 
 def get_model_name(provider: str) -> str:
     """
@@ -79,12 +80,7 @@ def make_safe_filename(value: str) -> str:
     Convert provider/model names into filesystem-safe strings.
     """
 
-    return (
-        value
-        .replace("/", "_")
-        .replace(":", "_")
-        .replace(" ", "_")
-    )
+    return value.replace("/", "_").replace(":", "_").replace(" ", "_")
 
 
 def build_output_paths(provider: str, timestamp: str) -> tuple[Path, Path]:
@@ -128,8 +124,7 @@ def load_evaluation_data() -> pd.DataFrame:
 
     if "ground_truth_pii" not in df.columns:
         raise ValueError(
-            "Evaluation requires a 'ground_truth_pii' column. "
-            "Expected original column: 'contains_personal_data'."
+            "Evaluation requires a 'ground_truth_pii' column. Expected original column: 'contains_personal_data'."
         )
 
     return df
@@ -213,10 +208,7 @@ def evaluate_provider(
         provider=provider,
     )
 
-    df_provider["final_pii"] = (
-        df_provider["detected_pii"]
-        | df_provider["llm_pii"]
-    )
+    df_provider["final_pii"] = df_provider["detected_pii"] | df_provider["llm_pii"]
 
     metrics = print_metrics(df_provider)
 

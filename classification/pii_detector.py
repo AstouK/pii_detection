@@ -18,6 +18,7 @@ warnings.filterwarnings("ignore")
 # ── Set up Logging ────────────────────────────────────
 
 import logging
+
 logger = logging.getLogger(__name__)
 
 # ─────────────────────────────────────────────────────────────
@@ -72,13 +73,9 @@ _RE_EMAIL = re.compile(
     re.IGNORECASE,
 )
 
-_RE_IBAN = re.compile(
-    r"\b[A-Z]{2}\d{2}(?:[ ]?[A-Z0-9]{4}){2,7}\b"
-)
+_RE_IBAN = re.compile(r"\b[A-Z]{2}\d{2}(?:[ ]?[A-Z0-9]{4}){2,7}\b")
 
-_RE_CREDIT_CARD = re.compile(
-    r"\b(?:\d[ -]*?){13,16}\b"
-)
+_RE_CREDIT_CARD = re.compile(r"\b(?:\d[ -]*?){13,16}\b")
 
 _RE_MEDICAL = re.compile(
     r"\b(?:Approbation(?:snummer)?|Arztnummer|Heilpraktiker|Medical\s+ID|Medizinische\s+Lizenz)\b",
@@ -95,9 +92,9 @@ def custom_detect(text):
             "custom_MEDICAL_LICENSE": False,
         }
     return {
-        "custom_EMAIL_ADDRESS":   bool(_RE_EMAIL.search(text)),
-        "custom_IBAN_CODE":       bool(_RE_IBAN.search(text)),
-        "custom_CREDIT_CARD":     bool(_RE_CREDIT_CARD.search(text)),
+        "custom_EMAIL_ADDRESS": bool(_RE_EMAIL.search(text)),
+        "custom_IBAN_CODE": bool(_RE_IBAN.search(text)),
+        "custom_CREDIT_CARD": bool(_RE_CREDIT_CARD.search(text)),
         "custom_MEDICAL_LICENSE": bool(_RE_MEDICAL.search(text)),
     }
 
@@ -109,7 +106,7 @@ def custom_detect(text):
 # Documents with no Presidio signal AND no keyword hint are
 # definitively clean and skip the LLM entirely.
 # ─────────────────────────────────────────────────────────────
- 
+
 _RE_PERSON_HINT = re.compile(
     r"\b(?:"
     r"Name|Vorname|Nachname|Mitarbeiter|Employee|"
@@ -123,8 +120,8 @@ _RE_PERSON_HINT = re.compile(
     r")\b",
     re.IGNORECASE,
 )
- 
- 
+
+
 def _has_person_hint(text: str) -> bool:
     """
     Returns True if the text contains keywords suggesting a person
@@ -135,9 +132,11 @@ def _has_person_hint(text: str) -> bool:
         return False
     return bool(_RE_PERSON_HINT.search(text))
 
+
 # ─────────────────────────────────────────────────────────────
 # Fusion Layer
 # ─────────────────────────────────────────────────────────────
+
 
 def fuse_entities(text, language="en"):
     if not isinstance(text, str) or not text.strip():
@@ -157,17 +156,19 @@ def fuse_entities(text, language="en"):
         if etype not in MEANINGFUL_PII:
             continue
 
-        value = text[r.start:r.end]
+        value = text[r.start : r.end]
         conf = float(r.score)
 
-        entities.append({
-            "type": etype,
-            "value": value,
-            "confidence": round(conf, 3),
-            "source": "presidio",
-            "start": r.start,
-            "end": r.end,
-        })
+        entities.append(
+            {
+                "type": etype,
+                "value": value,
+                "confidence": round(conf, 3),
+                "source": "presidio",
+                "start": r.start,
+                "end": r.end,
+            }
+        )
 
         per_type_scores.setdefault(etype, []).append(conf)
 
@@ -189,14 +190,16 @@ def fuse_entities(text, language="en"):
             per_type_scores[etype] = boosted
         else:
             per_type_scores.setdefault(etype, []).append(REGEX_BASE_CONFIDENCE)
-            entities.append({
-                "type": etype,
-                "value": "",
-                "confidence": REGEX_BASE_CONFIDENCE,
-                "source": "custom_regex",
-                "start": None,
-                "end": None,
-            })
+            entities.append(
+                {
+                    "type": etype,
+                    "value": "",
+                    "confidence": REGEX_BASE_CONFIDENCE,
+                    "source": "custom_regex",
+                    "start": None,
+                    "end": None,
+                }
+            )
 
     per_type_conf = {etype: max(scores) for etype, scores in per_type_scores.items()}
 
@@ -205,9 +208,11 @@ def fuse_entities(text, language="en"):
         "per_type_conf": per_type_conf,
     }
 
+
 # ─────────────────────────────────────────────────────────────
 # Scan Text (Strong vs Potential PII)
 # ─────────────────────────────────────────────────────────────
+
 
 def scan_text(text, language="en"):
     base = {
@@ -237,21 +242,25 @@ def scan_text(text, language="en"):
         if etype in POTENTIAL_PII:
             potential_cats.append(etype)
 
-    base.update({
-        "entities": entities,
-        "per_type_conf": per_type_conf,
-        "strong_pii_categories": strong_cats,
-        "potential_pii_categories": potential_cats,
-        "detected_pii": len(strong_cats) > 0,
-        "detected_any_pii": len(strong_cats) > 0 or len(potential_cats) > 0,
-        "detected_categories": sorted(per_type_conf.keys()),
-    })
+    base.update(
+        {
+            "entities": entities,
+            "per_type_conf": per_type_conf,
+            "strong_pii_categories": strong_cats,
+            "potential_pii_categories": potential_cats,
+            "detected_pii": len(strong_cats) > 0,
+            "detected_any_pii": len(strong_cats) > 0 or len(potential_cats) > 0,
+            "detected_categories": sorted(per_type_conf.keys()),
+        }
+    )
 
     return base
+
 
 # ─────────────────────────────────────────────────────────────
 # MAIN ENTRY POINT FOR SWEEP 1
 # ─────────────────────────────────────────────────────────────
+
 
 def run_presidio_regex(df):
     """
@@ -285,12 +294,14 @@ def run_presidio_regex(df):
 
     # Routes ambiguous documents to LLM
     df["needs_llm_review"] = (
-        ~df["detected_pii"]                       # not already confirmed
+        ~df["detected_pii"]  # not already confirmed
     ) & (
-        (df["potential_pii_categories"]            # Presidio found a name
-            .apply(lambda cats: len(cats) > 0))
-        |
-        (df["full_text"].apply(_has_person_hint))  # or keyword hints present
+        (
+            df["potential_pii_categories"].apply(  # Presidio found a name
+                lambda cats: len(cats) > 0
+            )
+        )
+        | (df["full_text"].apply(_has_person_hint))  # or keyword hints present
     )
 
     logger.info(
