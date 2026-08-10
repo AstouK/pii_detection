@@ -31,17 +31,21 @@ build/
 logs/
 *.log
 
-# Classification runtime results
-classification/results/**
-!classification/results/
-!classification/results/**/
-!classification/results/**/.gitkeep
+# Classification artifacts
+classification/results/
 
-# Evaluation results
-classification/evaluation/results/**
-!classification/evaluation/results/
-!classification/evaluation/results/**/
-!classification/evaluation/results/**/.gitkeep
+# Evaluation artifacts
+classification/evaluation/results/
+
+# MLflow artifacts
+mlruns/
 
 # Microsoft Oryx build artifacts
 oryx-build-commands.txt
+
+# Other
+pii_detection.egg-info/dependency_links.txt
+pii_detection.egg-info/entry_points.txt
+pii_detection.egg-info/PKG-INFO
+pii_detection.egg-info/SOURCES.txt
+pii_detection.egg-info/top_level.txt
