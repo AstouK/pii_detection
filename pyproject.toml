@@ -19,7 +19,7 @@ dependencies = []
 
 [project.scripts]
 classify = "classification.pipeline:main"
-eval-classification = "classification.evaluation.evaluate_pipeline:main"
+evaluate = "classification.evaluation.evaluate_pipeline:main"
 update-dataset = "classification.data.update_dataset_schema:main"
 
 [tool.setuptools.packages.find]
