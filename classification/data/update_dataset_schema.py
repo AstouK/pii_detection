@@ -85,13 +85,6 @@ NEW_COLUMNS_WITH_DEFAULTS = {
     "review_status": "",
     "review_notes": "",
 
-    # Error analysis support
-    "error_type": "",
-
-    # Prompt/model experiment support
-    "prompt_version": "",
-    "model_family": "",
-    "model_name": "",
 }
 
 

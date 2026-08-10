@@ -296,50 +296,6 @@ review_status = corrected
 
 ---
 
-## Error Analysis Metadata
-
-| Column | Description |
-|----------|----------|
-| `error_type` | Classification outcome type generated during evaluation. |
-
-Possible values:
-
-```text
-false_positive
-false_negative
-true_positive
-true_negative
-```
-
-These values are intended to be populated by evaluation pipelines.
-
----
-
-## Experiment Metadata
-
-These columns support prompt benchmarking and provider comparison.
-
-| Column | Description |
-|----------|----------|
-| `prompt_version` | Prompt version used during evaluation. |
-| `model_family` | Model family (e.g. GPT, Qwen, BERT). |
-| `model_name` | Specific model name. |
-| `dataset_version` | Dataset release version. |
-
-Examples:
-
-```text
-prompt_version = v3
-
-model_family = qwen
-
-model_name = qwen3.7-plus
-
-dataset_version = v1
-```
-
----
-
 ## Annotation Metadata
 
 | Column | Description |
