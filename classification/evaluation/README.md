@@ -2,52 +2,45 @@
 
 ## Overview
 
-This module evaluates the performance of the two-stage GDPR PII detection pipeline.
+This module evaluates saved outputs from the GDPR PII classification pipeline.
 
-The evaluation framework measures classification quality at multiple levels:
+The evaluation framework supports:
 
-1. Document-level classification
-2. Sweep 1 performance
-3. Sweep 2 performance
-4. End-to-end pipeline performance
-5. Per-entity-type detection performance
+1. Document-level metrics
+2. Per-entity-type metrics
+3. Error analysis (TP/TN/FP/FN)
+4. Provider benchmarking
+5. MLflow experiment tracking
 
-The purpose is to quantify:
-
-- Accuracy
-- Precision
-- Recall
-- F1 Score
-
-and identify strengths and weaknesses of both detection stages.
+The framework operates on previously generated classification outputs and does not rerun the production classification pipeline.
 
 ---
 
 ## Evaluation Architecture
 
 ```text
-Labeled Dataset
+Classification Run
         |
         v
-Ground Truth Normalization
+Load Prediction Outputs
         |
-        v
-Sweep 1: Presidio + Regex
+        +--> sweep1.csv
         |
-        v
-+-----------------------+
-| Provider Evaluation   |
-+-----------------------+
+        +--> qwen.csv
         |
-        +--> OpenRouter
-        |
-        +--> Qwen
-        |
-        v
-Final Classification
+        +--> openrouter.csv
         |
         v
 Metric Computation
+        |
+        v
+Error Analysis
+        |
+        v
+Benchmark Summary
+        |
+        v
+Optional MLflow Logging
 ```
 
 ---
@@ -56,8 +49,14 @@ Metric Computation
 
 ```text
 evaluation/
-├── evaluate_detector.py
+├── benchmarking.py
+├── config.py
+├── error_analysis.py
 ├── evaluate_pipeline.py
+├── io.py
+├── metrics.py
+├── mlflow_logger.py
+├── reporting.py
 ├── README.md
 └── results/
 ```
@@ -65,25 +64,20 @@ evaluation/
 ---
 ## Multi-Provider Evaluation
 
-The evaluation pipeline supports benchmarking multiple LLM providers against the same dataset.
+The evaluation framework compares prediction outputs generated from the same classification run.
 
-Current supported providers:
+Supported output types include:
 
 ```text
+sweep1
 openrouter
 qwen
+future local models (BERT, DistilBERT, etc.)
 ```
 
-The workflow is:
+Each output is evaluated independently using the same ground truth.
 
-1. Run Sweep 1 once.
-2. Create a copy of the Sweep 1 results.
-3. Execute Sweep 2 using a specific provider.
-4. Compute final predictions.
-5. Generate metrics.
-6. Save provider-specific outputs.
-
-This design ensures that all providers are evaluated on identical Sweep 1 inputs, allowing direct comparison of:
+This enables direct comparison of:
 
 - Accuracy
 - Precision
@@ -92,29 +86,33 @@ This design ensures that all providers are evaluated on identical Sweep 1 inputs
 - False Positive Rate
 - False Negative Rate
 
+without rerunning the classification pipeline.
+
 ---
 
 ## Evaluation Dataset
 
-The evaluation pipeline uses a manually labeled dataset containing:
+Evaluation is performed on prediction outputs generated from:
 
 ```text
-classification/data/pii_dataset.xlsx
+classification/results/runs/<run_id>/
 ```
 
-Each document contains:
+Ground truth is expected to be included in those outputs.
 
-- Document text
-- Ground-truth document label
-- Ground-truth entity labels
+Primary document-level label:
 
-The primary document-level label is:
+```text
+ground_truth_pii
+```
+
+Fallback label:
 
 ```text
 contains_personal_data
 ```
 
-Additional ground-truth entity labels follow the convention:
+Additional entity-level labels follow the convention:
 
 ```text
 <ENTITY_TYPE>_yes_no
@@ -135,9 +133,9 @@ MEDICAL_LICENSE_yes_no
 
 ## Ground Truth Normalization
 
-The evaluation framework supports multiple label formats.
+Ground-truth labels are normalized automatically during metric computation and error analysis.
 
-Examples:
+Supported positive values:
 
 ```text
 yes
@@ -147,135 +145,79 @@ y
 ja
 ```
 
-are all normalized to:
+Supported negative values:
 
-```python
-True
+```text
+no
+false
+0
+n
+nein
 ```
 
-Missing values are treated as:
+The evaluation framework automatically resolves:
 
-```python
-False
+```text
+ground_truth_pii
 ```
 
-Normalization is performed using:
+or
 
-```python
-normalise_ground_truth(df)
+```text
+contains_personal_data
 ```
+
+when computing metrics and error analysis.
 
 ---
 
 ## Evaluated Entity Types
 
-The current evaluation covers:
+Entity-level evaluation is automatically derived from columns matching:
 
 ```text
-PERSON
-EMAIL_ADDRESS
-PHONE_NUMBER
-IBAN_CODE
-CREDIT_CARD
-PASSPORT
-MEDICAL_LICENSE
+<ENTITY_TYPE>_yes_no
 ```
 
-These can be extended by modifying:
+Examples:
 
-```python
-ENTITY_TYPES
+```text
+PERSON_yes_no
+EMAIL_ADDRESS_yes_no
+PHONE_NUMBER_yes_no
+IBAN_CODE_yes_no
 ```
 
-inside:
-
-```python
-evaluate_detector.py
-```
+No static entity list is required.
 
 ---
 
 ## Evaluation Levels
 
-### 1. Sweep 1 – Strong PII
+### Standardized Prediction Evaluation
 
-Evaluates:
+Primary evaluation uses:
+
+```python
+predicted_pii
+```
+
+This standardized prediction column allows evaluation of:
+
+- Sweep 1 outputs
+- LLM provider outputs
+- Future local model outputs
+
+using the same evaluation workflow.
+
+### Additional Stage Evaluation
+
+When available, the framework can also evaluate:
 
 ```python
 detected_pii
-```
-
-against:
-
-```python
-ground_truth_pii
-```
-
-This measures the performance of high-confidence deterministic detection.
-
-Examples:
-
-- Credit cards
-- Phone numbers
-- IBANs
-- Medical license identifiers
-
----
-
-### 2. Sweep 1 – Any PII
-
-Evaluates:
-
-```python
 detected_any_pii
-```
-
-against:
-
-```python
-ground_truth_pii
-```
-
-This includes both:
-
-- Strong PII
-- Potential PII
-
-and measures the sensitivity of the first sweep.
-
----
-
-### 3. Sweep 2 – LLM Review
-
-Evaluates:
-
-```python
 llm_pii
-```
-
-against:
-
-```python
-ground_truth_pii
-```
-
-Only documents routed to:
-
-```python
-needs_llm_review == True
-```
-
-are included.
-
-This measures the quality of the LLM decision layer independently from Sweep 1.
-
----
-
-### 4. Final Pipeline Performance
-
-Evaluates:
-
-```python
 final_pii
 ```
 
@@ -285,39 +227,7 @@ against:
 ground_truth_pii
 ```
 
-Current aggregation logic:
-
-```python
-final_pii = detected_pii | llm_pii
-```
-
-This represents the performance of the complete production pipeline.
-
----
-
-### 5. Per-Entity-Type Evaluation
-
-Each entity type is evaluated individually.
-
-Example:
-
-```text
-EMAIL_ADDRESS
-```
-
-Ground truth:
-
-```text
-EMAIL_ADDRESS_yes_no
-```
-
-Prediction:
-
-```python
-EMAIL_ADDRESS in per_type_conf
-```
-
-This helps identify which entity categories are performing well and which require further tuning.
+These stage-specific metrics are generated automatically when the corresponding columns exist.
 
 ---
 
@@ -390,24 +300,39 @@ These values are used to derive all performance metrics.
 
 ## Running the Evaluation
 
-From the project root:
+Evaluate the latest classification run:
 
 ```bash
-source .venv/bin/activate
-python -m classification.evaluation.evaluate_pipeline
+evaluate
+```
+
+Evaluate a specific classification run:
+
+```bash
+evaluate --run-id 20260810_153000
+```
+
+Evaluate a different prediction column:
+
+```bash
+evaluate --prediction-col final_pii
+```
+
+Log results to MLflow:
+
+```bash
+evaluate --log-mlflow
 ```
 
 The evaluation pipeline:
 
-1. Loads the labeled dataset
-2. Normalizes ground-truth columns
-3. Executes Sweep 1 once
-4. Creates provider-specific copies of the Sweep 1 results
-5. Executes Sweep 2 for each configured provider
-6. Computes final predictions
-7. Calculates performance metrics
-8. Exports provider-specific outputs
-9. Prints benchmark results
+1. Loads a classification run
+2. Loads all prediction outputs
+3. Computes metrics
+4. Runs error analysis
+5. Generates benchmark summaries
+6. Saves evaluation artifacts
+7. Optionally logs results to MLflow
 
 ---
 
@@ -435,40 +360,79 @@ PHONE_NUMBER      0.995  1.000  0.980  0.990
 ---
 ## Results Export
 
-Evaluation outputs are stored under:
+Evaluation outputs are written to:
 
 ```text
 classification/evaluation/results/
+└── runs/
+    └── <classification_run_id>/
 ```
 
-Provider-specific results are written to separate folders.
+Each evaluated output receives its own directory.
 
 Example:
 
 ```text
 classification/evaluation/results/
-├── openrouter/
-│   ├── openai_gpt-4o-mini_20260728_153000_predictions.csv
-│   └── openai_gpt-4o-mini_20260728_153000_metrics.xlsx
-│
-└── qwen/
-    ├── qwen3.7-plus_20260728_153000_predictions.csv
-    └── qwen3.7-plus_20260728_153000_metrics.xlsx
+└── runs/
+    └── 20260810_153000/
+        ├── sweep1/
+        │   ├── metrics.csv
+        │   ├── predictions_with_error_labels.csv
+        │   ├── false_positives.csv
+        │   ├── false_negatives.csv
+        │   └── error_summary.csv
+        ├── qwen/
+        │   ├── metrics.csv
+        │   ├── predictions_with_error_labels.csv
+        │   ├── false_positives.csv
+        │   ├── false_negatives.csv
+        │   └── error_summary.csv
+        ├── benchmark_summary.csv
+        └── evaluation_metadata.json
 ```
 
-Metric dictionaries can be converted to tabular format using:
+### Metrics Output
 
-```python
-metrics_to_dataframe(metrics)
+Metrics are stored in:
+
+```text
+metrics.csv
 ```
 
-and exported for:
+and include:
 
-- experiment tracking
-- benchmark comparisons
-- model evaluation
-- reporting
-- thesis documentation
+```text
+accuracy
+precision
+recall
+f1
+TP
+TN
+FP
+FN
+```
+
+### Error Analysis Output
+
+Error analysis artifacts include:
+
+```text
+predictions_with_error_labels.csv
+false_positives.csv
+false_negatives.csv
+true_positives.csv
+true_negatives.csv
+error_summary.csv
+```
+
+### Benchmark Summary
+
+```text
+benchmark_summary.csv
+```
+
+contains comparable metrics across all evaluated outputs from the same classification run.
 
 ---
 
@@ -476,12 +440,13 @@ and exported for:
 
 The evaluation framework was designed to:
 
-- Measure the effectiveness of each pipeline stage separately
-- Detect sources of false positives and false negatives
-- Quantify the impact of LLM review
-- Compare multiple LLM providers on identical inputs
-- Support future model and rule-set comparisons
-- Provide reproducible evaluation results
+- Evaluate saved classification outputs independently of production execution
+- Measure document-level and entity-level performance
+- Identify sources of false positives and false negatives
+- Compare providers and future local models using a common schema
+- Generate reproducible evaluation artifacts
+- Support MLflow experiment tracking
+- Enable future prompt, cost, and latency benchmarking
 
 ---
 
@@ -489,14 +454,17 @@ The evaluation framework was designed to:
 
 Planned enhancements include:
 
-- ROC and Precision-Recall curves
-- Confidence threshold experiments
-- Error category analysis
-- Automatic benchmark reporting
-- Multiple dataset support
-- Entity extraction evaluation at span level
-- Evaluation result dashboards
-- Automated provider comparison reports
+## Future Improvements
+
+Planned enhancements include:
+
+- Prompt benchmarking
 - Cost-per-document benchmarking
 - Latency benchmarking
-- Statistical significance testing between models
+- Routing analysis
+- ROC and Precision-Recall curves
+- Confidence threshold experiments
+- Statistical significance testing
+- Automated benchmark reports
+- Model comparison dashboards
+- Entity extraction evaluation at span level

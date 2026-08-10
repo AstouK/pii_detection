@@ -1,14 +1,19 @@
 """
-Evaluation pipeline for the two-stage GDPR PII detection system.
+Evaluation pipeline for GDPR PII detection outputs.
 
-Runs:
-1. Ground-truth normalization
-2. Sweep 1 detection once
-3. Sweep 2 LLM review for each configured provider
-4. Final decision computation
-5. Metric reporting and result export
+This pipeline evaluates saved classification run outputs.
+
+It does not rerun production classification code. Instead, it:
+1. Loads a classification run from classification/results/runs/
+2. Loads prediction outputs such as sweep1.csv, qwen.csv, openrouter.csv
+3. Computes metrics for each output
+4. Runs row-level error analysis for each output
+5. Saves evaluation artifacts under classification/evaluation/results/runs/
 """
 
+from __future__ import annotations
+
+import argparse
 import logging
 from datetime import datetime
 from pathlib import Path
@@ -16,18 +21,43 @@ from pathlib import Path
 import pandas as pd
 
 from config.logging_config import setup_logging
-from config.settings import (
-    OPENROUTER_MODEL,
-    QWEN_MODEL,
+
+from classification.evaluation.config import (
+    DEFAULT_PREDICTION_COL,
+    get_evaluation_metadata,
 )
 
-from classification.pii_detector import run_presidio_regex, _has_person_hint
-from classification.llm_reviewer import run_llm
-from classification.evaluation.evaluate_detector import (
-    normalise_ground_truth,
-    print_metrics,
-    metrics_to_dataframe,
+from classification.evaluation.error_analysis import run_error_analysis
+
+from classification.evaluation.metrics import compute_all_metrics
+
+from classification.evaluation.reporting import (
+    print_metric_report,
+    save_metrics,
 )
+
+from classification.evaluation.io import (
+    get_classification_run_dir,
+    load_prediction_outputs,
+    load_run_metadata,
+    create_evaluation_run_dir,
+    create_output_eval_dir,
+    save_error_analysis_outputs,
+    save_evaluation_metadata,
+)
+
+from classification.evaluation.benchmarking import (
+    build_benchmark_summary_from_metric_files,
+    save_benchmark_summary,
+)
+
+from classification.evaluation.config import (
+    DEFAULT_PREDICTION_COL,
+    ENABLE_MLFLOW_LOGGING,
+    get_evaluation_metadata,
+)
+
+from classification.evaluation.mlflow_logger import log_benchmark_summary_to_mlflow
 
 
 # ── Logging ─────────────────────────────────────────
@@ -36,238 +66,248 @@ setup_logging()
 logger = logging.getLogger(__name__)
 
 
-# ── Configuration ───────────────────────────────────
+# ─────────────────────────────────────────────────────────────
+# Evaluation helpers
+# ─────────────────────────────────────────────────────────────
 
-PROVIDERS_TO_EVALUATE = [
-    # "openrouter",
-    "qwen",
-]
-
-TEST_ROWS = 10
-
-
-# ── Paths ───────────────────────────────────────────
-
-CLASSIFICATION_DIR = Path(__file__).resolve().parents[1]
-
-DATA_FILE = CLASSIFICATION_DIR / "data" / "pii_dataset.xlsx"
-
-RESULTS_DIR = CLASSIFICATION_DIR / "evaluation" / "results"
-RESULTS_DIR.mkdir(parents=True, exist_ok=True)
-
-
-# ── Helpers ─────────────────────────────────────────
-
-
-def get_model_name(provider: str) -> str:
+def evaluate_prediction_output(
+    output_name: str,
+    df: pd.DataFrame,
+    evaluation_run_dir: Path,
+    prediction_col: str = DEFAULT_PREDICTION_COL,
+) -> list:
     """
-    Return the configured model name for a provider.
+    Compute metrics and run error analysis for one prediction output.
+
+    Example output_name values:
+        sweep1
+        qwen
+        openrouter
     """
-
-    provider = provider.lower().strip()
-
-    if provider == "openrouter":
-        return OPENROUTER_MODEL
-
-    if provider == "qwen":
-        return QWEN_MODEL
-
-    raise ValueError(f"Unsupported provider: {provider}")
-
-
-def make_safe_filename(value: str) -> str:
-    """
-    Convert provider/model names into filesystem-safe strings.
-    """
-
-    return value.replace("/", "_").replace(":", "_").replace(" ", "_")
-
-
-def build_output_paths(provider: str, timestamp: str) -> tuple[Path, Path]:
-    """
-    Build provider-specific output paths for predictions and metrics.
-    """
-
-    provider = provider.lower().strip()
-    model_name = make_safe_filename(get_model_name(provider))
-
-    provider_dir = RESULTS_DIR / provider
-    provider_dir.mkdir(parents=True, exist_ok=True)
-
-    predictions_file = provider_dir / f"{model_name}_{timestamp}_predictions.csv"
-    metrics_file = provider_dir / f"{model_name}_{timestamp}_metrics.xlsx"
-
-    return predictions_file, metrics_file
-
-
-def load_evaluation_data() -> pd.DataFrame:
-    """
-    Load and prepare the labeled evaluation dataset.
-    """
-
-    logger.info("Loading evaluation dataset from %s", DATA_FILE)
-
-    df = pd.read_excel(
-        DATA_FILE,
-        parse_dates=["file_created_date", "last_modified_date"],
-    )
-
-    logger.info("Loaded evaluation dataset with %s rows", len(df))
-
-    if TEST_ROWS:
-        df = df.head(TEST_ROWS)
-        logger.info("Test mode enabled. Using first %s rows.", TEST_ROWS)
-
-    df = normalise_ground_truth(df)
-
-    df = df.rename(columns={"contains_personal_data": "ground_truth_pii"})
-
-    if "ground_truth_pii" not in df.columns:
-        raise ValueError(
-            "Evaluation requires a 'ground_truth_pii' column. Expected original column: 'contains_personal_data'."
-        )
-
-    return df
-
-
-def log_llm_routing_debug(df: pd.DataFrame) -> None:
-    """
-    Log summary information about rows routed to LLM review.
-    """
-
-    flagged = df[df["needs_llm_review"]]
 
     logger.info(
-        "Rows flagged for LLM review: %s/%s",
-        len(flagged),
-        len(df),
+        "Evaluating output '%s' using prediction column '%s'",
+        output_name,
+        prediction_col,
     )
 
-    logger.debug(
-        "full_text null count: %s",
-        df["full_text"].isna().sum(),
+    output_eval_dir = create_output_eval_dir(
+        evaluation_run_dir=evaluation_run_dir,
+        output_name=output_name,
     )
 
-    logger.debug(
-        "full_text empty string count: %s",
-        (df["full_text"] == "").sum(),
+    saved_files = []
+
+    # ── Metrics ─────────────────────────────────────
+    metrics = compute_all_metrics(df)
+
+    print_metric_report(
+        metrics=metrics,
+        title=f"Evaluation metrics: {output_name}",
     )
 
-    if not flagged.empty:
-        sample = flagged.iloc[0]
-
-        logger.debug("Sample flagged row:")
-        logger.debug(
-            "full_text length: %s",
-            len(str(sample.get("full_text", "") or "")),
-        )
-        logger.debug(
-            "full_text preview: %s",
-            repr(str(sample.get("full_text", ""))[:200]),
-        )
-        logger.debug("entities: %s", sample.get("entities", "MISSING"))
-        logger.debug("detected_pii: %s", sample.get("detected_pii"))
-        logger.debug(
-            "potential_pii_categories: %s",
-            sample.get("potential_pii_categories"),
-        )
-
-    else:
-        logger.warning("No rows flagged for LLM review. Check routing logic.")
-        logger.warning(
-            "detected_pii True count: %s",
-            df["detected_pii"].sum(),
-        )
-        logger.warning(
-            "potential_pii nonempty count: %s",
-            df["potential_pii_categories"].apply(lambda x: len(x) > 0).sum(),
-        )
-        logger.warning(
-            "person_hint True count: %s",
-            df["full_text"].apply(_has_person_hint).sum(),
-        )
-
-
-def evaluate_provider(
-    base_df: pd.DataFrame,
-    provider: str,
-    timestamp: str,
-) -> dict:
-    """
-    Run Sweep 2 and evaluation for one provider.
-    """
-
-    provider = provider.lower().strip()
-
-    logger.info("Starting evaluation for provider: %s", provider)
-
-    df_provider = base_df.copy(deep=True)
-
-    df_provider = run_llm(
-        df_provider,
-        provider=provider,
+    metrics_file = save_metrics(
+        metrics=metrics,
+        output_dir=output_eval_dir,
     )
 
-    df_provider["final_pii"] = df_provider["detected_pii"] | df_provider["llm_pii"]
-
-    metrics = print_metrics(df_provider)
-
-    predictions_file, metrics_file = build_output_paths(
-        provider=provider,
-        timestamp=timestamp,
-    )
-
-    df_provider.to_csv(predictions_file, index=False)
-
-    metrics_df = metrics_to_dataframe(metrics)
-
-    if not metrics_df.empty:
-        metrics_df.to_excel(metrics_file)
+    saved_files.append(metrics_file)
 
     logger.info(
-        "Saved predictions for provider '%s' to %s",
-        provider,
-        predictions_file,
-    )
-
-    logger.info(
-        "Saved metrics for provider '%s' to %s",
-        provider,
+        "Saved metrics for output '%s' to %s",
+        output_name,
         metrics_file,
     )
 
-    return metrics
+    # ── Error analysis ──────────────────────────────
+    error_outputs = run_error_analysis(
+        df=df,
+        prediction_col=prediction_col,
+    )
+
+    error_files = save_error_analysis_outputs(
+        outputs=error_outputs,
+        output_dir=output_eval_dir,
+    )
+
+    saved_files.extend(error_files)
+
+    logger.info(
+        "Saved %s error-analysis artifacts for output '%s' to %s",
+        len(error_files),
+        output_name,
+        output_eval_dir,
+    )
+
+    return saved_files
+
+
+def run_evaluation(
+    run_id: str | None = None,
+    prediction_col: str = DEFAULT_PREDICTION_COL,
+    log_mlflow: bool = ENABLE_MLFLOW_LOGGING,
+) -> dict:
+    """
+    Evaluate a saved classification run.
+
+    Args:
+        run_id:
+            Classification run ID to evaluate.
+            If None, the latest classification run is evaluated.
+
+        prediction_col:
+            Prediction column to evaluate.
+            Defaults to the standardized column: predicted_pii.
+
+    Returns:
+        Evaluation metadata dictionary.
+    """
+
+    evaluation_started_at = datetime.now().strftime("%Y%m%d_%H%M%S")
+
+    classification_run_dir = get_classification_run_dir(run_id)
+    classification_run_id = classification_run_dir.name
+
+    logger.info("Evaluation pipeline started")
+    logger.info("Classification run selected: %s", classification_run_id)
+    logger.info("Classification run directory: %s", classification_run_dir)
+
+    classification_metadata = load_run_metadata(classification_run_dir)
+
+    prediction_outputs = load_prediction_outputs(classification_run_dir)
+
+    logger.info(
+        "Loaded prediction outputs: %s",
+        list(prediction_outputs.keys()),
+    )
+
+    evaluation_run_dir = create_evaluation_run_dir(
+        classification_run_id=classification_run_id,
+    )
+
+    saved_files = []
+
+    for output_name, df in prediction_outputs.items():
+        output_saved_files = evaluate_prediction_output(
+            output_name=output_name,
+            df=df,
+            evaluation_run_dir=evaluation_run_dir,
+            prediction_col=prediction_col,
+        )
+
+        saved_files.extend(output_saved_files)
+
+    benchmark_summary = build_benchmark_summary_from_metric_files(
+        evaluation_run_dir=evaluation_run_dir,
+    )
+
+    benchmark_file = save_benchmark_summary(
+        benchmark_df=benchmark_summary,
+        evaluation_run_dir=evaluation_run_dir,
+    )
+
+    saved_files.append(benchmark_file)
+
+    logger.info("Benchmark summary saved to %s", benchmark_file)
+
+    evaluation_metadata = {
+        **get_evaluation_metadata(),
+        "evaluation_started_at": evaluation_started_at,
+        "classification_run_id": classification_run_id,
+        "classification_run_dir": str(classification_run_dir),
+        "evaluation_run_dir": str(evaluation_run_dir),
+        "prediction_col": prediction_col,
+        "evaluated_outputs": list(prediction_outputs.keys()),
+        "benchmark_summary_file": str(benchmark_file),
+        "classification_metadata": classification_metadata,
+        "saved_files": [str(path) for path in saved_files],
+    }
+
+    metadata_file = save_evaluation_metadata(
+        evaluation_run_dir=evaluation_run_dir,
+        metadata=evaluation_metadata,
+    )
+
+    if log_mlflow:
+        mlflow_run_ids = log_benchmark_summary_to_mlflow(
+            benchmark_summary_file=benchmark_file,
+            evaluation_run_dir=evaluation_run_dir,
+            evaluation_metadata=evaluation_metadata,
+        )
+
+        evaluation_metadata["mlflow_run_ids"] = mlflow_run_ids
+
+        metadata_file = save_evaluation_metadata(
+            evaluation_run_dir=evaluation_run_dir,
+            metadata=evaluation_metadata,
+        )
+
+        logger.info("Logged evaluation results to MLflow runs: %s", mlflow_run_ids)
+
+    saved_files.append(metadata_file)
+
+    logger.info("Evaluation metadata saved to %s", metadata_file)
+    logger.info("Evaluation pipeline completed")
+
+    for file_path in saved_files:
+        logger.info("Evaluation artifact created: %s", file_path)
+
+    return evaluation_metadata
+
+
+# ─────────────────────────────────────────────────────────────
+# CLI
+# ─────────────────────────────────────────────────────────────
+
+def parse_args() -> argparse.Namespace:
+    """
+    Parse command-line arguments.
+    """
+
+    parser = argparse.ArgumentParser(
+        description="Evaluate saved GDPR PII classification run outputs."
+    )
+
+    parser.add_argument(
+        "--run-id",
+        type=str,
+        default=None,
+        help=(
+            "Classification run ID to evaluate. "
+            "If omitted, the latest classification run is used."
+        ),
+    )
+
+    parser.add_argument(
+        "--prediction-col",
+        type=str,
+        default=DEFAULT_PREDICTION_COL,
+        help=(
+            "Prediction column to evaluate. "
+            "Defaults to the standardized column from evaluation config."
+        ),
+    )
+
+    parser.add_argument(
+        "--log-mlflow",
+        action="store_true",
+        help="Log evaluation results to MLflow.",
+    )
+    return parser.parse_args()
 
 
 def main() -> None:
     """
-    Run the evaluation pipeline for all configured providers.
+    Run the evaluation pipeline.
     """
 
-    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+    args = parse_args()
 
-    logger.info("Evaluation pipeline started")
-    logger.info("Providers selected: %s", PROVIDERS_TO_EVALUATE)
-
-    df = load_evaluation_data()
-
-    logger.info("Running Sweep 1: Presidio + regex")
-    df_sweep1 = run_presidio_regex(df)
-
-    log_llm_routing_debug(df_sweep1)
-
-    all_metrics = {}
-
-    for provider in PROVIDERS_TO_EVALUATE:
-        metrics = evaluate_provider(
-            base_df=df_sweep1,
-            provider=provider,
-            timestamp=timestamp,
-        )
-
-        all_metrics[provider] = metrics
-
-    logger.info("Evaluation pipeline completed")
+    run_evaluation(
+        run_id=args.run_id,
+        prediction_col=args.prediction_col,
+        log_mlflow=args.log_mlflow,
+    )
 
 
 if __name__ == "__main__":
