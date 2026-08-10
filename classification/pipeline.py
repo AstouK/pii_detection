@@ -4,23 +4,36 @@ Production classification pipeline.
 Executes:
 1. Presidio + regex detection
 2. LLM review of ambiguous documents
-3. Result export per LLM provider
+3. Final production prediction
+4. Provider-specific result export
 """
 
+import json
 import logging
 from datetime import datetime
 from pathlib import Path
+from time import perf_counter
 
 import pandas as pd
 
 from config.logging_config import setup_logging
-from config.settings import (
-    OPENROUTER_MODEL,
-    QWEN_MODEL,
+
+from classification.config import (
+    PROVIDERS_TO_RUN,
+    DEFAULT_INPUT_FILE,
+    RESULTS_DIR,
+    DEFAULT_PREDICTION_STAGE,
+    DEFAULT_PIPELINE_NAME,
+    get_provider_config,
+    get_model_name,
+    make_safe_filename,
+    validate_providers,
 )
 
 from classification.pii_detector import run_presidio_regex
 from classification.llm_reviewer import run_llm
+
+from classification.config import CLASSIFICATION_LIMIT
 
 
 # ── Logging ─────────────────────────────────────────
@@ -29,115 +42,260 @@ setup_logging()
 logger = logging.getLogger(__name__)
 
 
-# ── Configuration ───────────────────────────────────
-
-PROVIDERS_TO_RUN = [
-    # "openrouter",
-    "qwen",
-]
-
-TEST_ROWS = 10  # Current max is 500
-
-
 # ── Paths ───────────────────────────────────────────
 
-BASE_DIR = Path(__file__).parent
-
-DATA_FILE = BASE_DIR / "data" / "pii_dataset.xlsx"
-
-RESULTS_DIR = BASE_DIR / "results"
 RESULTS_DIR.mkdir(parents=True, exist_ok=True)
 
 
 # ── Helper functions ────────────────────────────────
 
-
-def get_model_name(provider: str) -> str:
+def load_input_data(input_file: Path = DEFAULT_INPUT_FILE) -> pd.DataFrame:
     """
-    Return the model name for a given provider.
-    """
-
-    provider = provider.lower().strip()
-
-    if provider == "openrouter":
-        return OPENROUTER_MODEL
-
-    if provider == "qwen":
-        return QWEN_MODEL
-
-    raise ValueError(f"Unsupported provider: {provider}")
-
-
-def make_safe_filename(value: str) -> str:
-    """
-    Convert model names into filesystem-safe strings.
-
-    Example:
-        openai/gpt-4o-mini -> openai_gpt-4o-mini
+    Load the input dataset and optionally keep only the first CLASSIFICATION_LIMIT rows.
     """
 
-    return value.replace("/", "_").replace(":", "_").replace(" ", "_")
+    logger.info("Loading dataset from %s", input_file)
 
+    df = pd.read_csv(input_file)
 
-def build_output_file(provider: str, timestamp: str) -> Path:
-    """
-    Build the output path for a provider-specific result file.
+    date_cols = [
+        "file_created_date",
+        "last_modified_date",
+        "dataset_created_at",
+    ]
 
-    Output example:
-        classification/results/qwen/qwen3.7-plus_20260728_133500.csv
-    """
-
-    provider = provider.lower().strip()
-    model_name = get_model_name(provider)
-    safe_model_name = make_safe_filename(model_name)
-
-    provider_dir = RESULTS_DIR / provider
-    provider_dir.mkdir(parents=True, exist_ok=True)
-
-    return provider_dir / f"{safe_model_name}_{timestamp}.csv"
-
-
-def load_input_data() -> pd.DataFrame:
-    """
-    Load the input dataset and optionally keep only the first TEST_ROWS rows.
-    """
-
-    logger.info("Loading dataset from %s", DATA_FILE)
-
-    df = pd.read_excel(
-        DATA_FILE,
-        parse_dates=["file_created_date", "last_modified_date"],
-    )
+    for col in date_cols:
+        if col in df.columns:
+            df[col] = pd.to_datetime(df[col], errors="coerce")
 
     logger.info("Loaded full dataset with %s rows", len(df))
 
-    if TEST_ROWS:
-        df = df.head(TEST_ROWS)
-        logger.info("Test mode enabled. Using first %s rows.", TEST_ROWS)
+    if CLASSIFICATION_LIMIT:
+        df = df.head(CLASSIFICATION_LIMIT)
+        logger.info("Test mode enabled. Using first %s rows.", CLASSIFICATION_LIMIT)
 
     return df
+
+def create_run_dir(timestamp: str) -> Path:
+    """
+    Create a run-specific output directory.
+
+    Example:
+        classification/results/runs/20260810_153000/
+    """
+
+    run_dir = RESULTS_DIR / "runs" / timestamp
+    run_dir.mkdir(parents=True, exist_ok=True)
+
+    return run_dir
+
+def build_output_file(
+    provider: str,
+    run_dir: Path,
+) -> Path:
+    """
+    Build provider-specific output file inside a run directory.
+    """
+
+    return run_dir / f"{provider}.csv"
+
+def add_sweep1_metadata(
+    df: pd.DataFrame,
+    run_id: str,
+) -> pd.DataFrame:
+    """
+    Add metadata to Sweep 1 outputs.
+
+    Sweep 1 is a local rule-based baseline using Presidio + regex.
+    """
+
+    result_df = df.copy()
+
+    result_df["run_id"] = run_id
+    result_df["provider"] = "local"
+    result_df["model_family"] = "rule_based"
+    result_df["model_name"] = "presidio_regex_v1"
+    result_df["prediction_source"] = "presidio_regex"
+    result_df["prediction_stage"] = "sweep1"
+    result_df["pipeline_name"] = DEFAULT_PIPELINE_NAME
+
+    result_df["predicted_pii"] = result_df["detected_pii"].fillna(False).astype(bool)
+
+    return result_df
+
+def save_sweep1_results(
+    df_sweep1: pd.DataFrame,
+    run_dir: Path,
+    run_id: str,
+) -> Path:
+    """
+    Save Sweep 1 baseline results.
+    """
+
+    output_file = run_dir / "sweep1.csv"
+
+    df_sweep1_output = add_sweep1_metadata(
+        df=df_sweep1,
+        run_id=run_id,
+    )
+
+    df_sweep1_output.to_csv(
+        output_file,
+        index=False,
+    )
+
+    logger.info("Sweep 1 results saved to %s", output_file)
+
+    return output_file
+
+def compute_routing_metrics(df_sweep1: pd.DataFrame) -> dict:
+    """
+    Compute routing metrics from Sweep 1 output.
+    """
+
+    documents_total = len(df_sweep1)
+
+    if "needs_llm_review" not in df_sweep1.columns:
+        documents_sent_to_llm = 0
+    else:
+        documents_sent_to_llm = (
+            df_sweep1["needs_llm_review"]
+            .fillna(False)
+            .astype(bool)
+            .sum()
+        )
+
+    llm_calls_avoided = documents_total - documents_sent_to_llm
+
+    routing_rate = (
+        documents_sent_to_llm / documents_total
+        if documents_total > 0
+        else 0.0
+    )
+
+    local_processing_rate = (
+        llm_calls_avoided / documents_total
+        if documents_total > 0
+        else 0.0
+    )
+
+    return {
+        "documents_total": int(documents_total),
+        "documents_sent_to_llm": int(documents_sent_to_llm),
+        "llm_calls_avoided": int(llm_calls_avoided),
+        "routing_rate": round(routing_rate, 4),
+        "local_processing_rate": round(local_processing_rate, 4),
+    }
+
+def save_run_metadata(
+    run_dir: Path,
+    run_id: str,
+    providers: list[str],
+    saved_files: list[Path],
+    routing_metrics: dict,
+    runtime_metrics: dict,
+) -> Path:
+    """
+    Save run-level classification metadata.
+    """
+
+    metadata_file = run_dir / "run_metadata.json"
+
+    metadata = {
+        "run_id": run_id,
+        "pipeline_name": DEFAULT_PIPELINE_NAME,
+        "providers": providers,
+        "saved_files": [str(path) for path in saved_files],
+        **routing_metrics,
+        **runtime_metrics,
+    }
+
+    metadata_file.write_text(
+        json.dumps(metadata, indent=2),
+        encoding="utf-8",
+    )
+
+    logger.info("Run metadata saved to %s", metadata_file)
+
+    return metadata_file
+
+def compute_final_prediction(df: pd.DataFrame) -> pd.DataFrame:
+    """
+    Compute the final production PII decision.
+
+    Logic:
+    - Strong Sweep 1 detection means final PII.
+    - If no strong Sweep 1 detection but LLM reviewed the row, use LLM decision.
+    - Otherwise, classify as non-PII.
+    """
+
+    result_df = df.copy()
+
+    if "llm_pii" not in result_df.columns:
+        result_df["llm_pii"] = False
+
+    result_df["detected_pii"] = result_df["detected_pii"].fillna(False).astype(bool)
+    result_df["llm_pii"] = result_df["llm_pii"].fillna(False).astype(bool)
+
+    result_df["final_pii"] = result_df["detected_pii"] | result_df["llm_pii"]
+
+    # Generic prediction column used by evaluation and future model adapters.
+    result_df["predicted_pii"] = result_df["final_pii"]
+
+    return result_df
+
+
+def add_output_metadata(
+    df: pd.DataFrame,
+    provider: str,
+    run_id: str,
+) -> pd.DataFrame:
+    """
+    Add provider/model/run metadata to classification outputs.
+
+    These columns describe how the prediction was produced.
+    They are not evaluation metrics.
+    """
+
+    provider_config = get_provider_config(provider)
+
+    result_df = df.copy()
+
+    result_df["run_id"] = run_id
+    result_df["provider"] = provider_config["provider"]
+    result_df["model_family"] = provider_config["model_family"]
+    result_df["model_name"] = provider_config["model_name"]
+    result_df["prediction_source"] = provider_config["prediction_source"]
+    result_df["prediction_stage"] = DEFAULT_PREDICTION_STAGE
+    result_df["pipeline_name"] = DEFAULT_PIPELINE_NAME
+
+    return result_df
 
 
 def run_provider_pipeline(
     base_df: pd.DataFrame,
     provider: str,
-    timestamp: str,
-) -> Path:
+    run_dir: Path,
+    run_id: str,
+) -> tuple[Path, float]:
     """
     Run Sweep 2 for a single provider and save provider-specific results.
 
     Args:
         base_df: DataFrame after Sweep 1.
         provider: LLM provider to use.
-        timestamp: Timestamp shared across this pipeline run.
+        run_dir: Directory for this pipeline run.
+        run_id: Shared run identifier.
 
     Returns:
-        Path to the saved output CSV.
+        Tuple of saved output path and provider runtime in seconds.
     """
 
     provider = provider.lower().strip()
 
     logger.info("Starting Sweep 2 for provider: %s", provider)
+
+    provider_start = perf_counter()
 
     df_provider = base_df.copy(deep=True)
 
@@ -146,11 +304,17 @@ def run_provider_pipeline(
         provider=provider,
     )
 
-    df_provider["final_pii"] = df_provider["detected_pii"] | df_provider["llm_pii"]
+    df_provider = compute_final_prediction(df_provider)
+
+    df_provider = add_output_metadata(
+        df=df_provider,
+        provider=provider,
+        run_id=run_id,
+    )
 
     output_file = build_output_file(
         provider=provider,
-        timestamp=timestamp,
+        run_dir=run_dir,
     )
 
     df_provider.to_csv(
@@ -158,13 +322,16 @@ def run_provider_pipeline(
         index=False,
     )
 
+    provider_runtime_seconds = round(perf_counter() - provider_start, 4)
+
     logger.info(
-        "Completed provider '%s'. Results saved to %s",
+        "Completed provider '%s' in %.4f seconds. Results saved to %s",
         provider,
+        provider_runtime_seconds,
         output_file,
     )
 
-    return output_file
+    return output_file, provider_runtime_seconds
 
 
 def main() -> None:
@@ -172,26 +339,83 @@ def main() -> None:
     Run the full classification pipeline for all configured providers.
     """
 
-    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+    pipeline_start = perf_counter()
+
+    run_id = datetime.now().strftime("%Y%m%d_%H%M%S")
+
+    run_dir = create_run_dir(run_id)
+
+    providers = validate_providers(PROVIDERS_TO_RUN)
 
     logger.info("Classification pipeline started")
-    logger.info("Providers selected: %s", PROVIDERS_TO_RUN)
+    logger.info("Run ID: %s", run_id)
+    logger.info("Providers selected: %s", providers)
 
     df = load_input_data()
 
     logger.info("Running Sweep 1: Presidio + regex")
+
+    sweep1_start = perf_counter()
     df_sweep1 = run_presidio_regex(df)
+    sweep1_runtime_seconds = round(perf_counter() - sweep1_start, 4)
+
+    logger.info(
+        "Sweep 1 completed in %.4f seconds",
+        sweep1_runtime_seconds,
+    )
 
     saved_files = []
 
-    for provider in PROVIDERS_TO_RUN:
-        output_file = run_provider_pipeline(
+    sweep1_file = save_sweep1_results(
+        df_sweep1=df_sweep1,
+        run_dir=run_dir,
+        run_id=run_id,
+    )
+
+    saved_files.append(sweep1_file)
+
+    provider_runtime_seconds = {}
+
+    for provider in providers:
+        output_file, runtime_seconds = run_provider_pipeline(
             base_df=df_sweep1,
             provider=provider,
-            timestamp=timestamp,
+            run_dir=run_dir,
+            run_id=run_id,
         )
 
         saved_files.append(output_file)
+        provider_runtime_seconds[provider] = runtime_seconds
+
+    routing_metrics = compute_routing_metrics(df_sweep1)
+
+    sweep2_runtime_seconds = round(
+        sum(provider_runtime_seconds.values()),
+        4,
+    )
+
+    pipeline_runtime_seconds = round(
+        perf_counter() - pipeline_start,
+        4,
+    )
+
+    runtime_metrics = {
+        "sweep1_runtime_seconds": sweep1_runtime_seconds,
+        "sweep2_runtime_seconds": sweep2_runtime_seconds,
+        "pipeline_runtime_seconds": pipeline_runtime_seconds,
+        "provider_runtime_seconds": provider_runtime_seconds,
+    }
+
+    metadata_file = save_run_metadata(
+        run_dir=run_dir,
+        run_id=run_id,
+        providers=providers,
+        saved_files=saved_files,
+        routing_metrics=routing_metrics,
+        runtime_metrics=runtime_metrics,
+    )
+
+    saved_files.append(metadata_file)
 
     logger.info("Classification pipeline completed")
 
