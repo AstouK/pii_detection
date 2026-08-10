@@ -15,6 +15,7 @@ import pandas as pd
 # ── Set up Logging ────────────────────────────────────
 
 import logging
+
 logger = logging.getLogger(__name__)
 
 # ── Set up Providers ────────────────────────────────────
@@ -50,10 +51,11 @@ from config.settings import (
     require_openrouter_api_key,
 )
 
-_RETRY_DELAYS = [2, 5, 20] # Waiting time in seconds in case of lagging request
+_RETRY_DELAYS = [2, 5, 20]  # Waiting time in seconds in case of lagging request
 # ─────────────────────────────────────────────────────────────
 # 1. Context-aware text extraction for LLM
 # ─────────────────────────────────────────────────────────────
+
 
 def extract_llm_text(text: str, entities: list, window: int = 200) -> str:
     """
@@ -75,20 +77,14 @@ def extract_llm_text(text: str, entities: list, window: int = 200) -> str:
         return text  # no entity hints at all → send full text
 
     # Separate entities with and without offsets
-    offset_entities = [
-        e for e in entities
-        if e.get("start") is not None and e.get("end") is not None
-    ]
+    offset_entities = [e for e in entities if e.get("start") is not None and e.get("end") is not None]
 
     # If all detections came from regex (no offsets), send full text
     if not offset_entities:
         return text
 
     # Build merged context windows from offset entities
-    spans = [
-        (max(0, e["start"] - window), min(len(text), e["end"] + window))
-        for e in offset_entities
-    ]
+    spans = [(max(0, e["start"] - window), min(len(text), e["end"] + window)) for e in offset_entities]
     spans.sort()
 
     merged = [spans[0]]
@@ -105,6 +101,7 @@ def extract_llm_text(text: str, entities: list, window: int = 200) -> str:
 # ─────────────────────────────────────────────────────────────
 # 2. Prompt
 # ─────────────────────────────────────────────────────────────
+
 
 def build_llm_prompt(doc_text: str) -> str:
     return textwrap.dedent(f"""
@@ -160,6 +157,7 @@ def build_llm_prompt(doc_text: str) -> str:
 
 _JSON_RE = re.compile(r"\{.*?\}", re.DOTALL)
 
+
 def call_qwen(prompt: str) -> tuple[bool, str]:
     """
     Send prompt to Qwen via DashScope.
@@ -174,7 +172,6 @@ def call_qwen(prompt: str) -> tuple[bool, str]:
     delays = [0] + _RETRY_DELAYS
 
     for attempt, delay in enumerate(delays):
-
         if delay:
             logger.warning(
                 "Rate limit received. Waiting %s seconds before retry %s/%s.",
@@ -185,7 +182,6 @@ def call_qwen(prompt: str) -> tuple[bool, str]:
             time.sleep(delay)
 
         try:
-
             completion = client.chat.completions.create(
                 model=QWEN_MODEL,
                 messages=[
@@ -207,17 +203,13 @@ def call_qwen(prompt: str) -> tuple[bool, str]:
             break
 
         except Exception as e:
-
             error_msg = str(e).lower()
 
             if "429" in error_msg:
                 if attempt < len(_RETRY_DELAYS):
                     continue
 
-                return False, (
-                    f"Rate limit exceeded after "
-                    f"{len(_RETRY_DELAYS)} retries"
-                )
+                return False, (f"Rate limit exceeded after {len(_RETRY_DELAYS)} retries")
 
             logger.error("Qwen request failed: %s", e)
 
@@ -236,7 +228,6 @@ def call_qwen(prompt: str) -> tuple[bool, str]:
         parsed = json.loads(content_fixed)
 
     except json.JSONDecodeError:
-
         match = _JSON_RE.search(content_fixed)
 
         if match:
@@ -244,14 +235,10 @@ def call_qwen(prompt: str) -> tuple[bool, str]:
                 parsed = json.loads(match.group())
 
             except json.JSONDecodeError:
-                return False, (
-                    f"JSON parse error. Raw response: {content[:300]}"
-                )
+                return False, (f"JSON parse error. Raw response: {content[:300]}")
 
         else:
-            return False, (
-                f"No JSON found in response: {content[:300]}"
-            )
+            return False, (f"No JSON found in response: {content[:300]}")
 
     raw_val = parsed.get("contains_pii", False)
 
@@ -320,10 +307,7 @@ def call_openrouter(prompt: str) -> tuple[bool, str]:
                 if attempt < len(_RETRY_DELAYS):
                     continue
 
-                return False, (
-                    f"Rate limit exceeded after "
-                    f"{len(_RETRY_DELAYS)} retries"
-                )
+                return False, (f"Rate limit exceeded after {len(_RETRY_DELAYS)} retries")
 
             response.raise_for_status()
 
@@ -341,10 +325,7 @@ def call_openrouter(prompt: str) -> tuple[bool, str]:
             break
 
         except requests.HTTPError as e:
-            return False, (
-                f"HTTP error {e.response.status_code}: "
-                f"{e.response.text[:200]}"
-            )
+            return False, (f"HTTP error {e.response.status_code}: {e.response.text[:200]}")
 
         except requests.RequestException as e:
             return False, f"Request failed: {e}"
@@ -372,9 +353,7 @@ def call_openrouter(prompt: str) -> tuple[bool, str]:
                 parsed = json.loads(match.group())
 
             except json.JSONDecodeError:
-                return False, (
-                    f"JSON parse error. Raw response: {content[:300]}"
-                )
+                return False, (f"JSON parse error. Raw response: {content[:300]}")
 
         else:
             return False, f"No JSON found in response: {content[:300]}"
@@ -389,6 +368,7 @@ def call_openrouter(prompt: str) -> tuple[bool, str]:
     reason = parsed.get("reason", "")
 
     return contains_pii, reason
+
 
 def call_llm(
     prompt: str,
@@ -417,14 +397,13 @@ def call_llm(
     if provider == "qwen":
         return call_qwen(prompt)
 
-    raise ValueError(
-        f"Unsupported LLM provider: {provider}. "
-        "Expected 'openrouter' or 'qwen'."
-    )
+    raise ValueError(f"Unsupported LLM provider: {provider}. Expected 'openrouter' or 'qwen'.")
+
 
 # ─────────────────────────────────────────────────────────────
 # 4. MAIN ENTRY POINT FOR SWEEP 2
 # ─────────────────────────────────────────────────────────────
+
 
 def run_llm(
     df: pd.DataFrame,

@@ -32,9 +32,9 @@ DATA_DIR = Path(__file__).resolve().parent
 
 INPUT_FILE = DATA_DIR / "pii_dataset.xlsx"
 
-OUTPUT_FILE = DATA_DIR / "pii_dataset_updated.csv"
+OUTPUT_FILE = DATA_DIR / "pii_dataset.csv"
 
-PREVIEW_OUTPUT_FILE = DATA_DIR / "pii_dataset_updated_preview.csv"
+PREVIEW_OUTPUT_FILE = DATA_DIR / "pii_dataset_preview.csv"
 
 
 # ── Constants ───────────────────────────────────────
@@ -85,13 +85,6 @@ NEW_COLUMNS_WITH_DEFAULTS = {
     "review_status": "",
     "review_notes": "",
 
-    # Error analysis support
-    "error_type": "",
-
-    # Prompt/model experiment support
-    "prompt_version": "",
-    "model_family": "",
-    "model_name": "",
 }
 
 
@@ -435,12 +428,6 @@ def reorder_columns(df: pd.DataFrame) -> pd.DataFrame:
         "human_reviewed",
         "review_status",
         "review_notes",
-        "error_type",
-
-        # Experiment metadata
-        "prompt_version",
-        "model_family",
-        "model_name",
 
         # Dataset versioning / notes
         "dataset_version",
@@ -484,10 +471,6 @@ def main() -> None:
         "generation_prompt_version",
         "review_status",
         "review_notes",
-        "error_type",
-        "prompt_version",
-        "model_family",
-        "model_name",
     ]
 
     for col in TEXT_METADATA_COLUMNS:

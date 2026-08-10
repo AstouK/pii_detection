@@ -41,14 +41,14 @@ The objective is to preserve high recall while reducing unnecessary LLM calls an
 
 ```text
 classification/
+├── config.py
 ├── pii_detector.py
 ├── llm_reviewer.py
 ├── pipeline.py
 ├── evaluation/
 ├── data/
 ├── results/
-│   ├── openrouter/
-│   └── qwen/
+│   └── runs/
 └── README.md
 ```
 
@@ -253,28 +253,30 @@ Load dataset
         v
 Run Sweep 1 once
         |
+        +--> Save Sweep 1 baseline results
+        |
         v
 For each configured provider:
         |
-        +--> OpenRouter
+        +--> Run Sweep 2
         |
-        +--> Qwen
+        +--> Compute final prediction
         |
-        v
-Run Sweep 2
+        +--> Add model metadata
         |
-        v
-Save provider-specific results
+        +--> Save provider-specific results
 ```
 
 #### Pipeline Steps
 
 1. Load the input dataset
 2. Run Sweep 1 (Presidio + Regex)
-3. Create a copy of Sweep 1 results for each provider
-4. Run Sweep 2 (LLM Review) for each provider
-5. Generate provider-specific outputs
-6. Save results with timestamps
+3. Save Sweep 1 baseline output
+4. Create a copy of Sweep 1 results for each provider
+5. Run Sweep 2 (LLM Review)
+6. Compute the final prediction
+7. Add provider/model metadata
+8. Save provider-specific results
 
 This design avoids rerunning Sweep 1 for every provider and allows direct comparison of LLM performance.
 
@@ -344,7 +346,7 @@ Only documents flagged during Sweep 1 are reviewed.
 Current dataset location:
 
 ```text
-classification/data/pii_dataset.xlsx
+classification/data/pii_dataset.csv
 ```
 
 Required column:
@@ -380,14 +382,33 @@ The module should always be executed from the repository root to ensure imports 
 
 ## Output Columns
 
-Important generated columns include:
+### Core Classification Columns
 
 ```text
 detected_pii
 detected_any_pii
 needs_llm_review
+
 llm_pii
 llm_reason
+
+final_pii
+predicted_pii
+```
+
+### Output Metadata
+
+```text
+run_id
+
+provider
+model_family
+model_name
+
+prediction_source
+prediction_stage
+
+pipeline_name
 ```
 
 ### Interpretation
@@ -398,7 +419,15 @@ llm_reason
 True
 ```
 
-Strong PII was identified during Sweep 1.
+High-confidence PII detected during Sweep 1.
+
+#### `detected_any_pii`
+
+```text
+True
+```
+
+At least one strong or potential PII signal was detected during Sweep 1.
 
 #### `needs_llm_review`
 
@@ -406,7 +435,7 @@ Strong PII was identified during Sweep 1.
 True
 ```
 
-Document is ambiguous and requires Sweep 2.
+The document was routed to Sweep 2 for contextual review.
 
 #### `llm_pii`
 
@@ -418,8 +447,101 @@ The LLM determined the document contains personal data.
 
 #### `llm_reason`
 
-Contains the explanation returned by the model.
+Explanation returned by the LLM.
 
+#### `final_pii`
+
+```text
+True
+```
+
+Final classification produced by the two-stage pipeline.
+
+#### `predicted_pii`
+
+```text
+True
+```
+
+Standardized prediction column used for benchmarking, evaluation, and comparison across models.
+
+#### `run_id`
+
+Unique identifier for the pipeline execution.
+
+Example:
+
+```text
+20260810_153000
+```
+
+#### `provider`
+
+Provider used for classification.
+
+Examples:
+
+```text
+qwen
+openrouter
+local
+```
+
+#### `model_family`
+
+Model family associated with the prediction.
+
+Examples:
+
+```text
+qwen
+gpt
+rule_based
+```
+
+#### `model_name`
+
+Specific model that produced the prediction.
+
+Examples:
+
+```text
+qwen3.7-plus
+openai/gpt-4o-mini
+presidio_regex_v1
+```
+
+#### `prediction_source`
+
+Origin of the prediction.
+
+Examples:
+
+```text
+presidio_regex
+llm
+```
+
+#### `prediction_stage`
+
+Pipeline stage represented by the output.
+
+Examples:
+
+```text
+sweep1
+final
+```
+
+#### `pipeline_name`
+
+Name of the classification pipeline that produced the result.
+
+Example:
+
+```text
+two_stage_pii_pipeline
+```
 ---
 
 ## Design Decisions
@@ -531,33 +653,83 @@ Pipeline outputs are written to:
 
 ```text
 classification/results/
+└── runs/
+    └── <run_id>/
+        ├── sweep1.csv
+        ├── qwen.csv
+        ├── openrouter.csv
+        └── run_metadata.json
 ```
 
-Provider-specific outputs are stored separately:
+Each pipeline execution creates a dedicated run directory containing all generated outputs.
+
+### Sweep 1 Output
+
+The deterministic Presidio + Regex detector is saved as a standalone baseline.
+
+Metadata:
 
 ```text
-classification/results/
-├── openrouter/
-└── qwen/
+provider          = local
+model_family      = rule_based
+model_name        = presidio_regex_v1
+prediction_source = presidio_regex
+prediction_stage  = sweep1
 ```
 
-Output filenames contain:
-
-- provider model name
-- execution timestamp
-
-Example:
+The standardized prediction column is:
 
 ```text
-classification/results/openrouter/
-└── openai_gpt-4o-mini_20260728_133454.csv
-
-classification/results/qwen/
-└── qwen3.7-plus_20260728_133454.csv
+predicted_pii = detected_pii
 ```
 
-All providers within the same pipeline execution share the same timestamp, allowing direct comparison between model outputs.
+### Provider Outputs
 
+Each configured provider generates its own prediction file within the same run directory.
+
+Metadata:
+
+```text
+run_id
+provider
+model_family
+model_name
+prediction_source
+prediction_stage
+pipeline_name
+```
+
+The standardized prediction column is:
+
+```text
+predicted_pii = final_pii
+```
+
+### Run Metadata
+
+Each run directory contains a `run_metadata.json` file.
+
+Typical fields include:
+
+```text
+run_id
+pipeline_name
+providers
+
+documents_total
+documents_sent_to_llm
+llm_calls_avoided
+
+routing_rate
+local_processing_rate
+
+sweep1_runtime_seconds
+sweep2_runtime_seconds
+pipeline_runtime_seconds
+```
+
+This metadata supports benchmarking, runtime analysis, routing analysis, and future MLflow integration.
+---
 
 ## Evaluation
 
@@ -624,7 +796,7 @@ Planned enhancements include:
 - Configurable input/output paths
 - Improved batch processing
 - Better retry and failure handling
-- Provider abstraction layer
+- Local model support (BERT, DistilBERT, etc.)
 - GDPR-compliant production LLM provider
 - Additional LLM providers (Azure OpenAI, Claude, Gemini)Show more lines
 

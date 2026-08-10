@@ -1,0 +1,26 @@
+[build-system]
+requires = ["setuptools>=61", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "pii_detection"
+version = "0.1.0"
+
+authors = [
+    {name = "Aissata Kane", email = "aissata.kane@tum.de"},
+    {name = "Sonja Hamm", email = "sonja.hamm@tum.de"},
+    {name = "Max Seidlitz", email = "max.seidlitz@tum.de"},
+]
+
+description = "Personal Data Detection"
+requires-python = ">=3.10"
+
+dependencies = []
+
+[project.scripts]
+classify = "classification.pipeline:main"
+evaluate = "classification.evaluation.evaluate_pipeline:main"
+update-dataset = "classification.data.update_dataset_schema:main"
+
+[tool.setuptools.packages.find]
+include = ["classification*", "config*"]
