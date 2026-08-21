@@ -59,6 +59,10 @@ from classification.evaluation.config import (
 
 from classification.evaluation.mlflow_logger import log_benchmark_summary_to_mlflow
 
+from classification.evaluation.cost_analysis import (
+    create_cost_summary,
+)
+
 
 # ── Logging ─────────────────────────────────────────
 
@@ -199,6 +203,11 @@ def run_evaluation(
 
     benchmark_summary = build_benchmark_summary_from_metric_files(
         evaluation_run_dir=evaluation_run_dir,
+    )
+
+    benchmark_summary = create_cost_summary(
+        benchmark_df=benchmark_summary,
+        classification_metadata=classification_metadata,
     )
 
     benchmark_file = save_benchmark_summary(

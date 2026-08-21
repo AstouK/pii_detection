@@ -1,0 +1,173 @@
+# config/gdpr_entities.yaml
+
+direct_identifiers:
+
+  PERSON:
+    priority: high
+    evaluation: true
+    llm_review: true
+
+  EMAIL_ADDRESS:
+    priority: low
+    evaluation: true
+    llm_review: false
+
+  PHONE_NUMBER:
+    priority: low
+    evaluation: true
+    llm_review: false
+
+  PASSPORT:
+    priority: medium
+    evaluation: true
+    llm_review: false
+
+  NATIONAL_ID:
+    priority: high
+    evaluation: true
+    llm_review: false
+
+  DRIVER_LICENSE:
+    priority: medium
+    evaluation: true
+    llm_review: false
+
+
+financial_identifiers:
+
+  IBAN_CODE:
+    priority: low
+    evaluation: true
+    llm_review: false
+
+  CREDIT_CARD:
+    priority: low
+    evaluation: true
+    llm_review: false
+
+  BANK_ACCOUNT:
+    priority: medium
+    evaluation: true
+    llm_review: false
+
+  TAX_ID:
+    priority: medium
+    evaluation: true
+    llm_review: false
+
+
+employment_identifiers:
+
+  EMPLOYEE_ID:
+    priority: high
+    evaluation: true
+    llm_review: true
+
+  STAFF_NUMBER:
+    priority: high
+    evaluation: true
+    llm_review: true
+
+  PERSONNEL_NUMBER:
+    priority: high
+    evaluation: true
+    llm_review: true
+
+
+digital_identifiers:
+
+  USERNAME:
+    priority: high
+    evaluation: true
+    llm_review: true
+
+  ACCOUNT_NAME:
+    priority: high
+    evaluation: true
+    llm_review: true
+
+  USER_ID:
+    priority: high
+    evaluation: true
+    llm_review: true
+
+  IP_ADDRESS:
+    priority: medium
+    evaluation: true
+    llm_review: false
+
+  DEVICE_ID:
+    priority: low
+    evaluation: false
+    llm_review: false
+
+  SESSION_ID:
+    priority: low
+    evaluation: false
+    llm_review: false
+
+
+personal_context:
+
+  ADDRESS:
+    priority: high
+    evaluation: true
+    llm_review: true
+
+  DATE_OF_BIRTH:
+    priority: high
+    evaluation: true
+    llm_review: true
+
+  PERSONAL_URL:
+    priority: medium
+    evaluation: true
+    llm_review: true
+
+  LOCATION:
+    priority: medium
+    evaluation: true
+    llm_review: true
+
+
+special_categories:
+
+  HEALTH_DATA:
+    priority: high
+    evaluation: true
+    llm_review: true
+
+  BIOMETRIC_DATA:
+    priority: medium
+    evaluation: true
+    llm_review: true
+
+  GENETIC_DATA:
+    priority: medium
+    evaluation: true
+    llm_review: true
+
+  POLITICAL_DATA:
+    priority: low
+    evaluation: true
+    llm_review: true
+
+  RELIGIOUS_DATA:
+    priority: low
+    evaluation: true
+    llm_review: true
+
+  ETHNIC_ORIGIN:
+    priority: low
+    evaluation: true
+    llm_review: true
+
+  UNION_MEMBERSHIP:
+    priority: low
+    evaluation: true
+    llm_review: true
+
+  SEXUAL_ORIENTATION:
+    priority: low
+    evaluation: true
+    llm_review: true

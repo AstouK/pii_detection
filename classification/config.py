@@ -15,7 +15,7 @@ from config.settings import (
 
 # Development/test mode.
 # Use None for full classification.
-CLASSIFICATION_LIMIT = 50
+CLASSIFICATION_LIMIT = 10
 
 # ─────────────────────────────────────────────────────────────
 # Paths

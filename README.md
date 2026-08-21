@@ -8,8 +8,9 @@ source .venv/bin/activate
 pip install -r requirements.txt
 
 # Install the project locally in editable mode
-# Enables commands such as:
-#   classify
-#   eval-classification
-#   update-dataset
 pip install -e .
+
+Enables commands such as:
+classify
+evaluate
+update-dataset

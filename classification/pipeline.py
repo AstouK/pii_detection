@@ -30,8 +30,8 @@ from classification.config import (
     validate_providers,
 )
 
-from classification.pii_detector import run_presidio_regex
-from classification.llm_reviewer import run_llm
+from classification.detectors.pii_detector import run_presidio_regex
+from classification.review.llm_reviewer import run_llm
 
 from classification.config import CLASSIFICATION_LIMIT
 
@@ -194,6 +194,7 @@ def save_run_metadata(
     saved_files: list[Path],
     routing_metrics: dict,
     runtime_metrics: dict,
+    provider_usage: dict,
 ) -> Path:
     """
     Save run-level classification metadata.
@@ -208,6 +209,7 @@ def save_run_metadata(
         "saved_files": [str(path) for path in saved_files],
         **routing_metrics,
         **runtime_metrics,
+        "provider_usage": provider_usage,
     }
 
     metadata_file.write_text(
@@ -271,13 +273,76 @@ def add_output_metadata(
 
     return result_df
 
+def compute_llm_usage_summary(
+    df_provider: pd.DataFrame,
+) -> dict:
+    """
+    Aggregate per-document LLM usage for one provider.
+    """
+
+    def sum_column(column: str, cast_type):
+        if column not in df_provider.columns:
+            return cast_type(0)
+
+        values = pd.to_numeric(
+            df_provider[column],
+            errors="coerce",
+        ).fillna(0)
+
+        return cast_type(values.sum())
+
+    successful_requests = (
+        int(
+            df_provider["llm_request_success"]
+            .fillna(False)
+            .astype(bool)
+            .sum()
+        )
+        if "llm_request_success" in df_provider.columns
+        else 0
+    )
+
+    return {
+        "requests_attempted": int(
+            df_provider["needs_llm_review"]
+            .fillna(False)
+            .astype(bool)
+            .sum()
+        ),
+        "requests_successful": successful_requests,
+        "prompt_tokens": sum_column(
+            "llm_prompt_tokens",
+            int,
+        ),
+        "completion_tokens": sum_column(
+            "llm_completion_tokens",
+            int,
+        ),
+        "total_tokens": sum_column(
+            "llm_total_tokens",
+            int,
+        ),
+        "reasoning_tokens": sum_column(
+            "llm_reasoning_tokens",
+            int,
+        ),
+        "cached_tokens": sum_column(
+            "llm_cached_tokens",
+            int,
+        ),
+        "provider_reported_cost": round(
+            sum_column("llm_request_cost", float),
+            8,
+        ),
+    }
+
 
 def run_provider_pipeline(
     base_df: pd.DataFrame,
     provider: str,
     run_dir: Path,
     run_id: str,
-) -> tuple[Path, float]:
+) -> tuple[Path, float, dict]:
     """
     Run Sweep 2 for a single provider and save provider-specific results.
 
@@ -331,7 +396,9 @@ def run_provider_pipeline(
         output_file,
     )
 
-    return output_file, provider_runtime_seconds
+    usage_summary = compute_llm_usage_summary(df_provider)
+
+    return output_file, provider_runtime_seconds, usage_summary
 
 
 def main() -> None:
@@ -375,9 +442,10 @@ def main() -> None:
     saved_files.append(sweep1_file)
 
     provider_runtime_seconds = {}
+    provider_usage = {}
 
     for provider in providers:
-        output_file, runtime_seconds = run_provider_pipeline(
+        output_file, runtime_seconds, usage_summary = run_provider_pipeline(
             base_df=df_sweep1,
             provider=provider,
             run_dir=run_dir,
@@ -386,6 +454,7 @@ def main() -> None:
 
         saved_files.append(output_file)
         provider_runtime_seconds[provider] = runtime_seconds
+        provider_usage[provider] = usage_summary
 
     routing_metrics = compute_routing_metrics(df_sweep1)
 
@@ -413,6 +482,7 @@ def main() -> None:
         saved_files=saved_files,
         routing_metrics=routing_metrics,
         runtime_metrics=runtime_metrics,
+        provider_usage=provider_usage,
     )
 
     saved_files.append(metadata_file)

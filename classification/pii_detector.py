@@ -48,16 +48,22 @@ logger.info("Presidio analyzer initialized for languages: en, de")
 # ─────────────────────────────────────────────────────────────
 
 STRONG_PII = {
+    "EMAIL_ADDRESS",
     "PHONE_NUMBER",
-    "CREDIT_CARD",
     "IBAN_CODE",
+    "CREDIT_CARD",
+    "IP_ADDRESS",
+    "EMPLOYEE_ID",
+    "USER_ID",
     "MEDICAL_LICENSE",
 }
 
 POTENTIAL_PII = {
     "PERSON",
-    "EMAIL_ADDRESS",
+    "ADDRESS",
+    "DATE_OF_BIRTH",
 }
+
 
 MEANINGFUL_PII = STRONG_PII | POTENTIAL_PII
 

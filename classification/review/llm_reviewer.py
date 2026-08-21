@@ -52,6 +52,35 @@ from config.settings import (
 )
 
 _RETRY_DELAYS = [2, 5, 20]  # Waiting time in seconds in case of lagging request
+
+def create_llm_result(
+    contains_pii: bool = False,
+    reason: str = "",
+    prompt_tokens: int = 0,
+    completion_tokens: int = 0,
+    total_tokens: int = 0,
+    reasoning_tokens: int = 0,
+    cached_tokens: int = 0,
+    request_cost: float | None = None,
+    success: bool = True,
+) -> dict:
+    """
+    Create a standardized provider result.
+
+    All LLM providers must return this structure.
+    """
+
+    return {
+        "contains_pii": contains_pii,
+        "reason": reason,
+        "prompt_tokens": int(prompt_tokens or 0),
+        "completion_tokens": int(completion_tokens or 0),
+        "total_tokens": int(total_tokens or 0),
+        "reasoning_tokens": int(reasoning_tokens or 0),
+        "cached_tokens": int(cached_tokens or 0),
+        "request_cost": request_cost,
+        "success": success,
+    }
 # ─────────────────────────────────────────────────────────────
 # 1. Context-aware text extraction for LLM
 # ─────────────────────────────────────────────────────────────
@@ -158,7 +187,7 @@ def build_llm_prompt(doc_text: str) -> str:
 _JSON_RE = re.compile(r"\{.*?\}", re.DOTALL)
 
 
-def call_qwen(prompt: str) -> tuple[bool, str]:
+def call_qwen(prompt: str) -> dict:
     """
     Send prompt to Qwen via DashScope.
 
@@ -200,6 +229,36 @@ def call_qwen(prompt: str) -> tuple[bool, str]:
                 content[:300],
             )
 
+            usage = completion.usage
+
+            prompt_tokens = getattr(usage, "prompt_tokens", 0) or 0
+            completion_tokens = getattr(usage, "completion_tokens", 0) or 0
+            total_tokens = getattr(usage, "total_tokens", 0) or 0
+
+            completion_details = getattr(
+                usage,
+                "completion_tokens_details",
+                None,
+            )
+
+            reasoning_tokens = (
+                getattr(completion_details, "reasoning_tokens", 0) or 0
+                if completion_details
+                else 0
+            )
+
+            prompt_details = getattr(
+                usage,
+                "prompt_tokens_details",
+                None,
+            )
+
+            cached_tokens = (
+                getattr(prompt_details, "cached_tokens", 0) or 0
+                if prompt_details
+                else 0
+            )
+
             break
 
         except Exception as e:
@@ -209,14 +268,24 @@ def call_qwen(prompt: str) -> tuple[bool, str]:
                 if attempt < len(_RETRY_DELAYS):
                     continue
 
-                return False, (f"Rate limit exceeded after {len(_RETRY_DELAYS)} retries")
+                return create_llm_result(
+                    reason=f"Rate limit exceeded after {len(_RETRY_DELAYS)} retries",
+                    success=False,
+                )
 
             logger.error("Qwen request failed: %s", e)
 
-            return False, f"Request failed: {e}"
+            return create_llm_result(
+                reason=f"Request failed: {e}",
+                success=False,
+            )
 
     else:
-        return False, "All retries exhausted"
+        return create_llm_result(
+            reason="All retries exhausted",
+            success=False,
+        )
+    
 
     content_fixed = re.sub(
         r'"contains_pii"\s*:\s*,',
@@ -235,10 +304,16 @@ def call_qwen(prompt: str) -> tuple[bool, str]:
                 parsed = json.loads(match.group())
 
             except json.JSONDecodeError:
-                return False, (f"JSON parse error. Raw response: {content[:300]}")
+                return create_llm_result(
+                    reason=f"JSON parse error. Raw response: {content[:300]}",
+                    success=False,
+                )
 
         else:
-            return False, (f"No JSON found in response: {content[:300]}")
+            return create_llm_result(
+                reason=f"No JSON found in response: {content[:300]}",
+                success=False,
+            )
 
     raw_val = parsed.get("contains_pii", False)
 
@@ -249,10 +324,19 @@ def call_qwen(prompt: str) -> tuple[bool, str]:
 
     reason = parsed.get("reason", "")
 
-    return contains_pii, reason
+    return create_llm_result(
+        contains_pii=contains_pii,
+        reason=reason,
+        prompt_tokens=prompt_tokens,
+        completion_tokens=completion_tokens,
+        total_tokens=total_tokens,
+        reasoning_tokens=reasoning_tokens,
+        cached_tokens=cached_tokens,
+        request_cost=None,
+    )
 
 
-def call_openrouter(prompt: str) -> tuple[bool, str]:
+def call_openrouter(prompt: str) -> dict:
     """
     Call the configured model via OpenRouter.
 
@@ -307,13 +391,45 @@ def call_openrouter(prompt: str) -> tuple[bool, str]:
                 if attempt < len(_RETRY_DELAYS):
                     continue
 
-                return False, (f"Rate limit exceeded after {len(_RETRY_DELAYS)} retries")
+                return create_llm_result(
+                    reason=f"Rate limit exceeded after {len(_RETRY_DELAYS)} retries",
+                    success=False,
+                )
 
             response.raise_for_status()
 
             logger.debug("OpenRouter HTTP status: %s", response.status_code)
 
             api_response = response.json()
+
+            # Cost Analysis
+            usage = api_response.get("usage", {})
+
+            prompt_tokens = usage.get("prompt_tokens", 0) or 0
+            completion_tokens = usage.get("completion_tokens", 0) or 0
+            total_tokens = usage.get("total_tokens", 0) or 0
+            request_cost = usage.get("cost")
+
+            completion_details = usage.get(
+                "completion_tokens_details",
+                {},
+            ) or {}
+
+            reasoning_tokens = completion_details.get(
+                "reasoning_tokens",
+                0,
+            ) or 0
+
+            prompt_details = usage.get(
+                "prompt_tokens_details",
+                {},
+            ) or {}
+
+            cached_tokens = prompt_details.get(
+                "cached_tokens",
+                0,
+            ) or 0
+
             msg = api_response["choices"][0]["message"]["content"]
 
             if isinstance(msg, list):
@@ -325,16 +441,28 @@ def call_openrouter(prompt: str) -> tuple[bool, str]:
             break
 
         except requests.HTTPError as e:
-            return False, (f"HTTP error {e.response.status_code}: {e.response.text[:200]}")
+            return create_llm_result(
+                reason=f"HTTP error {e.response.status_code}: {e.response.text[:200]}",
+                success=False,
+            )
 
         except requests.RequestException as e:
-            return False, f"Request failed: {e}"
+            return create_llm_result(
+                reason=f"Request failed: {e}",
+                success=False,
+            )
 
         except (KeyError, IndexError) as e:
-            return False, f"Unexpected API response structure: {e}"
+            return create_llm_result(
+                reason=f"Unexpected API response structure: {e}",
+                success=False,
+            )
 
     else:
-        return False, "All retries exhausted"
+        return create_llm_result(
+            reason="All retries exhausted",
+            success=False,
+        )
 
     content_fixed = re.sub(
         r'"contains_pii"\s*:\s*,',
@@ -353,10 +481,16 @@ def call_openrouter(prompt: str) -> tuple[bool, str]:
                 parsed = json.loads(match.group())
 
             except json.JSONDecodeError:
-                return False, (f"JSON parse error. Raw response: {content[:300]}")
+                return create_llm_result(
+                    reason=f"JSON parse error. Raw response: {content[:300]}",
+                    success=False,
+                )
 
         else:
-            return False, f"No JSON found in response: {content[:300]}"
+            return create_llm_result(
+                reason=f"No JSON found in response: {content[:300]}",
+                success=False,
+            )
 
     raw_val = parsed.get("contains_pii", False)
 
@@ -367,13 +501,22 @@ def call_openrouter(prompt: str) -> tuple[bool, str]:
 
     reason = parsed.get("reason", "")
 
-    return contains_pii, reason
+    return create_llm_result(
+        contains_pii=contains_pii,
+        reason=reason,
+        prompt_tokens=prompt_tokens,
+        completion_tokens=completion_tokens,
+        total_tokens=total_tokens,
+        reasoning_tokens=reasoning_tokens,
+        cached_tokens=cached_tokens,
+        request_cost=request_cost,
+    )
 
 
 def call_llm(
     prompt: str,
     provider: str,
-) -> tuple[bool, str]:
+) -> dict:
     """
     Route the prompt to the selected LLM provider.
 
@@ -435,6 +578,13 @@ def run_llm(
     df["llm_pii"] = False
     df["llm_reason"] = ""
     df["llm_provider"] = provider
+    df["llm_prompt_tokens"] = 0
+    df["llm_completion_tokens"] = 0
+    df["llm_total_tokens"] = 0
+    df["llm_reasoning_tokens"] = 0
+    df["llm_cached_tokens"] = 0
+    df["llm_request_cost"] = 0.0
+    df["llm_request_success"] = False
 
     flagged = df[df["needs_llm_review"]]
 
@@ -478,13 +628,24 @@ def run_llm(
 
         prompt = build_llm_prompt(text)
 
-        contains, reason = call_llm(
+        result = call_llm(
             prompt=prompt,
             provider=provider,
         )
 
-        df.at[idx, "llm_pii"] = contains
-        df.at[idx, "llm_reason"] = reason
+        df.at[idx, "llm_pii"] = result["contains_pii"]
+        df.at[idx, "llm_reason"] = result["reason"]
+
+        df.at[idx, "llm_prompt_tokens"] = result["prompt_tokens"]
+        df.at[idx, "llm_completion_tokens"] = result["completion_tokens"]
+        df.at[idx, "llm_total_tokens"] = result["total_tokens"]
+        df.at[idx, "llm_reasoning_tokens"] = result["reasoning_tokens"]
+        df.at[idx, "llm_cached_tokens"] = result["cached_tokens"]
+        df.at[idx, "llm_request_success"] = result["success"]
+
+        if result["request_cost"] is not None:
+            df.at[idx, "llm_request_cost"] = result["request_cost"]
+
 
     n_positive = df.loc[flagged.index, "llm_pii"].sum()
 
@@ -495,4 +656,12 @@ def run_llm(
         len(flagged),
     )
 
+    logger.info(
+        "Provider '%s' token usage: prompt=%s completion=%s total=%s",
+        provider,
+        int(df["llm_prompt_tokens"].sum()),
+        int(df["llm_completion_tokens"].sum()),
+        int(df["llm_total_tokens"].sum()),
+    )
+    
     return df
