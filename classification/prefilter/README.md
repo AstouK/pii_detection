@@ -50,6 +50,13 @@ evaluate --run-id <run_id printed by step 5>
 python -m classification.prefilter.error_report
 ```
 
+The routing logic has its own checks, which need no model and run in about a
+minute:
+
+```bash
+python -m pytest classification/prefilter/tests/ -q
+```
+
 ---
 
 ## Findings for the team
@@ -142,6 +149,80 @@ from `run_metadata.json`, but `infrastructure/runtime.py` and
 `strategy_usage`. The cost columns come out as zeros for every run. This module
 writes **both** spellings into its own `run_metadata.json` so the cost summary
 is populated; the actual fix belongs in the evaluation module.
+
+---
+
+## Results on the 500-row pilot
+
+Run `distilbert_prefilter`, seed 42, 8 epochs, stratified fallback split
+(370 / 63 / 67). Artifacts in `reports/`.
+
+### Headline
+
+| metric | validation | test |
+|---|---|---|
+| accuracy / precision / recall / F1 | 1.0000 | 1.0000 |
+| PR-AUC | 1.0000 | — |
+| **documents routed to the LLM** | **0.0%** | **0.0%** |
+| pre-filter recall (baseline 0.9833) | 1.0000 | 1.0000 |
+| missed positives | 0 | 0 |
+| confusion | 9 TP / 54 TN / 0 FP / 0 FN | 9 TP / 58 TN / 0 FP / 0 FN |
+
+Training 823.6 s on 4 CPU cores · inference **63.9 ms/document** (CPU, batch 64)
+· 66.96 M parameters, 255.4 MB fp32 · selected epoch 2 of 8.
+
+### Read this before quoting the headline
+
+**The pilot is too easy to measure a router on.** Validation F1 reaches 1.0 in
+epoch 2, and `score_distribution.png` shows why: negatives land in [0.00, 0.05],
+positives in [0.93, 1.00], and the entire band between is empty. There is no
+uncertain zone to route, so the trade-off curve is a vertical line at 0% — every
+recall target from 0.80 to 1.00 costs zero LLM calls.
+
+That is a real result for this dataset, and it is also not a result anyone should
+generalise. It says the synthetic pilot separates positives lexically — the
+positives carry literal names, emails and IBANs and the negatives carry
+placeholders like "Cost Center Aggregate" — not that the ambiguous documents
+Sweep 1 actually forwards will separate that way. **The number to quote at the
+meeting is the method and the interface, not the 0%.**
+
+What would make the numbers meaningful:
+
+1. Sonja's 1,400-row set with its harder edge cases, and positives present in
+   all three splits (finding 4).
+2. Ideally, running the pre-filter on **Sweep 1's ambiguous subset** rather than
+   on whole splits. That is the population it is actually for, and it is by
+   construction the hard part of the distribution. It needs Sweep 1 output,
+   which needs Presidio and a spaCy model — not available in this environment.
+
+The slice tables in `reports/error_by_*.csv` already show the gradient: mean
+predicted probability is 0.036 on `difficulty == easy`, 0.59 on `hard` and 0.97
+on `medium`, and 0.78 on `edge_case == yes` versus 0.036 on `no`. The model is
+reading difficulty correctly; there is just no case it gets wrong yet.
+
+### Entity head
+
+Per-label metrics on validation, at calibrated thresholds:
+
+| entity | support | PR-AUC | precision | recall | F1 |
+|---|---|---|---|---|---|
+| PERSON | 4 | 0.525 | 0.667 | 1.000 | 0.800 |
+| EMAIL_ADDRESS | 6 | 0.948 | 0.833 | 0.833 | 0.833 |
+| PHONE_NUMBER | 2 | 0.583 | 0.667 | 1.000 | 0.800 |
+| PASSPORT | 1 | 0.125 | 0.125 | 1.000 | 0.222 |
+| NRP | 1 | 0.111 | 0.111 | 1.000 | 0.200 |
+| LOCATION | 1 | 1.000 | 0.000 | 0.000 | 0.000 |
+| IBAN_CODE, CREDIT_CARD, DATE_TIME, IP_ADDRESS, URL, MEDICAL_LICENSE | 0 | — | — | — | — |
+
+Only `EMAIL_ADDRESS` is genuinely usable. Everything else is fitted on between
+zero and six validation examples, and the single-support labels (`PASSPORT`,
+`NRP`) show it: their thresholds collapse to catch the one positive at the cost
+of 7–8 false positives, which is threshold calibration overfitting a sample of
+one, not a model that learned the entity. Six labels have no validation positive
+at all and keep the fallback threshold.
+
+The binary head is the deliverable; the entity head needs the larger dataset
+before its numbers mean anything.
 
 ---
 

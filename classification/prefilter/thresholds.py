@@ -489,6 +489,30 @@ def plot_routing_frontier(
             ),
         )
 
+    # Pin the x-axis to a real percentage range. Left to autoscale, a frontier
+    # that sits at 0% everywhere gets an axis spanning +/-0.04%, which reads as
+    # a plotting artifact rather than as the finding it is.
+    max_routed = (
+        float(usable["routed_fraction"].max() * 100) if not usable.empty else 0.0
+    )
+    axes.set_xlim(-1.0, max(max_routed * 1.15, 10.0))
+
+    # A flat frontier at zero is a real and reportable outcome — the classes
+    # separate so cleanly that no recall target in range costs an LLM call — but
+    # it looks identical to a broken plot unless it says so.
+    if not usable.empty and max_routed == 0.0:
+        axes.annotate(
+            "Frontier is degenerate: 0% of documents need an LLM call\n"
+            "at every recall target, including 1.00. The classes are\n"
+            "linearly separable on this dataset — see score_distribution.png.",
+            xy=(0.5, 0.5),
+            xycoords="axes fraction",
+            ha="center",
+            va="center",
+            fontsize=9,
+            bbox={"boxstyle": "round", "fc": "#fff4d6", "ec": "#b8860b"},
+        )
+
     axes.set_xlabel("Documents routed to the LLM (%)")
     axes.set_ylabel("Pre-filter recall (positives not silently dropped)")
     axes.set_title(title)
