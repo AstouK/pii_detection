@@ -49,3 +49,7 @@ pii_detection.egg-info/entry_points.txt
 pii_detection.egg-info/PKG-INFO
 pii_detection.egg-info/SOURCES.txt
 pii_detection.egg-info/top_level.txt
+
+# Transformer pre-filter (Max): local pretrained weights + trained checkpoints
+models/
+classification/prefilter/artifacts/
