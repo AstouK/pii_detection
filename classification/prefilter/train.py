@@ -42,6 +42,7 @@ from torch import nn
 from config.logging_config import setup_logging
 
 from classification.prefilter.config import (
+    BINARY_LABEL_COL,
     ENTITY_LABELS,
     PreFilterConfig,
     REPORTS_DIR,
@@ -59,6 +60,7 @@ from classification.prefilter.data import (
     load_dataset,
     resolve_splits,
     split_frames,
+    to_bool_series,
 )
 from classification.prefilter.model import (
     PiiPreFilterModel,
@@ -192,6 +194,26 @@ def train(config: PreFilterConfig) -> dict:
     for name, frame in frames.items():
         if frame.empty:
             raise ValueError(f"Split '{name}' is empty; cannot train.")
+
+    # Fail before training rather than after. The router is calibrated against
+    # a recall constraint, which is undefined on a split with no positives, so
+    # `--split-mode recommended` on the current pilot is guaranteed to die --
+    # and dying two minutes later, after a wasted epoch, hides what went wrong
+    # behind a stack trace.
+    validation_positives = int(
+        to_bool_series(frames[VALIDATION_SPLIT][BINARY_LABEL_COL]).sum()
+    )
+
+    if validation_positives == 0:
+        raise ValueError(
+            f"The '{VALIDATION_SPLIT}' split contains no positive documents, so "
+            "the router cannot be calibrated against a recall target.\n"
+            f"  split mode : {resolved_mode}\n"
+            f"  dataset    : {config.data_file}\n"
+            "Use --split-mode stratified (or auto) to build a label-stratified "
+            "split, or fix the dataset's split column. "
+            "See classification/prefilter/README.md -> Findings for the team."
+        )
 
     tokenizer = load_tokenizer(config.pretrained_dir)
 
