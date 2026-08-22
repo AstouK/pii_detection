@@ -31,7 +31,6 @@ import json
 import logging
 import random
 import time
-from pathlib import Path
 
 import numpy as np
 import pandas as pd
@@ -69,7 +68,9 @@ from classification.prefilter.model import (
 from classification.prefilter.thresholds import (
     average_precision,
     binary_metrics,
+    calibrate_entity_thresholds,
     calibrate_thresholds,
+    entity_metrics_at_thresholds,
     plot_probability_distribution,
     plot_routing_frontier,
     routing_frontier,
@@ -155,27 +156,6 @@ def predict_probabilities(
     )
 
 
-def per_label_metrics(
-    entity_probs: np.ndarray,
-    entity_true: np.ndarray,
-    threshold: float,
-) -> pd.DataFrame:
-    """
-    Precision/recall/F1 for each of the 12 entity labels.
-    """
-
-    rows = []
-
-    for index, label in enumerate(ENTITY_LABELS):
-        metrics = binary_metrics(
-            entity_true[:, index].astype(bool),
-            entity_probs[:, index] >= threshold,
-        )
-        rows.append({"entity": label, **metrics})
-
-    return pd.DataFrame(rows)
-
-
 # ─────────────────────────────────────────────────────────────
 # Training
 # ─────────────────────────────────────────────────────────────
@@ -238,7 +218,7 @@ def train(config: PreFilterConfig) -> dict:
 
     pos_weight = compute_pos_weight(train_binary, config.max_pos_weight)
     entity_pos_weights = compute_entity_pos_weights(
-        train_entity, config.max_pos_weight
+        train_entity, config.max_entity_pos_weight
     )
 
     logger.info(
@@ -379,13 +359,20 @@ def train(config: PreFilterConfig) -> dict:
         )
 
         # ── Model selection ─────────────────────────────────
-        # Lower is better. A feasible router always beats an infeasible one,
-        # so infeasible epochs are ranked in a strictly worse band and ordered
-        # among themselves by PR-AUC.
+        # Lower is better, compared as a tuple. A feasible router always beats
+        # an infeasible one, so infeasible epochs are ranked in a strictly worse
+        # band and ordered among themselves by the same tie-breaks.
+        #
+        # The tie-breaks are not decoration. On a dataset the model separates
+        # cleanly, `routed_fraction` hits 0.0 in the first epoch and stays
+        # there, so ranking on it alone is a three-way tie that the first epoch
+        # wins by arriving first — and the first epoch is the worst model in the
+        # run. PR-AUC and F1 break that tie towards the checkpoint that is
+        # actually better at the underlying classification.
         if config.model_selection_metric == "routing_cost" and calibration["feasible"]:
-            score = calibration["routed_fraction"]
+            score = (calibration["routed_fraction"], -pr_auc, -plain["f1"])
         else:
-            score = 10.0 - pr_auc
+            score = (10.0, -pr_auc, -plain["f1"])
 
         if best_score is None or score < best_score:
             best_score = score
@@ -418,6 +405,18 @@ def train(config: PreFilterConfig) -> dict:
         precision_target=config.precision_target,
         grid_steps=config.threshold_grid_steps,
     )
+
+    # One decision threshold per entity label, fitted on the same validation
+    # split. `predict` reads these back out of calibration.json.
+    entity_thresholds = calibrate_entity_thresholds(
+        entity_probs=validation_entity_probs,
+        entity_true=validation_entity,
+        labels=ENTITY_LABELS,
+        default_threshold=config.entity_threshold,
+        grid_steps=config.threshold_grid_steps,
+    )
+    calibration["entity_thresholds"] = entity_thresholds
+
     calibration["selected_epoch"] = best_epoch
     calibration["calibrated_on"] = VALIDATION_SPLIT
     calibration["split_mode"] = resolved_mode
@@ -477,10 +476,20 @@ def train(config: PreFilterConfig) -> dict:
             output_file=target_dir / "score_distribution.png",
         )
 
-    entity_metrics = per_label_metrics(
-        validation_entity_probs, validation_entity, config.entity_threshold
+    entity_metrics = entity_metrics_at_thresholds(
+        entity_probs=validation_entity_probs,
+        entity_true=validation_entity,
+        labels=ENTITY_LABELS,
+        thresholds=entity_thresholds,
     )
     entity_metrics.to_csv(output_dir / "validation_entity_metrics.csv", index=False)
+
+    logger.info(
+        "Entity head (validation, calibrated thresholds):\n%s",
+        entity_metrics[
+            ["entity", "threshold", "support", "pr_auc", "precision", "recall", "f1"]
+        ].to_string(index=False),
+    )
 
     summary = {
         "run_name": config.run_name,

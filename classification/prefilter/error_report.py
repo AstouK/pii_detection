@@ -155,14 +155,14 @@ def entity_slice(df: pd.DataFrame) -> pd.DataFrame:
     """
     Per-entity agreement between the multi-label head and ground truth.
 
-    Compares ``predicted_<ENTITY>_yes_no`` against ``<ENTITY>_yes_no``.
+    Compares ``<ENTITY>_predicted`` against the ground-truth ``<ENTITY>_yes_no``.
     """
 
     rows = []
 
     for label in ENTITY_LABELS:
         truth_col = f"{label}_yes_no"
-        pred_col = f"predicted_{label}_yes_no"
+        pred_col = f"{label}_predicted"
 
         if truth_col not in df.columns or pred_col not in df.columns:
             continue

@@ -573,3 +573,100 @@ def load_calibration(input_file: Path) -> dict:
     Load a previously saved operating point.
     """
     return json.loads(Path(input_file).read_text(encoding="utf-8"))
+
+
+# ─────────────────────────────────────────────────────────────
+# Entity-label thresholds
+# ─────────────────────────────────────────────────────────────
+
+def calibrate_entity_thresholds(
+    entity_probs: np.ndarray,
+    entity_true: np.ndarray,
+    labels: list[str],
+    default_threshold: float = 0.5,
+    grid_steps: int = 201,
+) -> dict[str, float]:
+    """
+    Fit one decision threshold per entity label on the validation split.
+
+    A fixed 0.5 cut is wrong for these heads for a mechanical reason: the entity
+    labels are rare enough (3 of 500 documents for IBAN_CODE in the pilot) that
+    the head never becomes confident in absolute terms, even where its *ranking*
+    is good. On the pilot the highest score assigned to a true PERSON document
+    was 0.49 — a hair under the cut — so a 0.5 threshold reported precision and
+    recall of exactly zero for a head with a validation PR-AUC of 0.80.
+
+    Each threshold maximises F1 for its label. Labels with no positive
+    validation document keep ``default_threshold``: there is nothing to fit
+    against, and inventing a threshold from negatives alone would just be noise.
+
+    Calibrating on validation and applying to test is the same discipline the
+    binary router follows; the test split stays untouched.
+    """
+
+    entity_probs = np.asarray(entity_probs, dtype=float)
+    entity_true = np.asarray(entity_true).astype(bool)
+
+    thresholds: dict[str, float] = {}
+
+    for index, label in enumerate(labels):
+        truth = entity_true[:, index]
+
+        if truth.sum() == 0:
+            thresholds[label] = float(default_threshold)
+            continue
+
+        probs = entity_probs[:, index]
+
+        best_threshold = float(default_threshold)
+        best_f1 = -1.0
+
+        for threshold in _candidate_thresholds(probs, grid_steps):
+            metrics = binary_metrics(truth, probs >= threshold)
+
+            # Prefer the higher threshold among ties: it is the more
+            # conservative of two cuts that score identically here, and so the
+            # less likely to have been chosen by noise.
+            if metrics["f1"] >= best_f1:
+                best_f1 = metrics["f1"]
+                best_threshold = float(threshold)
+
+        thresholds[label] = round(best_threshold, 6)
+
+    return thresholds
+
+
+def entity_metrics_at_thresholds(
+    entity_probs: np.ndarray,
+    entity_true: np.ndarray,
+    labels: list[str],
+    thresholds: dict[str, float],
+) -> pd.DataFrame:
+    """
+    Per-label metrics using the calibrated thresholds.
+    """
+
+    rows = []
+
+    for index, label in enumerate(labels):
+        threshold = thresholds.get(label, 0.5)
+
+        rows.append(
+            {
+                "entity": label,
+                "threshold": round(float(threshold), 6),
+                "support": int(entity_true[:, index].sum()),
+                "pr_auc": round(
+                    average_precision(
+                        entity_true[:, index].astype(bool), entity_probs[:, index]
+                    ),
+                    6,
+                ),
+                **binary_metrics(
+                    entity_true[:, index].astype(bool),
+                    entity_probs[:, index] >= threshold,
+                ),
+            }
+        )
+
+    return pd.DataFrame(rows)

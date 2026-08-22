@@ -44,7 +44,6 @@ from pathlib import Path
 
 import numpy as np
 import pandas as pd
-import torch
 
 from config.logging_config import setup_logging
 
@@ -92,15 +91,15 @@ def make_run_id() -> str:
 
 def build_per_type_conf(
     entity_probs: np.ndarray,
-    threshold: float,
+    thresholds: dict[str, float],
 ) -> list[str]:
     """
     Build the ``per_type_conf`` column the evaluation reads for entity metrics.
 
     ``classification.evaluation.metrics.entity_detected`` treats an entity as
-    detected when its type is a *key* of this dict, so only labels above the
-    threshold are included. The confidence values ride along for error
-    analysis; the evaluation ignores them.
+    detected when its type is a *key* of this dict, so only labels above their
+    own calibrated threshold are included. The confidence values ride along for
+    error analysis; the evaluation ignores them.
     """
 
     rows = []
@@ -109,28 +108,35 @@ def build_per_type_conf(
         detected = {
             label: round(float(probability), 4)
             for label, probability in zip(ENTITY_LABELS, probabilities)
-            if probability >= threshold
+            if probability >= thresholds.get(label, 0.5)
         }
         rows.append(json.dumps(detected))
 
     return rows
 
 
-def build_entity_yes_no(
+def build_entity_predictions(
     entity_probs: np.ndarray,
-    threshold: float,
+    thresholds: dict[str, float],
 ) -> dict[str, list[str]]:
     """
-    Predicted ``<ENTITY>_yes_no`` values from the multi-label head.
+    Per-entity predictions from the multi-label head, as ``<ENTITY>_predicted``.
 
-    Written under a ``predicted_`` prefix: the unprefixed columns are ground
-    truth and the evaluation compares against them, so overwriting them would
-    make every entity metric perfect by construction.
+    The suffix matters. ``<ENTITY>_yes_no`` is the *ground-truth* spelling, and
+    ``evaluation/metrics.py::get_entity_types_from_columns`` derives the entity
+    vocabulary by stripping ``_yes_no`` off every column that ends with it — so
+    a predicted column named ``predicted_PERSON_yes_no`` is read back as an
+    entity type literally called ``predicted_PERSON`` and produces twelve
+    phantom entity rows in metrics.csv. ``_predicted`` keeps the head's output
+    in the file without colliding with that scan.
+
+    The evaluation's own per-entity metrics come from ``per_type_conf``; these
+    columns exist for error analysis and for anyone comparing the two heads.
     """
 
     return {
-        f"predicted_{label}_yes_no": [
-            "yes" if probability >= threshold else "no"
+        f"{label}_predicted": [
+            "yes" if probability >= thresholds.get(label, 0.5) else "no"
             for probability in entity_probs[:, index]
         ]
         for index, label in enumerate(ENTITY_LABELS)
@@ -145,7 +151,7 @@ def build_output_frame(
     run_id: str,
     model_name: str,
     inference_ms: float,
-    entity_threshold: float,
+    entity_thresholds: dict[str, float],
     predicted_pii: np.ndarray,
     routing: dict | None = None,
 ) -> pd.DataFrame:
@@ -179,9 +185,11 @@ def build_output_frame(
     # ── Prediction ──────────────────────────────────────────
     output["predicted_pii"] = np.asarray(predicted_pii).astype(bool)
     output["pii_probability"] = np.round(probs, 6)
-    output["per_type_conf"] = build_per_type_conf(entity_probs, entity_threshold)
+    output["per_type_conf"] = build_per_type_conf(entity_probs, entity_thresholds)
 
-    for column, values in build_entity_yes_no(entity_probs, entity_threshold).items():
+    for column, values in build_entity_predictions(
+        entity_probs, entity_thresholds
+    ).items():
         output[column] = values
 
     # ── Routing ─────────────────────────────────────────────
@@ -297,6 +305,23 @@ def run_prediction(
     t_low = float(calibration["t_low"])
     t_high = float(calibration["t_high"])
 
+    # Per-label entity thresholds, fitted on validation during training. Older
+    # checkpoints predate them and fall back to the config's single value.
+    entity_thresholds = {
+        label: float(value)
+        for label, value in calibration.get("entity_thresholds", {}).items()
+    }
+
+    if not entity_thresholds:
+        logger.warning(
+            "Checkpoint has no calibrated entity thresholds; falling back to a "
+            "flat %.2f cut for all 12 labels.",
+            config.entity_threshold,
+        )
+        entity_thresholds = {
+            label: config.entity_threshold for label in ENTITY_LABELS
+        }
+
     logger.info(
         "Loaded %s (t_low=%.4f, t_high=%.4f, calibrated on %s)",
         run_name,
@@ -376,7 +401,7 @@ def run_prediction(
         run_id=run_id,
         model_name=config.model_name,
         inference_ms=inference_ms,
-        entity_threshold=config.entity_threshold,
+        entity_thresholds=entity_thresholds,
         predicted_pii=auto_yes | routed,
         routing=routing,
     )
@@ -393,7 +418,7 @@ def run_prediction(
         run_id=run_id,
         model_name=config.model_name,
         inference_ms=inference_ms,
-        entity_threshold=config.entity_threshold,
+        entity_thresholds=entity_thresholds,
         predicted_pii=probs >= config.standalone_threshold,
     )
 

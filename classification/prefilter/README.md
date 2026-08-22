@@ -187,7 +187,7 @@ Derived from `infrastructure/metadata.py::add_sweep1_metadata` and read by
 | `routing_zone` | `confident_non_pii` / `routed_to_llm` / `confident_pii` |
 | `t_low`, `t_high` | the operating point that produced this file |
 | `per_type_conf` | JSON dict of entity → confidence, **see below** |
-| `predicted_<ENTITY>_yes_no` × 12 | the multi-label head's own calls |
+| `<ENTITY>_predicted` × 12 | the multi-label head's own calls |
 | `inference_ms` | per-document inference time, for the cost analysis |
 | `needs_llm_review`, `needs_review` | same value as `routed_to_llm`; what `infrastructure/runtime.py` counts |
 | `needs_bert_review`, `bert_request_success`, `bert_runtime_seconds` | what `compute_bert_usage_summary` already expects |
@@ -195,10 +195,16 @@ Derived from `infrastructure/metadata.py::add_sweep1_metadata` and read by
 **`per_type_conf` is not optional.** `evaluation/metrics.py::compute_all_metrics`
 only computes per-entity metrics when that column is present, and
 `entity_detected()` tests for the entity type as a **key** of the dict. Without
-it the twelve entity metrics are silently skipped. The `predicted_<ENTITY>_yes_no`
-columns carry the same information in a flatter form and are deliberately
-prefixed — the unprefixed names are ground truth, and overwriting them would
-make every entity metric perfect by construction.
+it the twelve entity metrics are silently skipped. The `<ENTITY>_predicted`
+columns carry the same information in a flatter form.
+
+The `_predicted` suffix is not cosmetic. `get_entity_types_from_columns()`
+builds the entity vocabulary by stripping `_yes_no` off **every** column that
+ends with it, so a predicted column named `predicted_PERSON_yes_no` comes back
+as an entity type called `predicted_PERSON` and produces twelve phantom rows in
+`metrics.csv`. Writing the head's output into the unprefixed `<ENTITY>_yes_no`
+columns would be worse still — those are ground truth, and overwriting them
+would make every entity metric perfect by construction.
 
 ### What `predicted_pii` means
 
@@ -248,6 +254,27 @@ explicitly labelled assumptions:
 * **`conservative_*`** — routed documents count as flagged-PII. This is what
   `rule_plus_bert.csv` writes.
 
+### Entity thresholds are calibrated too
+
+The 12-label head gets one fitted threshold per label, not a flat 0.5, for a
+mechanical reason worth knowing about. The entity labels are rare enough — 3 of
+500 documents for `IBAN_CODE` in the pilot — that the head never becomes
+confident in absolute terms even where its *ranking* is good. On the pilot its
+highest score on a true `PERSON` document was **0.49**, a hair under the cut, so
+a flat 0.5 threshold reported precision and recall of exactly zero for a head
+with a validation PR-AUC of 0.80.
+
+Each threshold maximises F1 for its label on validation. Labels with no positive
+validation document keep the config's fallback — there is nothing to fit
+against. The thresholds are stored in `calibration.json` and read back by
+`predict`, so the test split stays untouched, exactly as for the binary router.
+
+Two training defaults changed for the same reason: `multilabel_loss_weight` is
+1.0 rather than 0.5 (the binary task converges in two epochs and its gradients
+dominate the shared encoder), and entity `pos_weight` has its own cap of 50
+rather than the binary cap of 12 (the uncapped weight for `IBAN_CODE` is ~122,
+so the binary cap throttled exactly the labels that needed the most help).
+
 ### The curve
 
 `routing_frontier.csv` and `routing_frontier.png` sweep the recall target and
@@ -279,8 +306,14 @@ Model selection is on the validation split against `routing_cost`: the epoch
 kept is the one that routes the fewest documents while still clearing the recall
 target. That is the quantity this work package exists to minimise, so selecting
 on it directly beats selecting on F1 and hoping. Epochs where no threshold pair
-is feasible are ranked in a strictly worse band, ordered among themselves by
-PR-AUC.
+is feasible are ranked in a strictly worse band.
+
+The score is compared as a tuple — `(routed_fraction, -PR-AUC, -F1)` — and the
+tie-breaks are load-bearing, not decoration. On a dataset the model separates
+cleanly, `routed_fraction` hits 0.0 in the first epoch and stays there, so
+ranking on it alone is an n-way tie that the first epoch wins by arriving first.
+On the pilot that picked epoch 1, which had an F1 of 0.875, over epochs 2–8,
+which all had 1.0.
 
 Every run is reproducible from `config.json` plus the pinned seed; all RNGs are
 seeded in `train.set_seed`.

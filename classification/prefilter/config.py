@@ -197,12 +197,22 @@ class PreFilterConfig:
     max_grad_norm: float = 1.0
 
     #: Weight of the 12-label entity loss relative to the binary loss.
-    multilabel_loss_weight: float = 0.5
+    #:
+    #: 1.0 rather than 0.5: the binary task converges within two epochs and its
+    #: gradients dominate the shared encoder, so halving the entity gradient on
+    #: top of that left the entity head sitting at the base rate.
+    multilabel_loss_weight: float = 1.0
 
     #: Cap on ``pos_weight`` in the binary BCE loss. The pilot is ~12%
     #: positive, so the uncapped weight is ~7.3; the cap keeps a much rarer
     #: positive class in the scaled dataset from destabilising training.
     max_pos_weight: float = 12.0
+
+    #: Separate, much higher cap for the entity labels. They are an order of
+    #: magnitude rarer than the binary label — 3 of 500 for IBAN_CODE in the
+    #: pilot, an uncapped weight of ~122 — so the binary cap of 12 throttled
+    #: exactly the labels that needed the most help.
+    max_entity_pos_weight: float = 50.0
 
     #: Model selection criterion on the validation split. ``routing_cost`` picks
     #: the checkpoint that routes the fewest documents to the LLM while holding
@@ -228,7 +238,13 @@ class PreFilterConfig:
     #: Probability threshold for the standalone (unrouted) model output.
     standalone_threshold: float = 0.5
 
-    #: Probability threshold for the 12 entity labels.
+    #: Fallback probability threshold for the 12 entity labels.
+    #:
+    #: Only used for labels that have no positive validation document to
+    #: calibrate against. Per-label thresholds are fitted on validation during
+    #: training and stored in ``calibration.json``; a fixed 0.5 cut suppressed
+    #: the head entirely on the pilot, where its highest score on a true
+    #: PERSON document was 0.49.
     entity_threshold: float = 0.5
 
     # ── Reproducibility ─────────────────────────────────────
