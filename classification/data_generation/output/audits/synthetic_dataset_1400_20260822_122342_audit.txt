@@ -1,0 +1,67 @@
+========================================================================
+SYNTHETIC DATASET AUDIT
+========================================================================
+Dataset: classification/data_generation/output/synthetic_dataset_1400.csv
+Mode: STANDARD
+Status: PASS_WITH_WARNINGS
+
+FAIL CHECKS
+------------------------------------------------------------------------
+[FAIL] None
+
+WARN CHECKS
+------------------------------------------------------------------------
+[WARN] llm_fallbacks: 5 rows used deterministic fallback after LLM generation failed.
+
+PASS CHECKS
+------------------------------------------------------------------------
+[PASS] schema: Dataset matches the expected 44-column schema.
+[PASS] column_order: Column order matches the canonical schema.
+[PASS] manifest_schema: Manifest matches the expected 12-column schema.
+[PASS] manifest_alignment: Dataset and manifest align one-to-one.
+[PASS] document_id: All document IDs are unique.
+[PASS] full_text: All rows contain document text.
+[PASS] duplicate_text: All exact duplicate texts belong to intentional blank templates (24 rows across 7 groups).
+[PASS] scenario_type: All values are supported: ['contract', 'customer_support', 'employee_record', 'expense_report', 'general_document', 'incident_report', 'internal_email', 'invoice', 'it_access_request', 'medical_record', 'meeting_notes', 'passport_record', 'supplier_onboarding', 'training_evaluation']
+[PASS] language: All values are supported: ['de', 'en']
+[PASS] recommended_split: All values are supported: ['test', 'train', 'validation']
+[PASS] positive_entity_consistency: Every PII-positive row has at least one entity flag.
+[PASS] negative_entity_consistency: No PII-negative row contains a positive entity flag.
+[PASS] primary_pii_type: primary_pii_type is consistent with entity flags.
+[PASS] entity_counts: category_count and pii_count are consistent.
+[PASS] personal_data_categories: personal_data_categories matches entity flags.
+[PASS] negative_identifier_leakage: No obvious email, URL, IP, or IBAN patterns were found in negative documents.
+[PASS] entity_coverage: All configured entity types are represented.
+[PASS] scenario_split_coverage: Every scenario is represented in every split.
+[PASS] split_class_coverage: Every split contains both target classes.
+
+METRICS
+------------------------------------------------------------------------
+rows: 1400
+columns: 44
+manifest_rows: 1400
+manifest_variant_counts: {'amendment': 30, 'appointment_summary': 34, 'blank': 25, 'clinical_note': 36, 'contract_excerpt': 36, 'decision_log': 30, 'email_ticket': 34, 'employee_summary': 30, 'escalation_note': 30, 'filled_a': 240, 'filled_b': 235, 'formal_minutes': 36, 'hr_profile': 34, 'identity_check': 36, 'informal_notes': 34, 'internal_announcement': 30, 'internal_memo': 36, 'invoice_summary': 30, 'occupational_health_note': 30, 'policy_note': 30, 'portal_ticket': 36, 'project_update': 34, 'service_invoice': 34, 'short_email': 36, 'signature_section': 34, 'standard_invoice': 36, 'structured_record': 36, 'thread_reply': 34, 'travel_document_record': 34, 'verification_note': 30}
+manifest_blank_rows: 25
+duplicate_text_rows: 24
+duplicate_text_groups: 7
+excess_duplicate_texts: 17
+intentional_blank_duplicate_groups: 7
+intentional_blank_duplicate_rows: 24
+unexpected_duplicate_groups: 0
+unexpected_duplicate_rows: 0
+negative_identifier_hits: 0
+generator_counts: {'openrouter_gpt4o_mini_field': 1073, 'openrouter_gpt4o_mini_document': 197, 'faker_archetype_v1': 125, 'faker_archetype_fallback': 5}
+prompt_version_counts: {'field_llm_v1': 1073, 'llm_rewrite_v1': 197, 'template_v1': 125, 'llm_rewrite_v1_fallback': 3, 'field_llm_v1_fallback': 2}
+fallback_rows: 5
+entity_coverage: {'PERSON': 129, 'EMAIL_ADDRESS': 36, 'PHONE_NUMBER': 15, 'LOCATION': 24, 'IBAN_CODE': 8, 'CREDIT_CARD': 2, 'PASSPORT': 9, 'NRP': 5, 'DATE_TIME': 29, 'IP_ADDRESS': 5, 'URL': 9, 'MEDICAL_LICENSE': 3}
+scenario_counts: {'contract': 100, 'customer_support': 100, 'employee_record': 100, 'expense_report': 100, 'general_document': 100, 'incident_report': 100, 'internal_email': 100, 'invoice': 100, 'it_access_request': 100, 'medical_record': 100, 'meeting_notes': 100, 'passport_record': 100, 'supplier_onboarding': 100, 'training_evaluation': 100}
+language_counts: {'de': 686, 'en': 714}
+split_counts: {'test': 210, 'train': 980, 'validation': 210}
+class_counts: {'no': 1232, 'yes': 168}
+
+========================================================================
+SUMMARY
+========================================================================
+Status: PASS_WITH_WARNINGS
+Failures: 0
+Warnings: 1
