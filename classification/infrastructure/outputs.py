@@ -42,14 +42,14 @@ def create_run_dir(timestamp: str) -> Path:
     return run_dir
 
 def build_output_file(
-    provider: str,
+    strategy: str,
     run_dir: Path,
 ) -> Path:
     """
-    Build provider-specific output file inside a run directory.
+    Build strategy-specific output file inside a run directory.
     """
 
-    return run_dir / f"{provider}.csv"
+    return run_dir / f"{strategy}.csv"
 
 
 def save_sweep1_results(
@@ -81,11 +81,11 @@ def save_sweep1_results(
 def save_run_metadata(
     run_dir: Path,
     run_id: str,
-    providers: list[str],
+    strategies: list[str],
     saved_files: list[Path],
     routing_metrics: dict,
     runtime_metrics: dict,
-    provider_usage: dict,
+    strategy_usage: dict,
 ) -> Path:
     """
     Save run-level classification metadata.
@@ -96,11 +96,11 @@ def save_run_metadata(
     metadata = {
         "run_id": run_id,
         "pipeline_name": DEFAULT_PIPELINE_NAME,
-        "providers": providers,
         "saved_files": [str(path) for path in saved_files],
+        "strategies": strategies,
         **routing_metrics,
         **runtime_metrics,
-        "provider_usage": provider_usage,
+        "strategy_usage": strategy_usage,
     }
 
     metadata_file.write_text(

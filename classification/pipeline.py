@@ -4,7 +4,7 @@ Production classification pipeline.
 Responsibilities:
 1. Load input dataset
 2. Execute Sweep 1
-3. Execute provider-specific Sweep 2
+3. Execute strategy-specific classification runs
 4. Save outputs
 5. Save run metadata
 
@@ -19,8 +19,8 @@ import logging
 from config.logging_config import setup_logging
 
 from classification.config import (
-    PROVIDERS_TO_RUN,
-    validate_providers,
+    STRATEGIES_TO_RUN,
+    validate_strategies,
 )
 
 from classification.infrastructure.io import load_input_data
@@ -37,8 +37,8 @@ from classification.infrastructure.runtime import (
     compute_routing_metrics,
 )
 
-from classification.infrastructure.provider_runner import (
-    run_provider_pipeline,
+from classification.infrastructure.strategy_runner import (
+    run_strategy_pipeline,
 )
 
 setup_logging()
@@ -53,8 +53,8 @@ def main() -> None:
 
     run_dir = create_run_dir(run_id)
 
-    providers = validate_providers(
-        PROVIDERS_TO_RUN
+    strategies = validate_strategies(
+        STRATEGIES_TO_RUN
     )
 
     logger.info(
@@ -67,8 +67,8 @@ def main() -> None:
     )
 
     logger.info(
-        "Providers selected: %s",
-        providers,
+        "Strategies selected: %s",
+        strategies,
     )
 
     # --------------------------------------------------
@@ -112,22 +112,22 @@ def main() -> None:
     )
 
     # --------------------------------------------------
-    # Sweep 2
+    # Strategy execution
     # --------------------------------------------------
 
-    provider_runtime_seconds = {}
+    strategy_runtime_seconds = {}
 
-    provider_usage = {}
+    strategy_usage = {}
 
-    for provider in providers:
+    for strategy in strategies:
 
         (
             output_file,
             runtime_seconds,
             usage_summary,
-        ) = run_provider_pipeline(
+        ) = run_strategy_pipeline(
             base_df=df_sweep1,
-            provider=provider,
+            strategy=strategy,
             run_dir=run_dir,
             run_id=run_id,
         )
@@ -136,12 +136,12 @@ def main() -> None:
             output_file
         )
 
-        provider_runtime_seconds[
-            provider
+        strategy_runtime_seconds[
+            strategy
         ] = runtime_seconds
 
-        provider_usage[
-            provider
+        strategy_usage[
+            strategy
         ] = usage_summary
 
     # --------------------------------------------------
@@ -156,7 +156,7 @@ def main() -> None:
 
     sweep2_runtime_seconds = round(
         sum(
-            provider_runtime_seconds.values()
+            strategy_runtime_seconds.values()
         ),
         4,
     )
@@ -173,18 +173,18 @@ def main() -> None:
             sweep2_runtime_seconds,
         "pipeline_runtime_seconds":
             pipeline_runtime_seconds,
-        "provider_runtime_seconds":
-            provider_runtime_seconds,
+        "strategy_runtime_seconds":
+            strategy_runtime_seconds,
     }
 
     metadata_file = save_run_metadata(
         run_dir=run_dir,
         run_id=run_id,
-        providers=providers,
+        strategies=strategies,
         saved_files=saved_files,
         routing_metrics=routing_metrics,
         runtime_metrics=runtime_metrics,
-        provider_usage=provider_usage,
+        strategy_usage=strategy_usage,
     )
 
     saved_files.append(

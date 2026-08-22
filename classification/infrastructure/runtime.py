@@ -1,116 +1,235 @@
 """
-Runtime and usage metrics.
+Runtime, routing, and operational usage metrics.
 
 Responsibilities:
-- Compute routing metrics
-- Compute LLM usage metrics
-- Aggregate token statistics
-- Aggregate cost statistics
+- Compute initial Sweep 1 routing metrics
+- Aggregate LLM execution statistics
+- Aggregate BERT execution statistics
+- Aggregate token and provider-reported cost statistics
 
-These are operational metrics, not evaluation metrics.
+These are operational metrics, not evaluation-quality metrics.
 """
+
+from __future__ import annotations
+
+from typing import Callable
 
 import pandas as pd
 
-def compute_routing_metrics(df_sweep1: pd.DataFrame) -> dict:
+
+def _sum_numeric_column(
+    df: pd.DataFrame,
+    column: str,
+    cast_type: Callable = int,
+):
     """
-    Compute routing metrics from Sweep 1 output.
+    Sum a numeric dataframe column safely.
+
+    Missing columns, missing values, and invalid values are treated as zero.
+    """
+
+    if column not in df.columns:
+        return cast_type(0)
+
+    values = pd.to_numeric(
+        df[column],
+        errors="coerce",
+    ).fillna(0)
+
+    return cast_type(values.sum())
+
+
+def _count_true_values(
+    df: pd.DataFrame,
+    column: str,
+) -> int:
+    """
+    Count truthy values in a dataframe column.
+
+    A missing column produces a count of zero.
+    """
+
+    if column not in df.columns:
+        return 0
+
+    return int(
+        df[column]
+        .fillna(False)
+        .astype(bool)
+        .sum()
+    )
+
+
+def compute_routing_metrics(
+    df_sweep1: pd.DataFrame,
+) -> dict:
+    """
+    Compute initial routing metrics from Sweep 1 output.
+
+    These metrics describe how many documents Sweep 1 can classify locally
+    and how many require an additional review stage.
+
+    The review destination may later be BERT, an LLM, or a hybrid router.
     """
 
     documents_total = len(df_sweep1)
 
-    if "needs_llm_review" not in df_sweep1.columns:
-        documents_sent_to_llm = 0
+    if "needs_review" in df_sweep1.columns:
+        documents_sent_to_review = _count_true_values(
+            df_sweep1,
+            "needs_review",
+        )
     else:
-        documents_sent_to_llm = (
-            df_sweep1["needs_llm_review"]
-            .fillna(False)
-            .astype(bool)
-            .sum()
+        # Backward-compatible fallback for the current routing schema.
+        documents_sent_to_review = _count_true_values(
+            df_sweep1,
+            "needs_llm_review",
         )
 
-    llm_calls_avoided = documents_total - documents_sent_to_llm
+    documents_resolved_locally = (
+        documents_total - documents_sent_to_review
+    )
 
     routing_rate = (
-        documents_sent_to_llm / documents_total
+        documents_sent_to_review / documents_total
         if documents_total > 0
         else 0.0
     )
 
     local_processing_rate = (
-        llm_calls_avoided / documents_total
+        documents_resolved_locally / documents_total
         if documents_total > 0
         else 0.0
     )
 
     return {
         "documents_total": int(documents_total),
-        "documents_sent_to_llm": int(documents_sent_to_llm),
-        "llm_calls_avoided": int(llm_calls_avoided),
+        "documents_sent_to_review": int(documents_sent_to_review),
+        "documents_resolved_locally": int(documents_resolved_locally),
         "routing_rate": round(routing_rate, 4),
         "local_processing_rate": round(local_processing_rate, 4),
     }
 
 
 def compute_llm_usage_summary(
-    df_provider: pd.DataFrame,
+    df_strategy: pd.DataFrame,
 ) -> dict:
     """
-    Aggregate per-document LLM usage for one provider.
+    Aggregate LLM execution, token, and cost statistics.
+
+    A strategy without an LLM produces zero values.
     """
 
-    def sum_column(column: str, cast_type):
-        if column not in df_provider.columns:
-            return cast_type(0)
+    return {
+        "llm_requests_attempted": _count_true_values(
+            df_strategy,
+            "needs_llm_review",
+        ),
+        "llm_requests_successful": _count_true_values(
+            df_strategy,
+            "llm_request_success",
+        ),
+        "llm_prompt_tokens": _sum_numeric_column(
+            df_strategy,
+            "llm_prompt_tokens",
+        ),
+        "llm_completion_tokens": _sum_numeric_column(
+            df_strategy,
+            "llm_completion_tokens",
+        ),
+        "llm_total_tokens": _sum_numeric_column(
+            df_strategy,
+            "llm_total_tokens",
+        ),
+        "llm_reasoning_tokens": _sum_numeric_column(
+            df_strategy,
+            "llm_reasoning_tokens",
+        ),
+        "llm_cached_tokens": _sum_numeric_column(
+            df_strategy,
+            "llm_cached_tokens",
+        ),
+        "llm_reported_cost": round(
+            _sum_numeric_column(
+                df_strategy,
+                "llm_request_cost",
+                float,
+            ),
+            8,
+        ),
+    }
 
-        values = pd.to_numeric(
-            df_provider[column],
-            errors="coerce",
-        ).fillna(0)
 
-        return cast_type(values.sum())
+def compute_bert_usage_summary(
+    df_strategy: pd.DataFrame,
+) -> dict:
+    """
+    Aggregate BERT execution statistics.
 
-    successful_requests = (
-        int(
-            df_provider["llm_request_success"]
-            .fillna(False)
-            .astype(bool)
-            .sum()
-        )
-        if "llm_request_success" in df_provider.columns
-        else 0
+    Expected future per-document columns:
+        needs_bert_review
+        bert_request_success
+        bert_runtime_seconds
+
+    A strategy without BERT produces zero values.
+    """
+
+    attempted = _count_true_values(
+        df_strategy,
+        "needs_bert_review",
+    )
+
+    successful = _count_true_values(
+        df_strategy,
+        "bert_request_success",
+    )
+
+    total_runtime = round(
+        _sum_numeric_column(
+            df_strategy,
+            "bert_runtime_seconds",
+            float,
+        ),
+        4,
+    )
+
+    average_runtime = (
+        total_runtime / successful
+        if successful > 0
+        else 0.0
     )
 
     return {
-        "requests_attempted": int(
-            df_provider["needs_llm_review"]
-            .fillna(False)
-            .astype(bool)
-            .sum()
+        "bert_requests_attempted": attempted,
+        "bert_requests_successful": successful,
+        "bert_runtime_seconds": total_runtime,
+        "bert_average_runtime_seconds": round(
+            average_runtime,
+            6,
         ),
-        "requests_successful": successful_requests,
-        "prompt_tokens": sum_column(
-            "llm_prompt_tokens",
-            int,
-        ),
-        "completion_tokens": sum_column(
-            "llm_completion_tokens",
-            int,
-        ),
-        "total_tokens": sum_column(
-            "llm_total_tokens",
-            int,
-        ),
-        "reasoning_tokens": sum_column(
-            "llm_reasoning_tokens",
-            int,
-        ),
-        "cached_tokens": sum_column(
-            "llm_cached_tokens",
-            int,
-        ),
-        "provider_reported_cost": round(
-            sum_column("llm_request_cost", float),
-            8,
-        ),
+    }
+
+
+def compute_strategy_usage_summary(
+    df_strategy: pd.DataFrame,
+) -> dict:
+    """
+    Aggregate operational usage for one classification strategy.
+
+    This provides a stable schema across:
+        rule_based
+        rule_plus_llm
+        bert_only
+        rule_plus_bert
+        rule_plus_bert_plus_llm
+
+    Stages not used by a strategy produce zero-valued metrics.
+    """
+
+    llm_usage = compute_llm_usage_summary(df_strategy)
+    bert_usage = compute_bert_usage_summary(df_strategy)
+
+    return {
+        **llm_usage,
+        **bert_usage,
     }

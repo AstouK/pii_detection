@@ -12,7 +12,7 @@ from pathlib import Path
 
 import pandas as pd
 
-from classification.config import RESULTS_DIR as CLASSIFICATION_RESULTS_DIR
+from classification.config1 import RESULTS_DIR as CLASSIFICATION_RESULTS_DIR
 from classification.evaluation.config import (
     RUNS_DIR as EVALUATION_RUNS_DIR,
     ERROR_ANALYSIS_OUTPUT_FILES,

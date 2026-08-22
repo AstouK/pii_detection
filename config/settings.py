@@ -9,6 +9,11 @@ import os
 from pathlib import Path
 from dotenv import load_dotenv
 
+# ── Compliance note ────────────────────────────────────
+# OpenRouter may route requests through infrastructure that does not guarantee
+# EU data residency. For production use with real personal data, replace this
+# with a GDPR-compliant provider such as Azure OpenAI in an EU region, Mistral
+# with appropriate data processing terms, or another approved enterprise provider.
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 ENV_PATH = PROJECT_ROOT / ".env"

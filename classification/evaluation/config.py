@@ -8,7 +8,7 @@ prompt comparison, and future MLflow logging.
 
 from pathlib import Path
 
-from classification.config import (
+from classification.config1 import (
     CLASSIFICATION_DIR,
     PROVIDERS_TO_RUN,
     DEFAULT_INPUT_FILE,
@@ -47,6 +47,31 @@ SPLIT_COL = "recommended_split"
 # Use None for full evaluation.
 EVALUATION_LIMIT = None
 
+
+# ─────────────────────────────────────────────────────────────
+# Routing Strategies (bert models to be added later)
+# ─────────────────────────────────────────────────────────────
+
+STRATEGIES = {
+    "rule_based": {
+        "strategy": "rule_based",
+        "provider": "local",
+        "model_family": "rules",
+        "model_name": "presidio_regex",
+    },
+    "rule_plus_qwen": {
+        "strategy": "rule_plus_qwen",
+        "provider": "qwen",
+        "model_family": "qwen",
+        "model_name": "qwen3.7-plus",
+    },
+    "rule_plus_openrouter": {
+        "strategy": "rule_plus_openrouter",
+        "provider": "openrouter",
+        "model_family": "gpt",
+        "model_name": "openai/gpt-4o-mini",
+    },
+}
 
 # ─────────────────────────────────────────────────────────────
 # Provider/model evaluation defaults

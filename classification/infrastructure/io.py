@@ -1,7 +1,7 @@
 from pathlib import Path
 import pandas as pd
 
-from classification.config import (
+from classification.config1 import (
     DEFAULT_INPUT_FILE,
     CLASSIFICATION_LIMIT,
 )

@@ -18,38 +18,22 @@ import logging
 
 logger = logging.getLogger(__name__)
 
-# ── Set up Providers ────────────────────────────────────
 
-# Compliance note:
-# OpenRouter may route requests through infrastructure that does not guarantee
-# EU data residency. For production use with real personal data, replace this
-# with a GDPR-compliant provider such as Azure OpenAI in an EU region, Mistral
-# with appropriate data processing terms, or another approved enterprise provider.
-
-SUPPORTED_PROVIDERS = {
-    "openrouter",
-    "qwen",
-}
-
-# Qwen
 from openai import OpenAI
 
 from config.settings import (
+    OPENROUTER_API_URL,
     QWEN_API_KEY,
-    QWEN_MODEL,
+    require_openrouter_api_key,
 )
 
-client = OpenAI(
+from classification.config import get_model_config
+
+dashscope_client = OpenAI(
     api_key=QWEN_API_KEY,
     base_url="https://dashscope-intl.aliyuncs.com/compatible-mode/v1",
 )
 
-# OpenRouter (gpt-4o-mini)
-from config.settings import (
-    OPENROUTER_API_URL,
-    OPENROUTER_MODEL,
-    require_openrouter_api_key,
-)
 
 _RETRY_DELAYS = [2, 5, 20]  # Waiting time in seconds in case of lagging request
 
@@ -187,16 +171,15 @@ def build_llm_prompt(doc_text: str) -> str:
 _JSON_RE = re.compile(r"\{.*?\}", re.DOTALL)
 
 
-def call_qwen(prompt: str) -> dict:
+def call_qwen(prompt: str, model_name: str,) -> dict:
     """
-    Send prompt to Qwen via DashScope.
+    Send a prompt to a Qwen model through Alibaba DashScope.
 
-    Returns:
-        (contains_pii, reason)
+    Returns a standardized LLM result dictionary.
     """
 
     logger.debug("Sending request to Qwen")
-    logger.debug("Model: %s", QWEN_MODEL)
+    logger.debug("Model: %s", model_name)
 
     delays = [0] + _RETRY_DELAYS
 
@@ -211,8 +194,8 @@ def call_qwen(prompt: str) -> dict:
             time.sleep(delay)
 
         try:
-            completion = client.chat.completions.create(
-                model=QWEN_MODEL,
+            completion = dashscope_client.chat.completions.create(
+                model=model_name,
                 messages=[
                     {
                         "role": "user",
@@ -336,19 +319,13 @@ def call_qwen(prompt: str) -> dict:
     )
 
 
-def call_openrouter(prompt: str) -> dict:
+def call_openrouter(prompt: str, model_name: str,) -> dict:
     """
-    Call the configured model via OpenRouter.
+    Send a prompt to a model through OpenRouter.
 
-    Returns:
-        tuple[bool, str]: A tuple containing:
-            - contains_pii: whether the model detected personal data
-            - reason: one-sentence explanation or error message
-
-    Retries up to 3 times on rate limits.
-    On unrecoverable failure, returns (False, <error description>).
+    Returns a standardized LLM result dictionary containing the prediction,
+    reason, token usage, request cost, and success status.
     """
-
     api_key = require_openrouter_api_key()
 
     headers = {
@@ -359,7 +336,7 @@ def call_openrouter(prompt: str) -> dict:
     }
 
     logger.debug("Sending request to OpenRouter")
-    logger.debug("Model: %s", OPENROUTER_MODEL)
+    logger.debug("Model: %s", model_name)
     logger.debug("Prompt preview: %s ...", prompt[:300].replace("\n", " "))
 
     delays = [0] + _RETRY_DELAYS
@@ -379,7 +356,7 @@ def call_openrouter(prompt: str) -> dict:
                 OPENROUTER_API_URL,
                 headers=headers,
                 json={
-                    "model": OPENROUTER_MODEL,
+                    "model": model_name,
                     "messages": [{"role": "user", "content": prompt}],
                     "temperature": 0,
                     "response_format": {"type": "json_object"},
@@ -513,34 +490,42 @@ def call_openrouter(prompt: str) -> dict:
     )
 
 
-def call_llm(
-    prompt: str,
-    provider: str,
-) -> dict:
+def call_llm(prompt: str, model_id: str,) -> dict:
     """
-    Route the prompt to the selected LLM provider.
+    Route a prompt using the configured model and provider.
 
     Args:
         prompt: Prompt sent to the LLM.
-        provider: Provider name. Supported values:
-            - "openrouter"
-            - "qwen"
+        model_id: Model identifier from MODEL_REGISTRY. Examples:
+            - qwen3_7_plus
+            - gpt4o_mini
 
     Returns:
-        tuple[bool, str]:
-            - contains_pii
-            - reason
+        Standardized LLM result dictionary.
     """
 
-    provider = provider.lower().strip()
+    model_id = model_id.lower().strip()
+    model_config = get_model_config(model_id)
+
+    provider = model_config["provider"]
+    model_name = model_config["model_name"]
 
     if provider == "openrouter":
-        return call_openrouter(prompt)
+        return call_openrouter(
+            prompt=prompt,
+            model_name=model_name,
+        )
 
-    if provider == "qwen":
-        return call_qwen(prompt)
+    if provider == "dashscope":
+        return call_qwen(
+            prompt=prompt,
+            model_name=model_name,
+        )
 
-    raise ValueError(f"Unsupported LLM provider: {provider}. Expected 'openrouter' or 'qwen'.")
+    raise ValueError(
+        f"Unsupported LLM provider '{provider}' "
+        f"for model '{model_id}'."
+    )
 
 
 # ─────────────────────────────────────────────────────────────
@@ -550,34 +535,48 @@ def call_llm(
 
 def run_llm(
     df: pd.DataFrame,
-    provider: str,
+    model_id: str,
 ) -> pd.DataFrame:
     """
-    Sweep 2: LLM review for documents flagged by Sweep 1.
+    Run LLM review for documents routed by Sweep 1.
 
     Args:
-        df: DataFrame containing Sweep 1 results.
-        provider: LLM provider to use. Supported values include:
-            - "openrouter"
-            - "qwen"
+        df:
+            DataFrame containing Sweep 1 results.
+        model_id:
+            LLM model identifier from MODEL_REGISTRY, for example:
+            - qwen3_7_plus
+            - gpt4o_mini
 
-    Adds columns:
-        llm_pii: bool
-            LLM verdict.
-        llm_reason: str
-            LLM explanation or error message.
-        llm_provider: str
-            Provider used for the LLM review.
+    Adds:
+        llm_pii
+        llm_reason
+        llm_provider
+        llm_model_id
+        llm_model_name
+        llm_prompt_tokens
+        llm_completion_tokens
+        llm_total_tokens
+        llm_reasoning_tokens
+        llm_cached_tokens
+        llm_request_cost
+        llm_request_success
 
-    Does NOT compute final_pii.
-    That remains the pipeline's responsibility.
+    The final pipeline prediction remains the strategy runner's responsibility.
     """
 
-    provider = provider.lower().strip()
+    model_id = model_id.lower().strip()
 
+    model_config = get_model_config(model_id)
+
+    provider = model_config["provider"]
+    model_name = model_config["model_name"]
+
+    df["llm_provider"] = provider
+    df["llm_model_id"] = model_id
+    df["llm_model_name"] = model_name
     df["llm_pii"] = False
     df["llm_reason"] = ""
-    df["llm_provider"] = provider
     df["llm_prompt_tokens"] = 0
     df["llm_completion_tokens"] = 0
     df["llm_total_tokens"] = 0
@@ -590,13 +589,15 @@ def run_llm(
 
     if flagged.empty:
         logger.info(
-            "No documents require LLM review for provider '%s'",
-            provider,
+            "No documents require LLM review for model '%s'",
+            model_name,
         )
         return df
 
     logger.info(
-        "Running LLM review with provider '%s' on %s flagged documents",
+        "Running LLM review with model '%s' through provider '%s' "
+        "on %s flagged documents",
+        model_name,
         provider,
         len(flagged),
     )
@@ -606,8 +607,8 @@ def run_llm(
     for i, (idx, row) in enumerate(flagged.iterrows(), start=1):
         if i % 10 == 0 or i == total:
             logger.info(
-                "LLM review progress for provider '%s': %s/%s documents",
-                provider,
+                "LLM review progress for model '%s': %s/%s documents",
+                model_name,
                 i,
                 total,
             )
@@ -619,9 +620,9 @@ def run_llm(
 
         if not text.strip():
             logger.warning(
-                "Skipping row %s for provider '%s' because extracted text is empty",
+                "Skipping row %s for model '%s' because extracted text is empty",
                 idx,
-                provider,
+                model_name,
             )
             df.at[idx, "llm_reason"] = "empty text after extraction"
             continue
@@ -630,7 +631,7 @@ def run_llm(
 
         result = call_llm(
             prompt=prompt,
-            provider=provider,
+            model_id=model_id,
         )
 
         df.at[idx, "llm_pii"] = result["contains_pii"]
@@ -650,14 +651,17 @@ def run_llm(
     n_positive = df.loc[flagged.index, "llm_pii"].sum()
 
     logger.info(
-        "Sweep 2 completed for provider '%s'. LLM flagged %s/%s documents as containing PII.",
+        "Sweep 2 completed for model '%s' through provider '%s'. LLM flagged %s/%s documents as containing PII.",
+        model_name,
         provider,
         int(n_positive),
         len(flagged),
     )
 
     logger.info(
-        "Provider '%s' token usage: prompt=%s completion=%s total=%s",
+        "Model '%s' through provider '%s' token usage: "
+        "prompt=%s completion=%s total=%s",
+        model_name,
         provider,
         int(df["llm_prompt_tokens"].sum()),
         int(df["llm_completion_tokens"].sum()),
