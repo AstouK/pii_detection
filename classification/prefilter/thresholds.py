@@ -264,13 +264,24 @@ def calibrate_thresholds(
         ``auto_yes_precision >= precision_target`` (vacuous if the upper zone
         is empty, which is itself a valid — if expensive — solution)
 
-    Ties are broken towards the point with the fewest unreviewed false
-    positives, then towards the wider confident-negative zone.
+    Ties are broken towards **fewer missed positives** first, then fewer
+    unreviewed false positives, then the wider confident-negative zone. The
+    order matters: the recall target permits a budget of dropped positives, and
+    two operating points that cost the same number of LLM calls are not equally
+    good if one spends that budget and the other does not. Ranking zone width
+    ahead of missed positives buys a wider confident-negative zone with a
+    document nobody will ever look at again — the wrong trade under GDPR, and
+    free to avoid.
 
     Returns a dict with ``feasible``, the chosen thresholds and their full
-    metric set. When no pair satisfies the constraints, the most conservative
-    fallback is returned (``t_low = 0``: nothing is ever silently dropped) and
-    ``feasible`` is ``False``.
+    metric set.
+
+    ``feasible`` is ``False`` only when no pair satisfies the constraints at
+    all, which in practice means an unsatisfiable recall target: ``t_low = 0``
+    with ``t_high = 1`` routes every document and therefore meets any recall
+    target and — with an empty upper zone — any precision target. That
+    route-everything point is a legitimate solution rather than a failure; it
+    is simply the most expensive one.
     """
 
     probs = np.asarray(probs, dtype=float)
@@ -312,6 +323,7 @@ def calibrate_thresholds(
 
             key = (
                 metrics["routed_fraction"],
+                metrics["missed_positives"],
                 metrics["auto_yes_fp"],
                 -metrics["auto_no_n"],
             )

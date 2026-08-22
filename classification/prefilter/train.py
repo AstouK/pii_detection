@@ -30,7 +30,9 @@ import argparse
 import json
 import logging
 import random
+import shutil
 import time
+from pathlib import Path
 
 import numpy as np
 import pandas as pd
@@ -521,10 +523,38 @@ def train(config: PreFilterConfig) -> dict:
         json.dumps(summary, indent=2, default=str), encoding="utf-8"
     )
 
+    _publish_reports(output_dir)
+
     logger.info("Run artifacts written to %s", output_dir)
     _log_headline(calibration, summary)
 
     return summary
+
+
+#: Small artifacts copied from the git-ignored run directory into the committed
+#: `reports/` folder, so the team can read a run's outcome from the repository
+#: without re-running anything. The checkpoint is deliberately not among them.
+PUBLISHED_REPORTS = [
+    "calibration.json",
+    "routing_frontier.csv",
+    "training_history.csv",
+    "validation_entity_metrics.csv",
+    "metrics_summary.json",
+]
+
+
+def _publish_reports(output_dir: Path) -> None:
+    """
+    Copy the readable artifacts of a run into ``reports/``.
+    """
+
+    REPORTS_DIR.mkdir(parents=True, exist_ok=True)
+
+    for file_name in PUBLISHED_REPORTS:
+        source = output_dir / file_name
+
+        if source.exists():
+            shutil.copyfile(source, REPORTS_DIR / file_name)
 
 
 def _log_headline(calibration: dict, summary: dict) -> None:
