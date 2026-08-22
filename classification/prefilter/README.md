@@ -1,0 +1,331 @@
+# Transformer Pre-Filter
+
+Work package: **Max Seidlitz** · Branch: `claude/bert-prefilter-gdpr-pii-q35v0w`
+
+A small transformer classifier that sits between Sweep 1 and the LLM review
+stage and decides which of Sweep 1's ambiguous documents actually need an LLM
+call.
+
+```
+Document
+  → Sweep 1 (Presidio + spaCy + Regex)
+      ├─ detected_pii                    → LOCAL_PII, done
+      ├─ no signal                       → LOCAL_NON_PII, done
+      └─ potential_pii / person_hint     → ►► THIS MODULE ◄◄
+                                              ├─ p < t_low   → confident non-PII, no LLM call
+                                              ├─ p > t_high  → confident PII,     no LLM call
+                                              └─ otherwise   → routed_to_llm = True
+```
+
+The success criterion is **not** maximum accuracy. It is: *how far does the LLM
+call volume drop while document-level recall stays at or above the rule-based
+baseline of 0.9833?* False negatives are more expensive than false positives
+under GDPR, so when in doubt the router escalates.
+
+---
+
+## Quick start
+
+```bash
+# 1. Environment
+pip install -r requirements.txt
+pip install torch transformers scikit-learn matplotlib mlflow
+
+# 2. Pretrained encoder (see "Offline weights" below)
+python -m classification.prefilter.fetch_model
+
+# 3. Look at the data before training on it
+python -m classification.prefilter.eda
+
+# 4. Train + calibrate the router
+python -m classification.prefilter.train --epochs 6 --log-mlflow
+
+# 5. Write evaluation-compatible predictions for the held-out test split
+python -m classification.prefilter.predict --split test
+
+# 6. Score them with the team's evaluation pipeline
+evaluate --run-id <run_id printed by step 5>
+
+# 7. Slice the errors for Sonja
+python -m classification.prefilter.error_report
+```
+
+---
+
+## Findings for the team
+
+Verified against the repo on 22.08. The first three are the points from the
+brief; the last three came out of the data.
+
+### 1. `evaluate` does not run on `main` — CONFIRMED
+
+`evaluation/config.py`, `evaluation/io.py` and `infrastructure/io.py` all import
+`classification.config1`. No such module exists; the real one is
+`classification/config.py`. Two of the imported names are also gone:
+
+| imported name | actual name |
+|---|---|
+| `PROVIDERS_TO_RUN` | `STRATEGIES_TO_RUN` |
+| `validate_providers` | `validate_strategies` |
+
+Both renames happened in `dba2d7a`, whose commit message says the evaluation
+code still needs updating — so this is known work-in-progress, not a mystery.
+
+**Handled by:** `classification/config1.py`, a temporary shim that re-exports
+`classification.config` and aliases the two renamed names. It is a *new* file
+rather than an edit to the three broken modules, so cleanup is a single
+`git rm`. **Aissata:** once the evaluation modules import `classification.config`
+directly, delete `classification/config1.py`.
+
+### 2. Split value mismatch — CONFIRMED, but currently harmless
+
+`evaluation/config.py` sets `EVALUATION_SPLITS = ["eval", "test"]` while the
+dataset spells it `validation`. Nothing in the evaluation package actually reads
+`EVALUATION_SPLITS` or `SPLIT_COL` — they are dead config, so evaluation today
+runs on every row it is given, not just `test`. It becomes a real bug the moment
+someone wires the filter up. Either fix the value to `validation` or drop the
+constants.
+
+### 3. Dataset in the repo is the old pilot — CONFIRMED
+
+500 rows, 5 document types, 60/440 positive/negative, `en` only, 253–821
+characters. Sonja's 1,400-row set is not pushed yet. Everything here runs on the
+pilot and will run unchanged on the new set — the schema is what the code
+depends on, not the row count.
+
+### 4. `recommended_split` is unusable — NEW, and it blocks Phase 3
+
+| split | n | positives | negatives |
+|---|---|---|---|
+| train | 350 | **60** | 290 |
+| validation | 75 | **0** | 75 |
+| test | 75 | **0** | 75 |
+
+All 60 positive documents are in `train`. Recall is undefined on an all-negative
+split, so the recall-constrained threshold calibration — the actual deliverable
+of this work package — cannot be run against Sonja's split at all.
+
+**Handled by:** `data.resolve_splits` validates the split and, under the default
+`--split-mode auto`, falls back to a seeded, label-stratified split with a loud
+warning. `recommended_split` stays authoritative whenever it is usable, so once
+the new dataset lands with positives spread across all three splits, this code
+picks it up automatically with no change. `--split-mode recommended` forces
+Sonja's split; `--split-mode stratified` forces the fallback.
+
+**Sonja:** the new dataset needs positives in all three splits — roughly the
+overall positive rate in each.
+
+### 5. Duplicate documents leak across splits — NEW
+
+171 of 500 rows repeat another row's `full_text` verbatim (329 unique texts),
+and **32 duplicate groups span more than one split**. Validation and test scores
+under `recommended_split` are therefore measured partly on documents the model
+memorised in training.
+
+**Handled by:** the fallback splitter groups on a hash of the normalised text,
+so identical documents always land in the same split. Nothing can be done about
+this inside `recommended_split` without changing it, which is Sonja's call.
+
+### 6. Two metadata columns leak the label — NEW
+
+`difficulty == "medium"` is 100% positive (24/24) and
+`challenge_category == "medical_context"` is 100% positive (7/7). Harmless for
+this model, which only reads `full_text` — but any model that consumes the
+metadata columns would score perfectly for the wrong reason, and these columns
+are also used for error slicing, where a degenerate group is uninformative.
+
+### 7. Cost analysis reads keys nobody writes — NEW, minor
+
+`evaluation/cost_analysis.py` reads `documents_sent_to_llm` and `provider_usage`
+from `run_metadata.json`, but `infrastructure/runtime.py` and
+`infrastructure/outputs.py` write `documents_sent_to_review` and
+`strategy_usage`. The cost columns come out as zeros for every run. This module
+writes **both** spellings into its own `run_metadata.json` so the cost summary
+is populated; the actual fix belongs in the evaluation module.
+
+---
+
+## Output interface
+
+`python -m classification.prefilter.predict` writes to
+`classification/results/runs/<run_id>/` — the same directory the rest of the
+classification pipeline writes to, so `evaluate --run-id <run_id>` needs no
+extra wiring.
+
+| file | what it is |
+|---|---|
+| `rule_plus_bert.csv` | the routed pipeline; the registered strategy |
+| `bert_prefilter.csv` | the standalone model decision, no routing |
+| `run_metadata.json` | routing rate, LLM calls avoided, inference timing |
+
+### Required columns
+
+Derived from `infrastructure/metadata.py::add_sweep1_metadata` and read by
+`evaluation/metrics.py`:
+
+| column | value |
+|---|---|
+| `document_id` | from the dataset |
+| `predicted_pii` | **bool** — the standardised column the evaluation reads |
+| `run_id` | `YYYYMMDD_HHMMSS` |
+| `strategy` | `rule_plus_bert` / `bert_prefilter` |
+| `provider` | `local` |
+| `model_family` | `bert` |
+| `model_name` | `distilbert-base-uncased-v1` |
+| `prediction_stage` | `bert_prefilter` |
+| `pipeline_name` | from `config.DEFAULT_PIPELINE_NAME` |
+| `prediction_source` | `local_model` |
+| `contains_personal_data` | ground truth, carried through |
+| `<ENTITY>_yes_no` × 12 | ground truth, carried through |
+
+### Additional columns
+
+| column | why |
+|---|---|
+| `pii_probability` | float — for threshold and cost re-analysis |
+| `routed_to_llm` | bool — **the core metric of this work package** |
+| `routing_zone` | `confident_non_pii` / `routed_to_llm` / `confident_pii` |
+| `t_low`, `t_high` | the operating point that produced this file |
+| `per_type_conf` | JSON dict of entity → confidence, **see below** |
+| `predicted_<ENTITY>_yes_no` × 12 | the multi-label head's own calls |
+| `inference_ms` | per-document inference time, for the cost analysis |
+| `needs_llm_review`, `needs_review` | same value as `routed_to_llm`; what `infrastructure/runtime.py` counts |
+| `needs_bert_review`, `bert_request_success`, `bert_runtime_seconds` | what `compute_bert_usage_summary` already expects |
+
+**`per_type_conf` is not optional.** `evaluation/metrics.py::compute_all_metrics`
+only computes per-entity metrics when that column is present, and
+`entity_detected()` tests for the entity type as a **key** of the dict. Without
+it the twelve entity metrics are silently skipped. The `predicted_<ENTITY>_yes_no`
+columns carry the same information in a flatter form and are deliberately
+prefixed — the unprefixed names are ground truth, and overwriting them would
+make every entity metric perfect by construction.
+
+### What `predicted_pii` means
+
+`bert_prefilter.csv` — `p >= 0.5`. The model's own call, unmodified.
+
+`rule_plus_bert.csv` — confident zones as decided; **routed documents count as
+predicted-PII**. The LLM is not run here, so those rows need *some* value, and
+escalated-means-flagged is the GDPR-safe reading: a document under review is
+treated as potential personal data until a reviewer says otherwise. It is also
+honest about cost, since those rows are precision debt this stage has not paid
+off. `routed_to_llm` marks every one of them, so any other assumption can be
+recomputed downstream.
+
+---
+
+## How the router is calibrated
+
+### Which recall is being constrained
+
+A routed document is not a mistake — it goes on to a stronger model. The only
+errors this stage cannot recover from are:
+
+* a positive document dropped into `p < t_low` — a false negative nothing
+  downstream will ever revisit, and
+* a negative document auto-approved in `p > t_high` — a false positive that is
+  never reviewed.
+
+So the recall held at ≥ 0.98 is **`prefilter_recall`**: the share of positive
+documents *not* silently dropped. Routed positives count as saved, because they
+are. The plain binary recall at 0.5 is reported alongside it for reference.
+
+### Why there are two constraints
+
+Minimising LLM calls under the recall constraint alone is degenerate: the
+optimiser sets `t_high = t_low`, routes nothing, and lets every false positive
+through unreviewed. The upper zone therefore carries its own constraint —
+`auto_yes_precision >= precision_target` (default 0.90). The search minimises
+`routed_fraction` subject to both, breaking ties toward fewer unreviewed false
+positives.
+
+### End-to-end numbers
+
+The LLM is not run in this module, so end-to-end metrics are reported under two
+explicitly labelled assumptions:
+
+* **`oracle_*`** — the LLM answers every routed document correctly. Upper bound.
+* **`conservative_*`** — routed documents count as flagged-PII. This is what
+  `rule_plus_bert.csv` writes.
+
+### The curve
+
+`routing_frontier.csv` and `routing_frontier.png` sweep the recall target and
+report, at each one, the cheapest router that still clears it. x = share of
+documents routed to the LLM, y = guaranteed recall. That is the figure for the
+meeting and the paper. `score_distribution.png` is the diagnostic that explains
+any given point: a wide uncertain band means the classes are not separated at
+that recall.
+
+**Only `validation` is used for calibration.** `test` is touched once, by
+`predict --split test`, at the end.
+
+---
+
+## Model
+
+DistilBERT (`distilbert-base-uncased`, 6 layers, 66M parameters, ~255 MB fp32),
+one shared encoder with two heads:
+
+* **binary head** — 1 logit, `BCEWithLogitsLoss` with `pos_weight` (~7.8 on the
+  pilot's 11.4% training positive rate, capped at 12)
+* **multi-label head** — 12 logits, per-label `pos_weight`, also capped
+
+`max_length=256`. Documents top out at 821 characters ≈ 234 word-piece tokens,
+so the whole corpus fits and **no chunking is needed** — which is most of the
+reason a run takes minutes rather than hours.
+
+Model selection is on the validation split against `routing_cost`: the epoch
+kept is the one that routes the fewest documents while still clearing the recall
+target. That is the quantity this work package exists to minimise, so selecting
+on it directly beats selecting on F1 and hoping. Epochs where no threshold pair
+is feasible are ranked in a strictly worse band, ordered among themselves by
+PR-AUC.
+
+Every run is reproducible from `config.json` plus the pinned seed; all RNGs are
+seeded in `train.set_seed`.
+
+---
+
+## Offline weights
+
+`huggingface.co` is blocked by the execution environment's egress policy, so
+`from_pretrained("distilbert-base-uncased")` fails. `fetch_model.py` pulls the
+weights from the legacy public model bucket instead and writes them to
+`models/distilbert-base-uncased/` (git-ignored), which training and inference
+load from disk.
+
+DistilBERT reuses the `bert-base-uncased` WordPiece vocabulary unchanged — the
+bucket has no distilbert-specific vocab file — so the vocabulary checksum is
+asserted on download rather than trusted.
+
+If you have normal HuggingFace access you do not need any of this; point
+`--pretrained-dir` at a model id, or save a copy locally once.
+
+---
+
+## Files
+
+| file | what it does |
+|---|---|
+| `config.py` | `PreFilterConfig`, label vocabulary, output-column contract |
+| `data.py` | loading, split validation and repair, tokenisation, class weights |
+| `model.py` | dual-head encoder, checkpointing, optimiser groups |
+| `thresholds.py` | three-zone routing, calibration, frontier, plots |
+| `train.py` | training loop, model selection, artifact writing |
+| `predict.py` | evaluation-compatible CSV output |
+| `error_report.py` | error + routing-cost slices by document type, difficulty, challenge |
+| `eda.py` | dataset report and split sanity check |
+| `mlflow_utils.py` | MLflow logging, experiment `gdpr-pii-detection-evaluation` |
+| `fetch_model.py` | offline pretrained-weight download |
+| `reports/` | committed artefacts: the curve, the EDA, the error slices |
+| `artifacts/` | git-ignored: checkpoints, per-run outputs |
+
+---
+
+## Not in scope
+
+Entity extraction / token-level NER · RNN/LSTM (Approach E) · autoencoder
+(Approach F) · changes to Sweep 1, the evaluation logic or data generation
+(reported above rather than changed) · dashboard/frontend · overnight
+hyper-parameter sweeps.
