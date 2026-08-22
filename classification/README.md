@@ -11,6 +11,8 @@ Sweep 1 (Deterministic Detection)
     ↓
 Route Decision
     ↓
+Pre-Filter (Transformer, ambiguous documents only)
+    ↓
 Sweep 2 (LLM Review)
     ↓
 Final Prediction
@@ -32,6 +34,19 @@ classification/
 │   ├── regex_detector.py
 │   ├── presidio_detector.py
 │   └── evidence_fusion.py
+│
+├── prefilter/
+│   ├── config.py
+│   ├── data.py
+│   ├── model.py
+│   ├── thresholds.py
+│   ├── train.py
+│   ├── predict.py
+│   ├── eda.py
+│   ├── error_report.py
+│   ├── fetch_model.py
+│   ├── mlflow_utils.py
+│   └── tests/
 │
 ├── review/
 │   ├── routing.py
@@ -91,6 +106,82 @@ per_type_conf
 route
 routing_reason
 needs_llm_review
+```
+
+---
+
+## Pre-Filter: Transformer Routing
+
+Implemented in:
+
+```text
+prefilter/
+```
+
+Sits between Sweep 1 and the LLM review and decides which of Sweep 1's
+ambiguous documents actually need an LLM call.
+
+Model:
+
+```text
+DistilBERT, one shared encoder
+├── binary head       (personal data yes/no)
+└── multi-label head  (12 GDPR entity labels)
+```
+
+Responsibilities:
+
+- Score ambiguous documents with a local model
+- Calibrate a low and a high routing threshold
+- Auto-decide confident documents, escalate the uncertain ones
+- Write evaluation-compatible predictions
+
+Success criterion:
+
+```text
+Not accuracy.
+How far LLM call volume drops
+while document-level recall stays at or above
+the rule-based baseline of 0.9833.
+```
+
+Entry points:
+
+```bash
+python -m classification.prefilter.fetch_model
+python -m classification.prefilter.eda
+python -m classification.prefilter.train
+python -m classification.prefilter.predict
+python -m classification.prefilter.error_report
+
+python -m pytest classification/prefilter/tests/
+```
+
+Outputs:
+
+```text
+pii_probability
+routed_to_llm
+routing_zone
+t_low
+t_high
+per_type_conf
+<ENTITY>_predicted
+inference_ms
+```
+
+Status on the 500-row pilot: accuracy, precision, recall and F1 of 1.0000 on
+validation and test, 0.0% of documents routed to the LLM, 63.9 ms inference per
+document. The pilot is close to linearly separable (negatives 0.00–0.05,
+positives 0.93–1.00, nothing in between), so the 0.0% is a degenerate outcome
+and not a validated capability — the figure only becomes meaningful on the
+larger 1,400-row dataset.
+
+Details, caveats and the open findings about the splits and the evaluation
+module:
+
+```text
+classification/prefilter/README.md
 ```
 
 ---
