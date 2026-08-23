@@ -69,23 +69,100 @@ def crosstab_by_label(df: pd.DataFrame, column: str) -> pd.DataFrame:
     return summary.sort_values("n", ascending=False).reset_index(drop=True)
 
 
-def text_length_stats(df: pd.DataFrame) -> dict:
+#: Sequence lengths worth considering, cheapest first. 512 is DistilBERT's
+#: hard limit (learned position embeddings), so beyond it the only options are
+#: truncation or chunking.
+CANDIDATE_MAX_LENGTHS = [128, 256, 384, 512]
+
+#: A document may lose this share of its tail before the setting is rejected.
+#: Not zero: chasing a handful of outliers to 512 doubles training time for
+#: every document in the corpus.
+TRUNCATION_TOLERANCE = 0.02
+
+
+def token_lengths(
+    df: pd.DataFrame,
+    pretrained_dir: str | None,
+) -> "pd.Series | None":
     """
-    Character-length distribution, and what it implies for ``max_length``.
+    Real word-piece lengths, when a tokenizer is available.
+
+    Character-count heuristics are unreliable across languages — German
+    compounds fragment into more sub-words per character than English prose —
+    so the recommendation below prefers measured lengths and only falls back to
+    an estimate when no tokenizer is given.
+    """
+
+    if not pretrained_dir or not Path(pretrained_dir).exists():
+        return None
+
+    try:
+        from transformers import AutoTokenizer
+    except ImportError:
+        return None
+
+    tokenizer = AutoTokenizer.from_pretrained(str(pretrained_dir))
+
+    return pd.Series(
+        [
+            len(tokenizer(text, truncation=False)["input_ids"])
+            for text in df[TEXT_COL].fillna("")
+        ]
+    )
+
+
+def text_length_stats(
+    df: pd.DataFrame,
+    pretrained_dir: str | None = None,
+) -> dict:
+    """
+    Length distribution, and the ``max_length`` it actually implies.
+
+    The recommendation is computed, not asserted. The 500-row pilot fit
+    comfortably in 256 tokens; the 1,400-row set does not, and a hard-coded
+    claim that it does would have quietly truncated a quarter of the corpus.
     """
 
     lengths = df[TEXT_COL].str.len()
 
-    return {
+    stats = {
         "min": int(lengths.min()),
         "median": int(lengths.median()),
         "p90": int(lengths.quantile(0.90)),
         "p99": int(lengths.quantile(0.99)),
         "max": int(lengths.max()),
-        # ~4 characters per word-piece token for English prose; a rough upper
-        # bound is enough to confirm that 256 tokens covers the corpus.
-        "estimated_max_tokens": int(lengths.max() / 3.5),
     }
+
+    measured = token_lengths(df, pretrained_dir)
+
+    if measured is not None:
+        tokens = measured
+        stats["token_source"] = "measured"
+    else:
+        # ~3.5 characters per word-piece as a rough upper bound. Pessimistic on
+        # this corpus (it predicted 748 tokens where the tokenizer found 552),
+        # which is the safe direction for a truncation decision.
+        tokens = lengths / 3.5
+        stats["token_source"] = "estimated"
+
+    stats["max_tokens"] = int(tokens.max())
+    stats["p95_tokens"] = int(tokens.quantile(0.95))
+
+    stats["truncated_at"] = {
+        str(candidate): round(float((tokens > candidate).mean()), 4)
+        for candidate in CANDIDATE_MAX_LENGTHS
+    }
+
+    stats["recommended_max_length"] = next(
+        (
+            candidate
+            for candidate in CANDIDATE_MAX_LENGTHS
+            if (tokens > candidate).mean() <= TRUNCATION_TOLERANCE
+        ),
+        CANDIDATE_MAX_LENGTHS[-1],
+    )
+
+    return stats
 
 
 def duplicate_stats(df: pd.DataFrame) -> dict:
@@ -124,7 +201,10 @@ def duplicate_stats(df: pd.DataFrame) -> dict:
     return stats
 
 
-def build_report(df: pd.DataFrame) -> dict:
+def build_report(
+    df: pd.DataFrame,
+    pretrained_dir: str | None = None,
+) -> dict:
     """
     Assemble the full EDA report as a plain dict.
     """
@@ -136,7 +216,7 @@ def build_report(df: pd.DataFrame) -> dict:
         "n_positive": int(positive.sum()),
         "n_negative": int((~positive).sum()),
         "positive_rate": round(float(positive.mean()), 4),
-        "text_length_chars": text_length_stats(df),
+        "text_length_chars": text_length_stats(df, pretrained_dir),
         "duplicates": duplicate_stats(df),
         "entity_support": entity_support(df).to_dict(orient="records"),
         "split_problems": validate_split(df),
@@ -171,8 +251,18 @@ def print_report(report: dict) -> None:
     lengths = report["text_length_chars"]
     print(f"\ntext length    : min={lengths['min']} median={lengths['median']} "
           f"p90={lengths['p90']} max={lengths['max']} chars")
-    print(f"                 -> ~{lengths['estimated_max_tokens']} tokens max; "
-          "max_length=256 covers the corpus, no chunking needed")
+
+    recommended = lengths["recommended_max_length"]
+    truncated = lengths["truncated_at"][str(recommended)]
+
+    print(f"                 {lengths['max_tokens']} tokens max, "
+          f"{lengths['p95_tokens']} at p95 ({lengths['token_source']})")
+    print(f"                 -> max_length={recommended}, which truncates "
+          f"{100 * truncated:.1f}% of documents")
+
+    for candidate, share in lengths["truncated_at"].items():
+        marker = " <-" if int(candidate) == recommended else ""
+        print(f"                    {candidate:>4}: {100 * share:5.1f}% truncated{marker}")
 
     duplicates = report["duplicates"]
     print(f"\nduplicates     : {duplicates['n_duplicated_rows']} of "
@@ -216,18 +306,29 @@ def main(argv: list[str] | None = None) -> None:
     )
     parser.add_argument("--data-file", default=defaults.data_file)
     parser.add_argument("--output-dir", default=str(REPORTS_DIR))
+    parser.add_argument(
+        "--pretrained-dir",
+        default=defaults.pretrained_dir,
+        help=(
+            "Tokenizer used to measure real sequence lengths. Without it the "
+            "max_length recommendation falls back to a character estimate."
+        ),
+    )
 
     args = parser.parse_args(argv)
 
     df = load_dataset(args.data_file)
-    report = build_report(df)
+    report = build_report(df, pretrained_dir=args.pretrained_dir)
 
     print_report(report)
 
     output_dir = Path(args.output_dir)
     output_dir.mkdir(parents=True, exist_ok=True)
 
-    output_file = output_dir / "eda_report.json"
+    # Named after the dataset, not fixed. A single `eda_report.json` meant that
+    # running the EDA on a second dataset silently overwrote the first one's
+    # report — and the pilot's report is what documents the broken-split finding.
+    output_file = output_dir / f"eda_report_{Path(args.data_file).stem}.json"
     output_file.write_text(json.dumps(report, indent=2), encoding="utf-8")
 
     logger.info("EDA report written to %s", output_file)
