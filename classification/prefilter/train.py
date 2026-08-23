@@ -562,6 +562,7 @@ PUBLISHED_REPORTS = [
     "routing_frontier.csv",
     "training_history.csv",
     "validation_entity_metrics.csv",
+    "validation_scores.csv",
     "metrics_summary.json",
 ]
 

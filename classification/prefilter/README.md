@@ -50,6 +50,13 @@ evaluate --run-id <run_id printed by step 5>
 python -m classification.prefilter.error_report
 ```
 
+Comparing two runs — the frontier, the score distributions, the training
+curves, the entity head and the headline metrics, side by side:
+
+```bash
+python -m classification.prefilter.compare_runs distilbert_prefilter mbert_prefilter_1400
+```
+
 The routing logic has its own checks, which need no model and run in about a
 minute:
 
@@ -436,6 +443,7 @@ If you have normal HuggingFace access you do not need any of this; point
 | `predict.py` | evaluation-compatible CSV output |
 | `error_report.py` | error + routing-cost slices by document type, difficulty, challenge |
 | `eda.py` | dataset report and split sanity check |
+| `compare_runs.py` | side-by-side figures for two or more runs |
 | `mlflow_utils.py` | MLflow logging, experiment `gdpr-pii-detection-evaluation` |
 | `fetch_model.py` | offline pretrained-weight download |
 | `reports/<run_name>/` | committed artefacts per run: curve, calibration, history, error slices |
