@@ -1,0 +1,3 @@
+run,model,documents,split_mode,max_length,selected_epoch,val_accuracy,val_precision,val_recall,val_f1,val_pr_auc,routed_fraction,prefilter_recall,missed_positives,t_low,t_high,training_seconds,model_size_mb
+distilbert_prefilter,distilbert-base-uncased-v1,500,stratified,256,2,1.0,1.0,1.0,1.0,1.0,0.0,1.0,0,0.05,0.05,823.61,255.45
+mbert_prefilter_1400,distilbert-base-multilingual-cased-v1,1400,recommended,512,5,0.995238,1.0,0.964286,0.981818,1.0,0.0,1.0,0,0.01,0.01,4602.93,516.26
