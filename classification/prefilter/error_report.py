@@ -310,7 +310,19 @@ def main(argv: list[str] | None = None) -> None:
 
     print_report(report, prediction_file)
 
-    output_dir = Path(args.output_dir)
+    # Slice files have fixed names too, so they are written per run for the
+    # same reason the training reports are. The pre-filter run name is the
+    # useful key; the classification run id is the fallback when the run
+    # metadata predates it.
+    metadata_file = run_dir / "run_metadata.json"
+    run_label = run_dir.name
+
+    if metadata_file.exists():
+        run_label = json.loads(metadata_file.read_text(encoding="utf-8")).get(
+            "prefilter_run_name", run_dir.name
+        )
+
+    output_dir = Path(args.output_dir) / run_label
     output_dir.mkdir(parents=True, exist_ok=True)
 
     for name, frame in report.items():

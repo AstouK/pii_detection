@@ -483,9 +483,10 @@ def train(config: PreFilterConfig) -> dict:
         }
     ).to_csv(output_dir / "validation_scores.csv", index=False)
 
-    REPORTS_DIR.mkdir(parents=True, exist_ok=True)
+    published_dir = REPORTS_DIR / config.run_name
+    published_dir.mkdir(parents=True, exist_ok=True)
 
-    for target_dir in (output_dir, REPORTS_DIR):
+    for target_dir in (output_dir, published_dir):
         plot_routing_frontier(
             frontier=frontier,
             output_file=target_dir / "routing_frontier.png",
@@ -545,7 +546,7 @@ def train(config: PreFilterConfig) -> dict:
         json.dumps(summary, indent=2, default=str), encoding="utf-8"
     )
 
-    _publish_reports(output_dir)
+    _publish_reports(output_dir, config.run_name)
 
     logger.info("Run artifacts written to %s", output_dir)
     _log_headline(calibration, summary)
@@ -565,18 +566,24 @@ PUBLISHED_REPORTS = [
 ]
 
 
-def _publish_reports(output_dir: Path) -> None:
+def _publish_reports(output_dir: Path, run_name: str) -> None:
     """
-    Copy the readable artifacts of a run into ``reports/``.
+    Copy the readable artifacts of a run into ``reports/<run_name>/``.
+
+    Per run, not a flat folder. These filenames are fixed, so publishing every
+    run into one directory means the second run silently overwrites the first
+    one's results — which is exactly what makes comparing two runs impossible,
+    and it is the comparison that the whole work package is judged on.
     """
 
-    REPORTS_DIR.mkdir(parents=True, exist_ok=True)
+    published_dir = REPORTS_DIR / run_name
+    published_dir.mkdir(parents=True, exist_ok=True)
 
     for file_name in PUBLISHED_REPORTS:
         source = output_dir / file_name
 
         if source.exists():
-            shutil.copyfile(source, REPORTS_DIR / file_name)
+            shutil.copyfile(source, published_dir / file_name)
 
 
 def _log_headline(calibration: dict, summary: dict) -> None:

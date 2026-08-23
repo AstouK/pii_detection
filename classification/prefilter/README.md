@@ -155,7 +155,7 @@ is populated; the actual fix belongs in the evaluation module.
 ## Results on the 500-row pilot
 
 Run `distilbert_prefilter`, seed 42, 8 epochs, stratified fallback split
-(370 / 63 / 67). Artifacts in `reports/`.
+(370 / 63 / 67). Artifacts in `reports/distilbert_prefilter/`.
 
 ### Headline
 
@@ -174,7 +174,8 @@ Training 823.6 s on 4 CPU cores · inference **63.9 ms/document** (CPU, batch 64
 ### Read this before quoting the headline
 
 **The pilot is too easy to measure a router on.** Validation F1 reaches 1.0 in
-epoch 2, and `score_distribution.png` shows why: negatives land in [0.00, 0.05],
+epoch 2, and `reports/distilbert_prefilter/score_distribution.png` shows why:
+negatives land in [0.00, 0.05],
 positives in [0.93, 1.00], and the entire band between is empty. There is no
 uncertain zone to route, so the trade-off curve is a vertical line at 0% — every
 recall target from 0.80 to 1.00 costs zero LLM calls.
@@ -195,7 +196,8 @@ What would make the numbers meaningful:
    construction the hard part of the distribution. It needs Sweep 1 output,
    which needs Presidio and a spaCy model — not available in this environment.
 
-The slice tables in `reports/error_by_*.csv` already show the gradient: mean
+The slice tables in `reports/distilbert_prefilter/error_slices/` already show the
+gradient: mean
 predicted probability is 0.036 on `difficulty == easy`, 0.59 on `hard` and 0.97
 on `medium`, and 0.78 on `edge_case == yes` versus 0.036 on `no`. The model is
 reading difficulty correctly; there is just no case it gets wrong yet.
@@ -359,7 +361,11 @@ so the binary cap throttled exactly the labels that needed the most help).
 ### The curve
 
 `routing_frontier.csv` and `routing_frontier.png` sweep the recall target and
-report, at each one, the cheapest router that still clears it. x = share of
+report, at each one, the cheapest router that still clears it.
+
+Every run publishes these under `reports/<run_name>/`, one directory per run.
+The filenames are fixed, so a flat folder meant each run silently overwrote the
+previous one's results — and comparing two runs is the whole point. x = share of
 documents routed to the LLM, y = guaranteed recall. That is the figure for the
 meeting and the paper. `score_distribution.png` is the diagnostic that explains
 any given point: a wide uncertain band means the classes are not separated at
@@ -432,7 +438,7 @@ If you have normal HuggingFace access you do not need any of this; point
 | `eda.py` | dataset report and split sanity check |
 | `mlflow_utils.py` | MLflow logging, experiment `gdpr-pii-detection-evaluation` |
 | `fetch_model.py` | offline pretrained-weight download |
-| `reports/` | committed artefacts: the curve, the EDA, the error slices |
+| `reports/<run_name>/` | committed artefacts per run: curve, calibration, history, error slices |
 | `artifacts/` | git-ignored: checkpoints, per-run outputs |
 
 ---
