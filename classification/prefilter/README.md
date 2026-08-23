@@ -1,26 +1,56 @@
 # Transformer Pre-Filter
 
+![Python](https://img.shields.io/badge/python-3.11-3776AB?style=flat-square&logo=python&logoColor=white)
+![PyTorch](https://img.shields.io/badge/PyTorch-2.13.0-EE4C2C?style=flat-square&logo=pytorch&logoColor=white)
+![Transformers](https://img.shields.io/badge/Transformers-5.15.1-FFD21E?style=flat-square&logo=huggingface&logoColor=black)
+![tests](https://img.shields.io/badge/routing--logic%20tests-21-informational?style=flat-square)
+
 Work package: **Max Seidlitz** · Branch: `claude/bert-prefilter-gdpr-pii-q35v0w`
 
 A small transformer classifier that sits between Sweep 1 and the LLM review
 stage and decides which of Sweep 1's ambiguous documents actually need an LLM
 call.
 
+```mermaid
+flowchart TD
+    DOC([Document]) --> S1{"Sweep 1<br/>Presidio + spaCy + regex"}
+
+    S1 -->|detected_pii| SC1["LOCAL_PII<br/>done, no LLM call"]
+    S1 -->|no signal| SC2["LOCAL_NON_PII<br/>done, no LLM call"]
+    S1 -->|"potential_pii / person_hint"| PF{"THIS MODULE<br/>pre-filter, p = P(personal data)"}
+
+    PF -->|"p below t_low"| Z1["confident_non_pii<br/>no LLM call"]
+    PF -->|"p above t_high"| Z3["confident_pii<br/>no LLM call"]
+    PF -->|"p between t_low and t_high"| Z2["routed_to_llm = True"]
+
+    Z2 --> LLM["LLM review (Sweep 2)"]
 ```
-Document
-  → Sweep 1 (Presidio + spaCy + Regex)
-      ├─ detected_pii                    → LOCAL_PII, done
-      ├─ no signal                       → LOCAL_NON_PII, done
-      └─ potential_pii / person_hint     → ►► THIS MODULE ◄◄
-                                              ├─ p < t_low   → confident non-PII, no LLM call
-                                              ├─ p > t_high  → confident PII,     no LLM call
-                                              └─ otherwise   → routed_to_llm = True
-```
+
+Exactly: `p < t_low` is the confident non-PII zone, `p > t_high` the confident
+PII zone, and everything else is routed.
 
 The success criterion is **not** maximum accuracy. It is: *how far does the LLM
 call volume drop while document-level recall stays at or above the rule-based
 baseline of 0.9833?* False negatives are more expensive than false positives
 under GDPR, so when in doubt the router escalates.
+
+## Contents
+
+| section | what is in it |
+|---|---|
+| [Quick start](#quick-start) | install, fetch weights, train, predict, score, slice errors |
+| [Findings for the team](#findings-for-the-team) | seven verified findings, what was done about each, and who needs to act |
+| [Results](#results) | Run 1 on the 500-row pilot, Run 2 on the 1,400-row set |
+| [Read this before quoting the headline](#read-this-before-quoting-the-headline) | why the 0.0% routing rate is degenerate and must not be quoted bare |
+| [Output interface](#output-interface) | the files and columns `predict` writes, and the evaluation contract they satisfy |
+| [How the router is calibrated](#how-the-router-is-calibrated) | which recall is constrained, why there are two constraints, the frontier |
+| [Model](#model) | architecture, `max_length`, model selection, reproducibility |
+| [Offline weights](#offline-weights) | working around the blocked `huggingface.co` |
+| [Files](#files) | what each module in this package does |
+| [Not in scope](#not-in-scope) | what this work package deliberately does not cover |
+
+Related: the [project overview](../../README.md) and the
+[classification pipeline](../README.md).
 
 ---
 
@@ -69,9 +99,21 @@ python -m pytest classification/prefilter/tests/ -q
 ## Findings for the team
 
 Verified against the repo on 22.08. The first three are the points from the
-brief; the last three came out of the data.
+brief; the last four came out of the data.
 
-### 1. `evaluate` does not run on `main` — CONFIRMED
+| # | finding | status | concerns | in one line |
+|---|---|---|---|---|
+| 1 | [`evaluate` does not run on `main`](#finding-1) | CONFIRMED — worked around | **Aissata** | Three modules import a `classification.config1` that does not exist; a temporary shim restores it. |
+| 2 | [Split value mismatch](#finding-2) | CONFIRMED — currently harmless | **Aissata** | `EVALUATION_SPLITS = ["eval", "test"]` never matches the dataset's `validation`, but nothing reads the constant yet. |
+| 3 | [Dataset in the repo is the old pilot](#finding-3) | CONFIRMED | informational | 500 rows, English only; the code depends on the schema, not the row count, so the larger set drops in unchanged. |
+| 4 | [`recommended_split` is unusable](#finding-4) | NEW — blocks Phase 3, worked around | **Sonja** | All 60 positives sit in `train`, so recall — the deliverable — is undefined on validation and test. |
+| 5 | [Duplicate documents leak across splits](#finding-5) | NEW — worked around | **Sonja** | 171 of 500 rows repeat another row's text and 32 duplicate groups span splits. |
+| 6 | [Two metadata columns leak the label](#finding-6) | NEW | any model reading the metadata columns | `difficulty == "medium"` and `challenge_category == "medical_context"` are 100% positive. |
+| 7 | [Cost analysis reads keys nobody writes](#finding-7) | NEW, minor — worked around | **Aissata** | Reader and writer disagree on two key names, so every cost column comes out zero. |
+
+<a id="finding-1"></a>
+<details>
+<summary><strong>1. <code>evaluate</code> does not run on <code>main</code> — CONFIRMED</strong></summary>
 
 `evaluation/config.py`, `evaluation/io.py` and `infrastructure/io.py` all import
 `classification.config1`. No such module exists; the real one is
@@ -91,7 +133,11 @@ rather than an edit to the three broken modules, so cleanup is a single
 `git rm`. **Aissata:** once the evaluation modules import `classification.config`
 directly, delete `classification/config1.py`.
 
-### 2. Split value mismatch — CONFIRMED, but currently harmless
+</details>
+
+<a id="finding-2"></a>
+<details>
+<summary><strong>2. Split value mismatch — CONFIRMED, but currently harmless</strong></summary>
 
 `evaluation/config.py` sets `EVALUATION_SPLITS = ["eval", "test"]` while the
 dataset spells it `validation`. Nothing in the evaluation package actually reads
@@ -100,14 +146,26 @@ runs on every row it is given, not just `test`. It becomes a real bug the moment
 someone wires the filter up. Either fix the value to `validation` or drop the
 constants.
 
-### 3. Dataset in the repo is the old pilot — CONFIRMED
+</details>
+
+<a id="finding-3"></a>
+<details>
+<summary><strong>3. Dataset in the repo is the old pilot — CONFIRMED</strong></summary>
 
 500 rows, 5 document types, 60/440 positive/negative, `en` only, 253–821
-characters. Sonja's 1,400-row set is not pushed yet. Everything here runs on the
-pilot and will run unchanged on the new set — the schema is what the code
-depends on, not the row count.
+characters. Sonja's 1,400-row set is not committed to this repo — it lives on
+`AstouK/pii_detection`, branch `feature/synthetic-data-generation`, at
+`classification/data_generation/output/synthetic_dataset_1400.csv`, and is
+fetched into the git-ignored `classification/data/external/` rather than
+vendored onto this branch. Everything here runs on the pilot and will run
+unchanged on the new set — the schema is what the code depends on, not the row
+count.
 
-### 4. `recommended_split` is unusable — NEW, and it blocks Phase 3
+</details>
+
+<a id="finding-4"></a>
+<details>
+<summary><strong>4. <code>recommended_split</code> is unusable — NEW, and it blocks Phase 3</strong></summary>
 
 | split | n | positives | negatives |
 |---|---|---|---|
@@ -129,7 +187,14 @@ Sonja's split; `--split-mode stratified` forces the fallback.
 **Sonja:** the new dataset needs positives in all three splits — roughly the
 overall positive rate in each.
 
-### 5. Duplicate documents leak across splits — NEW
+On the 1,400-row set this is already satisfied: `--split-mode auto` resolves to
+the dataset's own `recommended_split` and the fallback is not triggered.
+
+</details>
+
+<a id="finding-5"></a>
+<details>
+<summary><strong>5. Duplicate documents leak across splits — NEW</strong></summary>
 
 171 of 500 rows repeat another row's `full_text` verbatim (329 unique texts),
 and **32 duplicate groups span more than one split**. Validation and test scores
@@ -140,7 +205,11 @@ memorised in training.
 so identical documents always land in the same split. Nothing can be done about
 this inside `recommended_split` without changing it, which is Sonja's call.
 
-### 6. Two metadata columns leak the label — NEW
+</details>
+
+<a id="finding-6"></a>
+<details>
+<summary><strong>6. Two metadata columns leak the label — NEW</strong></summary>
 
 `difficulty == "medium"` is 100% positive (24/24) and
 `challenge_category == "medical_context"` is 100% positive (7/7). Harmless for
@@ -148,7 +217,11 @@ this model, which only reads `full_text` — but any model that consumes the
 metadata columns would score perfectly for the wrong reason, and these columns
 are also used for error slicing, where a degenerate group is uninformative.
 
-### 7. Cost analysis reads keys nobody writes — NEW, minor
+</details>
+
+<a id="finding-7"></a>
+<details>
+<summary><strong>7. Cost analysis reads keys nobody writes — NEW, minor</strong></summary>
 
 `evaluation/cost_analysis.py` reads `documents_sent_to_llm` and `provider_usage`
 from `run_metadata.json`, but `infrastructure/runtime.py` and
@@ -157,14 +230,16 @@ from `run_metadata.json`, but `infrastructure/runtime.py` and
 writes **both** spellings into its own `run_metadata.json` so the cost summary
 is populated; the actual fix belongs in the evaluation module.
 
+</details>
+
 ---
 
-## Results on the 500-row pilot
+## Results
 
-Run `distilbert_prefilter`, seed 42, 8 epochs, stratified fallback split
-(370 / 63 / 67). Artifacts in `reports/distilbert_prefilter/`.
+### Run 1 — `distilbert_prefilter`, 500-row pilot
 
-### Headline
+Seed 42, 8 epochs, stratified fallback split (370 / 63 / 67). Artifacts in
+`reports/distilbert_prefilter/`.
 
 | metric | validation | test |
 |---|---|---|
@@ -178,38 +253,39 @@ Run `distilbert_prefilter`, seed 42, 8 epochs, stratified fallback split
 Training 823.6 s on 4 CPU cores · inference **63.9 ms/document** (CPU, batch 64)
 · 66.96 M parameters, 255.4 MB fp32 · selected epoch 2 of 8.
 
-### Read this before quoting the headline
+#### Read this before quoting the headline
 
-**The pilot is too easy to measure a router on.** Validation F1 reaches 1.0 in
-epoch 2, and `reports/distilbert_prefilter/score_distribution.png` shows why:
-negatives land in [0.00, 0.05],
-positives in [0.93, 1.00], and the entire band between is empty. There is no
-uncertain zone to route, so the trade-off curve is a vertical line at 0% — every
-recall target from 0.80 to 1.00 costs zero LLM calls.
-
-That is a real result for this dataset, and it is also not a result anyone should
-generalise. It says the synthetic pilot separates positives lexically — the
-positives carry literal names, emails and IBANs and the negatives carry
-placeholders like "Cost Center Aggregate" — not that the ambiguous documents
-Sweep 1 actually forwards will separate that way. **The number to quote at the
-meeting is the method and the interface, not the 0%.**
+> [!WARNING]
+> **The pilot is too easy to measure a router on.** Validation F1 reaches 1.0 in
+> epoch 2, and `reports/distilbert_prefilter/score_distribution.png` shows why:
+> negatives land in [0.00, 0.05], positives in [0.93, 1.00], and the entire band
+> between is empty. There is no uncertain zone to route, so the trade-off curve
+> is a vertical line at 0% — every recall target from 0.80 to 1.00 costs zero
+> LLM calls.
+>
+> That is a real result for this dataset, and it is also not a result anyone
+> should generalise. It says the synthetic pilot separates positives lexically —
+> the positives carry literal names, emails and IBANs and the negatives carry
+> placeholders like "Cost Center Aggregate" — not that the ambiguous documents
+> Sweep 1 actually forwards will separate that way. **The number to quote at the
+> meeting is the method and the interface, not the 0%.**
 
 What would make the numbers meaningful:
 
 1. Sonja's 1,400-row set with its harder edge cases, and positives present in
-   all three splits (finding 4).
+   all three splits ([finding 4](#finding-4)).
 2. Ideally, running the pre-filter on **Sweep 1's ambiguous subset** rather than
    on whole splits. That is the population it is actually for, and it is by
    construction the hard part of the distribution. It needs Sweep 1 output,
    which needs Presidio and a spaCy model — not available in this environment.
 
 The slice tables in `reports/distilbert_prefilter/error_slices/` already show the
-gradient: mean
-predicted probability is 0.036 on `difficulty == easy`, 0.59 on `hard` and 0.97
-on `medium`, and 0.78 on `edge_case == yes` versus 0.036 on `no`. The model is
-reading difficulty correctly; there is just no case it gets wrong yet.
+gradient: mean predicted probability is 0.036 on `difficulty == easy`, 0.59 on
+`hard` and 0.97 on `medium`, and 0.78 on `edge_case == yes` versus 0.036 on `no`.
+The model is reading difficulty correctly; there is just no case it gets wrong
+yet.
 
-### Entity head
+#### Entity head
 
 Per-label metrics on validation, at calibrated thresholds:
 
@@ -232,6 +308,23 @@ at all and keep the fallback threshold.
 
 The binary head is the deliverable; the entity head needs the larger dataset
 before its numbers mean anything.
+
+### Run 2 — `mbert_prefilter_1400`, 1,400-row dataset
+
+**In progress; results pending.** They will be added here, in the same shape as
+Run 1 above.
+
+Configuration: `distilbert-base-multilingual-cased`, `max_length` 512,
+`--split-mode auto` resolving to the dataset's own `recommended_split`, seed 42,
+5 epochs, on the 1,400-row set (714 English / 686 German, 12% positive,
+positives present in all three splits).
+
+The only figure available so far is from its **first epoch**: 27.6% of documents
+routed at a PR-AUC of 0.8965. That is an in-progress, single-epoch number and
+not a result. What it does establish is that the trade-off curve is no longer
+degenerate on the larger dataset — there is an uncertain band to route, so the
+routing rate becomes a quantity worth measuring, which is exactly what the pilot
+could not show.
 
 ---
 
@@ -268,7 +361,8 @@ Derived from `infrastructure/metadata.py::add_sweep1_metadata` and read by
 | `contains_personal_data` | ground truth, carried through |
 | `<ENTITY>_yes_no` × 12 | ground truth, carried through |
 
-### Additional columns
+<details>
+<summary><strong>Additional columns — reference table, and why <code>per_type_conf</code> is not optional</strong></summary>
 
 | column | why |
 |---|---|
@@ -296,6 +390,8 @@ as an entity type called `predicted_PERSON` and produces twelve phantom rows in
 columns would be worse still — those are ground truth, and overwriting them
 would make every entity metric perfect by construction.
 
+</details>
+
 ### What `predicted_pii` means
 
 `bert_prefilter.csv` — `p >= 0.5`. The model's own call, unmodified.
@@ -321,6 +417,19 @@ errors this stage cannot recover from are:
   downstream will ever revisit, and
 * a negative document auto-approved in `p > t_high` — a false positive that is
   never reviewed.
+
+```mermaid
+flowchart LR
+    P["pii_probability p"] --> D{"compare against<br/>t_low and t_high"}
+
+    D -->|"p below t_low"| N["confident_non_pii<br/>auto-decided, never reviewed"]
+    D -->|"between"| R["routed_to_llm<br/>escalated to Sweep 2"]
+    D -->|"p above t_high"| Y["confident_pii<br/>auto-decided, never reviewed"]
+
+    N --> NE["a positive here is an<br/>UNRECOVERABLE false negative<br/>constrained by prefilter_recall"]
+    R --> RE["not an error<br/>a stronger model decides"]
+    Y --> YE["a negative here is an<br/>UNRECOVERABLE false positive<br/>constrained by auto_yes_precision"]
+```
 
 So the recall held at ≥ 0.98 is **`prefilter_recall`**: the share of positive
 documents *not* silently dropped. Routed positives count as saved, because they
