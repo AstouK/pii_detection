@@ -32,10 +32,10 @@ logs/
 *.log
 
 # Classification artifacts
-classification/results/
+#classification/results/
 
 # Evaluation artifacts
-classification/evaluation/results/
+#classification/evaluation/results/
 
 # MLflow artifacts
 mlruns/
