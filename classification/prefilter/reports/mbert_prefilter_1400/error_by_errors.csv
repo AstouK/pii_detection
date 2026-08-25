@@ -1,0 +1,3 @@
+document_id,document_type,difficulty,challenge_category,primary_pii_type,contains_personal_data,predicted_pii,pii_probability,routed_to_llm,error_type
+SYN-GENERAL_DOCUMENT-0018,general_document,easy,none,DATE_TIME,yes,False,0.001477,False,false_negative
+SYN-MEETING_NOTES-0076,meeting_notes,easy,none,NONE,no,True,0.027628,False,false_positive
