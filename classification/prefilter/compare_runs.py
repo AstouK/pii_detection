@@ -722,3 +722,147 @@ def main(argv: list[str] | None = None) -> None:
 
 if __name__ == "__main__":
     main()
+
+
+# ─────────────────────────────────────────────────────────────
+# 6. Pre-filter vs. the rule-based baseline
+# ─────────────────────────────────────────────────────────────
+
+def plot_baseline_comparison(
+    predictions_dir: Path,
+    output_file: Path,
+    strategies: tuple[str, ...] = ("rule_based", "bert_prefilter"),
+    labels: tuple[str, ...] = ("Sweep 1 (Presidio + spaCy + regex)", "Pre-filter (DistilBERT)"),
+) -> Path | None:
+    """
+    The two numbers that decide whether the pre-filter is worth having.
+
+    Recall is measured the recoverable way for both: the share of positive
+    documents a stage does not *irrecoverably* drop. A document Sweep 1 escalates
+    to the LLM is not lost, so scoring it by strict `detected_pii` understates it
+    badly (0.32 rather than 0.93) and would make the comparison dishonest in the
+    pre-filter's favour.
+
+    Two panels rather than two axes on one chart: recall is a rate on positives,
+    LLM share is a rate on all documents, and they have no common scale.
+    """
+
+    import matplotlib
+
+    matplotlib.use("Agg")
+    import matplotlib.pyplot as plt
+
+    rows = []
+
+    for strategy, label in zip(strategies, labels):
+        path = Path(predictions_dir) / f"{strategy}.csv"
+
+        if not path.exists():
+            continue
+
+        frame = pd.read_csv(path)
+
+        truth = to_bool_series(frame[BINARY_LABEL_COL])
+
+        routed = (
+            to_bool_series(frame["needs_llm_review"])
+            if "needs_llm_review" in frame.columns
+            else pd.Series([False] * len(frame))
+        )
+
+        decided = (
+            to_bool_series(frame["detected_pii"])
+            if "detected_pii" in frame.columns
+            else to_bool_series(frame["predicted_pii"])
+        )
+
+        lost = truth & ~decided & ~routed
+
+        rows.append(
+            {
+                "label": label,
+                "recall": 1.0 - lost.sum() / max(truth.sum(), 1),
+                "routed": float(routed.mean()),
+                "lost": int(lost.sum()),
+                "n_positive": int(truth.sum()),
+            }
+        )
+
+    if len(rows) < 2:
+        return None
+
+    figure, (left, right) = plt.subplots(
+        1, 2, figsize=(11.0, 4.6), facecolor=SURFACE
+    )
+
+    for axes in (left, right):
+        _style(axes)
+
+    positions = np.arange(len(rows))
+    colors = [SERIES_COLORS[index % len(SERIES_COLORS)] for index in range(len(rows))]
+
+    recall_bars = left.bar(
+        positions,
+        [row["recall"] for row in rows],
+        width=0.55,
+        color=colors,
+        edgecolor=SURFACE,
+        linewidth=1.2,
+    )
+
+    for bar, row in zip(recall_bars, rows):
+        left.annotate(
+            f"{row['recall']:.4f}\n({row['lost']} of {row['n_positive']} lost)",
+            xy=(bar.get_x() + bar.get_width() / 2, bar.get_height()),
+            xytext=(0, 4),
+            textcoords="offset points",
+            ha="center",
+            fontsize=8.5,
+            color=TEXT_SECONDARY,
+        )
+
+    left.set_ylim(0, 1.15)
+    left.set_xticks(positions)
+    left.set_xticklabels([row["label"] for row in rows], fontsize=8.5)
+
+    _titles(
+        left,
+        "Recall — positives not irrecoverably dropped",
+        "",
+        "Recall",
+        "higher is safer",
+    )
+
+    routed_bars = right.bar(
+        positions,
+        [100 * row["routed"] for row in rows],
+        width=0.55,
+        color=colors,
+        edgecolor=SURFACE,
+        linewidth=1.2,
+    )
+
+    for bar, row in zip(routed_bars, rows):
+        right.annotate(
+            f"{100 * row['routed']:.1f}%",
+            xy=(bar.get_x() + bar.get_width() / 2, bar.get_height()),
+            xytext=(0, 4),
+            textcoords="offset points",
+            ha="center",
+            fontsize=9,
+            color=TEXT_SECONDARY,
+        )
+
+    right.set_ylim(0, 100)
+    right.set_xticks(positions)
+    right.set_xticklabels([row["label"] for row in rows], fontsize=8.5)
+
+    _titles(
+        right,
+        "Documents routed to the LLM",
+        "",
+        "Share of all documents (%)",
+        "lower is cheaper",
+    )
+
+    return _save(plt, figure, output_file)

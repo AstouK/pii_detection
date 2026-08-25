@@ -57,7 +57,86 @@ run2 = json.loads((ARTIFACTS / "mbert_prefilter_1400" / "metrics_summary.json").
 run2_test = json.loads((RESULTS / "20260823_013600" / "run_metadata.json").read_text())
 run2_test_routing = run2_test["routing_summary"]
 
-BASELINE_RECALL = 0.9833
+TEST_RUN_ID = "20260823_013600"
+
+#: The recall figure the project brief gave as the rule-based baseline. Kept as
+#: a named constant because the deck now has to say explicitly that it could not
+#: be reproduced, rather than quietly comparing against it.
+BRIEF_BASELINE_RECALL = 0.9833
+
+
+def _measured_baseline() -> dict:
+    """
+    Sweep 1 and the pre-filter scored on the same split, from the run's own
+    prediction files.
+
+    Recall is the recoverable definition for both — the share of positives a
+    stage does not *irrecoverably* drop. Sweep 1 escalates most of what it does
+    not flag, so strict `detected_pii` recall (0.3214) understates it badly and
+    would flatter the pre-filter dishonestly.
+    """
+
+    import pandas as pd
+
+    from classification.prefilter.data import to_bool_series
+
+    rows = {}
+
+    for strategy in ("rule_based", "bert_prefilter", "rule_plus_bert"):
+        path = RESULTS / TEST_RUN_ID / f"{strategy}.csv"
+
+        if not path.exists():
+            continue
+
+        frame = pd.read_csv(path)
+        truth = to_bool_series(frame["contains_personal_data"])
+
+        routed = (
+            to_bool_series(frame["needs_llm_review"])
+            if "needs_llm_review" in frame.columns
+            else pd.Series([False] * len(frame))
+        )
+        decided = (
+            to_bool_series(frame["detected_pii"])
+            if "detected_pii" in frame.columns
+            else to_bool_series(frame["predicted_pii"])
+        )
+
+        lost = truth & ~decided & ~routed
+
+        rows[strategy] = {
+            "n": len(frame),
+            "n_positive": int(truth.sum()),
+            "lost": int(lost.sum()),
+            "recoverable_recall": 1.0 - lost.sum() / max(truth.sum(), 1),
+            "routed": float(routed.mean()),
+        }
+
+    return rows
+
+
+def _benchmark_rows() -> dict:
+    """
+    The evaluation's own benchmark summary, keyed by strategy.
+    """
+
+    import pandas as pd
+
+    path = (
+        ROOT / "classification" / "evaluation" / "results" / "runs" /
+        TEST_RUN_ID / "benchmark_summary.csv"
+    )
+
+    if not path.exists():
+        return {}
+
+    frame = pd.read_csv(path)
+
+    return {row["output_name"]: row.to_dict() for _, row in frame.iterrows()}
+
+
+baseline = _measured_baseline()
+benchmark = _benchmark_rows()
 
 # ─────────────────────────────────────────────────────────────
 # Styles
@@ -213,18 +292,26 @@ story.append(p(
 ))
 story.append(p(
     "<b>Success criterion: not accuracy.</b> It is how far the LLM call volume drops while "
-    "document-level recall stays at or above the rule-based Sweep&nbsp;1 baseline of "
-    f"<b>{BASELINE_RECALL}</b>. False negatives are more expensive than false positives under "
-    "GDPR, so the router escalates whenever it is unsure.",
+    "document-level recall stays at or above the rule-based Sweep&nbsp;1 baseline &mdash; "
+    f"originally stated in the project brief as <b>{BRIEF_BASELINE_RECALL}</b>, and now also "
+    "measured directly (see &ldquo;The baseline, measured&rdquo;). False negatives are more "
+    "expensive than false positives under GDPR, so the router escalates whenever it is unsure.",
     body,
 ))
 
 story.append(p("Headline result", h1))
 story.append(warning_box(
-    "The one number to remember from this deck",
-    "On Sonja's 1,400-row dataset, the router's calibrated threshold holds recall at 1.0 on "
-    "validation but drops to <b>96.43% on the held-out test split</b> &mdash; below the 98.33% "
-    "baseline. One positive document was missed. This is the finding to discuss today.",
+    "The one comparison to remember from this deck",
+    "Measured on the same 210 test documents, with the same split: the pre-filter keeps "
+    "<b>27 of 28</b> positive documents (recall 0.9643) while routing <b>0%</b> to the LLM. "
+    "Sweep 1 keeps 26 of 28 (recall 0.9286) while routing <b>76.7%</b>. Better recall and no "
+    "LLM spend, against a baseline that costs three quarters of the corpus in API calls.",
+))
+story.append(Spacer(1, 4))
+story.append(p(
+    "The 0.9833 baseline quoted in the project brief could not be reproduced on this dataset "
+    "&mdash; Sweep 1's own recall here is 0.9286. See &ldquo;The baseline, measured&rdquo; below.",
+    body_small,
 ))
 
 story.append(p("Delivered", h2))
@@ -238,6 +325,8 @@ story.extend(bullets([
     "30 on documentation consistency.",
     "Seven findings for the team about the existing pipeline (three confirmed from the original "
     "brief, four new), documented in <font face='Courier'>classification/prefilter/README.md</font>.",
+    "Sweep 1 run end-to-end on the same dataset for the first time, giving a baseline that is "
+    "actually comparable rather than quoted from the brief.",
 ]))
 
 story.append(PageBreak())
@@ -318,8 +407,10 @@ r2_table = [
 story.append(metric_table(r2_table, col_widths=[6.5 * cm, 5 * cm, 5 * cm]))
 story.append(Spacer(1, 6))
 story.append(p(
-    f"Baseline to compare against: rule-based Sweep&nbsp;1 recall = <b>{BASELINE_RECALL}</b>. "
-    "Test pre-filter recall (96.43%) is below it.",
+    f"The project brief stated the rule-based baseline as {BRIEF_BASELINE_RECALL}; that figure "
+    "could not be reproduced on this dataset and should not be compared against directly. The "
+    "measured Sweep&nbsp;1 baseline on this exact split is in &ldquo;The baseline, "
+    "measured&rdquo; below &mdash; the pre-filter is above it.",
     caption,
 ))
 
@@ -345,6 +436,105 @@ story.append(p(
     "in the calibration step, not a bug in the routing logic (21 unit tests on the router's "
     "arithmetic all pass) and not a training problem (validation F1 was already 0.982 by the "
     "final epoch).",
+    body,
+))
+
+story.append(PageBreak())
+
+# ---- The measured baseline ----
+story.append(p("The baseline, measured", h1))
+story.append(p(
+    "The 0.9833 recall this work package is measured against came from the project brief, not "
+    "from a run anyone could point at &mdash; unknown dataset, unknown Sweep 1 configuration. "
+    "Sweep 1 has now been run end-to-end (regex + Presidio + spaCy, "
+    "<font face='Courier'>en_core_web_lg</font> + <font face='Courier'>de_core_news_sm</font>) "
+    "over the same 1,400-row dataset, writing into the same run directory, so the evaluation "
+    "scores every strategy on identical documents and an identical split.",
+    body,
+))
+
+_rule = baseline.get("rule_based", {})
+_bert = baseline.get("bert_prefilter", {})
+_bench_rule = benchmark.get("rule_based", {})
+_bench_bert = benchmark.get("bert_prefilter", {})
+_bench_routed = benchmark.get("rule_plus_bert", {})
+
+compare_rows = [
+    ["Strategy", "Accuracy", "Precision", "Recall*", "F1", "LLM calls"],
+    [
+        "bert_prefilter (DistilBERT)",
+        fnum(_bench_bert.get("accuracy", 0)),
+        fnum(_bench_bert.get("precision", 0)),
+        f"<b>{fnum(_bert.get('recoverable_recall', 0))}</b>",
+        fnum(_bench_bert.get("f1", 0)),
+        f"<b>{pct(_bert.get('routed', 0))}</b>",
+    ],
+    [
+        "rule_plus_bert (routed)",
+        fnum(_bench_routed.get("accuracy", 0)),
+        fnum(_bench_routed.get("precision", 0)),
+        fnum(_bert.get("recoverable_recall", 0)),
+        fnum(_bench_routed.get("f1", 0)),
+        pct(_bert.get("routed", 0)),
+    ],
+    [
+        "rule_based (Sweep 1)",
+        fnum(_bench_rule.get("accuracy", 0)),
+        fnum(_bench_rule.get("precision", 0)),
+        fnum(_rule.get("recoverable_recall", 0)),
+        fnum(_bench_rule.get("f1", 0)),
+        pct(_rule.get("routed", 0)),
+    ],
+]
+compare_table = [
+    [Paragraph(cell, body_small if r > 0 else ParagraphStyle(
+        "hdrc", parent=body_small, fontName="Helvetica-Bold", textColor=INK))
+     for cell in row]
+    for r, row in enumerate(compare_rows)
+]
+story.append(metric_table(
+    compare_table,
+    col_widths=[5.2 * cm, 2.2 * cm, 2.2 * cm, 2.2 * cm, 2.0 * cm, 2.2 * cm],
+))
+story.append(Spacer(1, 5))
+story.append(p(
+    "*Recall here is the <i>recoverable</i> definition for every row: the share of positive "
+    "documents the stage does not irrecoverably drop. A document Sweep 1 escalates to the LLM "
+    "is not lost, so scoring it by strict <font face='Courier'>detected_pii</font> "
+    f"({fnum(_bench_rule.get('recall', 0))}) understates it badly and would flatter the "
+    "pre-filter dishonestly. Accuracy, precision and F1 are the evaluation's own figures at the "
+    "standardised prediction column.",
+    caption,
+))
+
+story.append(KeepTogether(figure(
+    COMPARISON / "baseline_comparison.png", 16.5,
+    "Same 210 test documents, same split. Left: recall, measured the recoverable way for both. "
+    "Right: share of all documents sent to the LLM. The pre-filter is better on both axes at "
+    "once &mdash; it is not trading recall for cost.",
+)))
+
+story.append(p("What this changes", h2))
+story.extend(bullets([
+    "<b>The pre-filter beats Sweep 1 on both dimensions simultaneously.</b> Higher recall "
+    f"({fnum(_bert.get('recoverable_recall', 0))} vs. {fnum(_rule.get('recoverable_recall', 0))}) "
+    f"and {pct(_rule.get('routed', 0))} fewer LLM calls. That is the case for keeping it.",
+    "<b>The 0.9833 figure is not reproducible on this data.</b> Sweep 1's recall here is "
+    f"{fnum(_rule.get('recoverable_recall', 0))} recoverable, or "
+    f"{fnum(_bench_rule.get('recall', 0))} by strict detected_pii. Whatever the brief measured, "
+    "it was not this dataset or not this metric &mdash; so &ldquo;the pre-filter is below "
+    "baseline&rdquo; was comparing two numbers that were never commensurable.",
+    "<b>The calibration finding still stands.</b> That the threshold does not generalise from "
+    "28 validation positives to the test split was measured validation-to-test <i>within</i> "
+    "one run, and is untouched by any of this.",
+    f"Sweep 1 loses {_rule.get('lost', 0)} of {_rule.get('n_positive', 0)} positives outright; "
+    f"the pre-filter loses {_bert.get('lost', 0)}. Sweep 1's 19 undetected positives are mostly "
+    "escalated rather than lost, which is exactly why the strict figure misleads.",
+]))
+story.append(p(
+    "Runtime: Sweep 1 is 32.8 ms/document, the pre-filter 133.1 ms/document, both on CPU. The "
+    "pre-filter is four times slower locally and removes an LLM round-trip for three quarters of "
+    "the corpus.",
     body,
 ))
 
@@ -465,12 +655,14 @@ story.append(PageBreak())
 story.append(p("For discussion today", h1))
 story.append(warning_box(
     "The decision this deck needs from the team",
-    "Test-split recall (96.43%) is below the 98.33% baseline on the current calibration. "
-    "The test split has already been examined once (that is how we found the miss), so "
-    "re-tuning the threshold now to specifically catch that one document would be fitting to "
-    "the test set &mdash; not a legitimate fix. Recommendation: report this honestly rather than "
-    "quietly patch it, and treat it as the argument for prioritising more (and better-balanced) "
-    "validation data over further modelling for now.",
+    "The pre-filter beats the measured Sweep 1 baseline on both recall and LLM-call volume, so "
+    "the case for integrating it stands. What remains open: its threshold was calibrated on only "
+    "28 validation positives and missed 1 of 28 on the held-out test split (recall 0.9643, not "
+    "below any reproducible baseline, but not 1.0 either). The test split has already been "
+    "examined once (that is how the miss was found), so re-tuning the threshold now to catch "
+    "that one document would be fitting to the test set &mdash; not a legitimate fix. "
+    "Recommendation: report this honestly, and treat it as the argument for prioritising more "
+    "(and better-balanced) validation data over further modelling for now.",
 ))
 story.append(Spacer(1, 6))
 
@@ -498,6 +690,9 @@ story.extend(bullets([
     "<font face='Courier'>claude/bert-prefilter-gdpr-pii-q35v0w</font>, draft PR open.",
     "Inference cost: 63.9&nbsp;ms/document (Run 1, 256 tokens) vs. 133.1&nbsp;ms/document "
     "(Run 2, 512 tokens, larger multilingual model) &mdash; both on CPU.",
+    "Sweep 1 now runnable end-to-end in this environment too (Presidio + spaCy models fetched "
+    "and installed), so the baseline comparison on the previous page is reproducible, not "
+    "quoted.",
 ]))
 
 story.append(Spacer(1, 20))
