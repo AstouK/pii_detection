@@ -2,7 +2,7 @@
 Benchmark summary helpers for GDPR PII detection evaluation.
 
 This module builds a compact benchmark table from per-output metrics.csv files.
-It is used to compare Sweep 1, LLM providers, and future local models.
+It is used to compare classification strategies, models, and future routing approaches.
 """
 
 from __future__ import annotations
@@ -11,6 +11,9 @@ from pathlib import Path
 
 import pandas as pd
 
+from classification.schemas.experiment_schema import (
+    BENCHMARK_COLUMN_ORDER,
+)
 
 DEFAULT_BENCHMARK_METRIC_NAME = "standardized"
 METRICS_FILE_NAME = "metrics.csv"
@@ -42,9 +45,9 @@ def extract_benchmark_row(
 
     This means:
         sweep1.csv       -> predicted_pii = detected_pii
-        qwen.csv         -> predicted_pii = final_pii
-        openrouter.csv   -> predicted_pii = final_pii
-        future bert.csv  -> predicted_pii = model prediction
+        rule_based.csv       -> predicted_pii = final_pii
+        rule_plus_gpt4o_mini.csv   -> predicted_pii = final_pii
+        ...
     """
 
     required_cols = {"metric_group", "metric_name"}
@@ -76,8 +79,8 @@ def build_benchmark_summary_from_metric_files(
     Example input structure:
         evaluation/results/runs/<run_id>/
         ├── sweep1/metrics.csv
-        ├── qwen/metrics.csv
-        └── openrouter/metrics.csv
+        ├── rule_based/metrics.csv
+        └── rule_plus_qwen/metrics.csv
     """
 
     rows = []
@@ -110,38 +113,21 @@ def build_benchmark_summary_from_metric_files(
     if benchmark_df.empty:
         return benchmark_df
 
-    preferred_cols = [
-        "output_name",
-        "run_id",
-        "provider",
-        "model_family",
-        "model_name",
-        "prediction_source",
-        "prediction_stage",
-        "pipeline_name",
-        "metric_group",
-        "metric_name",
-        "label",
-        "n",
-        "accuracy",
-        "precision",
-        "recall",
-        "f1",
-        "TP",
-        "TN",
-        "FP",
-        "FN",
-    ]
-
     existing_preferred_cols = [
-        col for col in preferred_cols if col in benchmark_df.columns
+        col
+        for col in BENCHMARK_COLUMN_ORDER
+        if col in benchmark_df.columns
     ]
 
     remaining_cols = [
-        col for col in benchmark_df.columns if col not in existing_preferred_cols
+        col
+        for col in benchmark_df.columns
+        if col not in existing_preferred_cols
     ]
 
-    benchmark_df = benchmark_df[existing_preferred_cols + remaining_cols]
+    benchmark_df = benchmark_df[
+        existing_preferred_cols + remaining_cols
+    ]
 
     return benchmark_df.sort_values(
         by=["f1", "recall", "precision"],

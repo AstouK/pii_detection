@@ -116,8 +116,30 @@ def extract_llm_text(text: str, entities: list, window: int = 200) -> str:
 # ─────────────────────────────────────────────────────────────
 
 
-def build_llm_prompt(doc_text: str) -> str:
-    return textwrap.dedent(f"""
+CURRENT_PROMPT_VERSION = "pii_review_v1"
+
+
+def build_llm_prompt(
+    doc_text: str,
+    prompt_version: str = CURRENT_PROMPT_VERSION,
+) -> str:
+    """
+    Build the GDPR PII review prompt.
+
+    Only pii_review_v1 is currently implemented. The version parameter
+    prepares the interface for future file-based prompt loading.
+    """
+
+    prompt_version = prompt_version.lower().strip()
+
+    if prompt_version != CURRENT_PROMPT_VERSION:
+        raise ValueError(
+            f"Unsupported prompt version: {prompt_version}. "
+            f"Currently supported: {CURRENT_PROMPT_VERSION}"
+        )
+
+    return textwrap.dedent(
+        f"""
         You are a data protection assistant specialised in GDPR compliance.
 
         Determine whether the following text contains personal data as defined under
@@ -161,7 +183,8 @@ def build_llm_prompt(doc_text: str) -> str:
 
         Text:
         \"\"\"{doc_text}\"\"\"
-    """).strip()
+        """
+    ).strip()
 
 
 # ─────────────────────────────────────────────────────────────
@@ -536,6 +559,7 @@ def call_llm(prompt: str, model_id: str,) -> dict:
 def run_llm(
     df: pd.DataFrame,
     model_id: str,
+    prompt_version: str,
 ) -> pd.DataFrame:
     """
     Run LLM review for documents routed by Sweep 1.
@@ -627,7 +651,10 @@ def run_llm(
             df.at[idx, "llm_reason"] = "empty text after extraction"
             continue
 
-        prompt = build_llm_prompt(text)
+        prompt = build_llm_prompt(
+            doc_text=text,
+            prompt_version=prompt_version,
+        )
 
         result = call_llm(
             prompt=prompt,

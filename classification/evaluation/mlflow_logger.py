@@ -14,32 +14,10 @@ import pandas as pd
 
 from classification.evaluation.config import MLFLOW_EXPERIMENT_NAME
 
-
-METRIC_COLUMNS = [
-    "accuracy",
-    "precision",
-    "recall",
-    "f1",
-    "n",
-    "TP",
-    "TN",
-    "FP",
-    "FN",
-]
-
-PARAM_COLUMNS = [
-    "output_name",
-    "run_id",
-    "provider",
-    "model_family",
-    "model_name",
-    "prediction_source",
-    "prediction_stage",
-    "pipeline_name",
-    "metric_group",
-    "metric_name",
-    "label",
-]
+from classification.schemas.experiment_schema import (
+    MLFLOW_METRIC_FIELDS,
+    MLFLOW_PARAM_FIELDS,
+)
 
 
 def _clean_value(value: Any) -> str:
@@ -53,32 +31,17 @@ def _clean_value(value: Any) -> str:
     return str(value)
 
 
-def _extract_params(row: pd.Series, extra_params: dict | None = None) -> dict:
+def _extract_params(
+    row: pd.Series,
+    extra_params: dict | None = None,
+) -> dict:
     """
-    Extract MLflow params from a benchmark row.
+    Extract configured MLflow parameters from one benchmark row.
     """
 
     params = {}
 
-    for col in PARAM_COLUMNS:
-        if col in row.index:
-            params[col] = _clean_value(row[col])
-
-    if extra_params:
-        for key, value in extra_params.items():
-            params[key] = _clean_value(value)
-
-    return params
-
-
-def _extract_metrics(row: pd.Series) -> dict:
-    """
-    Extract numeric MLflow metrics from a benchmark row.
-    """
-
-    metrics = {}
-
-    for col in METRIC_COLUMNS:
+    for col in MLFLOW_PARAM_FIELDS:
         if col not in row.index:
             continue
 
@@ -87,7 +50,40 @@ def _extract_metrics(row: pd.Series) -> dict:
         if pd.isna(value):
             continue
 
-        metrics[col] = float(value)
+        params[col] = str(value)
+
+    if extra_params:
+        for key, value in extra_params.items():
+            if value is None or pd.isna(value):
+                continue
+
+            params[key] = str(value)
+
+    return params
+
+
+def _extract_metrics(
+    row: pd.Series,
+) -> dict:
+    """
+    Extract configured numeric MLflow metrics from one benchmark row.
+    """
+
+    metrics = {}
+
+    for col in MLFLOW_METRIC_FIELDS:
+        if col not in row.index:
+            continue
+
+        value = row[col]
+
+        if pd.isna(value):
+            continue
+
+        try:
+            metrics[col] = float(value)
+        except (TypeError, ValueError):
+            continue
 
     return metrics
 
@@ -100,11 +96,10 @@ def log_benchmark_summary_to_mlflow(
     """
     Log benchmark rows to MLflow.
 
-    One MLflow run is created per evaluated output:
-        sweep1
-        qwen
-        openrouter
-        future local models
+    One MLflow run is created per evaluated output (strategy based):
+        rule_based
+        rule_based_plus_qwen
+        ...
 
     Each run logs:
         params: provider/model/run metadata
@@ -141,9 +136,6 @@ def log_benchmark_summary_to_mlflow(
     common_params = {
         "classification_run_id": classification_run_id,
         "evaluation_version": evaluation_metadata.get("evaluation_version", ""),
-        "dataset_version": evaluation_metadata.get("dataset_version", ""),
-        "prompt_version": evaluation_metadata.get("prompt_version", ""),
-        "prediction_col": evaluation_metadata.get("prediction_col", ""),
     }
 
     for _, row in benchmark_df.iterrows():

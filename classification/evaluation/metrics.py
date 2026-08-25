@@ -17,6 +17,12 @@ from classification.evaluation.config import (
     GROUND_TRUTH_COL,
     RAW_GROUND_TRUTH_COL,
     DEFAULT_PREDICTION_COL,
+    PREDICTION_COLUMNS,
+)
+
+from classification.schemas.experiment_schema import (
+    METADATA_FIELD_NAMES,
+    PREDICTION_METADATA_FIELD_NAMES,
 )
 
 
@@ -192,31 +198,27 @@ def compute_available_document_metrics(
     """
     Compute metrics for all available document-level prediction columns.
 
-    This supports:
-        predicted_pii
-        detected_pii
-        detected_any_pii
-        llm_pii
-        final_pii
+    Prediction columns are defined centrally in
+    classification.evaluation.config.PREDICTION_COLUMNS.
     """
-
-    candidate_columns = {
-        "standardized": "predicted_pii",
-        "sweep1_strong": "detected_pii",
-        "sweep1_any": "detected_any_pii",
-        "sweep2_llm": "llm_pii",
-        "final": "final_pii",
-    }
 
     metrics = {}
 
-    for label, prediction_col in candidate_columns.items():
+    for label, prediction_col in PREDICTION_COLUMNS.items():
+
         if prediction_col not in df.columns:
             continue
 
         # For llm_pii, evaluate only routed rows if possible.
-        if prediction_col == "llm_pii" and "needs_llm_review" in df.columns:
-            eval_df = df[df["needs_llm_review"].fillna(False).astype(bool)].copy()
+        if (
+            prediction_col == "llm_pii"
+            and "needs_llm_review" in df.columns
+        ):
+            eval_df = df[
+                df["needs_llm_review"]
+                .fillna(False)
+                .astype(bool)
+            ].copy()
         else:
             eval_df = df
 
@@ -236,11 +238,18 @@ def compute_available_document_metrics(
 # Entity-level metrics
 # ─────────────────────────────────────────────────────────────
 
-def get_entity_types_from_columns(df: pd.DataFrame) -> list:
+def get_entity_types_from_columns(
+    df: pd.DataFrame,
+) -> list:
     """
-    Infer entity types from ground-truth columns ending in '_yes_no'.
-    """
+    Compute metrics for all available document-level prediction columns.
 
+    Prediction columns are defined centrally in
+    classification.evaluation.config.PREDICTION_COLUMNS.
+
+    Only columns that exist in the supplied dataframe
+    are evaluated.
+    """
     return [
         col.removesuffix("_yes_no")
         for col in df.columns
@@ -341,30 +350,36 @@ def compute_entity_metrics(
 # Combined metric entrypoint
 # ─────────────────────────────────────────────────────────────
 
-def extract_output_metadata(df: pd.DataFrame) -> dict:
+def extract_output_metadata(
+    df: pd.DataFrame,
+) -> dict:
     """
-    Extract stable output metadata from the dataframe.
+    Extract stable experiment metadata from a prediction dataframe.
 
-    If a column has one unique value, that value is attached to metric rows.
+    Only columns containing one unique non-null value are attached
+    to metric rows.
     """
-
-    metadata_cols = [
-        "run_id",
-        "provider",
-        "model_family",
-        "model_name",
-        "prediction_source",
-        "prediction_stage",
-        "pipeline_name",
-    ]
 
     metadata = {}
+
+    metadata_cols = [
+        col
+        for col in (
+            list(METADATA_FIELD_NAMES)
+            + list(PREDICTION_METADATA_FIELD_NAMES)
+        )
+        if col != "cost_currency"
+    ]
 
     for col in metadata_cols:
         if col not in df.columns:
             continue
 
-        values = df[col].dropna().unique()
+        values = (
+            df[col]
+            .dropna()
+            .unique()
+        )
 
         if len(values) == 1:
             metadata[col] = values[0]

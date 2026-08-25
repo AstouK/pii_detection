@@ -11,6 +11,8 @@ Responsibilities:
 Evaluation, benchmarking, error analysis, and MLflow tracking
 belong in classification/evaluation/.
 """
+import argparse
+from pathlib import Path
 
 from datetime import datetime
 from time import perf_counter
@@ -21,6 +23,13 @@ from config.logging_config import setup_logging
 from classification.config import (
     STRATEGIES_TO_RUN,
     validate_strategies,
+    DEFAULT_INPUT_FILE,
+    DEFAULT_PROMPT_VERSION,
+    DEFAULT_DATASET_VERSION,
+)
+
+from classification.infrastructure.metadata import (
+    resolve_dataset_version,
 )
 
 from classification.infrastructure.io import load_input_data
@@ -41,21 +50,72 @@ from classification.infrastructure.strategy_runner import (
     run_strategy_pipeline,
 )
 
+
+
 setup_logging()
 logger = logging.getLogger(__name__)
 
 
+def parse_args() -> argparse.Namespace:
+    """
+    Parse classification runtime arguments.
+    """
+
+    parser = argparse.ArgumentParser(
+        description="Run GDPR PII classification strategies."
+    )
+
+    parser.add_argument(
+        "--input-file",
+        type=Path,
+        default=DEFAULT_INPUT_FILE,
+        help="Dataset CSV to classify.",
+    )
+
+    parser.add_argument(
+        "--prompt-version",
+        type=str,
+        default=DEFAULT_PROMPT_VERSION,
+        help="Prompt template version used by LLM strategies.",
+    )
+
+    parser.add_argument(
+        "--strategies",
+        nargs="+",
+        default=STRATEGIES_TO_RUN,
+        help="Classification strategies to execute.",
+    )
+
+    return parser.parse_args()
+
+
 def main() -> None:
+    args = parse_args()
+
+    strategies = validate_strategies(args.strategies)
+
+    df = load_input_data(input_file=args.input_file,)
+
+    dataset_version = resolve_dataset_version(
+        df=df,
+        default_version=DEFAULT_DATASET_VERSION,
+    )
+
+    logger.info(
+        "Dataset version: %s",
+        dataset_version,
+    )
+
+    logger.info(
+        "Prompt version: %s",
+        args.prompt_version,
+    )
 
     pipeline_start = perf_counter()
 
     run_id = datetime.now().strftime("%Y%m%d_%H%M%S")
 
     run_dir = create_run_dir(run_id)
-
-    strategies = validate_strategies(
-        STRATEGIES_TO_RUN
-    )
 
     logger.info(
         "Classification pipeline started"
@@ -70,12 +130,6 @@ def main() -> None:
         "Strategies selected: %s",
         strategies,
     )
-
-    # --------------------------------------------------
-    # Load Dataset
-    # --------------------------------------------------
-
-    df = load_input_data()
 
     # --------------------------------------------------
     # Sweep 1
@@ -130,6 +184,8 @@ def main() -> None:
             strategy=strategy,
             run_dir=run_dir,
             run_id=run_id,
+            dataset_version=dataset_version,
+            prompt_version=args.prompt_version,
         )
 
         saved_files.append(
@@ -185,6 +241,8 @@ def main() -> None:
         routing_metrics=routing_metrics,
         runtime_metrics=runtime_metrics,
         strategy_usage=strategy_usage,
+        dataset_version=dataset_version,
+        prompt_version=args.prompt_version,
     )
 
     saved_files.append(

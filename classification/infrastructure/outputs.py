@@ -23,7 +23,6 @@ from classification.infrastructure.metadata import(
 
 from classification.config import (
     RESULTS_DIR,
-    DEFAULT_PIPELINE_NAME,
 )
 
 logger = logging.getLogger(__name__)
@@ -86,6 +85,8 @@ def save_run_metadata(
     routing_metrics: dict,
     runtime_metrics: dict,
     strategy_usage: dict,
+    dataset_version: str,
+    prompt_version: str,
 ) -> Path:
     """
     Save run-level classification metadata.
@@ -95,7 +96,8 @@ def save_run_metadata(
 
     metadata = {
         "run_id": run_id,
-        "pipeline_name": DEFAULT_PIPELINE_NAME,
+        "dataset_version": dataset_version,
+        "prompt_version": prompt_version,
         "saved_files": [str(path) for path in saved_files],
         "strategies": strategies,
         **routing_metrics,

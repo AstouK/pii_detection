@@ -16,6 +16,12 @@ from typing import Callable
 
 import pandas as pd
 
+from classification.schemas.experiment_schema import (
+    BERT_USAGE_FIELD_NAMES,
+    LLM_USAGE_FIELD_NAMES,
+    ROUTING_FIELD_NAMES,
+)
+
 
 def _sum_numeric_column(
     df: pd.DataFrame,
@@ -25,7 +31,8 @@ def _sum_numeric_column(
     """
     Sum a numeric dataframe column safely.
 
-    Missing columns, missing values, and invalid values are treated as zero.
+    Missing columns, missing values, and invalid values
+    are treated as zero.
     """
 
     if column not in df.columns:
@@ -80,7 +87,7 @@ def compute_routing_metrics(
             "needs_review",
         )
     else:
-        # Backward-compatible fallback for the current routing schema.
+        # Backward-compatible fallback.
         documents_sent_to_review = _count_true_values(
             df_sweep1,
             "needs_llm_review",
@@ -102,12 +109,24 @@ def compute_routing_metrics(
         else 0.0
     )
 
-    return {
+    metrics = {
         "documents_total": int(documents_total),
-        "documents_sent_to_review": int(documents_sent_to_review),
-        "documents_resolved_locally": int(documents_resolved_locally),
+        "documents_sent_to_review": int(
+            documents_sent_to_review
+        ),
+        "documents_resolved_locally": int(
+            documents_resolved_locally
+        ),
         "routing_rate": round(routing_rate, 4),
-        "local_processing_rate": round(local_processing_rate, 4),
+        "local_processing_rate": round(
+            local_processing_rate,
+            4,
+        ),
+    }
+
+    return {
+        field_name: metrics[field_name]
+        for field_name in ROUTING_FIELD_NAMES
     }
 
 
@@ -120,7 +139,7 @@ def compute_llm_usage_summary(
     A strategy without an LLM produces zero values.
     """
 
-    return {
+    metrics = {
         "llm_requests_attempted": _count_true_values(
             df_strategy,
             "needs_llm_review",
@@ -159,6 +178,17 @@ def compute_llm_usage_summary(
         ),
     }
 
+    result = {
+        field_name: metrics[field_name]
+        for field_name in LLM_USAGE_FIELD_NAMES
+    }
+
+    result["llm_reported_cost"] = metrics[
+        "llm_reported_cost"
+    ]
+
+    return result
+
 
 def compute_bert_usage_summary(
     df_strategy: pd.DataFrame,
@@ -174,39 +204,28 @@ def compute_bert_usage_summary(
     A strategy without BERT produces zero values.
     """
 
-    attempted = _count_true_values(
-        df_strategy,
-        "needs_bert_review",
-    )
-
-    successful = _count_true_values(
-        df_strategy,
-        "bert_request_success",
-    )
-
-    total_runtime = round(
-        _sum_numeric_column(
+    metrics = {
+        "bert_requests_attempted": _count_true_values(
             df_strategy,
-            "bert_runtime_seconds",
-            float,
+            "needs_bert_review",
         ),
-        4,
-    )
-
-    average_runtime = (
-        total_runtime / successful
-        if successful > 0
-        else 0.0
-    )
+        "bert_requests_successful": _count_true_values(
+            df_strategy,
+            "bert_request_success",
+        ),
+        "bert_runtime_seconds": round(
+            _sum_numeric_column(
+                df_strategy,
+                "bert_runtime_seconds",
+                float,
+            ),
+            4,
+        ),
+    }
 
     return {
-        "bert_requests_attempted": attempted,
-        "bert_requests_successful": successful,
-        "bert_runtime_seconds": total_runtime,
-        "bert_average_runtime_seconds": round(
-            average_runtime,
-            6,
-        ),
+        field_name: metrics[field_name]
+        for field_name in BERT_USAGE_FIELD_NAMES
     }
 
 
@@ -226,8 +245,13 @@ def compute_strategy_usage_summary(
     Stages not used by a strategy produce zero-valued metrics.
     """
 
-    llm_usage = compute_llm_usage_summary(df_strategy)
-    bert_usage = compute_bert_usage_summary(df_strategy)
+    llm_usage = compute_llm_usage_summary(
+        df_strategy
+    )
+
+    bert_usage = compute_bert_usage_summary(
+        df_strategy
+    )
 
     return {
         **llm_usage,
