@@ -13,6 +13,10 @@ from config.settings import (
     QWEN_MODEL,
 )
 
+from classification.schemas.experiment_schema import (
+    METADATA_FIELD_NAMES,
+)
+
 # Development/test mode.
 # Use None for full classification.
 CLASSIFICATION_LIMIT = 10
@@ -35,7 +39,7 @@ DEFAULT_INPUT_FILE = DATA_DIR / "pii_dataset.csv"
 MODEL_REGISTRY = {
     "gpt4o_mini": {
         "provider": "openrouter",
-        "model_family": "gpt",
+        "model_family": "llm",
         "model_name": OPENROUTER_MODEL,
         "prediction_source": "llm",
         "is_local": False,
@@ -43,7 +47,7 @@ MODEL_REGISTRY = {
 
     "qwen3_7_plus": {
         "provider": "dashscope",
-        "model_family": "qwen",
+        "model_family": "llm",
         "model_name": QWEN_MODEL,
         "prediction_source": "llm",
         "is_local": False,
@@ -124,32 +128,17 @@ STRATEGIES_TO_RUN = [
 # Output metadata
 # ─────────────────────────────────────────────────────────────
 
-DEFAULT_PREDICTION_STAGE = "final"
+DEFAULT_PROMPT_VERSION = "pii_review_v1"
 
-DEFAULT_PIPELINE_NAME = "two_stage_pii_pipeline"
+DEFAULT_DATASET_VERSION = "v1"
 
-DEFAULT_OUTPUT_COLUMNS_TO_ADD = [
-    "strategy",
-    "provider",
-    "model_family",
-    "model_name",
-    "prediction_source",
-    "prediction_stage",
-    "pipeline_name",
-]
+DEFAULT_OUTPUT_COLUMNS_TO_ADD = list(
+    METADATA_FIELD_NAMES
+)
 
 # ─────────────────────────────────────────────────────────────
 # Routing Strategies
 # ─────────────────────────────────────────────────────────────
-
-STRATEGIES = {
-    "rule_based": {},
-    "rule_plus_qwen": {},
-    "rule_plus_openrouter": {},
-    "bert": {},
-    "rule_plus_bert": {},
-    "rule_plus_bert_plus_llm": {},
-}
 
 DEFAULT_STRATEGY = "rule_plus_qwen"
 
@@ -175,18 +164,18 @@ def get_model_config(model_id: str) -> dict:
     return MODEL_REGISTRY[model_id]
 
 
-def get_model_name(provider: str) -> str:
+def get_model_name(model_id: str) -> str:
     """
-    Return configured model name for a provider.
+    Return configured model name.
     """
-    return get_model_config(provider)["model_name"]
+    return get_model_config(model_id)["model_name"]
 
 
-def get_model_family(provider: str) -> str:
+def get_model_family(model_id: str) -> str:
     """
-    Return model family for a provider.
+    Return model family.
     """
-    return get_model_config(provider)["model_family"]
+    return get_model_config(model_id)["model_family"]
 
 def get_provider(model_id: str) -> str:
     """

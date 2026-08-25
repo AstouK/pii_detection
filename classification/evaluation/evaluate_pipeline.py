@@ -5,7 +5,7 @@ This pipeline evaluates saved classification run outputs.
 
 It does not rerun production classification code. Instead, it:
 1. Loads a classification run from classification/results/runs/
-2. Loads prediction outputs such as sweep1.csv, qwen.csv, openrouter.csv
+2. Loads prediction outputs such as rule_based.csv, rule_plus_qwen.csv
 3. Computes metrics for each output
 4. Runs row-level error analysis for each output
 5. Saves evaluation artifacts under classification/evaluation/results/runs/
@@ -21,11 +21,6 @@ from pathlib import Path
 import pandas as pd
 
 from config.logging_config import setup_logging
-
-from classification.evaluation.config import (
-    DEFAULT_PREDICTION_COL,
-    get_evaluation_metadata,
-)
 
 from classification.evaluation.error_analysis import run_error_analysis
 
@@ -78,21 +73,20 @@ def evaluate_prediction_output(
     output_name: str,
     df: pd.DataFrame,
     evaluation_run_dir: Path,
-    prediction_col: str = DEFAULT_PREDICTION_COL,
 ) -> list:
     """
     Compute metrics and run error analysis for one prediction output.
 
     Example output_name values:
         sweep1
-        qwen
-        openrouter
+        rule_based
+        rule_plus_qwen
+        rule_plus_gpt4o_mini
     """
 
     logger.info(
-        "Evaluating output '%s' using prediction column '%s'",
+        "Evaluating output '%s'",
         output_name,
-        prediction_col,
     )
 
     output_eval_dir = create_output_eval_dir(
@@ -126,7 +120,6 @@ def evaluate_prediction_output(
     # ── Error analysis ──────────────────────────────
     error_outputs = run_error_analysis(
         df=df,
-        prediction_col=prediction_col,
     )
 
     error_files = save_error_analysis_outputs(
@@ -148,7 +141,6 @@ def evaluate_prediction_output(
 
 def run_evaluation(
     run_id: str | None = None,
-    prediction_col: str = DEFAULT_PREDICTION_COL,
     log_mlflow: bool = ENABLE_MLFLOW_LOGGING,
 ) -> dict:
     """
@@ -159,9 +151,10 @@ def run_evaluation(
             Classification run ID to evaluate.
             If None, the latest classification run is evaluated.
 
-        prediction_col:
-            Prediction column to evaluate.
-            Defaults to the standardized column: predicted_pii.
+            prediction_col controls error analysis.
+
+    Metrics are computed for all available prediction columns present
+    in the output file.
 
     Returns:
         Evaluation metadata dictionary.
@@ -196,7 +189,6 @@ def run_evaluation(
             output_name=output_name,
             df=df,
             evaluation_run_dir=evaluation_run_dir,
-            prediction_col=prediction_col,
         )
 
         saved_files.extend(output_saved_files)
@@ -225,7 +217,6 @@ def run_evaluation(
         "classification_run_id": classification_run_id,
         "classification_run_dir": str(classification_run_dir),
         "evaluation_run_dir": str(evaluation_run_dir),
-        "prediction_col": prediction_col,
         "evaluated_outputs": list(prediction_outputs.keys()),
         "benchmark_summary_file": str(benchmark_file),
         "classification_metadata": classification_metadata,
@@ -288,16 +279,6 @@ def parse_args() -> argparse.Namespace:
     )
 
     parser.add_argument(
-        "--prediction-col",
-        type=str,
-        default=DEFAULT_PREDICTION_COL,
-        help=(
-            "Prediction column to evaluate. "
-            "Defaults to the standardized column from evaluation config."
-        ),
-    )
-
-    parser.add_argument(
         "--log-mlflow",
         action="store_true",
         help="Log evaluation results to MLflow.",
@@ -314,7 +295,6 @@ def main() -> None:
 
     run_evaluation(
         run_id=args.run_id,
-        prediction_col=args.prediction_col,
         log_mlflow=args.log_mlflow,
     )
 

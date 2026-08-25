@@ -5,7 +5,7 @@ This module assigns TP/TN/FP/FN labels to prediction outputs and creates
 error-analysis dataframes that can be saved as evaluation artifacts.
 
 It is provider/model agnostic:
-- Works for OpenRouter, Qwen, BERT, DistilBERT, Presidio-only, or hybrid outputs.
+- Works for gpt4o-mini, Qwen, BERT, DistilBERT, Presidio-only, or hybrid outputs.
 - Works with any prediction column, but defaults to the standardized
   classification output column: predicted_pii.
 """
@@ -19,6 +19,12 @@ from classification.evaluation.config import (
     IS_CORRECT_COL,
     GROUND_TRUTH_COL,
     DEFAULT_PREDICTION_COL,
+)
+
+from classification.schemas.experiment_schema import (
+    MODEL_GROUPBY_FIELDS,
+    PREDICTION_SOURCE_GROUPBY_FIELDS,
+    STRATEGY_GROUPBY_FIELDS,
 )
 
 
@@ -281,8 +287,9 @@ def create_grouped_error_summary(
         ["language"]
         ["challenge_category"]
         ["scenario_type"]
+        ["strategy"]
         ["provider", "model_family", "model_name"]
-        ["prediction_source", "prediction_stage"]
+        ["prediction_source"]
     """
 
     if error_type_col not in df.columns:
@@ -340,7 +347,7 @@ def run_error_analysis(
         per_challenge_error_summary
         per_scenario_error_summary
         per_model_error_summary
-        per_stage_error_summary
+        per_prediction_source_error_summary
     """
 
     analysed_df = assign_error_types(
@@ -380,14 +387,29 @@ def run_error_analysis(
 
     per_model_error_summary = create_grouped_error_summary(
         analysed_df,
-        group_cols=["provider", "model_family", "model_name"],
+        group_cols=list(
+            MODEL_GROUPBY_FIELDS
+        ),
     )
 
-    per_stage_error_summary = create_grouped_error_summary(
-        analysed_df,
-        group_cols=["prediction_source", "prediction_stage"],
+    per_prediction_source_error_summary = (
+        create_grouped_error_summary(
+            analysed_df,
+            group_cols=list(
+                PREDICTION_SOURCE_GROUPBY_FIELDS
+            ),
+        )
     )
 
+    per_strategy_error_summary = (
+        create_grouped_error_summary(
+            analysed_df,
+            group_cols=list(
+                STRATEGY_GROUPBY_FIELDS
+            ),
+        )
+    )
+    
     return {
         "predictions_with_error_labels": analysed_df,
         "false_positives": splits["false_positives"],
@@ -401,5 +423,6 @@ def run_error_analysis(
         "per_challenge_error_summary": per_challenge_error_summary,
         "per_scenario_error_summary": per_scenario_error_summary,
         "per_model_error_summary": per_model_error_summary,
-        "per_stage_error_summary": per_stage_error_summary,
+        "per_prediction_source_error_summary": per_prediction_source_error_summary,
+        "per_strategy_error_summary": per_strategy_error_summary,
     }

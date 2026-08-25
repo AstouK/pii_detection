@@ -12,7 +12,7 @@ from pathlib import Path
 
 import pandas as pd
 
-from classification.config1 import RESULTS_DIR as CLASSIFICATION_RESULTS_DIR
+from classification.config import RESULTS_DIR as CLASSIFICATION_RESULTS_DIR
 from classification.evaluation.config import (
     RUNS_DIR as EVALUATION_RUNS_DIR,
     ERROR_ANALYSIS_OUTPUT_FILES,
@@ -140,8 +140,8 @@ def load_prediction_outputs(run_dir: Path) -> dict[str, pd.DataFrame]:
 
     Returns a dict keyed by output name:
         sweep1
-        qwen
-        openrouter
+        rule_based
+        rule_plus_qwen
         etc.
     """
 

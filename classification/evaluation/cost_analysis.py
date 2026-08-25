@@ -6,21 +6,45 @@ from __future__ import annotations
 
 import pandas as pd
 
+from classification.schemas.experiment_schema import (
+    BERT_USAGE_FIELDS,
+    COST_FIELDS,
+    LLM_USAGE_FIELDS,
+    ROUTING_FIELDS,
+)
 
-def get_provider_usage(
+
+def get_strategy_usage(
     classification_metadata: dict,
-    provider: str,
+    strategy: str,
 ) -> dict:
     """
-    Extract provider-specific usage summary from run metadata.
+    Extract strategy-specific usage summary from run metadata.
     """
 
-    provider_usage = classification_metadata.get(
-        "provider_usage",
+    strategy_usage = classification_metadata.get(
+        "strategy_usage",
         {},
     )
 
-    return provider_usage.get(provider, {})
+    return strategy_usage.get(
+        strategy,
+        {},
+    )
+
+
+def _safe_divide(
+    numerator: float,
+    denominator: float,
+) -> float:
+    """
+    Safely divide two values.
+    """
+
+    if denominator <= 0:
+        return 0.0
+
+    return float(numerator) / float(denominator)
 
 
 def create_cost_summary(
@@ -28,9 +52,10 @@ def create_cost_summary(
     classification_metadata: dict,
 ) -> pd.DataFrame:
     """
-    Enrich benchmark results with routing and cost information.
+    Enrich benchmark results with routing, usage,
+    runtime, cost, and efficiency metrics.
 
-    Uses provider_usage generated during classification.
+    Uses strategy_usage generated during classification.
     """
 
     if benchmark_df.empty:
@@ -38,170 +63,129 @@ def create_cost_summary(
 
     benchmark_df = benchmark_df.copy()
 
-    documents_total = classification_metadata.get(
-        "documents_total",
-        0,
-    )
+    # --------------------------------------------------
+    # Routing metrics
+    # --------------------------------------------------
 
-    documents_sent_to_llm = classification_metadata.get(
-        "documents_sent_to_llm",
-        0,
-    )
+    routing_values = {
+        "documents_total": classification_metadata.get(
+            "documents_total",
+            0,
+        ),
+        "documents_sent_to_review": classification_metadata.get(
+            "documents_sent_to_review",
+            0,
+        ),
+        "documents_resolved_locally": classification_metadata.get(
+            "documents_resolved_locally",
+            0,
+        ),
+        "routing_rate": classification_metadata.get(
+            "routing_rate",
+            0.0,
+        ),
+        "local_processing_rate": classification_metadata.get(
+            "local_processing_rate",
+            0.0,
+        ),
+    }
 
-    llm_calls_avoided = classification_metadata.get(
-        "llm_calls_avoided",
-        0,
-    )
+    for field in ROUTING_FIELDS:
+        benchmark_df[field.name] = routing_values.get(
+            field.name,
+            field.default,
+        )
 
-    routing_rate = classification_metadata.get(
-        "routing_rate",
-        0.0,
-    )
+    # --------------------------------------------------
+    # Strategy usage metrics
+    # --------------------------------------------------
 
-    local_processing_rate = classification_metadata.get(
-        "local_processing_rate",
-        0.0,
-    )
-
-    benchmark_df["documents_total"] = documents_total
-    benchmark_df["documents_sent_to_llm"] = documents_sent_to_llm
-    benchmark_df["llm_calls_avoided"] = llm_calls_avoided
-    benchmark_df["routing_rate"] = routing_rate
-    benchmark_df["local_processing_rate"] = (
-        local_processing_rate
-    )
-
-    prompt_tokens = []
-    completion_tokens = []
-    total_tokens = []
-    reasoning_tokens = []
-    cached_tokens = []
-    provider_costs = []
-    requests_attempted = []
-    requests_successful = []
+    strategy_usage_rows = []
 
     for _, row in benchmark_df.iterrows():
 
-        provider = row.get("provider", "")
+        strategy = row.get(
+            "strategy",
+            "",
+        )
 
-        usage = get_provider_usage(
+        usage = get_strategy_usage(
             classification_metadata,
-            provider,
+            strategy,
         )
 
-        requests_attempted.append(
-            usage.get("requests_attempted", 0)
+        strategy_usage_rows.append(
+            usage
         )
 
-        requests_successful.append(
-            usage.get("requests_successful", 0)
-        )
+    usage_fields = (
+        list(LLM_USAGE_FIELDS)
+        + list(BERT_USAGE_FIELDS)
+        + list(COST_FIELDS)
+    )
 
-        prompt_tokens.append(
-            usage.get("prompt_tokens", 0)
-        )
+    for field in usage_fields:
 
-        completion_tokens.append(
-            usage.get("completion_tokens", 0)
-        )
-
-        total_tokens.append(
-            usage.get("total_tokens", 0)
-        )
-
-        reasoning_tokens.append(
-            usage.get("reasoning_tokens", 0)
-        )
-
-        cached_tokens.append(
-            usage.get("cached_tokens", 0)
-        )
-
-        provider_costs.append(
+        benchmark_df[field.name] = [
             usage.get(
-                "provider_reported_cost",
-                0.0,
+                field.resolved_source_key,
+                field.default,
             )
-        )
+            for usage in strategy_usage_rows
+        ]
 
-    benchmark_df["requests_attempted"] = (
-        requests_attempted
+    # --------------------------------------------------
+    # Derived metrics
+    # --------------------------------------------------
+
+    benchmark_df[
+        "bert_average_runtime_seconds"
+    ] = benchmark_df.apply(
+        lambda row: _safe_divide(
+            row["bert_runtime_seconds"],
+            row["bert_requests_successful"],
+        ),
+        axis=1,
     )
 
-    benchmark_df["requests_successful"] = (
-        requests_successful
+    benchmark_df[
+        "cost_per_document"
+    ] = benchmark_df.apply(
+        lambda row: _safe_divide(
+            row["llm_reported_cost"],
+            row["documents_total"],
+        ),
+        axis=1,
     )
 
-    benchmark_df["prompt_tokens"] = (
-        prompt_tokens
+    benchmark_df[
+        "cost_per_llm_document"
+    ] = benchmark_df.apply(
+        lambda row: _safe_divide(
+            row["llm_reported_cost"],
+            row["llm_requests_successful"],
+        ),
+        axis=1,
     )
 
-    benchmark_df["completion_tokens"] = (
-        completion_tokens
+    benchmark_df[
+        "tokens_per_llm_document"
+    ] = benchmark_df.apply(
+        lambda row: _safe_divide(
+            row["llm_total_tokens"],
+            row["llm_requests_successful"],
+        ),
+        axis=1,
     )
 
-    benchmark_df["total_tokens"] = (
-        total_tokens
-    )
-
-    benchmark_df["reasoning_tokens"] = (
-        reasoning_tokens
-    )
-
-    benchmark_df["cached_tokens"] = (
-        cached_tokens
-    )
-
-    benchmark_df["provider_reported_cost"] = (
-        provider_costs
-    )
-
-    benchmark_df["cost_per_document"] = (
-        benchmark_df.apply(
-            lambda row: (
-                row["provider_reported_cost"]
-                / row["documents_total"]
-                if row["documents_total"] > 0
-                else 0.0
-            ),
-            axis=1,
-        )
-    )
-
-    benchmark_df["cost_per_llm_document"] = (
-        benchmark_df.apply(
-            lambda row: (
-                row["provider_reported_cost"]
-                / row["requests_successful"]
-                if row["requests_successful"] > 0
-                else 0.0
-            ),
-            axis=1,
-        )
-    )
-
-    benchmark_df["tokens_per_llm_document"] = (
-        benchmark_df.apply(
-            lambda row: (
-                row["total_tokens"]
-                / row["requests_successful"]
-                if row["requests_successful"] > 0
-                else 0.0
-            ),
-            axis=1,
-        )
-    )
-
-    benchmark_df["reasoning_token_ratio"] = (
-        benchmark_df.apply(
-            lambda row: (
-                row["reasoning_tokens"]
-                / row["completion_tokens"]
-                if row["completion_tokens"] > 0
-                else 0.0
-            ),
-            axis=1,
-        )
+    benchmark_df[
+        "reasoning_token_ratio"
+    ] = benchmark_df.apply(
+        lambda row: _safe_divide(
+            row["llm_reasoning_tokens"],
+            row["llm_completion_tokens"],
+        ),
+        axis=1,
     )
 
     return benchmark_df
