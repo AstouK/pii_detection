@@ -11,6 +11,7 @@ from pathlib import Path
 from config.settings import (
     OPENROUTER_MODEL,
     QWEN_MODEL,
+    OLLAMA_MODEL,
 )
 
 from classification.schemas.experiment_schema import (
@@ -53,6 +54,14 @@ MODEL_REGISTRY = {
         "is_local": False,
     },
 
+    "ollama_local": {
+        "provider": "ollama",
+        "model_family": "llm",
+        "model_name": OLLAMA_MODEL,
+        "prediction_source": "llm",
+        "is_local": True,
+    },
+
     # Future
     "distilbert": {
         "provider": "local",
@@ -90,6 +99,11 @@ STRATEGY_REGISTRY = {
         "model": "gpt4o_mini",
     },
 
+    "rule_plus_ollama": {
+        "runner": "rule_plus_llm",
+        "model": "ollama_local",
+    },
+
     # Future
     "bert_distilbert": {
         "runner": "bert",
@@ -122,6 +136,7 @@ STRATEGIES_TO_RUN = [
     "rule_based",
     "rule_plus_qwen",
     "rule_plus_gpt4o_mini",
+    "rule_plus_ollama",
 ]
 
 # ─────────────────────────────────────────────────────────────
