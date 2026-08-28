@@ -104,6 +104,8 @@ SUPPLIER_ONBOARDING = Archetype(
         "comments",
         "approval",
         "notes",
+        "nationality",
+        "identification_number",
     ],
     variants=[
         "blank",
@@ -149,6 +151,8 @@ EMPLOYEE_RECORD = Archetype(
         "nationality",
         "contact",
         "notes",
+        "license_number",
+        "identification_number",
     ],
     variants=[
         "structured_record",
@@ -192,6 +196,7 @@ CONTRACT = Archetype(
         "contact",
         "signature",
         "termination",
+        "payment_details",
     ],
     variants=[
         "contract_excerpt",

@@ -14,6 +14,9 @@ import pandas as pd
 
 from classification.data_generation.config import (
     DATASET_COLUMNS,
+    MIN_ENTITY_EXAMPLES_PER_SPLIT,
+    PRIORITY_ENTITIES,
+    PRIORITY_ENTITY_SPLIT_TARGETS,
     SUPPORTED_LANGUAGES,
     SUPPORTED_SCENARIOS,
     SUPPORTED_SPLITS,
@@ -892,6 +895,91 @@ def audit_entity_coverage(
         )
 
 
+def audit_entity_split_coverage(
+    df: pd.DataFrame,
+    report: AuditReport,
+    strict: bool,
+    min_per_split: int = MIN_ENTITY_EXAMPLES_PER_SPLIT,
+    priority_entities: set = PRIORITY_ENTITIES,
+    priority_split_targets: dict = PRIORITY_ENTITY_SPLIT_TARGETS,
+) -> None:
+    """Report entity representation broken down by split.
+
+    audit_entity_coverage() above only checks whether an entity
+    appears ANYWHERE in the dataset. That is not sufficient: an entity
+    can have a healthy dataset-wide total while having zero examples
+    in validation or test, which silently makes per-entity validation
+    and test metrics uncomputable -- or statistically meaningless --
+    for that entity. This check catches that failure mode, and holds
+    ``priority_entities`` (categories flagged as insufficiently
+    accurate for DistilBERT training) to their higher
+    ``priority_split_targets`` rather than the baseline floor.
+    """
+
+    rows = []
+    below_target = []
+    zero_coverage = []
+
+    for column in ENTITY_COLUMNS:
+        entity = column.replace("_yes_no", "")
+
+        is_positive = df[column].map(normalize_yes)
+
+        split_counts = (
+            df.loc[is_positive, "recommended_split"]
+            .value_counts()
+            .to_dict()
+        )
+
+        row = {split: int(split_counts.get(split, 0)) for split in SUPPORTED_SPLITS}
+        row["entity"] = entity
+        rows.append(row)
+
+        is_priority = entity in priority_entities
+
+        for split in SUPPORTED_SPLITS:
+            count = row[split]
+
+            target = (
+                priority_split_targets.get(split, min_per_split)
+                if is_priority
+                else min_per_split
+            )
+
+            if count == 0:
+                zero_coverage.append(f"{entity}/{split}")
+            elif count < target:
+                below_target.append(
+                    f"{entity}/{split}={count} (target {target}"
+                    f"{', priority' if is_priority else ''})"
+                )
+
+    report.metrics["entity_split_coverage"] = {
+        r["entity"]: {split: r[split] for split in SUPPORTED_SPLITS}
+        for r in rows
+    }
+
+    if zero_coverage:
+        report.fail(
+            "entity_split_coverage",
+            "Entity/split combinations with ZERO examples "
+            f"(per-entity metrics uncomputable for these): {sorted(zero_coverage)}",
+        )
+    elif below_target:
+        level = report.fail if strict else report.warn
+        level(
+            "entity_split_coverage",
+            f"Entity/split combinations below their target: {sorted(below_target)}",
+        )
+    else:
+        report.pass_(
+            "entity_split_coverage",
+            "Every entity type meets its target in every split "
+            f"(priority entities: {sorted(priority_entities)} at "
+            f"{priority_split_targets}; all others at {min_per_split}+).",
+        )
+
+
 def audit_distributions(
     df: pd.DataFrame,
     report: AuditReport,
@@ -1095,6 +1183,12 @@ def run_audit(
         report=report,
     )
 
+    audit_entity_split_coverage(
+        df=df,
+        report=report,
+        strict=strict,
+    )
+
     audit_distributions(
         df=df,
         report=report,
@@ -1104,7 +1198,7 @@ def run_audit(
     return report
 
 
-# Output 
+# Output
 
 def render_text_report(
     report: AuditReport,
