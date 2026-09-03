@@ -3429,10 +3429,10 @@ Ticket Id: REF-2441868
 Subject: Issue with accessing account details on the website
 Customer: Customer Organization
 Contact: Department Contact
-Description: http://www.gonzales.com/ I am currently unable to log into my account on your website. Every time I try, I receive an error message indicating that my credentials are incorrect, even though I am sure that they are correct. This issue has persisted for the last few days, and I would appreciate your assistance in resolving it as soon as possible.
+Description: Information not available I am currently unable to log into my account on your website. Every time I try, I receive an error message indicating that my credentials are incorrect, even though I am sure that they are correct. This issue has persisted for the last few days, and I would appreciate your assistance in resolving it as soon as possible.
 Agent: Support Specialist
 Status: In Progress
-Resolution: Our team has investigated the issue and found that there was a temporary system outage affecting user logins. We have since resolved the problem, and you should now be able to access your account. Please try logging in again and let us know if you encounter any further issues.",yes,no,no,no,no,no,no,no,no,no,no,yes,no,URL,URL,1,1,easy,no,none,no,train,yes,openrouter_gpt4o_mini_field,field_llm_v1,no,,,v2,Synthetic document generated for controlled PII training data.
+Resolution: Our team has investigated the issue and found that there was a temporary system outage affecting user logins. We have since resolved the problem, and you should now be able to access your account. Please try logging in again and let us know if you encounter any further issues.",no,no,no,no,no,no,no,no,no,no,no,no,no,,NONE,0,0,easy,no,none,no,train,yes,openrouter_gpt4o_mini_field,field_llm_v1,no,,,v2,Synthetic document generated for controlled PII training data. Relabeled 2026-09-03: standalone URL with no co-occurring identifier does not meet GDPR Art.4(1) identifiability threshold; corrected from positive to negative.
 SYN-CUSTOMER_SUPPORT-0093,synthetic_customer_support_0093.txt,support_ticket,customer_support,de,synthetic_generation,,,synthetic,2026-08-28,2026-08-28,2026-08-28,0,"Kundensupport
 
 Ticketnummer: REF-4929476
@@ -3699,7 +3699,7 @@ Kontakt: Zentrale Kontaktstelle
 Beschreibung: Das aktuelle Problem betrifft die Geschäftskunden, die über die Zentrale Kontaktstelle Unterstützung angefordert haben. Unsere ersten Untersuchungen haben ergeben, dass ein technisches Problem mit der Systemintegration vorliegt, das potenziell zu signifikanten Geschäftsausfällen führen könnte. Es ist entscheidend, dass wir dieses Problem schnellstmöglich lösen, um die Auswirkungen auf unsere Kunden zu minimieren und den reibungslosen Betrieb sicherzustellen.
 Bearbeiter: Service Desk
 Status: In Progress
-Lösung: https://werner.de/",yes,no,no,no,no,no,no,no,no,no,no,yes,no,URL,URL,1,1,easy,no,none,no,train,yes,openrouter_gpt4o_mini_field,field_llm_v1,no,,,v2,Synthetic document generated for controlled PII training data.
+Lösung: Information nicht verfügbar",no,no,no,no,no,no,no,no,no,no,no,no,no,,NONE,0,0,easy,no,none,no,train,yes,openrouter_gpt4o_mini_field,field_llm_v1,no,,,v2,Synthetic document generated for controlled PII training data. Relabeled 2026-09-03: standalone URL with no co-occurring identifier does not meet GDPR Art.4(1) identifiability threshold; corrected from positive to negative.
 SYN-CUSTOMER_SUPPORT-0119,synthetic_customer_support_0119.txt,support_ticket,customer_support,de,synthetic_generation,,,synthetic,2026-08-28,2026-08-28,2026-08-28,0,"Kundensupport
 
 Ticketnummer: REF-8901555
@@ -3776,10 +3776,10 @@ Ticketnummer: REF-1950967
 Betreff: Anfrage zur Nutzung des Kundenportals
 Kunde: Geschäftskunde
 Kontakt: Serviceteam
-Beschreibung: http://www.siering.org/
+Beschreibung: Information nicht verfügbar
 Bearbeiter: Support-Fachbereich
 Status: Closed
-Lösung: Das Problem wurde behoben. Der Zugang zum Kundenportal ist nun wieder vollständig verfügbar. Für weitere Informationen stehen wir Ihnen jederzeit zur Verfügung.",yes,no,no,no,no,no,no,no,no,no,no,yes,no,URL,URL,1,1,easy,no,none,no,test,yes,openrouter_gpt4o_mini_field,field_llm_v1,no,,,v2,Synthetic document generated for controlled PII training data.
+Lösung: Das Problem wurde behoben. Der Zugang zum Kundenportal ist nun wieder vollständig verfügbar. Für weitere Informationen stehen wir Ihnen jederzeit zur Verfügung.",no,no,no,no,no,no,no,no,no,no,no,no,no,,NONE,0,0,easy,no,none,no,test,yes,openrouter_gpt4o_mini_field,field_llm_v1,no,,,v2,Synthetic document generated for controlled PII training data. Relabeled 2026-09-03: standalone URL with no co-occurring identifier does not meet GDPR Art.4(1) identifiability threshold; corrected from positive to negative.
 SYN-CUSTOMER_SUPPORT-0127,synthetic_customer_support_0127.txt,support_ticket,customer_support,en,synthetic_generation,,,synthetic,2026-08-28,2026-08-28,2026-08-28,0,"Customer Support
 
 Ticket Id: REF-9573538
@@ -4886,10 +4886,10 @@ Ticketnummer: REF-5509595
 Betreff: Anfrage zur Funktionalität des Kundenportals
 Kunde: Geschäftskunde
 Kontakt: Abteilungskontakt
-Beschreibung: https://tintzmann.com/
+Beschreibung: Information nicht verfügbar
 Bearbeiter: Kundensupport-Team
 Status: Pending
-Lösung: Wir haben Ihre Anfrage bezüglich der Funktionalität des Kundenportals erhalten und werden diese so schnell wie möglich bearbeiten. Unser Team wird sich in Kürze mit Ihnen in Verbindung setzen, um weitere Informationen zu geben und mögliche Lösungen anzubieten.",yes,no,no,no,no,no,no,no,no,no,no,yes,no,URL,URL,1,1,easy,no,none,no,train,yes,openrouter_gpt4o_mini_field,field_llm_v1,no,,,v2,Synthetic document generated for controlled PII training data.
+Lösung: Wir haben Ihre Anfrage bezüglich der Funktionalität des Kundenportals erhalten und werden diese so schnell wie möglich bearbeiten. Unser Team wird sich in Kürze mit Ihnen in Verbindung setzen, um weitere Informationen zu geben und mögliche Lösungen anzubieten.",no,no,no,no,no,no,no,no,no,no,no,no,no,,NONE,0,0,easy,no,none,no,train,yes,openrouter_gpt4o_mini_field,field_llm_v1,no,,,v2,Synthetic document generated for controlled PII training data. Relabeled 2026-09-03: standalone URL with no co-occurring identifier does not meet GDPR Art.4(1) identifiability threshold; corrected from positive to negative.
 SYN-CUSTOMER_SUPPORT-0238,synthetic_customer_support_0238.txt,support_ticket,customer_support,de,synthetic_generation,,,synthetic,2026-08-28,2026-08-28,2026-08-28,0,"Kundensupport
 
 Ticketnummer: REF-5362525
@@ -13606,7 +13606,7 @@ Date: 2025-07-06
 Author: Compliance Department
 Content: Internal documentation for the standard business process.
 Reference: REF-9903331
-Notes: http://www.case.com/",yes,no,no,no,no,no,no,no,no,no,no,yes,no,URL,URL,1,1,easy,no,none,no,train,yes,faker_archetype_fallback,llm_rewrite_v1_fallback,no,,,v2,Synthetic document generated for controlled PII training data.
+Notes: Information not available",no,no,no,no,no,no,no,no,no,no,no,no,no,,NONE,0,0,easy,no,none,no,train,yes,faker_archetype_fallback,llm_rewrite_v1_fallback,no,,,v2,Synthetic document generated for controlled PII training data. Relabeled 2026-09-03: standalone URL with no co-occurring identifier does not meet GDPR Art.4(1) identifiability threshold; corrected from positive to negative.
 SYN-GENERAL_DOCUMENT-0024,synthetic_general_document_0024.txt,general_document,general_document,de,synthetic_generation,,,synthetic,2026-08-28,2026-08-28,2026-08-28,0,"Statusupdate zum Projektfortschritt
 
 Datum: 17. März 2027
@@ -13651,7 +13651,7 @@ Für Fragen oder weitere Informationen steht Ihnen die Compliance-Abteilung jede
 Vielen Dank für Ihre Mitarbeit und Ihr Engagement.
 
 Mit freundlichen Grüßen,  
-Compliance-Abteilung",yes,no,no,no,no,no,no,no,no,yes,no,no,no,DATE_TIME,DATE_TIME,1,1,easy,no,none,no,train,yes,openrouter_gpt4o_mini_document,llm_rewrite_v1,no,,,v2,Synthetic document generated for controlled PII training data.
+Compliance-Abteilung",no,no,no,no,no,no,no,no,no,no,no,no,no,,NONE,0,0,easy,no,none,no,train,yes,openrouter_gpt4o_mini_document,llm_rewrite_v1,no,,,v2,Synthetic document generated for controlled PII training data. Relabeled 2026-09-03: standalone DATE_TIME with no co-occurring identifier does not meet GDPR Art.4(1) identifiability threshold; corrected from positive to negative.
 SYN-GENERAL_DOCUMENT-0026,synthetic_general_document_0026.txt,general_document,general_document,en,synthetic_generation,,,synthetic,2026-08-28,2026-08-28,2026-08-28,0,"**Project Status Update**
 
 **Title:** Project Update - Q3 Planning
@@ -13679,9 +13679,9 @@ SYN-GENERAL_DOCUMENT-0027,synthetic_general_document_0027.txt,general_document,g
 Title: Operational Process Note
 Date: 2026-07-19
 Author: Compliance Department
-Content: http://berry-french.com/
+Content: Information not available
 Reference: REF-9349098
-Notes: Internal documentation for the standard business process.",yes,no,no,no,no,no,no,no,no,no,no,yes,no,URL,URL,1,1,easy,no,none,no,train,yes,faker_archetype_fallback,llm_rewrite_v1_fallback,no,,,v2,Synthetic document generated for controlled PII training data.
+Notes: Internal documentation for the standard business process.",no,no,no,no,no,no,no,no,no,no,no,no,no,,NONE,0,0,easy,no,none,no,train,yes,faker_archetype_fallback,llm_rewrite_v1_fallback,no,,,v2,Synthetic document generated for controlled PII training data. Relabeled 2026-09-03: standalone URL with no co-occurring identifier does not meet GDPR Art.4(1) identifiability threshold; corrected from positive to negative.
 SYN-GENERAL_DOCUMENT-0028,synthetic_general_document_0028.txt,general_document,general_document,de,synthetic_generation,,,synthetic,2026-08-28,2026-08-28,2026-08-28,0,"Internes Dokument
 
 Titel: Richtlinie zur Abteilungsaktualisierung  
@@ -14246,9 +14246,9 @@ SYN-GENERAL_DOCUMENT-0048,synthetic_general_document_0048.txt,general_document,g
 Title: Internal Policy Update
 Date: 2026-08-31
 Author: Project Office
-Content: http://rich.com/
+Content: Information not available
 Reference: REF-9522984
-Notes: Internal documentation for the standard business process.",yes,no,no,no,no,no,no,no,no,no,no,yes,no,URL,URL,1,1,easy,no,none,no,train,yes,faker_archetype_fallback,llm_rewrite_v1_fallback,no,,,v2,Synthetic document generated for controlled PII training data.
+Notes: Internal documentation for the standard business process.",no,no,no,no,no,no,no,no,no,no,no,no,no,,NONE,0,0,easy,no,none,no,train,yes,faker_archetype_fallback,llm_rewrite_v1_fallback,no,,,v2,Synthetic document generated for controlled PII training data. Relabeled 2026-09-03: standalone URL with no co-occurring identifier does not meet GDPR Art.4(1) identifiability threshold; corrected from positive to negative.
 SYN-GENERAL_DOCUMENT-0049,synthetic_general_document_0049.txt,general_document,general_document,en,synthetic_generation,,,synthetic,2026-08-28,2026-08-28,2026-08-28,0,"**Internal Memo**
 
 **To:** All Staff  
@@ -14338,9 +14338,9 @@ SYN-GENERAL_DOCUMENT-0052,synthetic_general_document_0052.txt,general_document,g
 Title: Department Update
 Date: 2025-03-01
 Author: Project Office
-Content: https://www.cameron-turner.info/
+Content: Information not available
 Reference: REF-4163493
-Notes: Internal documentation for the standard business process.",yes,no,no,no,no,no,no,no,no,no,no,yes,no,URL,URL,1,1,easy,no,none,no,train,yes,faker_archetype_fallback,llm_rewrite_v1_fallback,no,,,v2,Synthetic document generated for controlled PII training data.
+Notes: Internal documentation for the standard business process.",no,no,no,no,no,no,no,no,no,no,no,no,no,,NONE,0,0,easy,no,none,no,train,yes,faker_archetype_fallback,llm_rewrite_v1_fallback,no,,,v2,Synthetic document generated for controlled PII training data. Relabeled 2026-09-03: standalone URL with no co-occurring identifier does not meet GDPR Art.4(1) identifiability threshold; corrected from positive to negative.
 SYN-GENERAL_DOCUMENT-0053,synthetic_general_document_0053.txt,general_document,general_document,en,synthetic_generation,,,synthetic,2026-08-28,2026-08-28,2026-08-28,0,"**MEMORANDUM**
 
 **To:** All Departments  
@@ -14388,9 +14388,9 @@ SYN-GENERAL_DOCUMENT-0055,synthetic_general_document_0055.txt,general_document,g
 Titel: Implementation Progress Report
 Datum: 2025-03-21
 Autor: Compliance-Abteilung
-Inhalt: https://hornig.de/
+Inhalt: Information nicht verfügbar
 Referenz: REF-2012135
-Notizen: Interne Dokumentation für den regulären Geschäftsvorgang.",yes,no,no,no,no,no,no,no,no,no,no,yes,no,URL,URL,1,1,easy,no,none,no,train,yes,faker_archetype_fallback,llm_rewrite_v1_fallback,no,,,v2,Synthetic document generated for controlled PII training data.
+Notizen: Interne Dokumentation für den regulären Geschäftsvorgang.",no,no,no,no,no,no,no,no,no,no,no,no,no,,NONE,0,0,easy,no,none,no,train,yes,faker_archetype_fallback,llm_rewrite_v1_fallback,no,,,v2,Synthetic document generated for controlled PII training data. Relabeled 2026-09-03: standalone URL with no co-occurring identifier does not meet GDPR Art.4(1) identifiability threshold; corrected from positive to negative.
 SYN-GENERAL_DOCUMENT-0056,synthetic_general_document_0056.txt,general_document,general_document,de,synthetic_generation,,,synthetic,2026-08-28,2026-08-28,2026-08-28,0,"Projektstatusaktualisierung
 
 Titel: Fortschrittsbericht zum Projekt ""Effizienzsteigerung 2026""  
@@ -14614,7 +14614,7 @@ Date: 2026-07-13
 Author: Compliance Department
 Content: Internal documentation for the standard business process.
 Reference: REF-4027508
-Notes: http://www.acosta.com/",yes,no,no,no,no,no,no,no,no,no,no,yes,no,URL,URL,1,1,easy,no,none,no,train,yes,faker_archetype_fallback,llm_rewrite_v1_fallback,no,,,v2,Synthetic document generated for controlled PII training data.
+Notes: Information not available",no,no,no,no,no,no,no,no,no,no,no,no,no,,NONE,0,0,easy,no,none,no,train,yes,faker_archetype_fallback,llm_rewrite_v1_fallback,no,,,v2,Synthetic document generated for controlled PII training data. Relabeled 2026-09-03: standalone URL with no co-occurring identifier does not meet GDPR Art.4(1) identifiability threshold; corrected from positive to negative.
 SYN-GENERAL_DOCUMENT-0064,synthetic_general_document_0064.txt,general_document,general_document,de,synthetic_generation,,,synthetic,2026-08-28,2026-08-28,2026-08-28,0,"**Interne Mitteilung**
 
 **Betreff:** Statusupdate zum Projekt „Innovationsentwicklung“  
@@ -14859,7 +14859,7 @@ The Urban Development Initiative is progressing as planned. The team is currentl
 **Reference Number:** REF-3734667
 
 **Notes:**  
-Continued monitoring of project milestones is essential to ensure timely delivery and alignment with community needs. Further updates will be provided in our next status meeting.",yes,no,no,no,yes,no,no,no,no,no,no,no,no,LOCATION,LOCATION,1,1,easy,no,none,no,train,yes,openrouter_gpt4o_mini_document,llm_rewrite_v1,no,,,v2,Synthetic document generated for controlled PII training data.
+Continued monitoring of project milestones is essential to ensure timely delivery and alignment with community needs. Further updates will be provided in our next status meeting.",no,no,no,no,no,no,no,no,no,no,no,no,no,,NONE,0,0,easy,no,none,no,train,yes,openrouter_gpt4o_mini_document,llm_rewrite_v1,no,,,v2,Synthetic document generated for controlled PII training data. Relabeled 2026-09-03: standalone LOCATION with no co-occurring identifier does not meet GDPR Art.4(1) identifiability threshold; corrected from positive to negative.
 SYN-GENERAL_DOCUMENT-0073,synthetic_general_document_0073.txt,general_document,general_document,en,synthetic_generation,,,synthetic,2026-08-28,2026-08-28,2026-08-28,0,"**MEMORANDUM**
 
 **To:** All Employees  
@@ -15348,9 +15348,9 @@ Die nächsten Schritte umfassen:
 - Regelmäßige Überprüfung des Implementierungsfortschritts.
 - Bereitstellung eines Feedback-Mechanismus zur kontinuierlichen Verbesserung.
 
-Für weitere Informationen oder Rückfragen besuchen Sie bitte: https://schleich.net/
+Für weitere Informationen oder Rückfragen besuchen Sie bitte: Information nicht verfügbar
 
-Wir bedanken uns für Ihre Mitarbeit und Ihr Engagement in diesem wichtigen Prozess.",yes,no,no,no,no,no,no,no,no,no,no,yes,no,URL,URL,1,1,easy,no,none,no,train,yes,openrouter_gpt4o_mini_document,llm_rewrite_v1,no,,,v2,Synthetic document generated for controlled PII training data.
+Wir bedanken uns für Ihre Mitarbeit und Ihr Engagement in diesem wichtigen Prozess.",no,no,no,no,no,no,no,no,no,no,no,no,no,,NONE,0,0,easy,no,none,no,train,yes,openrouter_gpt4o_mini_document,llm_rewrite_v1,no,,,v2,Synthetic document generated for controlled PII training data. Relabeled 2026-09-03: standalone URL with no co-occurring identifier does not meet GDPR Art.4(1) identifiability threshold; corrected from positive to negative.
 SYN-GENERAL_DOCUMENT-0092,synthetic_general_document_0092.txt,general_document,general_document,en,synthetic_generation,,,synthetic,2026-08-28,2026-08-28,2026-08-28,0,"**Project Update**
 
 **Title:** Project Status Update  
@@ -16014,9 +16014,9 @@ SYN-GENERAL_DOCUMENT-0116,synthetic_general_document_0116.txt,general_document,g
 Title: Internal Review Summary
 Date: 2026-11-20
 Author: Corporate Communications
-Content: https://hood-werner.com/
+Content: Information not available
 Reference: REF-1919790
-Notes: Internal documentation for the standard business process.",yes,no,no,no,no,no,no,no,no,no,no,yes,no,URL,URL,1,1,easy,no,none,no,train,yes,faker_archetype_fallback,llm_rewrite_v1_fallback,no,,,v2,Synthetic document generated for controlled PII training data.
+Notes: Internal documentation for the standard business process.",no,no,no,no,no,no,no,no,no,no,no,no,no,,NONE,0,0,easy,no,none,no,train,yes,faker_archetype_fallback,llm_rewrite_v1_fallback,no,,,v2,Synthetic document generated for controlled PII training data. Relabeled 2026-09-03: standalone URL with no co-occurring identifier does not meet GDPR Art.4(1) identifiability threshold; corrected from positive to negative.
 SYN-GENERAL_DOCUMENT-0117,synthetic_general_document_0117.txt,general_document,general_document,de,synthetic_generation,,,synthetic,2026-08-28,2026-08-28,2026-08-28,0,"Internes Dokument
 
 Titel: Quartalsplanungsnotiz  
@@ -16063,7 +16063,7 @@ For any questions or further clarification, please reach out to your supervisor 
 
 **Reference:** REF-9369376  
 
-Thank you for your cooperation and commitment to ensuring the success of our projects.",yes,no,no,no,yes,no,no,no,no,no,no,no,no,LOCATION,LOCATION,1,1,easy,no,none,no,train,yes,openrouter_gpt4o_mini_document,llm_rewrite_v1,no,,,v2,Synthetic document generated for controlled PII training data.
+Thank you for your cooperation and commitment to ensuring the success of our projects.",no,no,no,no,no,no,no,no,no,no,no,no,no,,NONE,0,0,easy,no,none,no,train,yes,openrouter_gpt4o_mini_document,llm_rewrite_v1,no,,,v2,Synthetic document generated for controlled PII training data. Relabeled 2026-09-03: standalone LOCATION with no co-occurring identifier does not meet GDPR Art.4(1) identifiability threshold; corrected from positive to negative.
 SYN-GENERAL_DOCUMENT-0119,synthetic_general_document_0119.txt,general_document,general_document,de,synthetic_generation,,,synthetic,2026-08-28,2026-08-28,2026-08-28,0,"Projektstatus-Update
 
 Datum: 26. Oktober 2024  
@@ -16134,7 +16134,7 @@ Please refer to the attached document for more detailed information on the chang
 
 Best regards,  
 Compliance Department  
-Reference: REF-5069602",yes,no,no,no,no,no,no,no,no,yes,no,no,no,DATE_TIME,DATE_TIME,1,1,easy,no,none,no,train,yes,openrouter_gpt4o_mini_document,llm_rewrite_v1,no,,,v2,Synthetic document generated for controlled PII training data.
+Reference: REF-5069602",no,no,no,no,no,no,no,no,no,no,no,no,no,,NONE,0,0,easy,no,none,no,train,yes,openrouter_gpt4o_mini_document,llm_rewrite_v1,no,,,v2,Synthetic document generated for controlled PII training data. Relabeled 2026-09-03: standalone DATE_TIME with no co-occurring identifier does not meet GDPR Art.4(1) identifiability threshold; corrected from positive to negative.
 SYN-GENERAL_DOCUMENT-0122,synthetic_general_document_0122.txt,general_document,general_document,de,synthetic_generation,,,synthetic,2026-08-28,2026-08-28,2026-08-28,0,"**Internes Memo**
 
 **Betreff:** Zusammenfassung der internen Überprüfung
@@ -16751,9 +16751,9 @@ SYN-GENERAL_DOCUMENT-0144,synthetic_general_document_0144.txt,general_document,g
 Titel: Process Improvement Note
 Datum: 2024-10-07
 Autor: Compliance-Abteilung
-Inhalt: https://hande.com/
+Inhalt: Information nicht verfügbar
 Referenz: REF-2078147
-Notizen: Interne Dokumentation für den regulären Geschäftsvorgang.",yes,no,no,no,no,no,no,no,no,no,no,yes,no,URL,URL,1,1,easy,no,none,no,train,yes,faker_archetype_fallback,llm_rewrite_v1_fallback,no,,,v2,Synthetic document generated for controlled PII training data.
+Notizen: Interne Dokumentation für den regulären Geschäftsvorgang.",no,no,no,no,no,no,no,no,no,no,no,no,no,,NONE,0,0,easy,no,none,no,train,yes,faker_archetype_fallback,llm_rewrite_v1_fallback,no,,,v2,Synthetic document generated for controlled PII training data. Relabeled 2026-09-03: standalone URL with no co-occurring identifier does not meet GDPR Art.4(1) identifiability threshold; corrected from positive to negative.
 SYN-GENERAL_DOCUMENT-0145,synthetic_general_document_0145.txt,general_document,general_document,en,synthetic_generation,,,synthetic,2026-08-28,2026-08-28,2026-08-28,0,"**Project Status Update**
 
 **Date:** July 8, 2026
@@ -17049,9 +17049,9 @@ SYN-GENERAL_DOCUMENT-0156,synthetic_general_document_0156.txt,general_document,g
 Title: Internal Review Summary
 Date: 2027-06-13
 Author: Corporate Communications
-Content: https://www.hawkins.com/
+Content: Information not available
 Reference: REF-1431421
-Notes: Internal documentation for the standard business process.",yes,no,no,no,no,no,no,no,no,no,no,yes,no,URL,URL,1,1,easy,no,none,no,train,yes,faker_archetype_fallback,llm_rewrite_v1_fallback,no,,,v2,Synthetic document generated for controlled PII training data.
+Notes: Internal documentation for the standard business process.",no,no,no,no,no,no,no,no,no,no,no,no,no,,NONE,0,0,easy,no,none,no,train,yes,faker_archetype_fallback,llm_rewrite_v1_fallback,no,,,v2,Synthetic document generated for controlled PII training data. Relabeled 2026-09-03: standalone URL with no co-occurring identifier does not meet GDPR Art.4(1) identifiability threshold; corrected from positive to negative.
 SYN-GENERAL_DOCUMENT-0157,synthetic_general_document_0157.txt,general_document,general_document,en,synthetic_generation,,,synthetic,2026-08-28,2026-08-28,2026-08-28,0,"General Document
 
 Title: Internal Review Summary
@@ -17059,7 +17059,7 @@ Date: 2025-02-10
 Author: Project Office
 Content: Internal documentation for the standard business process.
 Reference: REF-1083352
-Notes: https://www.allen.org/",yes,no,no,no,no,no,no,no,no,no,no,yes,no,URL,URL,1,1,easy,no,none,no,train,yes,faker_archetype_fallback,llm_rewrite_v1_fallback,no,,,v2,Synthetic document generated for controlled PII training data.
+Notes: Information not available",no,no,no,no,no,no,no,no,no,no,no,no,no,,NONE,0,0,easy,no,none,no,train,yes,faker_archetype_fallback,llm_rewrite_v1_fallback,no,,,v2,Synthetic document generated for controlled PII training data. Relabeled 2026-09-03: standalone URL with no co-occurring identifier does not meet GDPR Art.4(1) identifiability threshold; corrected from positive to negative.
 SYN-GENERAL_DOCUMENT-0158,synthetic_general_document_0158.txt,general_document,general_document,de,synthetic_generation,,,synthetic,2026-08-28,2026-08-28,2026-08-28,0,"Projektstatus-Update
 
 Titel: Fortschritt im Projekt X 
@@ -17090,7 +17090,7 @@ Datum: 2027-05-10
 Autor: Unternehmenskommunikation
 Inhalt: Interne Dokumentation für den regulären Geschäftsvorgang.
 Referenz: REF-4751288
-Notizen: https://www.spiess.com/",yes,no,no,no,no,no,no,no,no,no,no,yes,no,URL,URL,1,1,easy,no,none,no,test,yes,faker_archetype_fallback,llm_rewrite_v1_fallback,no,,,v2,Synthetic document generated for controlled PII training data.
+Notizen: Information nicht verfügbar",no,no,no,no,no,no,no,no,no,no,no,no,no,,NONE,0,0,easy,no,none,no,test,yes,faker_archetype_fallback,llm_rewrite_v1_fallback,no,,,v2,Synthetic document generated for controlled PII training data. Relabeled 2026-09-03: standalone URL with no co-occurring identifier does not meet GDPR Art.4(1) identifiability threshold; corrected from positive to negative.
 SYN-GENERAL_DOCUMENT-0160,synthetic_general_document_0160.txt,general_document,general_document,en,synthetic_generation,,,synthetic,2026-08-28,2026-08-28,2026-08-28,0,"**Internal Policy Note**
 
 **Title:** Project Status Update Protocol  
@@ -17293,7 +17293,7 @@ Mit freundlichen Grüßen,
 
 [Unterschrift]
 
-Compliance-Abteilung",yes,no,no,no,no,no,no,no,no,yes,no,no,no,DATE_TIME,DATE_TIME,1,1,easy,no,none,no,validation,yes,openrouter_gpt4o_mini_document,llm_rewrite_v1,no,,,v2,Synthetic document generated for controlled PII training data.
+Compliance-Abteilung",no,no,no,no,no,no,no,no,no,no,no,no,no,,NONE,0,0,easy,no,none,no,validation,yes,openrouter_gpt4o_mini_document,llm_rewrite_v1,no,,,v2,Synthetic document generated for controlled PII training data. Relabeled 2026-09-03: standalone DATE_TIME with no co-occurring identifier does not meet GDPR Art.4(1) identifiability threshold; corrected from positive to negative.
 SYN-GENERAL_DOCUMENT-0167,synthetic_general_document_0167.txt,general_document,general_document,en,synthetic_generation,,,synthetic,2026-08-28,2026-08-28,2026-08-28,0,"Title: Project Status Update  
 Date: 2026-08-17  
 
@@ -17412,7 +17412,7 @@ Datum: 2024-08-31
 Autor: Projektbüro
 Inhalt: Interne Dokumentation für den regulären Geschäftsvorgang.
 Referenz: REF-3965963
-Notizen: https://vogt.org/",yes,no,no,no,no,no,no,no,no,no,no,yes,no,URL,URL,1,1,easy,no,none,no,train,yes,faker_archetype_fallback,llm_rewrite_v1_fallback,no,,,v2,Synthetic document generated for controlled PII training data.
+Notizen: Information nicht verfügbar",no,no,no,no,no,no,no,no,no,no,no,no,no,,NONE,0,0,easy,no,none,no,train,yes,faker_archetype_fallback,llm_rewrite_v1_fallback,no,,,v2,Synthetic document generated for controlled PII training data. Relabeled 2026-09-03: standalone URL with no co-occurring identifier does not meet GDPR Art.4(1) identifiability threshold; corrected from positive to negative.
 SYN-GENERAL_DOCUMENT-0172,synthetic_general_document_0172.txt,general_document,general_document,en,synthetic_generation,,,synthetic,2026-08-28,2026-08-28,2026-08-28,0,"**Project Status Update**
 
 **Date:** March 26, 2027  
@@ -17668,7 +17668,7 @@ Die Implementierung des neuen CRM-Systems schreitet planmäßig voran. Wir halte
 
 ---
 
-Für Rückfragen steht das Projektbüro jederzeit zur Verfügung.",yes,no,no,no,no,no,no,no,no,yes,no,no,no,DATE_TIME,DATE_TIME,1,1,easy,no,none,no,train,yes,openrouter_gpt4o_mini_document,llm_rewrite_v1,no,,,v2,Synthetic document generated for controlled PII training data.
+Für Rückfragen steht das Projektbüro jederzeit zur Verfügung.",no,no,no,no,no,no,no,no,no,no,no,no,no,,NONE,0,0,easy,no,none,no,train,yes,openrouter_gpt4o_mini_document,llm_rewrite_v1,no,,,v2,Synthetic document generated for controlled PII training data. Relabeled 2026-09-03: standalone DATE_TIME with no co-occurring identifier does not meet GDPR Art.4(1) identifiability threshold; corrected from positive to negative.
 SYN-GENERAL_DOCUMENT-0181,synthetic_general_document_0181.txt,general_document,general_document,en,synthetic_generation,,,synthetic,2026-08-28,2026-08-28,2026-08-28,0,"**Internal Policy Note**
 
 **Title:** Project Status Update  
@@ -18221,9 +18221,9 @@ SYN-GENERAL_DOCUMENT-0202,synthetic_general_document_0202.txt,general_document,g
 Title: Quarterly Planning Memo
 Date: 2026-12-05
 Author: Compliance Department
-Content: http://www.murphy-reynolds.com/
+Content: Information not available
 Reference: REF-3502806
-Notes: Internal documentation for the standard business process.",yes,no,no,no,no,no,no,no,no,no,no,yes,no,URL,URL,1,1,easy,no,none,no,train,yes,faker_archetype_fallback,llm_rewrite_v1_fallback,no,,,v2,Synthetic document generated for controlled PII training data.
+Notes: Internal documentation for the standard business process.",no,no,no,no,no,no,no,no,no,no,no,no,no,,NONE,0,0,easy,no,none,no,train,yes,faker_archetype_fallback,llm_rewrite_v1_fallback,no,,,v2,Synthetic document generated for controlled PII training data. Relabeled 2026-09-03: standalone URL with no co-occurring identifier does not meet GDPR Art.4(1) identifiability threshold; corrected from positive to negative.
 SYN-GENERAL_DOCUMENT-0203,synthetic_general_document_0203.txt,general_document,general_document,en,synthetic_generation,,,synthetic,2026-08-28,2026-08-28,2026-08-28,0,"**Project Update: Internal Review Summary**  
 **Date:** August 17, 2027  
 
@@ -18463,17 +18463,17 @@ SYN-GENERAL_DOCUMENT-0211,synthetic_general_document_0211.txt,general_document,g
 Title: Department Update
 Date: 2024-11-13
 Author: Compliance Department
-Content: https://www.grimes.com/
+Content: Information not available
 Reference: REF-3886028
-Notes: Internal documentation for the standard business process.",yes,no,no,no,no,no,no,no,no,no,no,yes,no,URL,URL,1,1,easy,no,none,no,train,yes,faker_archetype_fallback,llm_rewrite_v1_fallback,no,,,v2,Synthetic document generated for controlled PII training data.
+Notes: Internal documentation for the standard business process.",no,no,no,no,no,no,no,no,no,no,no,no,no,,NONE,0,0,easy,no,none,no,train,yes,faker_archetype_fallback,llm_rewrite_v1_fallback,no,,,v2,Synthetic document generated for controlled PII training data. Relabeled 2026-09-03: standalone URL with no co-occurring identifier does not meet GDPR Art.4(1) identifiability threshold; corrected from positive to negative.
 SYN-GENERAL_DOCUMENT-0212,synthetic_general_document_0212.txt,general_document,general_document,de,synthetic_generation,,,synthetic,2026-08-28,2026-08-28,2026-08-28,0,"Internes Dokument
 
 Titel: Operational Process Note
 Datum: 2026-04-11
 Autor: Projektbüro
-Inhalt: http://www.hoelzenbecher.com/
+Inhalt: Information nicht verfügbar
 Referenz: REF-2924273
-Notizen: Interne Dokumentation für den regulären Geschäftsvorgang.",yes,no,no,no,no,no,no,no,no,no,no,yes,no,URL,URL,1,1,easy,no,none,no,train,yes,faker_archetype_fallback,llm_rewrite_v1_fallback,no,,,v2,Synthetic document generated for controlled PII training data.
+Notizen: Interne Dokumentation für den regulären Geschäftsvorgang.",no,no,no,no,no,no,no,no,no,no,no,no,no,,NONE,0,0,easy,no,none,no,train,yes,faker_archetype_fallback,llm_rewrite_v1_fallback,no,,,v2,Synthetic document generated for controlled PII training data. Relabeled 2026-09-03: standalone URL with no co-occurring identifier does not meet GDPR Art.4(1) identifiability threshold; corrected from positive to negative.
 SYN-GENERAL_DOCUMENT-0213,synthetic_general_document_0213.txt,general_document,general_document,en,synthetic_generation,,,synthetic,2026-08-28,2026-08-28,2026-08-28,0,"Title: Process Improvement Policy
 
 Date: December 11, 2026
@@ -18725,9 +18725,9 @@ Wichtige Informationen:
 - Aktuelle Herausforderungen: Anpassung der internen Prozesse an die neuen Richtlinien  
 
 Für weitere Details besuchen Sie bitte:  
-https://stolze.com/  
+Information nicht verfügbar  
 
-Wir halten Sie über zukünftige Entwicklungen auf dem Laufenden.",yes,no,no,no,no,no,no,no,no,no,no,yes,no,URL,URL,1,1,easy,no,none,no,train,yes,openrouter_gpt4o_mini_document,llm_rewrite_v1,no,,,v2,Synthetic document generated for controlled PII training data.
+Wir halten Sie über zukünftige Entwicklungen auf dem Laufenden.",no,no,no,no,no,no,no,no,no,no,no,no,no,,NONE,0,0,easy,no,none,no,train,yes,openrouter_gpt4o_mini_document,llm_rewrite_v1,no,,,v2,Synthetic document generated for controlled PII training data. Relabeled 2026-09-03: standalone URL with no co-occurring identifier does not meet GDPR Art.4(1) identifiability threshold; corrected from positive to negative.
 SYN-GENERAL_DOCUMENT-0222,synthetic_general_document_0222.txt,general_document,general_document,de,synthetic_generation,,,synthetic,2026-08-28,2026-08-28,2026-08-28,0,"Internes Dokument
 
 Titel: Aktualisierung der internen Richtlinien
@@ -19175,7 +19175,7 @@ Datum: 2026-01-07
 Autor: Unternehmenskommunikation
 Inhalt: Interne Dokumentation für den regulären Geschäftsvorgang.
 Referenz: REF-3503260
-Notizen: http://bachmann.de/",yes,no,no,no,no,no,no,no,no,no,no,yes,no,URL,URL,1,1,easy,no,none,no,train,yes,faker_archetype_fallback,llm_rewrite_v1_fallback,no,,,v2,Synthetic document generated for controlled PII training data.
+Notizen: Information nicht verfügbar",no,no,no,no,no,no,no,no,no,no,no,no,no,,NONE,0,0,easy,no,none,no,train,yes,faker_archetype_fallback,llm_rewrite_v1_fallback,no,,,v2,Synthetic document generated for controlled PII training data. Relabeled 2026-09-03: standalone URL with no co-occurring identifier does not meet GDPR Art.4(1) identifiability threshold; corrected from positive to negative.
 SYN-GENERAL_DOCUMENT-0240,synthetic_general_document_0240.txt,general_document,general_document,de,synthetic_generation,,,synthetic,2026-08-28,2026-08-28,2026-08-28,0,"Internes Dokument
 
 Titel: Zusammenfassung der internen Überprüfung  
@@ -19212,7 +19212,7 @@ Thank you for your attention to this matter and for your continued commitment to
 
 Best regards,
 
-Corporate Communications Department",yes,no,no,no,yes,no,no,no,no,no,no,no,no,LOCATION,LOCATION,1,1,easy,no,none,no,train,yes,openrouter_gpt4o_mini_document,llm_rewrite_v1,no,,,v2,Synthetic document generated for controlled PII training data.
+Corporate Communications Department",no,no,no,no,no,no,no,no,no,no,no,no,no,,NONE,0,0,easy,no,none,no,train,yes,openrouter_gpt4o_mini_document,llm_rewrite_v1,no,,,v2,Synthetic document generated for controlled PII training data. Relabeled 2026-09-03: standalone LOCATION with no co-occurring identifier does not meet GDPR Art.4(1) identifiability threshold; corrected from positive to negative.
 SYN-GENERAL_DOCUMENT-0242,synthetic_general_document_0242.txt,general_document,general_document,en,synthetic_generation,,,synthetic,2026-08-28,2026-08-28,2026-08-28,0,"**MEMORANDUM**
 
 **To:** All Staff  
@@ -19351,7 +19351,7 @@ The Process Improvement Initiative is designed to enhance operational efficienci
 **Location for Correspondence:**  
 597 Kenneth Pine, Arnoldshire, CT 23745  
 
-Please direct any questions or comments regarding this update to the Corporate Communications Team.",yes,no,no,no,yes,no,no,no,no,no,no,no,no,LOCATION,LOCATION,1,1,easy,no,none,no,validation,yes,openrouter_gpt4o_mini_document,llm_rewrite_v1,no,,,v2,Synthetic document generated for controlled PII training data.
+Please direct any questions or comments regarding this update to the Corporate Communications Team.",no,no,no,no,no,no,no,no,no,no,no,no,no,,NONE,0,0,easy,no,none,no,validation,yes,openrouter_gpt4o_mini_document,llm_rewrite_v1,no,,,v2,Synthetic document generated for controlled PII training data. Relabeled 2026-09-03: standalone LOCATION with no co-occurring identifier does not meet GDPR Art.4(1) identifiability threshold; corrected from positive to negative.
 SYN-GENERAL_DOCUMENT-0247,synthetic_general_document_0247.txt,general_document,general_document,en,synthetic_generation,,,synthetic,2026-08-28,2026-08-28,2026-08-28,0,"Title: Project Status Update  
 Date: November 15, 2024  
 
@@ -23398,7 +23398,7 @@ SYN-INTERNAL_EMAIL-0098,synthetic_internal_email_0098.txt,email,internal_email,d
 
 Hallo zusammen,
 
-vielen Dank für das Update zum Genehmigungsstatus. Ich habe die Informationen auf der Webseite http://www.rogge.de/ überprüft und finde, dass die neuesten Daten sehr hilfreich sind. 
+vielen Dank für das Update zum Genehmigungsstatus. Ich habe die Informationen auf der Webseite Information nicht verfügbar überprüft und finde, dass die neuesten Daten sehr hilfreich sind. 
 
 Könnte bitte jemand aus dem Team weitere Details zu den nächsten Schritten bereitstellen? Insbesondere wäre es wichtig zu wissen, bis wann wir mit einer endgültigen Entscheidung rechnen können. 
 
@@ -23406,7 +23406,7 @@ Vielen Dank im Voraus für eure Unterstützung!
 
 Mit besten Grüßen,  
 [Dein Name]  
-[Deine Abteilung]",yes,no,no,no,no,no,no,no,no,no,no,yes,no,URL,URL,1,1,easy,no,none,no,train,yes,openrouter_gpt4o_mini_document,llm_rewrite_v1,no,,,v2,Synthetic document generated for controlled PII training data.
+[Deine Abteilung]",no,no,no,no,no,no,no,no,no,no,no,no,no,,NONE,0,0,easy,no,none,no,train,yes,openrouter_gpt4o_mini_document,llm_rewrite_v1,no,,,v2,Synthetic document generated for controlled PII training data. Relabeled 2026-09-03: standalone URL with no co-occurring identifier does not meet GDPR Art.4(1) identifiability threshold; corrected from positive to negative.
 SYN-INTERNAL_EMAIL-0099,synthetic_internal_email_0099.txt,email,internal_email,de,synthetic_generation,,,synthetic,2026-08-28,2026-08-28,2026-08-28,0,"Betreff: Re: Approval Status Update
 
 Hallo zusammen,
@@ -23681,8 +23681,8 @@ Sender: Internal Communications
 Recipient: Relevant Stakeholders
 Subject: Approval Status Update
 Date: 2025-12-19
-Body: https://diaz.com/
-Signature: Authorized signature",yes,no,no,no,no,no,no,no,no,no,no,yes,no,URL,URL,1,1,easy,no,none,no,train,yes,faker_archetype_fallback,llm_rewrite_v1_fallback,no,,,v2,Synthetic document generated for controlled PII training data.
+Body: Information not available
+Signature: Authorized signature",no,no,no,no,no,no,no,no,no,no,no,no,no,,NONE,0,0,easy,no,none,no,train,yes,faker_archetype_fallback,llm_rewrite_v1_fallback,no,,,v2,Synthetic document generated for controlled PII training data. Relabeled 2026-09-03: standalone URL with no co-occurring identifier does not meet GDPR Art.4(1) identifiability threshold; corrected from positive to negative.
 SYN-INTERNAL_EMAIL-0118,synthetic_internal_email_0118.txt,email,internal_email,de,synthetic_generation,,,synthetic,2026-08-28,2026-08-28,2026-08-28,0,"Betreff: Koordination der Teamplanung
 
 Liebes Team,
@@ -23928,8 +23928,8 @@ Absender: Operations-Team
 Empfänger: Relevante Beteiligte
 Betreff: Process Change Notification
 Datum: 2026-04-05
-Nachricht: https://www.ortmann.org/
-Unterschrift: Unterschrift ausstehend",yes,no,no,no,no,no,no,no,no,no,no,yes,no,URL,URL,1,1,easy,no,none,no,validation,yes,faker_archetype_fallback,llm_rewrite_v1_fallback,no,,,v2,Synthetic document generated for controlled PII training data.
+Nachricht: Information nicht verfügbar
+Unterschrift: Unterschrift ausstehend",no,no,no,no,no,no,no,no,no,no,no,no,no,,NONE,0,0,easy,no,none,no,validation,yes,faker_archetype_fallback,llm_rewrite_v1_fallback,no,,,v2,Synthetic document generated for controlled PII training data. Relabeled 2026-09-03: standalone URL with no co-occurring identifier does not meet GDPR Art.4(1) identifiability threshold; corrected from positive to negative.
 SYN-INTERNAL_EMAIL-0134,synthetic_internal_email_0134.txt,email,internal_email,en,synthetic_generation,,,synthetic,2026-08-28,2026-08-28,2026-08-28,0,"Subject: Update on Approval Status
 
 Dear Team,
@@ -24991,8 +24991,8 @@ Sender: Internal Communications
 Recipient: Relevant Stakeholders
 Subject: Quarterly Planning Follow-Up
 Date: 2026-10-01
-Body: http://www.hart-meyer.com/
-Signature: Signature pending",yes,no,no,no,no,no,no,no,no,no,no,yes,no,URL,URL,1,1,easy,no,none,no,test,yes,faker_archetype_fallback,llm_rewrite_v1_fallback,no,,,v2,Synthetic document generated for controlled PII training data.
+Body: Information not available
+Signature: Signature pending",no,no,no,no,no,no,no,no,no,no,no,no,no,,NONE,0,0,easy,no,none,no,test,yes,faker_archetype_fallback,llm_rewrite_v1_fallback,no,,,v2,Synthetic document generated for controlled PII training data. Relabeled 2026-09-03: standalone URL with no co-occurring identifier does not meet GDPR Art.4(1) identifiability threshold; corrected from positive to negative.
 SYN-INTERNAL_EMAIL-0202,synthetic_internal_email_0202.txt,email,internal_email,de,synthetic_generation,,,synthetic,2026-08-28,2026-08-28,2026-08-28,0,"Betreff: Vorbereitung des Workshops
 
 Hallo zusammen,
@@ -25399,8 +25399,8 @@ Absender: Operations-Team
 Empfänger: Abteilungsmitarbeitende
 Betreff: Quarterly Planning Follow-Up
 Datum: 2027-05-06
-Nachricht: https://beer.com/
-Unterschrift: Autorisierte Unterschrift",yes,no,no,no,no,no,no,no,no,no,no,yes,no,URL,URL,1,1,easy,no,none,no,train,yes,faker_archetype_fallback,llm_rewrite_v1_fallback,no,,,v2,Synthetic document generated for controlled PII training data.
+Nachricht: Information nicht verfügbar
+Unterschrift: Autorisierte Unterschrift",no,no,no,no,no,no,no,no,no,no,no,no,no,,NONE,0,0,easy,no,none,no,train,yes,faker_archetype_fallback,llm_rewrite_v1_fallback,no,,,v2,Synthetic document generated for controlled PII training data. Relabeled 2026-09-03: standalone URL with no co-occurring identifier does not meet GDPR Art.4(1) identifiability threshold; corrected from positive to negative.
 SYN-INTERNAL_EMAIL-0228,synthetic_internal_email_0228.txt,email,internal_email,en,synthetic_generation,,,synthetic,2026-08-28,2026-08-28,2026-08-28,0,"Subject: RE: Team Schedule Coordination
 
 Hi Team,
@@ -25736,7 +25736,7 @@ Line Items: 1. Consulting Services for Business Strategy Development - Analysis 
 3. Ongoing Support and Maintenance for IT Systems - Monthly monitoring and troubleshooting of IT infrastructure to ensure optimal performance. Total: 0.00 EUR (included in the annual package)
 Amount: 454.00 EUR
 Tax Id: REF-1951631
-Payment Details: Payment terms on file",yes,no,no,no,yes,no,no,no,no,no,no,no,no,LOCATION,LOCATION,1,1,easy,no,none,no,train,yes,openrouter_gpt4o_mini_field,field_llm_v1,no,,,v2,Synthetic document generated for controlled PII training data.
+Payment Details: Payment terms on file",no,no,no,no,no,no,no,no,no,no,no,no,no,,NONE,0,0,easy,no,none,no,train,yes,openrouter_gpt4o_mini_field,field_llm_v1,no,,,v2,Synthetic document generated for controlled PII training data. Relabeled 2026-09-03: standalone LOCATION with no co-occurring identifier does not meet GDPR Art.4(1) identifiability threshold; corrected from positive to negative.
 SYN-INVOICE-0002,synthetic_invoice_0002.txt,invoice,invoice,en,synthetic_generation,,,synthetic,2026-08-28,2026-08-28,2026-08-28,0,"Invoice
 
 Supplier: Vendor
@@ -26509,7 +26509,7 @@ Line Items: 1. Consulting Services - Strategic planning session conducted on Jan
 3. Training Service - Conducted a workshop for staff on February 1, 2025, covering new software tools and best practices. Total: 132.00 EUR.
 Amount: 732.00 EUR
 Tax Id: REF-7614423
-Payment Details: Payment terms on file",yes,no,no,no,yes,no,no,no,no,no,no,no,no,LOCATION,LOCATION,1,1,easy,no,none,no,train,yes,openrouter_gpt4o_mini_field,field_llm_v1,no,,,v2,Synthetic document generated for controlled PII training data.
+Payment Details: Payment terms on file",no,no,no,no,no,no,no,no,no,no,no,no,no,,NONE,0,0,easy,no,none,no,train,yes,openrouter_gpt4o_mini_field,field_llm_v1,no,,,v2,Synthetic document generated for controlled PII training data. Relabeled 2026-09-03: standalone LOCATION with no co-occurring identifier does not meet GDPR Art.4(1) identifiability threshold; corrected from positive to negative.
 SYN-INVOICE-0053,synthetic_invoice_0053.txt,invoice,invoice,en,synthetic_generation,,,synthetic,2026-08-28,2026-08-28,2026-08-28,0,"Invoice
 
 Supplier: Service Provider
@@ -27882,7 +27882,7 @@ Rechnungsadresse: Frank-Michael-Lehmann-Allee 9518, 04423 Hoyerswerda
 Line Items: Rechnung für Dienstleistungen im Zeitraum vom 01.10.2025 bis 21.10.2025, inklusive Beratung und Supportleistungen. Gesamtsumme: 270,00 EUR. Rechnungsadresse: Frank-Michael-Lehmann-Allee 9518, 04423 Hoyerswerda.
 Betrag: 270.00 EUR
 Steuernummer: REF-8217203
-Zahlungsdaten: Standardmäßiger geschäftlicher Zahlungsprozess",yes,no,no,no,yes,no,no,no,no,no,no,no,no,LOCATION,LOCATION,1,1,easy,no,none,no,train,yes,openrouter_gpt4o_mini_field,field_llm_v1,no,,,v2,Synthetic document generated for controlled PII training data.
+Zahlungsdaten: Standardmäßiger geschäftlicher Zahlungsprozess",no,no,no,no,no,no,no,no,no,no,no,no,no,,NONE,0,0,easy,no,none,no,train,yes,openrouter_gpt4o_mini_field,field_llm_v1,no,,,v2,Synthetic document generated for controlled PII training data. Relabeled 2026-09-03: standalone LOCATION with no co-occurring identifier does not meet GDPR Art.4(1) identifiability threshold; corrected from positive to negative.
 SYN-INVOICE-0145,synthetic_invoice_0145.txt,invoice,invoice,en,synthetic_generation,,,synthetic,2026-08-28,2026-08-28,2026-08-28,0,"Invoice
 
 Supplier: Vendor
@@ -27898,7 +27898,7 @@ Line Items: 1. Product A - Description: High-quality item suitable for various a
 Subtotal: 895.00 EUR. All items shipped to 9101 Nash Shore, South Jeffrey, CA 52571.
 Amount: 895.00 EUR
 Tax Id: REF-7278959
-Payment Details: Standard corporate payment process",yes,no,no,no,yes,no,no,no,no,no,no,no,no,LOCATION,LOCATION,1,1,easy,no,none,no,validation,yes,openrouter_gpt4o_mini_field,field_llm_v1,no,,,v2,Synthetic document generated for controlled PII training data.
+Payment Details: Standard corporate payment process",no,no,no,no,no,no,no,no,no,no,no,no,no,,NONE,0,0,easy,no,none,no,validation,yes,openrouter_gpt4o_mini_field,field_llm_v1,no,,,v2,Synthetic document generated for controlled PII training data. Relabeled 2026-09-03: standalone LOCATION with no co-occurring identifier does not meet GDPR Art.4(1) identifiability threshold; corrected from positive to negative.
 SYN-INVOICE-0146,synthetic_invoice_0146.txt,invoice,invoice,de,synthetic_generation,,,synthetic,2026-08-28,2026-08-28,2026-08-28,0,"Rechnung
 
 Lieferant: Dienstleister
@@ -28381,7 +28381,7 @@ Gesamtbetrag: 782,00 EUR
 Rechnung adressiert an: Dowergplatz 20-24, 20643 Grafenau.
 Betrag: 782.00 EUR
 Steuernummer: REF-7838187
-Zahlungsdaten: Zahlungsbedingungen hinterlegt",yes,no,no,no,yes,no,no,no,no,no,no,no,no,LOCATION,LOCATION,1,1,easy,no,none,no,train,yes,openrouter_gpt4o_mini_field,field_llm_v1,no,,,v2,Synthetic document generated for controlled PII training data.
+Zahlungsdaten: Zahlungsbedingungen hinterlegt",no,no,no,no,no,no,no,no,no,no,no,no,no,,NONE,0,0,easy,no,none,no,train,yes,openrouter_gpt4o_mini_field,field_llm_v1,no,,,v2,Synthetic document generated for controlled PII training data. Relabeled 2026-09-03: standalone LOCATION with no co-occurring identifier does not meet GDPR Art.4(1) identifiability threshold; corrected from positive to negative.
 SYN-INVOICE-0178,synthetic_invoice_0178.txt,invoice,invoice,de,synthetic_generation,,,synthetic,2026-08-28,2026-08-28,2026-08-28,0,"Rechnung
 
 Lieferant: Lieferantenorganisation
@@ -29411,7 +29411,7 @@ Line Items: 1. Beratungsdienstleistungen für strategische Planung – 10 Stunde
 Gesamtbetrag für erbrachte Dienstleistungen: 659,00 EUR
 Betrag: 659.00 EUR
 Steuernummer: REF-6335924
-Zahlungsdaten: Standardmäßiger geschäftlicher Zahlungsprozess",yes,no,no,no,yes,no,no,no,no,no,no,no,no,LOCATION,LOCATION,1,1,easy,no,none,no,test,yes,openrouter_gpt4o_mini_field,field_llm_v1,no,,,v2,Synthetic document generated for controlled PII training data.
+Zahlungsdaten: Standardmäßiger geschäftlicher Zahlungsprozess",no,no,no,no,no,no,no,no,no,no,no,no,no,,NONE,0,0,easy,no,none,no,test,yes,openrouter_gpt4o_mini_field,field_llm_v1,no,,,v2,Synthetic document generated for controlled PII training data. Relabeled 2026-09-03: standalone LOCATION with no co-occurring identifier does not meet GDPR Art.4(1) identifiability threshold; corrected from positive to negative.
 SYN-INVOICE-0246,synthetic_invoice_0246.txt,invoice,invoice,en,synthetic_generation,,,synthetic,2026-08-28,2026-08-28,2026-08-28,0,"Invoice
 
 Supplier: Supplier Organization
@@ -43666,7 +43666,7 @@ Kommentare: Die Überprüfung der erforderlichen Unterlagen und Zertifizierungen
 Genehmigung: Pending Review
 Notizen: Das Compliance-Team wird alle notwendigen Informationen und Dokumente sorgfältig prüfen. Der Hauptsitz des Anbieters befindet sich in Hornichring 6-8, 81486 Suhl, was für die Logistik und zukünftige Besuche von Bedeutung ist.
 Nationalität: Angabe zur Nationalität nicht verfügbar
-Ausweisnummer: REF-3956700",yes,no,no,no,yes,no,no,no,no,no,no,no,no,LOCATION,LOCATION,1,1,easy,no,none,no,train,yes,openrouter_gpt4o_mini_field,field_llm_v1,no,,,v2,Synthetic document generated for controlled PII training data.
+Ausweisnummer: REF-3956700",no,no,no,no,no,no,no,no,no,no,no,no,no,,NONE,0,0,easy,no,none,no,train,yes,openrouter_gpt4o_mini_field,field_llm_v1,no,,,v2,Synthetic document generated for controlled PII training data. Relabeled 2026-09-03: standalone LOCATION with no co-occurring identifier does not meet GDPR Art.4(1) identifiability threshold; corrected from positive to negative.
 SYN-SUPPLIER_ONBOARDING-0091,synthetic_supplier_onboarding_0091.txt,form,supplier_onboarding,en,synthetic_generation,,,synthetic,2026-08-28,2026-08-28,2026-08-28,0,"Supplier Onboarding
 
 Company: Vendor Organization
@@ -43891,7 +43891,7 @@ Kommentare: Die Überprüfung des Anbieters wird derzeit vom Compliance-Team dur
 Genehmigung: Pending Review
 Notizen: Bitte beachten Sie, dass die Anschrift des Anbieters Löwerallee 8, 60568 Greiz ist. Es ist wichtig, alle Zertifikate, insbesondere die zur Umweltkonformität, vor der endgültigen Genehmigung zu überprüfen.
 Nationalität: Angabe zur Nationalität nicht verfügbar
-Ausweisnummer: REF-7699161",yes,no,no,no,yes,no,no,no,no,no,no,no,no,LOCATION,LOCATION,1,1,easy,no,none,no,train,yes,openrouter_gpt4o_mini_field,field_llm_v1,no,,,v2,Synthetic document generated for controlled PII training data.
+Ausweisnummer: REF-7699161",no,no,no,no,no,no,no,no,no,no,no,no,no,,NONE,0,0,easy,no,none,no,train,yes,openrouter_gpt4o_mini_field,field_llm_v1,no,,,v2,Synthetic document generated for controlled PII training data. Relabeled 2026-09-03: standalone LOCATION with no co-occurring identifier does not meet GDPR Art.4(1) identifiability threshold; corrected from positive to negative.
 SYN-SUPPLIER_ONBOARDING-0106,synthetic_supplier_onboarding_0106.txt,form,supplier_onboarding,en,synthetic_generation,,,synthetic,2026-08-28,2026-08-28,2026-08-28,0,"Supplier Onboarding
 
 Company: Supplier Organization
@@ -45226,7 +45226,7 @@ Comments: The onboarding process for Supplier Organization has been thorough, wi
 Approval: Approved
 Notes: During the review, the Procurement Team noted that the risk level for Supplier Organization remains medium, and further monitoring may be necessary as the partnership develops. Additionally, payment details have been confirmed to follow the standard corporate payment process, ensuring timely transactions.
 Nationality: Nationality information unavailable
-Identification Number: REF-6666523",yes,no,no,no,yes,no,no,no,no,no,no,no,no,LOCATION,LOCATION,1,1,easy,no,none,no,validation,yes,openrouter_gpt4o_mini_field,field_llm_v1,no,,,v2,Synthetic document generated for controlled PII training data.
+Identification Number: REF-6666523",no,no,no,no,no,no,no,no,no,no,no,no,no,,NONE,0,0,easy,no,none,no,validation,yes,openrouter_gpt4o_mini_field,field_llm_v1,no,,,v2,Synthetic document generated for controlled PII training data. Relabeled 2026-09-03: standalone LOCATION with no co-occurring identifier does not meet GDPR Art.4(1) identifiability threshold; corrected from positive to negative.
 SYN-SUPPLIER_ONBOARDING-0195,synthetic_supplier_onboarding_0195.txt,form,supplier_onboarding,en,synthetic_generation,,,synthetic,2026-08-28,2026-08-28,2026-08-28,0,"Supplier Onboarding
 
 Company: Business Partner
@@ -45586,7 +45586,7 @@ Comments: The supplier's compliance with ISO 9001 certification has been verifie
 Approval: Approved
 Notes: Further evaluation of the supplier's financial stability is recommended. Address for correspondence: 1918 Anita Harbor, South Carol, IA 06507.
 Nationality: Nationality information unavailable
-Identification Number: REF-1126006",yes,no,no,no,yes,no,no,no,no,no,no,no,no,LOCATION,LOCATION,1,1,easy,no,none,no,train,yes,openrouter_gpt4o_mini_field,field_llm_v1,no,,,v2,Synthetic document generated for controlled PII training data.
+Identification Number: REF-1126006",no,no,no,no,no,no,no,no,no,no,no,no,no,,NONE,0,0,easy,no,none,no,train,yes,openrouter_gpt4o_mini_field,field_llm_v1,no,,,v2,Synthetic document generated for controlled PII training data. Relabeled 2026-09-03: standalone LOCATION with no co-occurring identifier does not meet GDPR Art.4(1) identifiability threshold; corrected from positive to negative.
 SYN-SUPPLIER_ONBOARDING-0219,synthetic_supplier_onboarding_0219.txt,form,supplier_onboarding,de,synthetic_generation,,,synthetic,2026-08-28,2026-08-28,2026-08-28,0,"Lieferantenaufnahme
 
 Unternehmen: Geschäftspartner

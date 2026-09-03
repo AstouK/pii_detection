@@ -19,7 +19,7 @@ from classification.schemas.experiment_schema import (
 
 # Development/test mode.
 # Use None for full classification.
-CLASSIFICATION_LIMIT = 10
+CLASSIFICATION_LIMIT = None
 
 # ─────────────────────────────────────────────────────────────
 # Paths

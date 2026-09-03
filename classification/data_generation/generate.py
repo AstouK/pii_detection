@@ -19,9 +19,7 @@ from classification.data_generation.generator import (
     save_manifest,
 )
 
-from classification.data_generation.config import (
-    DEFAULT_DOCUMENTS_PER_SCENARIO,
-)
+
 DEFAULT_SEED = 42
 MIN_DOCUMENTS_PER_SCENARIO = 38
 
