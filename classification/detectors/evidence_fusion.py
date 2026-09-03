@@ -21,15 +21,59 @@ STRONG_PII = {
     "EMPLOYEE_ID",
     "USER_ID",
     "MEDICAL_LICENSE",
+    "PASSPORT",
+    "URL",
 }
 
 POTENTIAL_PII = {
     "PERSON",
     "ADDRESS",
     "DATE_OF_BIRTH",
+    "LOCATION",
+    "DATE_TIME",
+    "NRP",
 }
 
 REGEX_BOOST = 0.3
+
+DATE_TIME_CONTEXT_WINDOW = 200
+
+
+def _near_any(entity: dict, spans: list) -> bool:
+    for s_start, s_end in spans:
+        if abs(s_start - entity["end"]) <= DATE_TIME_CONTEXT_WINDOW:
+            return True
+        if abs(entity["start"] - s_end) <= DATE_TIME_CONTEXT_WINDOW:
+            return True
+    return False
+
+
+def _filter_weak_date_time_entities(entities: list) -> list:
+
+    person_spans = [
+        (e["start"], e["end"])
+        for e in entities
+        if e.get("type") == "PERSON"
+    ]
+
+    location_spans = [
+        (e["start"], e["end"])
+        for e in entities
+        if e.get("type") == "LOCATION"
+    ]
+
+    filtered = []
+
+    for entity in entities:
+
+        if entity.get("type") != "DATE_TIME":
+            filtered.append(entity)
+            continue
+
+        if _near_any(entity, person_spans) or _near_any(entity, location_spans):
+            filtered.append(entity)
+
+    return filtered
 
 
 def fuse_detection_results(
@@ -46,6 +90,14 @@ def fuse_detection_results(
     entities.extend(
         regex_result["entities"]
     )
+
+    # GDPR Art. 4(1): a bare date is not independently identifying. Only
+    # keep a DATE_TIME detection when it sits near a PERSON entity (a
+    # dated event tied to an identified individual) or near a LOCATION
+    # entity (a specific event at a specific place). Boilerplate dates
+    # (e.g. a template's "Effective Date" field) with no such context
+    # are dropped here, before they ever enter per_type_conf.
+    entities = _filter_weak_date_time_entities(entities)
 
     per_type_scores = defaultdict(list)
 
@@ -94,6 +146,15 @@ def fuse_detection_results(
 
         if entity_type in POTENTIAL_PII:
             potential_categories.append(entity_type)
+
+    if "PERSON" not in per_type_conf:
+        has_location = "LOCATION" in potential_categories
+        has_datetime = "DATE_TIME" in potential_categories
+
+        if has_location and not has_datetime:
+            potential_categories.remove("LOCATION")
+        if has_datetime and not has_location:
+            potential_categories.remove("DATE_TIME")
 
     return {
         "entities": entities,
