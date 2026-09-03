@@ -2,12 +2,19 @@
 
 
 import random
+from collections import defaultdict
 
-from classification.data_generation.archetypes import get_archetype
+from classification.data_generation.archetypes import ARCHETYPES, get_archetype
 from classification.data_generation.models import GenerationRequest
 from classification.data_generation.config import (
+    MAX_LOCAL_POSITIVE_RATE,
+    MIN_ENTITY_EXAMPLES_PER_SPLIT,
+    PRIORITY_ENTITIES,
+    PRIORITY_ENTITY_SPLIT_TARGETS,
     SCENARIO_ENTITY_COMBINATIONS,
     SPLIT_RATIOS,
+    SUPPORTED_ENTITY_TYPES,
+    SUPPORTED_SPLITS,
     TARGET_BLANK_RATE,
     TARGET_LANGUAGE_RATIOS,
     TARGET_POSITIVE_RATE,
@@ -382,3 +389,249 @@ def build_scenario_requests(
     )
 
     return requests
+
+
+def _count_entity_split(requests_by_scenario):
+    """Count entity-type occurrences per split across all scenarios."""
+
+    counts = defaultdict(lambda: defaultdict(int))
+
+    for requests in requests_by_scenario.values():
+        for req in requests:
+            for entity in req.entity_types:
+                counts[entity][req.recommended_split] += 1
+
+    return counts
+
+
+def _entities_by_scenario():
+    """Map each entity type to the scenarios/combos that can produce it."""
+
+    eligible = defaultdict(list)
+
+    for scenario, combos in SCENARIO_ENTITY_COMBINATIONS.items():
+        for combo in combos:
+            for entity in combo:
+                eligible[entity].append((scenario, combo))
+
+    return eligible
+
+
+def _entity_split_target(
+    entity: str,
+    split: str,
+    min_per_split: int,
+    priority_entities: set[str],
+    priority_split_targets: dict[str, int],
+) -> int:
+    """Return the minimum required count for one (entity, split) pair.
+
+    Priority entities (flagged as insufficiently accurate for
+    DistilBERT training) get a higher, split-specific target; every
+    other entity keeps the baseline floor.
+    """
+
+    if entity in priority_entities:
+        return priority_split_targets.get(split, min_per_split)
+
+    return min_per_split
+
+
+def top_up_rare_entity_coverage(
+    requests_by_scenario: dict[str, list[GenerationRequest]],
+    seed: int,
+    min_per_split: int = MIN_ENTITY_EXAMPLES_PER_SPLIT,
+    priority_entities: set[str] = PRIORITY_ENTITIES,
+    priority_split_targets: dict[str, int] = PRIORITY_ENTITY_SPLIT_TARGETS,
+    max_local_positive_rate: float = MAX_LOCAL_POSITIVE_RATE,
+) -> tuple[dict[str, list[GenerationRequest]], list[str]]:
+    """Guarantee every entity type meets its target in every split,
+    without pushing any single scenario/split's positive rate above
+    ``max_local_positive_rate``.
+
+    A single scenario's document quota is too small to guarantee full
+    entity coverage on its own. This pass looks across ALL scenarios
+    together: for any (entity, split) pair below its target, it
+    converts existing PII-negative requests -- in scenarios where that
+    entity is configured, within that same split -- into PII-positive
+    requests carrying the missing entity. Total document counts,
+    scenario counts, and split sizes are unchanged; only some
+    documents that would have been negative become positive instead.
+
+    Two safeguards limit how far this goes: at least one negative
+    example is always preserved in every split (so split_class_coverage
+    still holds), and no scenario/split's positive rate is allowed to
+    exceed ``max_local_positive_rate`` -- when an entity has only one
+    or two eligible scenarios, conversions are spread across all of
+    them, and if every eligible scenario hits the cap before the
+    target is reached, the shortfall is left unresolved rather than
+    breaking the cap.
+
+    Returns ``(requests_by_scenario, shortfalls)`` -- ``shortfalls`` is
+    a list of ``"ENTITY/split: got X of Y"`` strings for any
+    (entity, split) pair that could not fully reach its target because
+    of the local-rate cap. An empty list means every target was met.
+
+    ``priority_entities`` get the (higher) ``priority_split_targets``;
+    every other entity gets ``min_per_split``.
+    """
+
+    rng = random.Random(f"topup-{seed}")
+
+    eligible_by_entity = _entities_by_scenario()
+    shortfalls: list[str] = []
+
+    for entity in sorted(SUPPORTED_ENTITY_TYPES):
+        eligible = eligible_by_entity.get(entity, [])
+
+        if not eligible:
+            continue
+
+        for split in sorted(SUPPORTED_SPLITS):
+            counts = _count_entity_split(requests_by_scenario)
+
+            target = _entity_split_target(
+                entity=entity,
+                split=split,
+                min_per_split=min_per_split,
+                priority_entities=priority_entities,
+                priority_split_targets=priority_split_targets,
+            )
+
+            existing = counts[entity][split]
+            shortfall = target - existing
+
+            if shortfall <= 0:
+                continue
+
+            scenarios_for_entity = [scenario for scenario, _ in eligible]
+            rng.shuffle(scenarios_for_entity)
+
+            converted = 0
+
+            for scenario in scenarios_for_entity:
+                if converted >= shortfall:
+                    break
+
+                combo_options = [
+                    combo for scen, combo in eligible if scen == scenario
+                ]
+                combo = rng.choice(combo_options)
+
+                reqs = requests_by_scenario[scenario]
+
+                candidates = [
+                    index
+                    for index, r in enumerate(reqs)
+                    if r.recommended_split == split
+                    and not r.contains_personal_data
+                ]
+                rng.shuffle(candidates)
+
+                for index in candidates:
+                    if converted >= shortfall:
+                        break
+
+                    total_in_split = sum(
+                        1 for r in reqs if r.recommended_split == split
+                    )
+                    positive_in_split = sum(
+                        1
+                        for r in reqs
+                        if r.recommended_split == split
+                        and r.contains_personal_data
+                    )
+
+                    # Never remove the last negative example from a split.
+                    negatives_in_split = total_in_split - positive_in_split
+                    if negatives_in_split <= 1:
+                        break
+
+                    projected_rate = (
+                        (positive_in_split + 1) / total_in_split
+                    )
+
+                    if projected_rate > max_local_positive_rate:
+                        # This scenario is capped -- try the next
+                        # eligible scenario instead.
+                        break
+
+                    req = reqs[index]
+
+                    archetype = get_archetype(scenario)
+                    filled_variants = [
+                        v for v in archetype.variants if v != "blank"
+                    ]
+
+                    reqs[index] = GenerationRequest(
+                        scenario=scenario,
+                        language=req.language,
+                        contains_personal_data=True,
+                        entity_types=list(combo),
+                        difficulty=req.difficulty,
+                        recommended_split=split,
+                        variant=rng.choice(filled_variants),
+                    )
+
+                    converted += 1
+
+            if converted < shortfall:
+                shortfalls.append(
+                    f"{entity}/{split}: got {existing + converted} of {target}"
+                )
+
+    return requests_by_scenario, shortfalls
+
+
+def derive_scenario_seed(
+    base_seed: int,
+    scenario_index: int,
+) -> int:
+    """Derive a reproducible seed for one scenario."""
+
+    return (
+        base_seed
+        + scenario_index * 1000
+    )
+
+
+def build_dataset_requests(
+    documents_per_scenario: int,
+    seed: int = 42,
+    min_entity_per_split: int = MIN_ENTITY_EXAMPLES_PER_SPLIT,
+    priority_entities: set[str] = PRIORITY_ENTITIES,
+    priority_split_targets: dict[str, int] = PRIORITY_ENTITY_SPLIT_TARGETS,
+) -> dict[str, list[GenerationRequest]]:
+    """Build the full, entity-coverage-guaranteed generation plan.
+
+    Deterministic given (documents_per_scenario, seed): calling this
+    twice with the same arguments reproduces the same plan, so
+    generator.py can call it once for the dataset and once for the
+    manifest and still get one-to-one aligned output.
+    """
+
+    requests_by_scenario = {}
+
+    for index, scenario in enumerate(sorted(ARCHETYPES)):
+        scenario_seed = derive_scenario_seed(seed, index)
+
+        requests_by_scenario[scenario] = build_scenario_requests(
+            scenario=scenario,
+            n_documents=documents_per_scenario,
+            seed=scenario_seed,
+        )
+
+    requests_by_scenario, shortfalls = top_up_rare_entity_coverage(
+        requests_by_scenario=requests_by_scenario,
+        seed=seed,
+        min_per_split=min_entity_per_split,
+        priority_entities=priority_entities,
+        priority_split_targets=priority_split_targets,
+    )
+
+    if shortfalls:
+        print("Rare-entity top-up hit the local-rate cap for:")
+        for line in shortfalls:
+            print(f"  {line}")
+
+    return requests_by_scenario

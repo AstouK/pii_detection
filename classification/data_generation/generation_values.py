@@ -1,11 +1,11 @@
 """Static values and placement policies for synthetic document generation."""
-
+ 
 FAKER_LOCALES = {
     "en": "en_US",
     "de": "de_DE",
 }
-
-
+ 
+ 
 GERMAN_FIELD_LABELS = {
     "employee": "Mitarbeiter",
     "name": "Name",
@@ -88,9 +88,11 @@ GERMAN_FIELD_LABELS = {
     "destination": "Reiseziel",
     "receipt_reference": "Belegreferenz",
     "payment_method": "Zahlungsart",
+    "identification_number": "Ausweisnummer",
+    "license_number": "Lizenznummer",
 }
-
-
+ 
+ 
 GERMAN_TITLES = {
     "expense_report": "Reisekostenabrechnung",
     "it_access_request": "IT-Zugriffsantrag",
@@ -107,8 +109,8 @@ GERMAN_TITLES = {
     "internal_email": "Interne E-Mail",
     "meeting_notes": "Besprechungsnotizen",
 }
-
-
+ 
+ 
 ENTITY_FIELD_CANDIDATES = {
     "PERSON": [
         "employee",
@@ -205,24 +207,37 @@ ENTITY_FIELD_CANDIDATES = {
         "notes",
     ],
 }
-
-
+ 
+ 
 SCENARIO_ENTITY_FIELD_PREFERENCES = {
     "contract": {
         "PERSON": ["parties", "contact", "signature"],
         "EMAIL_ADDRESS": ["contact"],
         "LOCATION": ["parties", "contact"],
         "DATE_TIME": ["effective_date", "terms"],
+        # This archetype now has its own dedicated "payment_details"
+        # field (added alongside this entity) -- same field
+        # invoice/expense_report already use for IBAN_CODE/CREDIT_CARD.
+        "IBAN_CODE": ["payment_details"],
     },
-
+ 
     "customer_support": {
         "PERSON": ["customer", "contact", "agent"],
         "EMAIL_ADDRESS": ["contact"],
         "PHONE_NUMBER": ["contact"],
         "IP_ADDRESS": ["description", "resolution"],
         "URL": ["description", "resolution"],
+        # Second home for CREDIT_CARD (a billing-dispute ticket
+        # referencing a card number) -- reuses the existing free-text
+        # "description" field.
+        "CREDIT_CARD": ["description"],
+        # Fourth home for NRP (an international support case
+        # referencing a customer's nationality) -- differentiates it
+        # from PASSPORT, which otherwise sits in the exact same
+        # scenarios. Reuses the existing "description" field.
+        "NRP": ["description"],
     },
-
+ 
     "employee_record": {
         "PERSON": ["employee", "manager", "notes"],
         "EMAIL_ADDRESS": ["contact", "notes"],
@@ -230,15 +245,24 @@ SCENARIO_ENTITY_FIELD_PREFERENCES = {
         "LOCATION": ["address", "notes"],
         "NRP": ["nationality", "notes"],
         "DATE_TIME": ["start_date", "notes"],
+        # This archetype now has its own dedicated "license_number"
+        # field (added alongside this entity) instead of the generic
+        # "notes" catch-all.
+        "MEDICAL_LICENSE": ["license_number"],
+        # Second home for PASSPORT (HR keeping a passport copy on
+        # file for a work visa) -- reuses the same
+        # "identification_number" field built for supplier_onboarding.
+        "PASSPORT": ["identification_number"],
     },
-
+ 
     "expense_report": {
         "PERSON": ["employee", "description", "summary"],
         "EMAIL_ADDRESS": ["contact", "description", "summary"],
         "IBAN_CODE": ["payment_details", "summary", "description"],
         "PHONE_NUMBER": ["contact", "description", "summary"],
+        "CREDIT_CARD": ["payment_details", "summary", "description"],
     },
-
+ 
     "general_document": {
         "PERSON": ["author", "content", "notes"],
         "EMAIL_ADDRESS": ["content", "notes"],
@@ -246,21 +270,35 @@ SCENARIO_ENTITY_FIELD_PREFERENCES = {
         "LOCATION": ["content", "notes"],
         "DATE_TIME": ["date", "content"],
         "URL": ["content", "notes"],
+        # Fifth home for IP_ADDRESS (an internal memo/report
+        # mentioning a system's IP address) -- reuses the existing
+        # free-text "content" field.
+        "IP_ADDRESS": ["content", "notes"],
     },
-
+ 
     "incident_report": {
         "PERSON": ["owner", "description"],
         "LOCATION": ["location"],
         "DATE_TIME": ["date", "deadline"],
+        # "description" already holds free text for this archetype
+        # (an incident's narrative can plausibly mention a logged IP).
+        "IP_ADDRESS": ["description"],
     },
-
+ 
     "internal_email": {
         "PERSON": ["sender", "recipient", "signature"],
         "EMAIL_ADDRESS": ["sender", "recipient"],
         "PHONE_NUMBER": ["body", "signature"],
+        # Second home for IP_ADDRESS (an IT/ops email mentioning a
+        # server IP) -- reuses the existing "body" field.
+        "IP_ADDRESS": ["body"],
         "URL": ["body"],
+        # Fourth home for CREDIT_CARD (an email thread about an
+        # expense or billing issue mentioning a card number) --
+        # reuses the existing "body" field.
+        "CREDIT_CARD": ["body"],
     },
-
+ 
     "invoice": {
         "PERSON": ["customer", "contact"],
         "EMAIL_ADDRESS": ["contact"],
@@ -268,28 +306,28 @@ SCENARIO_ENTITY_FIELD_PREFERENCES = {
         "CREDIT_CARD": ["payment_details"],
         "LOCATION": ["billing_address"],
     },
-
+ 
     "it_access_request": {
         "PERSON": ["name", "manager", "comments"],
         "EMAIL_ADDRESS": ["contact", "comments", "justification"],
         "IP_ADDRESS": ["comments", "justification"],
         "URL": ["comments", "justification"],
     },
-
+ 
     "medical_record": {
         "PERSON": ["patient", "provider", "notes"],
         "DATE_TIME": ["date", "follow_up", "notes"],
         "MEDICAL_LICENSE": ["provider", "notes"],
         "LOCATION": ["location", "notes"],
     },
-
+ 
     "meeting_notes": {
         "PERSON": ["participants", "contact", "discussion"],
         "DATE_TIME": ["date", "agenda", "discussion"],
         "EMAIL_ADDRESS": ["contact", "action_items"],
         "LOCATION": ["location", "discussion", "agenda"],
     },
-
+ 
     "passport_record": {
         "PERSON": ["holder"],
         "PASSPORT": ["passport_number"],
@@ -303,15 +341,30 @@ SCENARIO_ENTITY_FIELD_PREFERENCES = {
         "PHONE_NUMBER": ["contact", "comments"],
         "LOCATION": ["address", "notes"],
         "IBAN_CODE": ["payment_details", "notes", "comments"],
+        # This archetype now has its own dedicated
+        # "identification_number" and "nationality" fields (added
+        # alongside these entities, for international-supplier
+        # compliance/KYC checks) instead of the generic notes/comments
+        # catch-all.
+        "PASSPORT": ["identification_number"],
+        "NRP": ["nationality"],
+        # Second home for MEDICAL_LICENSE (onboarding a
+        # healthcare-services supplier) -- reuses the existing
+        # "certification" field, already used for compliance
+        # credentials on this archetype.
+        "MEDICAL_LICENSE": ["certification"],
     },
-
+ 
     "training_evaluation": {
         "PERSON": ["participant", "trainer", "comments"],
         "EMAIL_ADDRESS": ["contact", "comments"],
         "DATE_TIME": ["date", "comments"],
+        # A link to training material fits naturally in the
+        # free-text "comments" field.
+        "URL": ["comments"],
     },
 }
-
+ 
  # ---------------------------------------------------------
 # Variant-specific deterministic values
 #
@@ -319,7 +372,7 @@ SCENARIO_ENTITY_FIELD_PREFERENCES = {
 # document variants distinct content profiles even when the
 # LLM is disabled or falls back.
 # ---------------------------------------------------------
-
+ 
 VARIANT_VALUES = {
         "medical_record": {
             "clinical_note": {
@@ -366,7 +419,7 @@ VARIANT_VALUES = {
                     ],
                 },
             },
-
+ 
             "appointment_summary": {
                 "reason": {
                     "en": [
@@ -411,7 +464,7 @@ VARIANT_VALUES = {
                     ],
                 },
             },
-
+ 
             "occupational_health_note": {
                 "reason": {
                     "en": [
@@ -458,13 +511,13 @@ VARIANT_VALUES = {
             },
         },
 }
-
-
+ 
+ 
 # ---------------------------------------------------------
     # Scenario-specific structured values
     # ---------------------------------------------------------
-
-
+ 
+ 
 SCENARIO_VALUES = {
         "expense_report": {
             "department": [
@@ -522,7 +575,7 @@ SCENARIO_VALUES = {
                 "Rejected",
             ],
         },
-
+ 
         "it_access_request": {
             "department": [
                 "Finance",
@@ -561,7 +614,7 @@ SCENARIO_VALUES = {
                 "Access Control Team",
             ],
         },
-
+ 
         "incident_report": {
             "type": [
                 "IT Security Incident",
@@ -577,7 +630,7 @@ SCENARIO_VALUES = {
                 "Operations Management",
             ],
         },
-
+ 
         "supplier_onboarding": {
             "certification": [
                 "ISO 9001",
@@ -601,7 +654,7 @@ SCENARIO_VALUES = {
                 "Rejected",
             ],
         },
-
+ 
         "training_evaluation": {
             "course": [
                 "Data Protection Essentials",
@@ -634,7 +687,7 @@ SCENARIO_VALUES = {
                 "Documentation Review",
             ],
         },
-
+ 
         "general_document": {
             "title": [
                 "Project Status Update",
@@ -648,8 +701,8 @@ SCENARIO_VALUES = {
             ],
         },
     }
-
-
+ 
+ 
 # ---------------------------------------------------------
 # Safe structured fallback values
 #
@@ -657,7 +710,7 @@ SCENARIO_VALUES = {
 # contain something realistic but must not introduce personal
 # data or identifiers.
 # ---------------------------------------------------------
-
+ 
 GENERIC_STRUCTURED_VALUES = {
         "employee": {
             "en": [
@@ -952,7 +1005,7 @@ GENERIC_STRUCTURED_VALUES = {
             ],
         },
 }
-
+ 
 DATE_FIELDS = {
         "date",
         "deadline",
@@ -962,15 +1015,17 @@ DATE_FIELDS = {
         "issue_date",
         "expiry_date",
     }
-
+ 
 REFERENCE_FIELDS = {
     "invoice_number",
     "ticket_id",
     "employee_id",
     "reference",
     "tax_id",
+    "identification_number",
+    "license_number",
 }
-
+ 
 FREE_TEXT_PLACEHOLDER_FIELDS = {
     "description",
     "summary",
@@ -988,7 +1043,7 @@ FREE_TEXT_PLACEHOLDER_FIELDS = {
     "recommendation",
     "action_items",
 }
-
+ 
 GENERIC_FIELD_VALUES = {
     "department": [
         "Finance",
