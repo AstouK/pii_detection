@@ -24,6 +24,10 @@ from openai import OpenAI
 from config.settings import (
     OPENROUTER_API_URL,
     QWEN_API_KEY,
+    OLLAMA_API_KEY,
+    OLLAMA_BASE_URL,
+    OLLAMA_MODEL,
+    require_ollama_available,
     require_openrouter_api_key,
 )
 
@@ -33,6 +37,27 @@ dashscope_client = OpenAI(
     api_key=QWEN_API_KEY,
     base_url="https://dashscope-intl.aliyuncs.com/compatible-mode/v1",
 )
+
+_ollama_client = None
+
+
+def get_ollama_client() -> OpenAI:
+    """
+    Lazily construct the OpenAI-compatible Ollama client.
+
+    Timeout is 180s because the first local model load can be slow.
+    """
+    global _ollama_client
+
+    if _ollama_client is None:
+        require_ollama_available()
+        _ollama_client = OpenAI(
+            api_key=OLLAMA_API_KEY,
+            base_url=OLLAMA_BASE_URL,
+            timeout=180,
+        )
+
+    return _ollama_client
 
 
 _RETRY_DELAYS = [2, 5, 20]  # Waiting time in seconds in case of lagging request
@@ -342,6 +367,189 @@ def call_qwen(prompt: str, model_name: str,) -> dict:
     )
 
 
+def _is_connection_error(error: Exception) -> bool:
+    """Return True when the failure is a network/connection problem."""
+    error_msg = str(error).lower()
+    return any(
+        token in error_msg
+        for token in (
+            "connection refused",
+            "connection error",
+            "connecterror",
+            "api connection",
+            "timed out",
+            "timeout",
+            "failed to establish",
+            "name or service not known",
+            "nodename nor servname",
+        )
+    )
+
+
+def call_ollama(prompt: str, model_name: str,) -> dict:
+    """
+    Send a prompt to a local model through Ollama's OpenAI-compatible API.
+
+    Returns a standardized LLM result dictionary. Local inference has no
+    provider-reported cost.
+    """
+
+    client = get_ollama_client()
+
+    logger.debug("Sending request to Ollama")
+    logger.debug("Model: %s", model_name)
+
+    delays = [0] + _RETRY_DELAYS
+
+    for attempt, delay in enumerate(delays):
+        if delay:
+            logger.warning(
+                "Ollama unavailable or rate limited. Waiting %s seconds "
+                "before retry %s/%s.",
+                delay,
+                attempt,
+                len(_RETRY_DELAYS),
+            )
+            time.sleep(delay)
+
+        try:
+            completion = client.chat.completions.create(
+                model=model_name,
+                messages=[
+                    {
+                        "role": "user",
+                        "content": prompt,
+                    }
+                ],
+                temperature=0,
+            )
+
+            content = completion.choices[0].message.content
+
+            logger.debug(
+                "Ollama response preview: %s",
+                content[:300],
+            )
+
+            usage = completion.usage
+
+            prompt_tokens = getattr(usage, "prompt_tokens", 0) or 0 if usage else 0
+            completion_tokens = (
+                getattr(usage, "completion_tokens", 0) or 0 if usage else 0
+            )
+            total_tokens = getattr(usage, "total_tokens", 0) or 0 if usage else 0
+
+            completion_details = (
+                getattr(usage, "completion_tokens_details", None) if usage else None
+            )
+
+            reasoning_tokens = (
+                getattr(completion_details, "reasoning_tokens", 0) or 0
+                if completion_details
+                else 0
+            )
+
+            prompt_details = (
+                getattr(usage, "prompt_tokens_details", None) if usage else None
+            )
+
+            cached_tokens = (
+                getattr(prompt_details, "cached_tokens", 0) or 0
+                if prompt_details
+                else 0
+            )
+
+            break
+
+        except Exception as e:
+            error_msg = str(e).lower()
+            is_rate_limited = "429" in error_msg
+            is_connection = _is_connection_error(e)
+
+            if is_rate_limited or is_connection:
+                if attempt < len(_RETRY_DELAYS):
+                    continue
+
+                if is_connection:
+                    raise EnvironmentError(
+                        "Ollama is not reachable at "
+                        f"{OLLAMA_BASE_URL}. Start Ollama with `ollama serve` "
+                        f"and pull the model with `ollama pull {OLLAMA_MODEL}`."
+                    ) from e
+
+                return create_llm_result(
+                    reason=f"Rate limit exceeded after {len(_RETRY_DELAYS)} retries",
+                    success=False,
+                )
+
+            logger.error("Ollama request failed: %s", e)
+
+            return create_llm_result(
+                reason=f"Request failed: {e}",
+                success=False,
+            )
+
+    else:
+        return create_llm_result(
+            reason="All retries exhausted",
+            success=False,
+        )
+
+    if not content:
+        return create_llm_result(
+            reason="Empty response from Ollama",
+            success=False,
+        )
+
+    content_fixed = re.sub(
+        r'"contains_pii"\s*:\s*,',
+        '"contains_pii": false,',
+        content,
+    )
+
+    try:
+        parsed = json.loads(content_fixed)
+
+    except json.JSONDecodeError:
+        match = _JSON_RE.search(content_fixed)
+
+        if match:
+            try:
+                parsed = json.loads(match.group())
+
+            except json.JSONDecodeError:
+                return create_llm_result(
+                    reason=f"JSON parse error. Raw response: {content[:300]}",
+                    success=False,
+                )
+
+        else:
+            return create_llm_result(
+                reason=f"No JSON found in response: {content[:300]}",
+                success=False,
+            )
+
+    raw_val = parsed.get("contains_pii", False)
+
+    if isinstance(raw_val, str):
+        contains_pii = raw_val.strip().lower() == "true"
+    else:
+        contains_pii = bool(raw_val)
+
+    reason = parsed.get("reason", "")
+
+    return create_llm_result(
+        contains_pii=contains_pii,
+        reason=reason,
+        prompt_tokens=prompt_tokens,
+        completion_tokens=completion_tokens,
+        total_tokens=total_tokens,
+        reasoning_tokens=reasoning_tokens,
+        cached_tokens=cached_tokens,
+        request_cost=None,
+    )
+
+
 def call_openrouter(prompt: str, model_name: str,) -> dict:
     """
     Send a prompt to a model through OpenRouter.
@@ -522,6 +730,7 @@ def call_llm(prompt: str, model_id: str,) -> dict:
         model_id: Model identifier from MODEL_REGISTRY. Examples:
             - qwen3_7_plus
             - gpt4o_mini
+            - ollama_local
 
     Returns:
         Standardized LLM result dictionary.
@@ -541,6 +750,12 @@ def call_llm(prompt: str, model_id: str,) -> dict:
 
     if provider == "dashscope":
         return call_qwen(
+            prompt=prompt,
+            model_name=model_name,
+        )
+
+    if provider == "ollama":
+        return call_ollama(
             prompt=prompt,
             model_name=model_name,
         )
@@ -571,6 +786,7 @@ def run_llm(
             LLM model identifier from MODEL_REGISTRY, for example:
             - qwen3_7_plus
             - gpt4o_mini
+            - ollama_local
 
     Adds:
         llm_pii
@@ -595,6 +811,9 @@ def run_llm(
 
     provider = model_config["provider"]
     model_name = model_config["model_name"]
+
+    if provider == "ollama":
+        require_ollama_available()
 
     df["llm_provider"] = provider
     df["llm_model_id"] = model_id
