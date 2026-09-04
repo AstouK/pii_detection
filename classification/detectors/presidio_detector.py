@@ -35,48 +35,7 @@ MEANINGFUL_PII = {
     "NRP",
 }
 
-_PERSON_FALSE_POSITIVE_DENYLIST = {
-    "betreff",
-    "unterschrift",
-    "standardmäßiger",
-}
-
 _PERSON_MIN_TOKEN_COUNT = 2
-
-_LOCATION_FALSE_POSITIVE_DENYLIST = {
-    "kundenorganisation",
-    "arbeitsplatz",
-    "patientenangaben",
-    "anbieterorganisation",
-    "zentrale kontaktstelle",
-    "support-fachbereich",
-    "antragstellerangaben",
-    "standardmäßigen",
-    "compliance-abteilung",
-    "lagerbereich",
-    "teilnehmerangaben",
-    "projektstatus-update",
-    "supplier location",
-    "department",
-    "service desk",
-    "regional office",
-    "client site",
-    "training center",
-    "head office",
-}
-
-_LOCATION_GENERIC_SUFFIXES = (
-    "organisation",
-    "abteilung",
-    "bereich",
-    "fachbereich",
-    "stelle",
-    "angaben",
-    "office",
-    "area",
-    "center",
-    "department",
-)
 
 _RE_LOCATION_DEPT_CODE = re.compile(r"^[A-Z]{2,6}-\d+$")
 _RE_LOCATION_QUARTER = re.compile(r"^Q[1-4]$")
@@ -104,13 +63,6 @@ def _is_generic_location_fp(value: str) -> bool:
     if any(first_line.startswith(t) for t in _LOCATION_TITLE_TOKENS):
         return True
 
-    if first_line in _LOCATION_FALSE_POSITIVE_DENYLIST:
-        return True
-
-    for suffix in _LOCATION_GENERIC_SUFFIXES:
-        if first_line.endswith(suffix):
-            return True
-
     return False
 
 
@@ -122,7 +74,7 @@ def _create_presidio_engine() -> AnalyzerEngine:
         "nlp_engine_name": "spacy",
         "models": [
             {"lang_code": "en", "model_name": "en_core_web_lg"},
-            {"lang_code": "de", "model_name": "de_core_news_md"},
+            {"lang_code": "de", "model_name": "de_core_news_lg"},
         ],
     }
 
@@ -168,8 +120,6 @@ def detect_presidio(
         stripped_value = value.strip()
 
         if entity_type == "PERSON":
-            if stripped_value.lower() in _PERSON_FALSE_POSITIVE_DENYLIST:
-                continue
             if len(stripped_value.split()) < _PERSON_MIN_TOKEN_COUNT:
                 continue
 

@@ -22,7 +22,6 @@ STRONG_PII = {
     "USER_ID",
     "MEDICAL_LICENSE",
     "PASSPORT",
-    "URL",
 }
 
 POTENTIAL_PII = {
@@ -32,6 +31,7 @@ POTENTIAL_PII = {
     "LOCATION",
     "DATE_TIME",
     "NRP",
+    "URL",
 }
 
 REGEX_BOOST = 0.3
@@ -147,13 +147,17 @@ def fuse_detection_results(
         if entity_type in POTENTIAL_PII:
             potential_categories.append(entity_type)
 
+    # GDPR Art. 4(1): a place or a date is only personal data if it is
+    # tied to an identified individual. Previously, LOCATION and DATE_TIME
+    # could protect each other from removal even with no PERSON anywhere
+    # in the document - e.g. a stray place-noun misfire co-occurring with
+    # a boilerplate date, neither tied to any person, would both survive.
+    # That doesn't satisfy the "identified individual" requirement either
+    # way. PERSON is now the sole anchor: without it, both are dropped.
     if "PERSON" not in per_type_conf:
-        has_location = "LOCATION" in potential_categories
-        has_datetime = "DATE_TIME" in potential_categories
-
-        if has_location and not has_datetime:
+        if "LOCATION" in potential_categories:
             potential_categories.remove("LOCATION")
-        if has_datetime and not has_location:
+        if "DATE_TIME" in potential_categories:
             potential_categories.remove("DATE_TIME")
 
     return {
