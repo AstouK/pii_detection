@@ -1,0 +1,6 @@
+{
+  "run_id": "20260822_233204",
+  "strategy": "rule_plus_bert",
+  "prediction_file": "/home/user/pii_detection/classification/results/runs/20260822_233204/rule_plus_bert.csv",
+  "n_documents": 67
+}

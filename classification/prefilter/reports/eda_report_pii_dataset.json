@@ -1,0 +1,331 @@
+{
+  "n_documents": 500,
+  "n_positive": 60,
+  "n_negative": 440,
+  "positive_rate": 0.12,
+  "text_length_chars": {
+    "min": 253,
+    "median": 586,
+    "p90": 731,
+    "p99": 754,
+    "max": 821,
+    "estimated_max_tokens": 234
+  },
+  "duplicates": {
+    "n_documents": 500,
+    "n_unique_texts": 329,
+    "n_duplicated_rows": 171,
+    "n_duplicate_groups": 35,
+    "largest_duplicate_group": 9,
+    "duplicate_groups_spanning_splits": 32
+  },
+  "entity_support": [
+    {
+      "entity": "PERSON",
+      "positives": 30,
+      "n": 500,
+      "positive_rate": 0.06
+    },
+    {
+      "entity": "EMAIL_ADDRESS",
+      "positives": 18,
+      "n": 500,
+      "positive_rate": 0.036
+    },
+    {
+      "entity": "PHONE_NUMBER",
+      "positives": 12,
+      "n": 500,
+      "positive_rate": 0.024
+    },
+    {
+      "entity": "LOCATION",
+      "positives": 15,
+      "n": 500,
+      "positive_rate": 0.03
+    },
+    {
+      "entity": "IBAN_CODE",
+      "positives": 3,
+      "n": 500,
+      "positive_rate": 0.006
+    },
+    {
+      "entity": "CREDIT_CARD",
+      "positives": 3,
+      "n": 500,
+      "positive_rate": 0.006
+    },
+    {
+      "entity": "PASSPORT",
+      "positives": 6,
+      "n": 500,
+      "positive_rate": 0.012
+    },
+    {
+      "entity": "NRP",
+      "positives": 12,
+      "n": 500,
+      "positive_rate": 0.024
+    },
+    {
+      "entity": "DATE_TIME",
+      "positives": 9,
+      "n": 500,
+      "positive_rate": 0.018
+    },
+    {
+      "entity": "IP_ADDRESS",
+      "positives": 3,
+      "n": 500,
+      "positive_rate": 0.006
+    },
+    {
+      "entity": "URL",
+      "positives": 3,
+      "n": 500,
+      "positive_rate": 0.006
+    },
+    {
+      "entity": "MEDICAL_LICENSE",
+      "positives": 6,
+      "n": 500,
+      "positive_rate": 0.012
+    }
+  ],
+  "split_problems": [
+    "split 'validation' contains 0 positive documents (n=75)",
+    "split 'test' contains 0 positive documents (n=75)"
+  ],
+  "split_summary": [
+    {
+      "split": "test",
+      "n": 75,
+      "positives": 0,
+      "negatives": 75,
+      "positive_rate": 0.0
+    },
+    {
+      "split": "train",
+      "n": 350,
+      "positives": 60,
+      "negatives": 290,
+      "positive_rate": 0.1714
+    },
+    {
+      "split": "validation",
+      "n": 75,
+      "positives": 0,
+      "negatives": 75,
+      "positive_rate": 0.0
+    }
+  ],
+  "by_document_type": [
+    {
+      "document_type": "Expense Report",
+      "n": 100,
+      "positives": 12,
+      "negatives": 88,
+      "positive_rate": 0.12
+    },
+    {
+      "document_type": "IT Access Request",
+      "n": 100,
+      "positives": 12,
+      "negatives": 88,
+      "positive_rate": 0.12
+    },
+    {
+      "document_type": "Incident Report",
+      "n": 100,
+      "positives": 12,
+      "negatives": 88,
+      "positive_rate": 0.12
+    },
+    {
+      "document_type": "Supplier Onboarding",
+      "n": 100,
+      "positives": 12,
+      "negatives": 88,
+      "positive_rate": 0.12
+    },
+    {
+      "document_type": "Training Evaluation",
+      "n": 100,
+      "positives": 12,
+      "negatives": 88,
+      "positive_rate": 0.12
+    }
+  ],
+  "by_difficulty": [
+    {
+      "difficulty": "easy",
+      "n": 436,
+      "positives": 21,
+      "negatives": 415,
+      "positive_rate": 0.0482
+    },
+    {
+      "difficulty": "hard",
+      "n": 40,
+      "positives": 15,
+      "negatives": 25,
+      "positive_rate": 0.375
+    },
+    {
+      "difficulty": "medium",
+      "n": 24,
+      "positives": 24,
+      "negatives": 0,
+      "positive_rate": 1.0
+    }
+  ],
+  "by_challenge_category": [
+    {
+      "challenge_category": "none",
+      "n": 436,
+      "positives": 21,
+      "negatives": 415,
+      "positive_rate": 0.0482
+    },
+    {
+      "challenge_category": "other_edge_case",
+      "n": 33,
+      "positives": 19,
+      "negatives": 14,
+      "positive_rate": 0.5758
+    },
+    {
+      "challenge_category": "vat_number",
+      "n": 11,
+      "positives": 6,
+      "negatives": 5,
+      "positive_rate": 0.5455
+    },
+    {
+      "challenge_category": "employee_id",
+      "n": 10,
+      "positives": 5,
+      "negatives": 5,
+      "positive_rate": 0.5
+    },
+    {
+      "challenge_category": "medical_context",
+      "n": 7,
+      "positives": 7,
+      "negatives": 0,
+      "positive_rate": 1.0
+    },
+    {
+      "challenge_category": "passport_context",
+      "n": 3,
+      "positives": 2,
+      "negatives": 1,
+      "positive_rate": 0.6667
+    }
+  ],
+  "by_scenario_type": [
+    {
+      "scenario_type": "general_document",
+      "n": 315,
+      "positives": 38,
+      "negatives": 277,
+      "positive_rate": 0.1206
+    },
+    {
+      "scenario_type": "expense_report",
+      "n": 100,
+      "positives": 12,
+      "negatives": 88,
+      "positive_rate": 0.12
+    },
+    {
+      "scenario_type": "employee_record",
+      "n": 74,
+      "positives": 0,
+      "negatives": 74,
+      "positive_rate": 0.0
+    },
+    {
+      "scenario_type": "passport_record",
+      "n": 6,
+      "positives": 5,
+      "negatives": 1,
+      "positive_rate": 0.8333
+    },
+    {
+      "scenario_type": "medical_record",
+      "n": 5,
+      "positives": 5,
+      "negatives": 0,
+      "positive_rate": 1.0
+    }
+  ],
+  "by_language": [
+    {
+      "language": "en",
+      "n": 500,
+      "positives": 60,
+      "negatives": 440,
+      "positive_rate": 0.12
+    }
+  ],
+  "by_primary_pii_type": [
+    {
+      "primary_pii_type": "NONE",
+      "n": 440,
+      "positives": 0,
+      "negatives": 440,
+      "positive_rate": 0.0
+    },
+    {
+      "primary_pii_type": "MULTIPLE",
+      "n": 39,
+      "positives": 39,
+      "negatives": 0,
+      "positive_rate": 1.0
+    },
+    {
+      "primary_pii_type": "NRP",
+      "n": 6,
+      "positives": 6,
+      "negatives": 0,
+      "positive_rate": 1.0
+    },
+    {
+      "primary_pii_type": "LOCATION",
+      "n": 3,
+      "positives": 3,
+      "negatives": 0,
+      "positive_rate": 1.0
+    },
+    {
+      "primary_pii_type": "EMAIL_ADDRESS",
+      "n": 3,
+      "positives": 3,
+      "negatives": 0,
+      "positive_rate": 1.0
+    },
+    {
+      "primary_pii_type": "PASSPORT",
+      "n": 3,
+      "positives": 3,
+      "negatives": 0,
+      "positive_rate": 1.0
+    },
+    {
+      "primary_pii_type": "PERSON",
+      "n": 3,
+      "positives": 3,
+      "negatives": 0,
+      "positive_rate": 1.0
+    },
+    {
+      "primary_pii_type": "PHONE_NUMBER",
+      "n": 3,
+      "positives": 3,
+      "negatives": 0,
+      "positive_rate": 1.0
+    }
+  ]
+}

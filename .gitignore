@@ -49,3 +49,12 @@ pii_detection.egg-info/entry_points.txt
 pii_detection.egg-info/PKG-INFO
 pii_detection.egg-info/SOURCES.txt
 pii_detection.egg-info/top_level.txt
+
+# Transformer pre-filter (Max): local pretrained weights + trained checkpoints
+models/
+classification/prefilter/artifacts/
+
+# Datasets pulled from other work packages' branches for local training.
+# Sonja owns these; they are fetched, not vendored, so the two branches
+# cannot conflict over the same file.
+classification/data/external/
