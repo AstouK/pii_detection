@@ -1,0 +1,70 @@
+{
+  "t_low": 0.05,
+  "t_high": 0.05,
+  "calibrated_on": "validation",
+  "splits": [
+    {
+      "split": "train",
+      "n": 370,
+      "positives": 42,
+      "accuracy": 1.0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0,
+      "pr_auc": 1.0,
+      "routed_fraction": 0.0,
+      "prefilter_recall": 1.0,
+      "missed_positives": 0,
+      "auto_yes_precision": 0.954545,
+      "t_low": 0.05,
+      "t_high": 0.05
+    },
+    {
+      "split": "validation",
+      "n": 63,
+      "positives": 9,
+      "accuracy": 1.0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0,
+      "pr_auc": 1.0,
+      "routed_fraction": 0.0,
+      "prefilter_recall": 1.0,
+      "missed_positives": 0,
+      "auto_yes_precision": 1.0,
+      "t_low": 0.05,
+      "t_high": 0.05
+    },
+    {
+      "split": "test",
+      "n": 67,
+      "positives": 9,
+      "accuracy": 1.0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0,
+      "pr_auc": 1.0,
+      "routed_fraction": 0.0,
+      "prefilter_recall": 1.0,
+      "missed_positives": 0,
+      "auto_yes_precision": 1.0,
+      "t_low": 0.05,
+      "t_high": 0.05
+    }
+  ],
+  "gaps": {
+    "train_minus_val_f1": 0.0,
+    "val_minus_test_f1": 0.0,
+    "train_minus_val_pr_auc": 0.0,
+    "val_minus_test_pr_auc": 0.0,
+    "train_minus_val_prefilter_recall": 0.0,
+    "val_minus_test_prefilter_recall": 0.0
+  },
+  "interpretation": {
+    "flags": [
+      "dataset_too_easy"
+    ],
+    "gap_threshold": 0.05,
+    "reading": "Train, validation and test are all near-perfect with no gap. Overfitting is unmeasurable on this dataset, not disproven."
+  }
+}

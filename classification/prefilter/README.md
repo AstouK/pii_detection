@@ -42,6 +42,7 @@ under GDPR, so when in doubt the router escalates.
 | [Findings for the team](#findings-for-the-team) | seven verified findings, what was done about each, and who needs to act |
 | [Results](#results) | Run 1 on the 500-row pilot, Run 2 on the 1,400-row set |
 | [Read this before quoting the headline](#read-this-before-quoting-the-headline) | why the 0.0% routing rate is degenerate and must not be quoted bare |
+| [Overfitting check](#overfitting-check) | train vs. validation vs. test at frozen validation thresholds |
 | [Output interface](#output-interface) | the files and columns `predict` writes, and the evaluation contract they satisfy |
 | [How the router is calibrated](#how-the-router-is-calibrated) | which recall is constrained, why there are two constraints, the frontier |
 | [Model](#model) | architecture, `max_length`, model selection, reproducibility |
@@ -67,16 +68,19 @@ python -m classification.prefilter.fetch_model
 # 3. Look at the data before training on it
 python -m classification.prefilter.eda
 
-# 4. Train + calibrate the router
+# 4. Train + calibrate the router (also writes split_gap.csv)
 python -m classification.prefilter.train --epochs 6 --log-mlflow
 
-# 5. Write evaluation-compatible predictions for the held-out test split
+# 5. Re-score train / validation / test without retraining
+python -m classification.prefilter.overfit_check
+
+# 6. Write evaluation-compatible predictions for the held-out test split
 python -m classification.prefilter.predict --split test
 
-# 6. Score them with the team's evaluation pipeline
-evaluate --run-id <run_id printed by step 5>
+# 7. Score them with the team's evaluation pipeline
+evaluate --run-id <run_id printed by step 6>
 
-# 7. Slice the errors for Sonja
+# 8. Slice the errors for Sonja
 python -m classification.prefilter.error_report
 ```
 
@@ -283,7 +287,9 @@ The slice tables in `reports/distilbert_prefilter/error_slices/` already show th
 gradient: mean predicted probability is 0.036 on `difficulty == easy`, 0.59 on
 `hard` and 0.97 on `medium`, and 0.78 on `edge_case == yes` versus 0.036 on `no`.
 The model is reading difficulty correctly; there is just no case it gets wrong
-yet.
+yet. The [overfitting check](#overfitting-check) on this run is expected to
+flag `dataset_too_easy`: a gap of ~0 with F1 ≈ 1.0 on all three splits is not
+evidence that DistilBERT cannot overfit.
 
 #### Entity head
 
@@ -325,6 +331,29 @@ not a result. What it does establish is that the trade-off curve is no longer
 degenerate on the larger dataset — there is an uncertain band to route, so the
 routing rate becomes a quantity worth measuring, which is exactly what the pilot
 could not show.
+
+---
+
+## Overfitting check
+
+`python -m classification.prefilter.overfit_check` scores the finished
+checkpoint on `train`, `validation` and `test` with **the same** `t_low` /
+`t_high` that training fitted on validation. Training writes the same table
+into `reports/<run_name>/split_gap.csv` at the end of every run; the module
+entry point re-scores a checkpoint without retraining.
+
+The thresholds are never re-fitted on train or test. Re-calibrating would hide
+the gap this check is for.
+
+| gap | reading |
+|---|---|
+| train ≫ validation | the model memorised the training set |
+| validation ≫ test | the router calibration did not generalise |
+| all three ~ 1.0, gaps ~ 0 | no measurable overfitting; on the 500-row DistilBERT pilot this is the expected finding, and it is not a proof that the model cannot overfit |
+
+"≫" is a gap of 0.05 or more in F1 (or, for the val/test comparison, in
+`prefilter_recall`). Artifacts: `split_gap.csv`, `split_gap.json`,
+`split_gap.png`.
 
 ---
 
@@ -549,6 +578,7 @@ If you have normal HuggingFace access you do not need any of this; point
 | `model.py` | dual-head encoder, checkpointing, optimiser groups |
 | `thresholds.py` | three-zone routing, calibration, frontier, plots |
 | `train.py` | training loop, model selection, artifact writing |
+| `overfit_check.py` | train/val/test gap at frozen validation thresholds |
 | `predict.py` | evaluation-compatible CSV output |
 | `error_report.py` | error + routing-cost slices by document type, difficulty, challenge |
 | `eda.py` | dataset report and split sanity check |

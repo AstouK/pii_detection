@@ -119,10 +119,11 @@ Pre-filter module entry points:
 | `python -m classification.prefilter.fetch_model` | downloads the pretrained encoder into `models/` |
 | `python -m classification.prefilter.eda` | dataset report, split sanity check, `max_length` recommendation |
 | `python -m classification.prefilter.train` | trains the model and calibrates the routing thresholds |
+| `python -m classification.prefilter.overfit_check` | train/val/test gap at frozen validation thresholds |
 | `python -m classification.prefilter.predict` | writes evaluation-compatible predictions |
 | `python -m classification.prefilter.error_report` | error and routing-cost slices |
 | `python -m classification.prefilter.compare_runs` | side-by-side figures for two or more runs |
-| `python -m pytest classification/prefilter/tests/` | 47 checks — 21 on the routing logic, 26 on documentation consistency; no model required |
+| `python -m pytest classification/prefilter/tests/` | 62 checks — 21 on the routing logic, 9 on the overfit check, the rest on documentation consistency; no model required |
 
 ### Output artifacts
 

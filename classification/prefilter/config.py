@@ -19,9 +19,12 @@ from pathlib import Path
 
 from classification.config import (
     DEFAULT_INPUT_FILE,
-    DEFAULT_PIPELINE_NAME,
     RESULTS_DIR,
 )
+
+#: Written into the prediction CSV. ``classification.config`` no longer
+#: exports a pipeline name; the evaluation still reads this column.
+DEFAULT_PIPELINE_NAME = "gdpr_pii_detection"
 
 # ─────────────────────────────────────────────────────────────
 # Paths
