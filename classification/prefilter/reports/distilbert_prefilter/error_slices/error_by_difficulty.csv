@@ -1,0 +1,4 @@
+difficulty,n,positives,correct,false_positives,false_negatives,missed_positives,unreviewed_fp,routed,mean_probability,accuracy,routing_rate,recall
+easy,57,1,57,0,0,0,0,0,0.036,1.0,0.0,1.0
+hard,5,3,5,0,0,0,0,0,0.5906,1.0,0.0,1.0
+medium,5,5,5,0,0,0,0,0,0.9699,1.0,0.0,1.0

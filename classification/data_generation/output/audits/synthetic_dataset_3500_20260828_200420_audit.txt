@@ -1,0 +1,69 @@
+========================================================================
+SYNTHETIC DATASET AUDIT
+========================================================================
+Dataset: /Users/sonjahamm/pii_detection/classification/data_generation/output/synthetic_dataset_3500.csv
+Mode: STANDARD
+Status: PASS_WITH_WARNINGS
+
+FAIL CHECKS
+------------------------------------------------------------------------
+[FAIL] None
+
+WARN CHECKS
+------------------------------------------------------------------------
+[WARN] llm_fallbacks: 24 rows used deterministic fallback after LLM generation failed.
+[WARN] entity_split_coverage: Entity/split combinations below their target: ['MEDICAL_LICENSE/validation=9 (target 10, priority)', 'NRP/train=34 (target 40, priority)', 'NRP/validation=8 (target 10, priority)', 'PASSPORT/validation=9 (target 10, priority)', 'PHONE_NUMBER/validation=9 (target 10, priority)', 'URL/validation=7 (target 10, priority)']
+
+PASS CHECKS
+------------------------------------------------------------------------
+[PASS] schema: Dataset matches the expected 44-column schema.
+[PASS] column_order: Column order matches the canonical schema.
+[PASS] manifest_schema: Manifest matches the expected 12-column schema.
+[PASS] manifest_alignment: Dataset and manifest align one-to-one.
+[PASS] document_id: All document IDs are unique.
+[PASS] full_text: All rows contain document text.
+[PASS] duplicate_text: All exact duplicate texts belong to intentional blank templates (54 rows across 9 groups).
+[PASS] scenario_type: All values are supported: ['contract', 'customer_support', 'employee_record', 'expense_report', 'general_document', 'incident_report', 'internal_email', 'invoice', 'it_access_request', 'medical_record', 'meeting_notes', 'passport_record', 'supplier_onboarding', 'training_evaluation']
+[PASS] language: All values are supported: ['de', 'en']
+[PASS] recommended_split: All values are supported: ['test', 'train', 'validation']
+[PASS] positive_entity_consistency: Every PII-positive row has at least one entity flag.
+[PASS] negative_entity_consistency: No PII-negative row contains a positive entity flag.
+[PASS] primary_pii_type: primary_pii_type is consistent with entity flags.
+[PASS] entity_counts: category_count and pii_count are consistent.
+[PASS] personal_data_categories: personal_data_categories matches entity flags.
+[PASS] negative_identifier_leakage: No obvious email, URL, IP, or IBAN patterns were found in negative documents.
+[PASS] entity_coverage: All configured entity types are represented.
+[PASS] scenario_split_coverage: Every scenario is represented in every split.
+[PASS] split_class_coverage: Every split contains both target classes.
+
+METRICS
+------------------------------------------------------------------------
+rows: 3500
+columns: 44
+manifest_rows: 3500
+manifest_variant_counts: {'amendment': 80, 'appointment_summary': 83, 'blank': 55, 'clinical_note': 86, 'contract_excerpt': 85, 'decision_log': 82, 'email_ticket': 85, 'employee_summary': 82, 'escalation_note': 81, 'filled_a': 600, 'filled_b': 595, 'formal_minutes': 85, 'hr_profile': 82, 'identity_check': 82, 'informal_notes': 83, 'internal_announcement': 83, 'internal_memo': 83, 'invoice_summary': 82, 'occupational_health_note': 81, 'policy_note': 84, 'portal_ticket': 84, 'project_update': 83, 'service_invoice': 80, 'short_email': 82, 'signature_section': 85, 'standard_invoice': 88, 'structured_record': 86, 'thread_reply': 85, 'travel_document_record': 83, 'verification_note': 85}
+manifest_blank_rows: 55
+duplicate_text_rows: 54
+duplicate_text_groups: 9
+excess_duplicate_texts: 45
+intentional_blank_duplicate_groups: 9
+intentional_blank_duplicate_rows: 54
+unexpected_duplicate_groups: 0
+unexpected_duplicate_rows: 0
+negative_identifier_hits: 0
+generator_counts: {'openrouter_gpt4o_mini_field': 2692, 'openrouter_gpt4o_mini_document': 479, 'faker_archetype_v1': 305, 'faker_archetype_fallback': 24}
+prompt_version_counts: {'field_llm_v1': 2692, 'llm_rewrite_v1': 479, 'template_v1': 305, 'llm_rewrite_v1_fallback': 21, 'field_llm_v1_fallback': 3}
+fallback_rows: 24
+entity_coverage: {'PERSON': 536, 'EMAIL_ADDRESS': 75, 'PHONE_NUMBER': 59, 'LOCATION': 50, 'IBAN_CODE': 60, 'CREDIT_CARD': 60, 'PASSPORT': 62, 'NRP': 52, 'DATE_TIME': 63, 'IP_ADDRESS': 60, 'URL': 57, 'MEDICAL_LICENSE': 59}
+entity_split_coverage: {'PERSON': {'validation': 94, 'test': 89, 'train': 353}, 'EMAIL_ADDRESS': {'validation': 15, 'test': 13, 'train': 47}, 'PHONE_NUMBER': {'validation': 9, 'test': 10, 'train': 40}, 'LOCATION': {'validation': 9, 'test': 6, 'train': 35}, 'IBAN_CODE': {'validation': 10, 'test': 10, 'train': 40}, 'CREDIT_CARD': {'validation': 10, 'test': 10, 'train': 40}, 'PASSPORT': {'validation': 9, 'test': 10, 'train': 43}, 'NRP': {'validation': 8, 'test': 10, 'train': 34}, 'DATE_TIME': {'validation': 12, 'test': 8, 'train': 43}, 'IP_ADDRESS': {'validation': 10, 'test': 10, 'train': 40}, 'URL': {'validation': 7, 'test': 10, 'train': 40}, 'MEDICAL_LICENSE': {'validation': 9, 'test': 10, 'train': 40}}
+scenario_counts: {'contract': 250, 'customer_support': 250, 'employee_record': 250, 'expense_report': 250, 'general_document': 250, 'incident_report': 250, 'internal_email': 250, 'invoice': 250, 'it_access_request': 250, 'medical_record': 250, 'meeting_notes': 250, 'passport_record': 250, 'supplier_onboarding': 250, 'training_evaluation': 250}
+language_counts: {'de': 1722, 'en': 1778}
+split_counts: {'test': 518, 'train': 2450, 'validation': 532}
+class_counts: {'no': 2825, 'yes': 675}
+
+========================================================================
+SUMMARY
+========================================================================
+Status: PASS_WITH_WARNINGS
+Failures: 0
+Warnings: 2

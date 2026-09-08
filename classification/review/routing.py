@@ -43,17 +43,12 @@ def determine_initial_route(
         ) > 0
     )
 
-    has_hint = fused_result[
-        "has_person_hint"
-    ]
-
-    if has_potential_pii or has_hint:
+    # has_person_hint no longer drives routing (audit: 4/1622 TP, 153 FP)
+    if has_potential_pii:
 
         return {
             "route": LOW_COST_LLM,
-            "routing_reason": (
-                "potential_pii_or_person_hint"
-            ),
+            "routing_reason": "potential_pii_evidence",
             "needs_llm_review": True,
         }
 

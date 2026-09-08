@@ -1,0 +1,6 @@
+challenge_category,n,positives,correct,false_positives,false_negatives,missed_positives,unreviewed_fp,routed,mean_probability,accuracy,routing_rate,recall
+none,57,1,57,0,0,0,0,0,0.036,1.0,0.0,1.0
+other_edge_case,7,6,7,0,0,0,0,0,0.8346,1.0,0.0,1.0
+employee_id,1,0,1,0,0,0,0,0,0.0333,1.0,0.0,
+medical_context,1,1,1,0,0,0,0,0,0.956,1.0,0.0,1.0
+vat_number,1,1,1,0,0,0,0,0,0.9709,1.0,0.0,1.0

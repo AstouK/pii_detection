@@ -50,6 +50,56 @@ SPLIT_COL = "recommended_split"
 
 # Development/test mode.
 # Use None for full evaluation.
+EVALUATION_LIMIT = None
+
+
+# ─────────────────────────────────────────────────────────────
+# Routing Strategies
+# ─────────────────────────────────────────────────────────────
+#
+# NOTE (Max, feature/bert-prefilter): the two `bert` entries below were added
+# for the transformer pre-filter work package. They describe the outputs written
+# by `python -m classification.prefilter.predict`:
+#
+#   rule_plus_bert   three-zone router; uncertain documents carry
+#                    routed_to_llm = True and are escalated to the LLM stage
+#   bert_prefilter   the standalone model decision, no routing applied
+#
+# Raised in the 25.08. meeting rather than merged silently, since this file is
+# owned by the evaluation work package.
+
+STRATEGIES = {
+    "rule_based": {
+        "strategy": "rule_based",
+        "provider": "local",
+        "model_family": "rules",
+        "model_name": "presidio_regex",
+    },
+    "rule_plus_qwen": {
+        "strategy": "rule_plus_qwen",
+        "provider": "qwen",
+        "model_family": "qwen",
+        "model_name": "qwen3.7-plus",
+    },
+    "rule_plus_openrouter": {
+        "strategy": "rule_plus_openrouter",
+        "provider": "openrouter",
+        "model_family": "gpt",
+        "model_name": "openai/gpt-4o-mini",
+    },
+    "rule_plus_bert": {
+        "strategy": "rule_plus_bert",
+        "provider": "local",
+        "model_family": "bert",
+        "model_name": "distilbert-base-uncased-v1",
+    },
+    "bert_prefilter": {
+        "strategy": "bert_prefilter",
+        "provider": "local",
+        "model_family": "bert",
+        "model_name": "distilbert-base-uncased-v1",
+    },
+}
 
 EVALUATION_LIMIT = None
 

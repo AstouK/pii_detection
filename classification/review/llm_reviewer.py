@@ -251,6 +251,7 @@ def call_qwen(prompt: str, model_name: str,) -> dict:
                     }
                 ],
                 temperature=0,
+                extra_body={"enable_thinking": False},
             )
 
             content = completion.choices[0].message.content

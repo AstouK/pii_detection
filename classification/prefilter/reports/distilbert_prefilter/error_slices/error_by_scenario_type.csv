@@ -1,0 +1,5 @@
+scenario_type,n,positives,correct,false_positives,false_negatives,missed_positives,unreviewed_fp,routed,mean_probability,accuracy,routing_rate,recall
+general_document,51,7,51,0,0,0,0,0,0.1499,1.0,0.0,1.0
+expense_report,10,1,10,0,0,0,0,0,0.1163,1.0,0.0,1.0
+employee_record,5,0,5,0,0,0,0,0,0.0172,1.0,0.0,
+medical_record,1,1,1,0,0,0,0,0,0.956,1.0,0.0,1.0
