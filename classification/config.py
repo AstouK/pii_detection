@@ -29,6 +29,7 @@ CLASSIFICATION_LIMIT = None
 CLASSIFICATION_DIR = Path(__file__).resolve().parent
 
 DATA_DIR = CLASSIFICATION_DIR / "data"
+DATA_GENERATION_OUTPUT_DIR = CLASSIFICATION_DIR / "data_generation" / "output"
 RESULTS_DIR = CLASSIFICATION_DIR / "results"
 
 # 3,500-row bilingual synthetic dataset (see classification/data_generation/README.md).
