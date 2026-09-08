@@ -1,0 +1,9 @@
+primary_pii_type,n,positives,correct,false_positives,false_negatives,missed_positives,unreviewed_fp,routed,mean_probability,accuracy,routing_rate,recall
+NONE,182,0,181,1,0,0,1,0,0.0014,0.9945,0.0,
+MULTIPLE,19,19,19,0,0,0,0,0,0.9947,1.0,0.0,1.0
+PERSON,3,3,3,0,0,0,0,0,0.9959,1.0,0.0,1.0
+URL,2,2,2,0,0,0,0,0,0.9939,1.0,0.0,1.0
+LOCATION,1,1,1,0,0,0,0,0,0.9926,1.0,0.0,1.0
+EMAIL_ADDRESS,1,1,1,0,0,0,0,0,0.9916,1.0,0.0,1.0
+DATE_TIME,1,1,0,0,1,1,0,0,0.0015,0.0,0.0,0.0
+PASSPORT,1,1,1,0,0,0,0,0,0.9824,1.0,0.0,1.0

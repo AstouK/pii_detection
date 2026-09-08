@@ -1,0 +1,6 @@
+document_type,n,positives,correct,false_positives,false_negatives,missed_positives,unreviewed_fp,routed,mean_probability,accuracy,routing_rate,recall
+Incident Report,18,2,18,0,0,0,0,0,0.1247,1.0,0.0,1.0
+Supplier Onboarding,13,1,13,0,0,0,0,0,0.093,1.0,0.0,1.0
+IT Access Request,13,1,13,0,0,0,0,0,0.0912,1.0,0.0,1.0
+Training Evaluation,13,4,13,0,0,0,0,0,0.3115,1.0,0.0,1.0
+Expense Report,10,1,10,0,0,0,0,0,0.1163,1.0,0.0,1.0

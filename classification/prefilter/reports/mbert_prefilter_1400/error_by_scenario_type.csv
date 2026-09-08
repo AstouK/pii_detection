@@ -1,0 +1,15 @@
+scenario_type,n,positives,correct,false_positives,false_negatives,missed_positives,unreviewed_fp,routed,mean_probability,accuracy,routing_rate,recall
+contract,15,2,15,0,0,0,0,0,0.134,1.0,0.0,1.0
+customer_support,15,2,15,0,0,0,0,0,0.1336,1.0,0.0,1.0
+employee_record,15,2,15,0,0,0,0,0,0.1341,1.0,0.0,1.0
+expense_report,15,2,15,0,0,0,0,0,0.1335,1.0,0.0,1.0
+general_document,15,2,14,0,1,1,0,0,0.0676,0.9333,0.0,0.5
+incident_report,15,2,15,0,0,0,0,0,0.1338,1.0,0.0,1.0
+internal_email,15,2,15,0,0,0,0,0,0.1335,1.0,0.0,1.0
+invoice,15,2,15,0,0,0,0,0,0.1339,1.0,0.0,1.0
+it_access_request,15,2,15,0,0,0,0,0,0.134,1.0,0.0,1.0
+medical_record,15,2,15,0,0,0,0,0,0.1342,1.0,0.0,1.0
+meeting_notes,15,2,14,1,0,0,1,0,0.1343,0.9333,0.0,1.0
+passport_record,15,2,15,0,0,0,0,0,0.1331,1.0,0.0,1.0
+supplier_onboarding,15,2,15,0,0,0,0,0,0.1332,1.0,0.0,1.0
+training_evaluation,15,2,15,0,0,0,0,0,0.1339,1.0,0.0,1.0

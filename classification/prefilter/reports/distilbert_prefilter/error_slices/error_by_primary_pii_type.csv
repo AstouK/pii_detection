@@ -1,0 +1,6 @@
+primary_pii_type,n,positives,correct,false_positives,false_negatives,missed_positives,unreviewed_fp,routed,mean_probability,accuracy,routing_rate,recall
+NONE,58,0,58,0,0,0,0,0,0.0195,1.0,0.0,
+MULTIPLE,6,6,6,0,0,0,0,0,0.9675,1.0,0.0,1.0
+EMAIL_ADDRESS,1,1,1,0,0,0,0,0,0.9724,1.0,0.0,1.0
+LOCATION,1,1,1,0,0,0,0,0,0.9696,1.0,0.0,1.0
+NRP,1,1,1,0,0,0,0,0,0.9741,1.0,0.0,1.0
