@@ -182,26 +182,8 @@ SPLIT_RATIOS = {
  
 TARGET_POSITIVE_RATE = 0.12
  
- 
-# Minimum number of examples each entity type must have in EVERY split
-# (train/validation/test), counted across the whole dataset, not per
-# scenario. A scenario with 6 configured combinations can't guarantee
-# 6 distinct entities in a 2-document validation slice on its own --
-# this floor is enforced across scenarios by
-# planner.top_up_rare_entity_coverage() after the per-scenario plans
-# are built. Without this, rare entities (CREDIT_CARD, MEDICAL_LICENSE,
-# NRP, IBAN_CODE at documents_per_scenario=100) can silently land at
-# zero examples in validation or test -- see audit_entity_split_coverage
-# in audit.py, which enforces this floor as part of the dataset audit.
 MIN_ENTITY_EXAMPLES_PER_SPLIT = 3
  
- 
-# Entities Max reported as insufficiently accurate for DistilBERT
-# training (2026-08-28), plus URL/PASSPORT which sit in the same thin
-# tier of the real dataset but weren't flagged -- included
-# preventatively since a category with almost no test examples can't
-# produce a trustworthy accuracy number in the first place, flagged
-# or not.
 PRIORITY_ENTITIES = {
     "IBAN_CODE",
     "CREDIT_CARD",
@@ -214,14 +196,7 @@ PRIORITY_ENTITIES = {
 }
  
  
-# Per-split targets for PRIORITY_ENTITIES only. Train is sized for
-# DistilBERT to actually learn the pattern (Max's estimate: 30-40+).
-# Validation/test are raised well above MIN_ENTITY_EXAMPLES_PER_SPLIT
-# because the original complaint ("not enough accuracy") is at least
-# partly an eval-noise problem: an entity with 1-2 test examples
-# produces an accuracy number that is 0% or 100% by chance, not a
-# real measurement. All other (non-priority) entities keep the
-# MIN_ENTITY_EXAMPLES_PER_SPLIT floor.
+# Per-split targets for PRIORITY_ENTITIES only. 
 PRIORITY_ENTITY_SPLIT_TARGETS = {
     "train": 40,
     "validation": 10,
@@ -229,14 +204,7 @@ PRIORITY_ENTITY_SPLIT_TARGETS = {
 }
  
  
-# Hard ceiling on how skewed any single scenario/split's positive rate
-# is allowed to become as a side effect of rare-entity top-up. Without
-# this, an entity confined to one scenario (e.g. CREDIT_CARD in
-# invoice) can push that scenario/split's positive rate to 50%+ while
-# converting negatives -- this caps it at a level close to the
-# dataset-wide realized rate instead. CREDIT_CARD and MEDICAL_LICENSE
-# will land a bit under their 40/10/10 target because of this cap --
-# expected, see PRIORITY_ENTITY_SPLIT_TARGETS comment above.
+# Hard ceiling on how skewed any single scenario/split's positive rate is allowed to become as a side effect of rare-entity top-up. 
 MAX_LOCAL_POSITIVE_RATE = 0.24
  
  
@@ -244,7 +212,6 @@ TARGET_LANGUAGE_RATIOS = {
     "en": 0.50,
     "de": 0.50,
 }
- 
  
 # Blank forms are useful negative examples, but should remain a minority rather than dominating form-based scenarios.
 TARGET_BLANK_RATE = 0.05

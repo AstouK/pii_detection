@@ -91,12 +91,7 @@ def fuse_detection_results(
         regex_result["entities"]
     )
 
-    # GDPR Art. 4(1): a bare date is not independently identifying. Only
-    # keep a DATE_TIME detection when it sits near a PERSON entity (a
-    # dated event tied to an identified individual) or near a LOCATION
-    # entity (a specific event at a specific place). Boilerplate dates
-    # (e.g. a template's "Effective Date" field) with no such context
-    # are dropped here, before they ever enter per_type_conf.
+    # GDPR Art. 4(1): a bare date is not independently identifying. 
     entities = _filter_weak_date_time_entities(entities)
 
     per_type_scores = defaultdict(list)
@@ -147,13 +142,7 @@ def fuse_detection_results(
         if entity_type in POTENTIAL_PII:
             potential_categories.append(entity_type)
 
-    # GDPR Art. 4(1): a place or a date is only personal data if it is
-    # tied to an identified individual. Previously, LOCATION and DATE_TIME
-    # could protect each other from removal even with no PERSON anywhere
-    # in the document - e.g. a stray place-noun misfire co-occurring with
-    # a boilerplate date, neither tied to any person, would both survive.
-    # That doesn't satisfy the "identified individual" requirement either
-    # way. PERSON is now the sole anchor: without it, both are dropped.
+    # GDPR Art. 4(1): a place or a date is only personal data if it is tied to an identified individual.
     if "PERSON" not in per_type_conf:
         if "LOCATION" in potential_categories:
             potential_categories.remove("LOCATION")
