@@ -645,6 +645,18 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
         default=defaults.split_mode,
         choices=["auto", "recommended", "stratified"],
     )
+    parser.add_argument(
+        "--validation-fraction",
+        type=float,
+        default=defaults.validation_fraction,
+        help="Only used when split-mode is 'stratified'.",
+    )
+    parser.add_argument(
+        "--test-fraction",
+        type=float,
+        default=defaults.test_fraction,
+        help="Only used when split-mode is 'stratified'.",
+    )
     parser.add_argument("--epochs", type=int, default=defaults.epochs)
     parser.add_argument("--batch-size", type=int, default=defaults.batch_size)
     parser.add_argument("--learning-rate", type=float, default=defaults.learning_rate)
@@ -682,6 +694,8 @@ def config_from_args(args: argparse.Namespace) -> PreFilterConfig:
         model_name=args.model_name,
         run_name=args.run_name,
         split_mode=args.split_mode,
+        validation_fraction=args.validation_fraction,
+        test_fraction=args.test_fraction,
         epochs=args.epochs,
         batch_size=args.batch_size,
         learning_rate=args.learning_rate,
