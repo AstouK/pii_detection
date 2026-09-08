@@ -180,6 +180,11 @@ Implemented in `review/llm_reviewer.py`.
 
 Responsibilities:
 
+```text
+openrouter
+qwen
+ollama
+```
 - Review ambiguous documents.
 - Build provider-specific prompts.
 - Execute LLM requests.
@@ -314,14 +319,60 @@ classification requirement files:
 pip install -r requirements.txt
 ```
 
-Classification-specific dependencies only:
+Prediction and evaluation are intentionally separated to support reproducible benchmarking and future model comparison.
+
+---
+
+## Local Ollama
+
+`rule_plus_ollama` is included in the default `classify` run. The default
+strategy remains `rule_plus_qwen`.
+
+1. Install and start Ollama (`ollama serve`).
+2. Pull the configured model:
+
+```bash
+ollama pull qwen2.5
+```
+
+3. Set values in `.env` (see `.env.example`):
+
+```text
+OLLAMA_BASE_URL=http://localhost:11434/v1
+OLLAMA_MODEL=qwen2.5
+```
+
+4. Run the pipeline. A default `classify` run executes `rule_based`,
+   `rule_plus_qwen`, `rule_plus_gpt4o_mini`, and `rule_plus_ollama`.
+   To run only the local strategy:
+
+```bash
+classify --strategies rule_plus_ollama
+```
+
+If Ollama is not running, the default `classify` run fails when
+`rule_plus_ollama` starts, with a message to run `ollama serve` and
+`ollama pull qwen2.5`.
+
+---
+
+## Running the Pipeline
 
 ```bash
 pip install -r classification/requirements.txt
 ```
 
-The pre-filter additionally needs the deep-learning stack, which neither
-requirements file covers:
+Or:
+
+```bash
+classify
+```
+
+---
+
+## Dependencies
+
+Install all project dependencies:
 
 ```bash
 pip install torch transformers scikit-learn matplotlib mlflow

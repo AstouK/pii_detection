@@ -182,10 +182,21 @@ in-progress number and not a result, but it does show the trade-off curve is no
 longer degenerate on the larger dataset — there is an uncertain band to route,
 so the routing rate becomes a figure worth measuring.
 
-The 1,400-row set lives on `AstouK/pii_detection`, branch
-`feature/synthetic-data-generation`, at
-`classification/data_generation/output/synthetic_dataset_1400.csv`. Same
-44-column schema as the pilot: 714 English / 686 German, 12% positive,
-positives present in all three splits. It is fetched into the git-ignored
-`classification/data/external/` and passed with `--data-file`, never vendored
-into this branch.
+Enables commands such as:
+classify
+evaluate
+update-dataset
+
+Copy `.env.example` to `.env` and set provider credentials.
+
+Local Ollama (used by `rule_plus_ollama` in the default `classify` run):
+
+```bash
+ollama serve
+ollama pull qwen2.5
+```
+
+Set `OLLAMA_BASE_URL` and `OLLAMA_MODEL` in `.env` if you do not want the
+defaults (`http://localhost:11434/v1` and `qwen2.5`). Without a running
+Ollama server, `classify` fails when it reaches `rule_plus_ollama`.
+To run only the local strategy: `classify --strategies rule_plus_ollama`.
