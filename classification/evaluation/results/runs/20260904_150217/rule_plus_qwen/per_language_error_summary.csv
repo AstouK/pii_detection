@@ -1,0 +1,9 @@
+language,error_type,count
+de,false_negative,8
+de,false_positive,24
+de,true_negative,1385
+de,true_positive,305
+en,false_negative,8
+en,false_positive,14
+en,true_negative,1447
+en,true_positive,309

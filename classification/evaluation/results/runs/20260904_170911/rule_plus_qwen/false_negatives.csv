@@ -1,0 +1,210 @@
+document_id,file_name,document_type,scenario_type,language,source_system,responsible_owner,owner_email,data_source,file_created_date,last_modified_date,dataset_created_at,file_size_mb,full_text,contains_personal_data,PERSON_yes_no,EMAIL_ADDRESS_yes_no,PHONE_NUMBER_yes_no,LOCATION_yes_no,IBAN_CODE_yes_no,CREDIT_CARD_yes_no,PASSPORT_yes_no,NRP_yes_no,DATE_TIME_yes_no,IP_ADDRESS_yes_no,URL_yes_no,MEDICAL_LICENSE_yes_no,personal_data_categories,primary_pii_type,category_count,pii_count,difficulty,edge_case,challenge_category,retention_period_exceeded_3y,recommended_split,synthetic,synthetic_generator,generation_prompt_version,human_reviewed,review_status,review_notes,dataset_version,labeling_notes,entities,per_type_conf,detected_categories,strong_pii_categories,potential_pii_categories,detected_pii,detected_any_pii,has_person_hint,route,routing_reason,needs_llm_review,llm_provider,llm_model_id,llm_model_name,llm_pii,llm_reason,llm_prompt_tokens,llm_completion_tokens,llm_total_tokens,llm_reasoning_tokens,llm_cached_tokens,llm_request_cost,llm_request_success,final_pii,predicted_pii,run_id,strategy,provider,model_family,model_name,prompt_version,prediction_source,_ground_truth_bool,_prediction_bool,error_type,is_correct,evaluated_ground_truth_col,evaluated_prediction_col
+SYN-CUSTOMER_SUPPORT-0026,synthetic_customer_support_0026.txt,support_ticket,customer_support,de,synthetic_generation,,,synthetic,2026-08-28,2026-08-28,2026-08-28,0,"Kundensupport
+
+Ticketnummer: REF-8389765
+Betreff: Dringende Eskalation des Tickets REF-8389765 aufgrund wiederholter Probleme
+Kunde: Firmenkunde
+Kontakt: Abteilungskontakt
+Beschreibung: Das Ticket REF-8389765 wurde zur Eskalation an die Abteilung für technische Unterstützung weitergeleitet, da der Firmenkunde anhaltende Schwierigkeiten mit unserem Produkt meldet. Emma Killer MBA. hat die Situation eingehend untersucht und festgestellt, dass die Probleme die Betriebsabläufe des Kunden erheblich beeinträchtigen, was zu potenziellen finanziellen Einbußen führt. Es sind bereits mehrere Rückmeldungen vom Kunden eingegangen, die auf eine Unzufriedenheit mit der bisherigen Lösungsfindung hinweisen.
+Bearbeiter: Emma Killer MBA.
+Status: Open
+Lösung: Um dieses Problem effizient zu lösen, wird empfohlen, dass Emma Killer MBA. ein dringendes Treffen mit dem technischen Support-Team einberuft, um die notwendigen Ressourcen für die sofortige Behebung der Probleme bereitzustellen. Darüber hinaus sollte eine kontinuierliche Kommunikation mit dem Firmenkunden gewährleistet werden, um ihn über den Fortschritt der Lösung auf dem Laufenden zu halten.",yes,yes,no,no,no,no,no,no,no,no,no,no,no,PERSON,PERSON,1,1,easy,no,none,no,train,yes,openrouter_gpt4o_mini_field,field_llm_v1,no,,,v2,Synthetic document generated for controlled PII training data.,[],{},[],[],[],False,False,False,local_non_pii,no_meaningful_signal,False,dashscope,qwen3_7_plus,qwen3.7-plus,False,,0,0,0,0,0,0.0,False,False,False,20260904_170911,rule_plus_qwen,dashscope,llm,qwen3.7-plus,pii_review_v1,llm,True,False,false_negative,False,contains_personal_data,predicted_pii
+SYN-EMPLOYEE_RECORD-0015,synthetic_employee_record_0015.txt,hr_record,employee_record,de,synthetic_generation,,,synthetic,2026-08-28,2026-08-28,2026-08-28,0,"Mitarbeiterakte
+
+Mitarbeiter: Necati Killer
+Abteilung: IT
+Rolle: Manager
+Mitarbeiternummer: REF-9868394
+Vorgesetzter: Abteilungsleitung
+Eintrittsdatum: 2025-03-08
+Adresse: Alwine-Kabus-Allee 3, 73478 Sonneberg
+Nationalität: Nationalität nicht angegeben
+Kontakt: Abteilungskontakt
+Notizen: Necati Killer wird ab dem 08. März 2025 die Position des Managers in der IT-Abteilung übernehmen. Der Arbeitsplatz befindet sich in der Alwine-Kabus-Allee 3, 73478 Sonneberg. Weitere Informationen zur Einarbeitung werden zeitnah bereitgestellt.
+Lizenznummer: REF-1774088
+Ausweisnummer: REF-8965876",yes,yes,no,no,yes,no,no,no,no,no,no,no,no,PERSON; LOCATION,MULTIPLE,2,2,easy,no,none,no,train,yes,openrouter_gpt4o_mini_field,field_llm_v1,no,,,v2,Synthetic document generated for controlled PII training data.,"[{'type': 'LOCATION', 'value': 'Alwine-Kabus-Allee', 'confidence': 0.85, 'source': 'presidio', 'start': 172, 'end': 190}, {'type': 'LOCATION', 'value': '73478 Sonneberg', 'confidence': 0.85, 'source': 'presidio', 'start': 194, 'end': 209}, {'type': 'LOCATION', 'value': 'Alwine-Kabus-Allee 3', 'confidence': 0.85, 'source': 'presidio', 'start': 425, 'end': 445}, {'type': 'LOCATION', 'value': '73478 Sonneberg', 'confidence': 0.85, 'source': 'presidio', 'start': 447, 'end': 462}, {'type': 'DATE_TIME', 'value': '2025-03-08', 'confidence': 0.6, 'source': 'presidio', 'start': 152, 'end': 162}]","{'LOCATION': 0.85, 'DATE_TIME': 0.6}","['DATE_TIME', 'LOCATION']",[],[],False,False,True,local_non_pii,no_meaningful_signal,False,dashscope,qwen3_7_plus,qwen3.7-plus,False,,0,0,0,0,0,0.0,False,False,False,20260904_170911,rule_plus_qwen,dashscope,llm,qwen3.7-plus,pii_review_v1,llm,True,False,false_negative,False,contains_personal_data,predicted_pii
+SYN-INCIDENT_REPORT-0054,synthetic_incident_report_0054.txt,report,incident_report,de,synthetic_generation,,,synthetic,2026-08-28,2026-08-28,2026-08-28,0,"Vorfallsbericht
+
+Datum: 2024-04-10
+Ort: Abdul-Oestrovsky-Platz 578, 24074 Wolfratshausen
+Typ: Equipment Failure
+Beschreibung: Am 10. April 2024 kam es in der Einrichtung am Abdul-Oestrovsky-Platz 578, 24074 Wolfratshausen zu einem bedeutenden Ausfall eines wichtigen Gerätes, das für die Aufrechterhaltung der Betriebsabläufe notwendig ist. Der Vorfall führte zu einer Unterbrechung der Dienstleistung, wodurch die Effizienz der Betriebseinheit stark beeinträchtigt wurde. Techniker waren sofort vor Ort, um die Situation zu beurteilen und den Grad des Schadens festzustellen, wobei sie feststellten, dass das Gerät aufgrund eines internen mechanischen Versagens nicht funktionstüchtig war.
+Ursache: Die Ursachenanalyse ergab, dass das mechanische Versagen auf einen nicht rechtzeitig durchgeführten Wartungsprozess zurückzuführen war. Insbesondere wurde festgestellt, dass die regelmäßige Inspektion und Wartung der Geräteteile, die für die ordnungsgemäße Funktion unerlässlich sind, versäumt wurde. Unzureichende Dokumentation und Nachverfolgung der Wartungsintervalle haben zu diesem Vorfall beigetragen.
+Maßnahme: Um zukünftige Vorfälle dieser Art zu verhindern, wurde ein umfassender Plan zur Überarbeitung der Wartungsverfahren implementiert. Dies umfasst die Einführung eines neuen digitalen Wartungsmanagementsystems, das sicherstellt, dass alle Wartungsarbeiten rechtzeitig durchgeführt und dokumentiert werden. Außerdem werden Schulungen für das Facility Management-Team am Abdul-Oestrovsky-Platz 578, 24074 Wolfratshausen organisiert, um das Bewusstsein für die Bedeutung der regelmäßigen Wartung zu schärfen und sicherzustellen, dass alle Mitarbeiter mit den neuen Verfahren vertraut sind.
+Verantwortlich: Facility Management
+Frist: 2025-03-01",yes,no,no,no,yes,no,no,no,no,yes,no,no,no,LOCATION; DATE_TIME,MULTIPLE,2,2,easy,no,none,no,validation,yes,openrouter_gpt4o_mini_field,field_llm_v1,no,,,v2,Synthetic document generated for controlled PII training data.,"[{'type': 'LOCATION', 'value': 'Abdul-Oestrovsky-Platz', 'confidence': 0.85, 'source': 'presidio', 'start': 40, 'end': 62}, {'type': 'LOCATION', 'value': 'Wolfratshausen', 'confidence': 0.85, 'source': 'presidio', 'start': 74, 'end': 88}, {'type': 'LOCATION', 'value': 'Wolfratshausen', 'confidence': 0.85, 'source': 'presidio', 'start': 207, 'end': 221}, {'type': 'LOCATION', 'value': 'Wolfratshausen', 'confidence': 0.85, 'source': 'presidio', 'start': 1518, 'end': 1532}, {'type': 'DATE_TIME', 'value': '2024-04-10', 'confidence': 0.6, 'source': 'presidio', 'start': 24, 'end': 34}]","{'LOCATION': 0.85, 'DATE_TIME': 0.6}","['DATE_TIME', 'LOCATION']",[],[],False,False,True,local_non_pii,no_meaningful_signal,False,dashscope,qwen3_7_plus,qwen3.7-plus,False,,0,0,0,0,0,0.0,False,False,False,20260904_170911,rule_plus_qwen,dashscope,llm,qwen3.7-plus,pii_review_v1,llm,True,False,false_negative,False,contains_personal_data,predicted_pii
+SYN-INCIDENT_REPORT-0078,synthetic_incident_report_0078.txt,report,incident_report,en,synthetic_generation,,,synthetic,2026-08-28,2026-08-28,2026-08-28,0,"Incident Report
+
+Date: 2026-08-03
+Location: 28913 Thompson Prairie Suite 017, South Joycefurt, AZ 58237
+Type: Equipment Failure
+Description: On August 3, 2026, an equipment failure was reported at 28913 Thompson Prairie Suite 017, South Joycefurt, AZ 58237, leading to a significant disruption in operations. The incident involved a malfunction of the primary server, which resulted in the inability to access critical data and services for approximately four hours. This incident raised serious concerns regarding data integrity and availability, prompting immediate investigation by the Security Team.
+Root Cause: The investigation revealed that the root cause of the equipment failure was a combination of outdated hardware components and inadequate preventive maintenance. Specifically, the server's power supply unit had exceeded its operational lifespan, which was not identified during routine checks. Additionally, the monitoring system failed to alert the team about the declining performance of the hardware, contributing to the unexpected failure.
+Corrective Action: To remediate the situation, the Security Team has implemented a comprehensive action plan that includes the immediate replacement of the faulty power supply unit and an upgrade of the server hardware to ensure better reliability. Furthermore, a new preventive maintenance schedule has been established, incorporating regular performance assessments and alerts to detect potential failures early. Training sessions for the technical staff on the new monitoring system will also be conducted to enhance response capabilities for future incidents.
+Owner: Security Team
+Deadline: 2024-09-30",yes,no,no,no,yes,no,no,no,no,yes,no,no,no,LOCATION; DATE_TIME,MULTIPLE,2,2,easy,no,none,no,test,yes,openrouter_gpt4o_mini_field,field_llm_v1,no,,,v2,Synthetic document generated for controlled PII training data.,"[{'type': 'DATE_TIME', 'value': '2026-08-03', 'confidence': 0.95, 'source': 'presidio', 'start': 23, 'end': 33}, {'type': 'LOCATION', 'value': 'South Joycefurt', 'confidence': 0.85, 'source': 'presidio', 'start': 78, 'end': 93}, {'type': 'DATE_TIME', 'value': 'August 3, 2026', 'confidence': 0.85, 'source': 'presidio', 'start': 144, 'end': 158}, {'type': 'LOCATION', 'value': 'South Joycefurt', 'confidence': 0.85, 'source': 'presidio', 'start': 231, 'end': 246}, {'type': 'DATE_TIME', 'value': 'approximately four hours', 'confidence': 0.85, 'source': 'presidio', 'start': 441, 'end': 465}]","{'DATE_TIME': 0.95, 'LOCATION': 0.85}","['DATE_TIME', 'LOCATION']",[],[],False,False,False,local_non_pii,no_meaningful_signal,False,dashscope,qwen3_7_plus,qwen3.7-plus,False,,0,0,0,0,0,0.0,False,False,False,20260904_170911,rule_plus_qwen,dashscope,llm,qwen3.7-plus,pii_review_v1,llm,True,False,false_negative,False,contains_personal_data,predicted_pii
+SYN-INCIDENT_REPORT-0097,synthetic_incident_report_0097.txt,report,incident_report,de,synthetic_generation,,,synthetic,2026-08-28,2026-08-28,2026-08-28,0,"Vorfallsbericht
+
+Datum: 2024-09-22
+Ort: Hans-Friedrich-Steinberg-Straße 7/4, 45075 Dresden
+Typ: Operational Incident
+Beschreibung: Am 22. September 2024 wurde ein Ausfall des internen Kommunikationssystems festgestellt, der die Produktivität der Mitarbeiter beeinträchtigte. Der Vorfall betraf alle Nutzer am Standort Hans-Friedrich-Steinberg-Straße 7/4, 45075 Dresden.
+Ursache: Die Ursache für den Vorfall war ein unerwarteter Hardwarefehler im Serverraum, der die Netzwerkverbindung unterbrach.
+Maßnahme: Die fehlerhafte Hardware wurde umgehend ersetzt und zusätzliche Überprüfungen der Systeme werden regelmäßig durchgeführt, um zukünftige Ausfälle zu vermeiden.
+Verantwortlich: IT Operations
+Frist: 2027-02-04",yes,no,no,no,yes,no,no,no,no,yes,no,no,no,LOCATION; DATE_TIME,MULTIPLE,2,2,easy,no,none,no,train,yes,openrouter_gpt4o_mini_field,field_llm_v1,no,,,v2,Synthetic document generated for controlled PII training data.,"[{'type': 'LOCATION', 'value': 'Dresden', 'confidence': 0.85, 'source': 'presidio', 'start': 83, 'end': 90}, {'type': 'LOCATION', 'value': 'Hans-Friedrich-Steinberg-Straße 7/4', 'confidence': 0.85, 'source': 'presidio', 'start': 318, 'end': 353}, {'type': 'LOCATION', 'value': 'Dresden', 'confidence': 0.85, 'source': 'presidio', 'start': 361, 'end': 368}, {'type': 'DATE_TIME', 'value': '2024-09-22', 'confidence': 0.6, 'source': 'presidio', 'start': 24, 'end': 34}]","{'LOCATION': 0.85, 'DATE_TIME': 0.6}","['DATE_TIME', 'LOCATION']",[],[],False,False,True,local_non_pii,no_meaningful_signal,False,dashscope,qwen3_7_plus,qwen3.7-plus,False,,0,0,0,0,0,0.0,False,False,False,20260904_170911,rule_plus_qwen,dashscope,llm,qwen3.7-plus,pii_review_v1,llm,True,False,false_negative,False,contains_personal_data,predicted_pii
+SYN-INCIDENT_REPORT-0107,synthetic_incident_report_0107.txt,report,incident_report,de,synthetic_generation,,,synthetic,2026-08-28,2026-08-28,2026-08-28,0,"Vorfallsbericht
+
+Datum: 2025-07-19
+Ort: Löchelweg 308, 31722 Arnstadt
+Typ: Service Disruption
+Beschreibung: Am 19. Juli 2025 kam es in der Einrichtung am Löchelweg 308, 31722 Arnstadt zu einer unerwarteten Serviceunterbrechung, die die Betriebsabläufe erheblich beeinträchtigte. Die Störung betraf mehrere kritische Systeme und führte zu Verzögerungen in der Dienstbereitstellung.
+Ursache: Die Untersuchung ergab, dass die Serviceunterbrechung durch einen unerwarteten Hardwareausfall in einem zentralen Server verursacht wurde. Das betroffene Gerät war nicht ordnungsgemäß gewartet, was zu einem plötzlichen Ausfall führte.
+Maßnahme: Um zukünftige Vorfälle zu vermeiden, wurde ein regelmäßiges Wartungsprogramm für alle zentralen Server implementiert. Zusätzlich wurden redundante Systeme installiert, um die Ausfallzeiten zu minimieren und die Betriebsbereitschaft zu gewährleisten.
+Verantwortlich: Security Team
+Frist: 2027-08-13",yes,no,no,no,yes,no,no,no,no,yes,no,no,no,LOCATION; DATE_TIME,MULTIPLE,2,2,easy,no,none,no,train,yes,openrouter_gpt4o_mini_field,field_llm_v1,no,,,v2,Synthetic document generated for controlled PII training data.,"[{'type': 'LOCATION', 'value': 'Löchelweg', 'confidence': 0.85, 'source': 'presidio', 'start': 40, 'end': 49}, {'type': 'LOCATION', 'value': 'Arnstadt', 'confidence': 0.85, 'source': 'presidio', 'start': 61, 'end': 69}, {'type': 'LOCATION', 'value': 'Löchelweg', 'confidence': 0.85, 'source': 'presidio', 'start': 154, 'end': 163}, {'type': 'LOCATION', 'value': 'Arnstadt', 'confidence': 0.85, 'source': 'presidio', 'start': 175, 'end': 183}, {'type': 'DATE_TIME', 'value': '2025-07-19', 'confidence': 0.6, 'source': 'presidio', 'start': 24, 'end': 34}]","{'LOCATION': 0.85, 'DATE_TIME': 0.6}","['DATE_TIME', 'LOCATION']",[],[],False,False,False,local_non_pii,no_meaningful_signal,False,dashscope,qwen3_7_plus,qwen3.7-plus,False,,0,0,0,0,0,0.0,False,False,False,20260904_170911,rule_plus_qwen,dashscope,llm,qwen3.7-plus,pii_review_v1,llm,True,False,false_negative,False,contains_personal_data,predicted_pii
+SYN-INCIDENT_REPORT-0110,synthetic_incident_report_0110.txt,report,incident_report,en,synthetic_generation,,,synthetic,2026-08-28,2026-08-28,2026-08-28,0,"Incident Report
+
+Date: 2027-03-03
+Location: 99519 Bauer Roads, Larsonmouth, KY 57715
+Type: IT Security Incident
+Description: On March 3, 2027, a security breach occurred at 99519 Bauer Roads, Larsonmouth, KY 57715, resulting in unauthorized access to sensitive data. The incident was detected by the Security Team during routine monitoring.
+Root Cause: The breach was traced back to a misconfigured firewall that allowed external access to internal systems. This configuration error was not identified during previous security audits.
+Corrective Action: Immediate measures were taken to reconfigure the firewall settings to prevent further unauthorized access. Additionally, a comprehensive review of all security configurations will be completed by the deadline of 2026-06-11 to ensure compliance with security standards.
+Owner: Security Team
+Deadline: 2026-06-11",yes,no,no,no,yes,no,no,no,no,yes,no,no,no,LOCATION; DATE_TIME,MULTIPLE,2,2,easy,no,none,no,train,yes,openrouter_gpt4o_mini_field,field_llm_v1,no,,,v2,Synthetic document generated for controlled PII training data.,"[{'type': 'DATE_TIME', 'value': '2027-03-03', 'confidence': 0.95, 'source': 'presidio', 'start': 23, 'end': 33}, {'type': 'PERSON', 'value': 'Bauer Roads', 'confidence': 0.85, 'source': 'presidio', 'start': 50, 'end': 61}, {'type': 'LOCATION', 'value': 'Larsonmouth', 'confidence': 0.85, 'source': 'presidio', 'start': 63, 'end': 74}, {'type': 'DATE_TIME', 'value': 'March 3, 2027', 'confidence': 0.85, 'source': 'presidio', 'start': 128, 'end': 141}, {'type': 'DATE_TIME', 'value': '99519', 'confidence': 0.85, 'source': 'presidio', 'start': 173, 'end': 178}, {'type': 'LOCATION', 'value': 'Larsonmouth', 'confidence': 0.85, 'source': 'presidio', 'start': 192, 'end': 203}]","{'DATE_TIME': 0.95, 'PERSON': 0.85, 'LOCATION': 0.85}","['DATE_TIME', 'LOCATION', 'PERSON']",[],"['DATE_TIME', 'PERSON', 'LOCATION']",False,True,False,low_cost_llm,potential_pii_evidence,True,dashscope,qwen3_7_plus,qwen3.7-plus,False,"The text contains only generic incident details, dates, and a location without linking them to any identified or identifiable natural person.",535,42,577,0,0,0.0,True,False,False,20260904_170911,rule_plus_qwen,dashscope,llm,qwen3.7-plus,pii_review_v1,llm,True,False,false_negative,False,contains_personal_data,predicted_pii
+SYN-INCIDENT_REPORT-0218,synthetic_incident_report_0218.txt,report,incident_report,en,synthetic_generation,,,synthetic,2026-08-28,2026-08-28,2026-08-28,0,"Incident Report
+
+Date: 2024-08-26
+Location: 48139 Erin Haven Apt. 548, Lake Jonathanburgh, AR 89639
+Type: Equipment Failure
+Description: On 2024-08-26, a critical equipment failure occurred at 48139 Erin Haven Apt. 548, Lake Jonathanburgh, AR 89639, resulting in a system outage that affected multiple users across the organization.
+Root Cause: The incident was traced back to an overheating component within the server that had not been properly maintained, leading to its unexpected failure.
+Corrective Action: Immediate measures were taken to replace the faulty component, and a scheduled maintenance plan will be implemented to regularly check and service all critical equipment to prevent future incidents.
+Owner: IT Operations
+Deadline: 2025-02-18",yes,no,no,no,yes,no,no,no,no,yes,no,no,no,LOCATION; DATE_TIME,MULTIPLE,2,2,easy,no,none,no,train,yes,openrouter_gpt4o_mini_field,field_llm_v1,no,,,v2,Synthetic document generated for controlled PII training data.,"[{'type': 'DATE_TIME', 'value': '2024-08-26', 'confidence': 0.95, 'source': 'presidio', 'start': 23, 'end': 33}, {'type': 'LOCATION', 'value': 'Lake Jonathanburgh', 'confidence': 0.85, 'source': 'presidio', 'start': 71, 'end': 89}, {'type': 'DATE_TIME', 'value': '2024-08-26', 'confidence': 0.85, 'source': 'presidio', 'start': 140, 'end': 150}, {'type': 'LOCATION', 'value': 'Lake Jonathanburgh', 'confidence': 0.85, 'source': 'presidio', 'start': 220, 'end': 238}]","{'DATE_TIME': 0.95, 'LOCATION': 0.85}","['DATE_TIME', 'LOCATION']",[],[],False,False,False,local_non_pii,no_meaningful_signal,False,dashscope,qwen3_7_plus,qwen3.7-plus,False,,0,0,0,0,0,0.0,False,False,False,20260904_170911,rule_plus_qwen,dashscope,llm,qwen3.7-plus,pii_review_v1,llm,True,False,false_negative,False,contains_personal_data,predicted_pii
+SYN-INTERNAL_EMAIL-0126,synthetic_internal_email_0126.txt,email,internal_email,en,synthetic_generation,,,synthetic,2026-08-28,2026-08-28,2026-08-28,0,"Subject: RE: Upcoming System Maintenance
+
+Hi Team,
+
+Thank you for your patience as we prepare for the upcoming system maintenance scheduled for next week. As a reminder, this maintenance is crucial for enhancing our system performance and security.
+
+Please note that during this time, you may experience intermittent access issues. We expect the maintenance to begin on November 21, 2024, and should take approximately 4 hours. If you have any critical tasks planned during that window, please make sure to complete them beforehand.
+
+For any urgent concerns, you can reach me at +1-805-872-3511x96849. 
+
+Best regards,
+
+[Your Name]  
+IT Operations Team",yes,no,no,yes,no,no,no,no,no,no,no,no,no,PHONE_NUMBER,PHONE_NUMBER,1,1,easy,no,none,no,train,yes,openrouter_gpt4o_mini_document,llm_rewrite_v1,no,,,v2,Synthetic document generated for controlled PII training data.,[],{},[],[],[],False,False,True,local_non_pii,no_meaningful_signal,False,dashscope,qwen3_7_plus,qwen3.7-plus,False,,0,0,0,0,0,0.0,False,False,False,20260904_170911,rule_plus_qwen,dashscope,llm,qwen3.7-plus,pii_review_v1,llm,True,False,false_negative,False,contains_personal_data,predicted_pii
+SYN-INTERNAL_EMAIL-0163,synthetic_internal_email_0163.txt,email,internal_email,en,synthetic_generation,,,synthetic,2026-08-28,2026-08-28,2026-08-28,0,"Subject: Re: Workshop Preparation
+
+Hi Team,
+
+Thank you all for your input regarding the upcoming workshop. I just wanted to circle back on a few key points as we finalize our preparations.
+
+First, please ensure that your materials are ready by the end of this week. This will give us enough time to review and integrate everyone's contributions effectively. Remember, our focus this time is on enhancing our collaboration strategies, so any examples or case studies you can share will be particularly valuable.
+
+Additionally, if anyone has suggestions for activities or discussions that could facilitate better engagement, please share them by Wednesday. We want to make this workshop not only informative but also interactive.
+
+Looking forward to your thoughts!
+
+Best,  
+Project Office  
+6756774978",yes,no,no,yes,no,no,no,no,no,no,no,no,no,PHONE_NUMBER,PHONE_NUMBER,1,1,easy,no,none,no,train,yes,openrouter_gpt4o_mini_document,llm_rewrite_v1,no,,,v2,Synthetic document generated for controlled PII training data.,[],{},[],[],[],False,False,False,local_non_pii,no_meaningful_signal,False,dashscope,qwen3_7_plus,qwen3.7-plus,False,,0,0,0,0,0,0.0,False,False,False,20260904_170911,rule_plus_qwen,dashscope,llm,qwen3.7-plus,pii_review_v1,llm,True,False,false_negative,False,contains_personal_data,predicted_pii
+SYN-MEETING_NOTES-0074,synthetic_meeting_notes_0074.txt,meeting_notes,meeting_notes,de,synthetic_generation,,,synthetic,2026-08-28,2026-08-28,2026-08-28,0,"Besprechungsnotizen
+
+Titel: Team-Meeting am 02.06.2025
+Datum: 2025-06-02
+Ort: Warmerallee 8-1, 25675 Luckenwalde
+Teilnehmer: Arbeitsgruppe
+Kontakt: Serviceteam
+Agenda: 1. Rückblick auf letzte Woche
+2. Aktuelle Projekte
+3. Nächste Schritte
+4. Sonstiges
+Diskussion: Wir haben über die letzten Erfolge bei den Projekten gesprochen. Besonders positiv war das Feedback zu den neuen Marketingstrategien. Die aktuellen Herausforderungen im Kundenservice wurden ebenfalls angesprochen, da wir hier mehr Ressourcen brauchen. Einige Teammitglieder haben Ideen zu Verbesserungen eingebracht. Es gab auch Vorschläge für die nächste Team-Building-Veranstaltung, die für Juli geplant ist.
+Entscheidungen: Wir haben entschieden, dass wir die Marketingstrategien weiterverfolgen und die Kundenservice-Anfragen priorisieren. Außerdem wird das Team-Building-Event am 15. Juli stattfinden. Verantwortlich dafür ist das Serviceteam.
+Aufgaben: 1. Marketingteam: Weitere Analysen der aktuellen Kampagnen bis zum 09.06.2025
+2. Serviceteam: Ressourcenbedarf für Kundenservice bis zum 12.06.2025 klären
+3. Alle: Vorschläge für das Team-Building-Event bis zum 10.06.2025 einreichen",yes,no,no,no,yes,no,no,no,no,yes,no,no,no,LOCATION; DATE_TIME,MULTIPLE,2,2,easy,no,none,no,test,yes,openrouter_gpt4o_mini_field,field_llm_v1,no,,,v2,Synthetic document generated for controlled PII training data.,"[{'type': 'LOCATION', 'value': 'Warmerallee', 'confidence': 0.85, 'source': 'presidio', 'start': 78, 'end': 89}, {'type': 'LOCATION', 'value': 'Luckenwalde', 'confidence': 0.85, 'source': 'presidio', 'start': 101, 'end': 112}, {'type': 'DATE_TIME', 'value': '02.06.2025', 'confidence': 0.6, 'source': 'presidio', 'start': 44, 'end': 54}, {'type': 'DATE_TIME', 'value': '2025-06-02', 'confidence': 0.6, 'source': 'presidio', 'start': 62, 'end': 72}]","{'LOCATION': 0.85, 'DATE_TIME': 0.6}","['DATE_TIME', 'LOCATION']",[],[],False,False,False,local_non_pii,no_meaningful_signal,False,dashscope,qwen3_7_plus,qwen3.7-plus,False,,0,0,0,0,0,0.0,False,False,False,20260904_170911,rule_plus_qwen,dashscope,llm,qwen3.7-plus,pii_review_v1,llm,True,False,false_negative,False,contains_personal_data,predicted_pii
+SYN-MEETING_NOTES-0083,synthetic_meeting_notes_0083.txt,meeting_notes,meeting_notes,en,synthetic_generation,,,synthetic,2026-08-28,2026-08-28,2026-08-28,0,"Meeting Notes
+
+Title: Minutes of the Department Representatives Meeting
+Date: 2025-12-03
+Location: 07976 Anita Terrace, Saraside, NV 16997
+Participants: Department Representatives
+Contact: Service Team
+Agenda: 1. Review of previous meeting minutes
+2. Discussion on current departmental projects
+3. Budget allocation for the upcoming quarter
+4. Planning for the annual team-building event
+5. Open floor for additional topics
+Discussion: The meeting commenced at 10:00 AM on 2025-12-03 at 07976 Anita Terrace, Saraside, NV 16997. The minutes from the previous meeting were reviewed and approved unanimously. Department representatives presented updates on their ongoing projects, highlighting both progress and challenges. A detailed discussion regarding budget allocation for the upcoming quarter ensued, with emphasis on optimizing resource distribution. Additionally, the team deliberated on the logistics and themes for the upcoming annual team-building event, agreeing to propose several options in the next meeting. The floor was opened for any further topics, where several representatives suggested ideas for inter-departmental collaboration.
+Decisions: 1. The minutes from the previous meeting were approved without amendments.
+2. Budget allocations were tentatively approved pending further analysis of departmental needs.
+3. A subcommittee was formed to finalize details for the annual team-building event, with a report due at the next meeting.
+Action Items: 1. Each department representative is to submit a brief report on their project status by December 15, 2025.
+2. The finance team will provide a detailed budget proposal by December 20, 2025.
+3. The subcommittee for the team-building event will convene and present options by January 10, 2026.",yes,no,no,no,yes,no,no,no,no,yes,no,no,no,LOCATION; DATE_TIME,MULTIPLE,2,2,easy,no,none,no,train,yes,openrouter_gpt4o_mini_field,field_llm_v1,no,,,v2,Synthetic document generated for controlled PII training data.,"[{'type': 'DATE_TIME', 'value': 'the upcoming quarter\n4', 'confidence': 0.85, 'source': 'presidio', 'start': 320, 'end': 342}, {'type': 'DATE_TIME', 'value': '10:00 AM', 'confidence': 0.85, 'source': 'presidio', 'start': 461, 'end': 469}, {'type': 'DATE_TIME', 'value': '2025-12-03', 'confidence': 0.85, 'source': 'presidio', 'start': 473, 'end': 483}, {'type': 'DATE_TIME', 'value': '07976', 'confidence': 0.85, 'source': 'presidio', 'start': 487, 'end': 492}, {'type': 'PERSON', 'value': 'Anita Terrace', 'confidence': 0.85, 'source': 'presidio', 'start': 493, 'end': 506}]","{'DATE_TIME': 0.85, 'PERSON': 0.85}","['DATE_TIME', 'PERSON']",[],"['DATE_TIME', 'PERSON']",False,True,False,low_cost_llm,potential_pii_evidence,True,dashscope,qwen3_7_plus,qwen3.7-plus,False,"The text contains only generic roles, a business address, and meeting details without any specific names or direct identifiers of natural persons.",557,43,600,0,0,0.0,True,False,False,20260904_170911,rule_plus_qwen,dashscope,llm,qwen3.7-plus,pii_review_v1,llm,True,False,false_negative,False,contains_personal_data,predicted_pii
+SYN-MEETING_NOTES-0147,synthetic_meeting_notes_0147.txt,meeting_notes,meeting_notes,de,synthetic_generation,,,synthetic,2026-08-28,2026-08-28,2026-08-28,0,"Besprechungsnotizen
+
+Titel: Team-Meeting zur Projektplanung
+Datum: 2025-06-21
+Ort: Hauptstandort
+Teilnehmer: Arbeitsgruppe
+Kontakt: Augustin Schüler
+Agenda: 1. Projektstatus-Updates
+2. Aufgabenverteilung
+3. Nächste Schritte
+Diskussion: Wir haben heute über den Fortschritt des Projekts gesprochen. Augustin Schüler hat die aktuellen Herausforderungen skizziert, insbesondere bezüglich der Ressourcen. Die Gruppe hat Ideen zur Verbesserung der Kommunikation zwischen den Teams eingebracht. Außerdem wurde die Wichtigkeit der Deadlines betont, um im Zeitplan zu bleiben.
+Entscheidungen: Die Gruppe hat entschieden, dass wir wöchentliche Check-ins einführen, um den Fortschritt besser zu überwachen. Zudem wurde vereinbart, dass jeder sein Feedback bis Ende der Woche einreichen soll.
+Aufgaben: 1. Augustin Schüler wird die nächste Agenda erstellen.
+2. Teammitglieder sollen ihre Aufgaben bis zum nächsten Meeting klären.
+3. Feedback zur aktuellen Projektplanung bis Freitag einreichen.",yes,yes,no,no,no,no,no,no,no,yes,no,no,no,PERSON; DATE_TIME,MULTIPLE,2,2,easy,no,none,no,train,yes,openrouter_gpt4o_mini_field,field_llm_v1,no,,,v2,Synthetic document generated for controlled PII training data.,"[{'type': 'LOCATION', 'value': '1. Projektstatus-Updates', 'confidence': 0.85, 'source': 'presidio', 'start': 157, 'end': 181}, {'type': 'DATE_TIME', 'value': '2025-06-21', 'confidence': 0.6, 'source': 'presidio', 'start': 67, 'end': 77}]","{'LOCATION': 0.85, 'DATE_TIME': 0.6}","['DATE_TIME', 'LOCATION']",[],[],False,False,False,local_non_pii,no_meaningful_signal,False,dashscope,qwen3_7_plus,qwen3.7-plus,False,,0,0,0,0,0,0.0,False,False,False,20260904_170911,rule_plus_qwen,dashscope,llm,qwen3.7-plus,pii_review_v1,llm,True,False,false_negative,False,contains_personal_data,predicted_pii
+SYN-MEETING_NOTES-0173,synthetic_meeting_notes_0173.txt,meeting_notes,meeting_notes,de,synthetic_generation,,,synthetic,2026-08-28,2026-08-28,2026-08-28,0,"Besprechungsnotizen
+
+Titel: Protokoll der Projektbesprechung vom 22. Oktober 2023
+Datum: 2024-10-15
+Ort: Scheibeplatz 87, 40421 Hoyerswerda
+Teilnehmer: Projektteam
+Kontakt: Zentrale Kontaktstelle
+Agenda: 2023-10-22
+Diskussion: In der Sitzung am 22. Oktober 2023 wurde die aktuelle Projektlage erörtert. Die Teilnehmer des Projektteams haben den Fortschritt der einzelnen Arbeitspakete analysiert und Herausforderungen identifiziert. Es wurde insbesondere auf Verzögerungen im Zeitplan hingewiesen, die durch technische Schwierigkeiten verursacht wurden. Zudem wurden neue Anforderungen durch die Stakeholder diskutiert, die in die Projektplanung aufgenommen werden müssen.
+Entscheidungen: Es wurde beschlossen, die Anpassungen an der Projektplanung vorzunehmen, um den neuen Anforderungen gerecht zu werden. Des Weiteren wurde die Notwendigkeit eines zusätzlichen Meetings zur detaillierten Besprechung der technischen Probleme anerkannt. Die nächste Sitzung wird für den 29. Oktober 2023 anberaumt.
+Aufgaben: 1. Das Projektteam wird die überarbeiteten Anforderungen bis zum 25. Oktober 2023 einreichen. 2. Ein zusätzliches Meeting zur technischen Problemlösung wird für den 29. Oktober 2023 geplant. 3. Verantwortliche Teammitglieder werden beauftragt, die Risiken im Projekt zu bewerten und entsprechende Maßnahmen vorzuschlagen bis zum 1. November 2023.",yes,no,no,no,yes,no,no,no,no,yes,no,no,no,LOCATION; DATE_TIME,MULTIPLE,2,2,easy,no,none,no,train,yes,openrouter_gpt4o_mini_field,field_llm_v1,no,,,v2,Synthetic document generated for controlled PII training data.,"[{'type': 'LOCATION', 'value': 'Scheibeplatz 87', 'confidence': 0.85, 'source': 'presidio', 'start': 105, 'end': 120}, {'type': 'LOCATION', 'value': 'Hoyerswerda', 'confidence': 0.85, 'source': 'presidio', 'start': 128, 'end': 139}, {'type': 'DATE_TIME', 'value': '2024-10-15', 'confidence': 0.6, 'source': 'presidio', 'start': 89, 'end': 99}, {'type': 'DATE_TIME', 'value': '2023-10-22', 'confidence': 0.6, 'source': 'presidio', 'start': 204, 'end': 214}]","{'LOCATION': 0.85, 'DATE_TIME': 0.6}","['DATE_TIME', 'LOCATION']",[],[],False,False,False,local_non_pii,no_meaningful_signal,False,dashscope,qwen3_7_plus,qwen3.7-plus,False,,0,0,0,0,0,0.0,False,False,False,20260904_170911,rule_plus_qwen,dashscope,llm,qwen3.7-plus,pii_review_v1,llm,True,False,false_negative,False,contains_personal_data,predicted_pii
+SYN-MEETING_NOTES-0176,synthetic_meeting_notes_0176.txt,meeting_notes,meeting_notes,en,synthetic_generation,,,synthetic,2026-08-28,2026-08-28,2026-08-28,0,"Meeting Notes
+
+Title: Project Kickoff Meeting Notes
+Date: 2024-04-06
+Location: 990 Lopez Plains, West Steven, KY 56740
+Participants: Project Team
+Contact: Central Contact Point
+Agenda: 1. Introductions
+2. Project Overview
+3. Timeline Discussion
+4. Roles and Responsibilities
+5. Next Steps
+Discussion: We kicked things off with quick introductions. Everyone shared their roles briefly. The project overview was well-received, and we discussed the key objectives. A focus was placed on the timeline, with milestones highlighted. We also talked about potential challenges and how to address them. Everyone agreed on the importance of clear roles to avoid overlaps.
+Decisions: The team decided to stick to a bi-weekly check-in schedule. We agreed that all updates should be sent to the Central Contact Point for tracking. The first milestone review is set for 2024-04-20.
+Action Items: 1. Each participant will send their project outline by 2024-04-10.
+2. Schedule the next meeting for 2024-04-20 at 990 Lopez Plains, West Steven, KY 56740.
+3. Confirm the project management tool to use by 2024-04-08.",yes,no,no,no,yes,no,no,no,no,yes,no,no,no,LOCATION; DATE_TIME,MULTIPLE,2,2,easy,no,none,no,train,yes,openrouter_gpt4o_mini_field,field_llm_v1,no,,,v2,Synthetic document generated for controlled PII training data.,"[{'type': 'DATE_TIME', 'value': '2024-04-06', 'confidence': 0.95, 'source': 'presidio', 'start': 58, 'end': 68}, {'type': 'PERSON', 'value': 'Lopez Plains', 'confidence': 0.85, 'source': 'presidio', 'start': 83, 'end': 95}, {'type': 'LOCATION', 'value': 'West Steven', 'confidence': 0.85, 'source': 'presidio', 'start': 97, 'end': 108}, {'type': 'DATE_TIME', 'value': '2024-04-20', 'confidence': 0.85, 'source': 'presidio', 'start': 856, 'end': 866}, {'type': 'DATE_TIME', 'value': '2024-04-10', 'confidence': 0.85, 'source': 'presidio', 'start': 937, 'end': 947}, {'type': 'DATE_TIME', 'value': '2024-04-20', 'confidence': 0.85, 'source': 'presidio', 'start': 982, 'end': 992}, {'type': 'PERSON', 'value': 'Lopez Plains', 'confidence': 0.85, 'source': 'presidio', 'start': 1000, 'end': 1012}, {'type': 'LOCATION', 'value': 'West Steven', 'confidence': 0.85, 'source': 'presidio', 'start': 1014, 'end': 1025}, {'type': 'DATE_TIME', 'value': '56740', 'confidence': 0.85, 'source': 'presidio', 'start': 1030, 'end': 1035}, {'type': 'DATE_TIME', 'value': '2024-04-08', 'confidence': 0.85, 'source': 'presidio', 'start': 1086, 'end': 1096}]","{'DATE_TIME': 0.95, 'PERSON': 0.85, 'LOCATION': 0.85}","['DATE_TIME', 'LOCATION', 'PERSON']",[],"['DATE_TIME', 'PERSON', 'LOCATION']",False,True,True,low_cost_llm,potential_pii_evidence,True,dashscope,qwen3_7_plus,qwen3.7-plus,False,"The text contains only generic roles, dates, locations, and project details without any specific names, contact information, or identifiers linking to an identifiable natural person.",652,49,701,0,0,0.0,True,False,False,20260904_170911,rule_plus_qwen,dashscope,llm,qwen3.7-plus,pii_review_v1,llm,True,False,false_negative,False,contains_personal_data,predicted_pii
+SYN-MEETING_NOTES-0196,synthetic_meeting_notes_0196.txt,meeting_notes,meeting_notes,en,synthetic_generation,,,synthetic,2026-08-28,2026-08-28,2026-08-28,0,"Meeting Notes
+
+Title: Minutes of the Working Group Meeting
+Date: 2024-10-11
+Location: 47211 Ortiz Expressway Suite 316, West Michael, NJ 45158
+Participants: Working Group
+Contact: Service Team
+Agenda: 1. Review of previous meeting minutes
+2. Discussion on project timelines
+3. Allocation of resources
+4. Updates on team responsibilities
+5. Open floor for concerns and suggestions
+6. Summary of action items
+Discussion: The meeting commenced at 10:00 AM on 2024-10-11 at 47211 Ortiz Expressway Suite 316, West Michael, NJ 45158. Participants discussed the minutes from the previous meeting and confirmed their accuracy. The group then reviewed the current project timelines, noting several areas where adjustments might be necessary due to unforeseen delays. It was emphasized that resource allocation is critical at this stage, and a detailed assessment of team responsibilities was conducted. Members raised various concerns, including potential obstacles in meeting deadlines and the need for additional support in specific areas. The discussion was productive and allowed for a comprehensive exchange of ideas and strategies.
+Decisions: The Working Group decided to extend the project timeline by two weeks to accommodate the necessary adjustments. It was unanimously agreed that additional resources will be allocated to high-priority tasks. Furthermore, team members will provide weekly updates to ensure accountability and transparency regarding their responsibilities.
+Action Items: 1. Update the project timeline and circulate to all members by 2024-10-14.
+2. Assess resource requirements and submit a proposal for additional support by 2024-10-16.
+3. Schedule weekly check-in meetings starting 2024-10-18 to monitor progress.",yes,no,no,no,yes,no,no,no,no,yes,no,no,no,LOCATION; DATE_TIME,MULTIPLE,2,2,easy,no,none,no,validation,yes,openrouter_gpt4o_mini_field,field_llm_v1,no,,,v2,Synthetic document generated for controlled PII training data.,"[{'type': 'DATE_TIME', 'value': '2024-10-11', 'confidence': 0.95, 'source': 'presidio', 'start': 65, 'end': 75}, {'type': 'LOCATION', 'value': 'West Michael', 'confidence': 0.85, 'source': 'presidio', 'start': 120, 'end': 132}, {'type': 'DATE_TIME', 'value': '10:00 AM', 'confidence': 0.85, 'source': 'presidio', 'start': 444, 'end': 452}, {'type': 'DATE_TIME', 'value': '2024-10-11', 'confidence': 0.85, 'source': 'presidio', 'start': 456, 'end': 466}, {'type': 'LOCATION', 'value': 'West Michael', 'confidence': 0.85, 'source': 'presidio', 'start': 504, 'end': 516}]","{'DATE_TIME': 0.95, 'LOCATION': 0.85}","['DATE_TIME', 'LOCATION']",[],[],False,False,False,local_non_pii,no_meaningful_signal,False,dashscope,qwen3_7_plus,qwen3.7-plus,False,,0,0,0,0,0,0.0,False,False,False,20260904_170911,rule_plus_qwen,dashscope,llm,qwen3.7-plus,pii_review_v1,llm,True,False,false_negative,False,contains_personal_data,predicted_pii

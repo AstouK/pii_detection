@@ -1,0 +1,70 @@
+{
+  "run_id": "20260904_150217",
+  "dataset_version": "v2",
+  "prompt_version": "pii_review_v1",
+  "saved_files": [
+    "/Users/sonjahamm/pii_detection/classification/results/runs/20260904_150217/sweep1.csv",
+    "/Users/sonjahamm/pii_detection/classification/results/runs/20260904_150217/rule_based.csv",
+    "/Users/sonjahamm/pii_detection/classification/results/runs/20260904_150217/rule_plus_qwen.csv",
+    "/Users/sonjahamm/pii_detection/classification/results/runs/20260904_150217/rule_plus_gpt4o_mini.csv"
+  ],
+  "strategies": [
+    "rule_based",
+    "rule_plus_qwen",
+    "rule_plus_gpt4o_mini"
+  ],
+  "documents_total": 3500,
+  "documents_sent_to_review": 279,
+  "documents_resolved_locally": 3221,
+  "routing_rate": 0.0797,
+  "local_processing_rate": 0.9203,
+  "sweep1_runtime_seconds": 64.7846,
+  "sweep2_runtime_seconds": 5271.4019,
+  "pipeline_runtime_seconds": 5336.2462,
+  "strategy_runtime_seconds": {
+    "rule_based": 0.0561,
+    "rule_plus_qwen": 4842.3875,
+    "rule_plus_gpt4o_mini": 428.9583
+  },
+  "strategy_usage": {
+    "rule_based": {
+      "llm_requests_attempted": 279,
+      "llm_requests_successful": 0,
+      "llm_prompt_tokens": 0,
+      "llm_completion_tokens": 0,
+      "llm_total_tokens": 0,
+      "llm_reasoning_tokens": 0,
+      "llm_cached_tokens": 0,
+      "llm_reported_cost": 0.0,
+      "bert_requests_attempted": 0,
+      "bert_requests_successful": 0,
+      "bert_runtime_seconds": 0.0
+    },
+    "rule_plus_qwen": {
+      "llm_requests_attempted": 279,
+      "llm_requests_successful": 279,
+      "llm_prompt_tokens": 152774,
+      "llm_completion_tokens": 268222,
+      "llm_total_tokens": 420996,
+      "llm_reasoning_tokens": 255480,
+      "llm_cached_tokens": 0,
+      "llm_reported_cost": 0.0,
+      "bert_requests_attempted": 0,
+      "bert_requests_successful": 0,
+      "bert_runtime_seconds": 0.0
+    },
+    "rule_plus_gpt4o_mini": {
+      "llm_requests_attempted": 279,
+      "llm_requests_successful": 279,
+      "llm_prompt_tokens": 143991,
+      "llm_completion_tokens": 10076,
+      "llm_total_tokens": 154067,
+      "llm_reasoning_tokens": 0,
+      "llm_cached_tokens": 0,
+      "llm_reported_cost": 0.02764425,
+      "bert_requests_attempted": 0,
+      "bert_requests_successful": 0,
+      "bert_runtime_seconds": 0.0
+    }
+  }
+}

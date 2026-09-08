@@ -1,0 +1,5 @@
+provider,model_family,model_name,error_type,count
+local,rules,presidio_regex_v1,false_negative,204
+local,rules,presidio_regex_v1,false_positive,3
+local,rules,presidio_regex_v1,true_negative,2867
+local,rules,presidio_regex_v1,true_positive,426
