@@ -1,0 +1,4 @@
+split,n,positives,accuracy,precision,recall,f1,pr_auc,routed_fraction,prefilter_recall,missed_positives,auto_yes_precision,t_low,t_high
+train,370,42,1.0,1.0,1.0,1.0,1.0,0.0,1.0,0,0.954545,0.05,0.05
+validation,63,9,1.0,1.0,1.0,1.0,1.0,0.0,1.0,0,1.0,0.05,0.05
+test,67,9,1.0,1.0,1.0,1.0,1.0,0.0,1.0,0,1.0,0.05,0.05

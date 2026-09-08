@@ -132,6 +132,7 @@ router escalates when unsure.
 | `python -m classification.prefilter.fetch_model` | Downloads the pretrained encoder into `models/` |
 | `python -m classification.prefilter.eda` | Dataset report, split sanity check, `max_length` recommendation |
 | `python -m classification.prefilter.train` | Trains and calibrates the router |
+| `python -m classification.prefilter.overfit_check` | Train/val/test gap at frozen validation thresholds |
 | `python -m classification.prefilter.predict` | Writes evaluation-compatible predictions |
 | `python -m classification.prefilter.error_report` | Error and routing-cost slices |
 | `python -m classification.prefilter.compare_runs` | Side-by-side figures for two or more runs |

@@ -14,11 +14,12 @@ The success criterion is not maximum accuracy. It is:
 
 Public entry points (all runnable as ``python -m classification.prefilter.<x>``):
 
-    eda           dataset report: class balance, entity labels, split sanity
-    train         fine-tune the dual-head encoder
-    thresholds    calibrate the three-zone router on the validation split
-    predict       write an evaluation-compatible prediction CSV
-    error_report  slice errors by document_type / difficulty / challenge
+    eda            dataset report: class balance, entity labels, split sanity
+    train          fine-tune the dual-head encoder
+    thresholds     calibrate the three-zone router on the validation split
+    predict        write an evaluation-compatible prediction CSV
+    overfit_check  train/val/test gap at frozen validation thresholds
+    error_report   slice errors by document_type / difficulty / challenge
 """
 
 from classification.prefilter.config import (

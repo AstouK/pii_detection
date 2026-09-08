@@ -16,6 +16,7 @@ Every run writes a self-describing directory under
     calibration.json         the selected (t_low, t_high) and its metrics
     routing_frontier.csv     LLM-call share vs. recall, the full curve
     validation_scores.csv    per-document probabilities on validation
+    split_gap.csv            train/val/test metrics at frozen val thresholds
     metrics_summary.json     everything reported in the brief's section 6
 
 Model selection happens on the validation split against ``routing_cost``: the
@@ -68,6 +69,11 @@ from classification.prefilter.model import (
     count_parameters,
     describe_model,
     load_tokenizer,
+)
+from classification.prefilter.overfit_check import (
+    persist_split_gap,
+    print_split_gap_summary,
+    score_splits,
 )
 from classification.prefilter.thresholds import (
     average_precision,
@@ -446,6 +452,15 @@ def train(config: PreFilterConfig) -> dict:
     calibration["split_mode"] = resolved_mode
     calibration["baseline_recall"] = BASELINE_RECALL
 
+    split_gap = score_splits(
+        model=model,
+        frames=frames,
+        loaders=eval_loaders,
+        calibration=calibration,
+        config=config,
+        device=device,
+    )
+
     if not calibration["feasible"]:
         logger.warning(
             "Routing constraints could not be met on validation. The saved "
@@ -500,6 +515,7 @@ def train(config: PreFilterConfig) -> dict:
             t_high=calibration["t_high"],
             output_file=target_dir / "score_distribution.png",
         )
+        persist_split_gap(split_gap, target_dir)
 
     entity_metrics = entity_metrics_at_thresholds(
         entity_probs=validation_entity_probs,
@@ -537,6 +553,9 @@ def train(config: PreFilterConfig) -> dict:
             average_precision(validation_binary.astype(bool), validation_probs), 6
         ),
         "validation_entity_metrics": entity_metrics.to_dict(orient="records"),
+        "split_gap": {
+            key: value for key, value in split_gap.items() if key != "table"
+        },
         "calibration": calibration,
         "baseline_recall": BASELINE_RECALL,
         "config": config.to_dict(),
@@ -550,6 +569,7 @@ def train(config: PreFilterConfig) -> dict:
 
     logger.info("Run artifacts written to %s", output_dir)
     _log_headline(calibration, summary)
+    print_split_gap_summary(config.run_name, split_gap)
 
     return summary
 
@@ -563,6 +583,8 @@ PUBLISHED_REPORTS = [
     "training_history.csv",
     "validation_entity_metrics.csv",
     "validation_scores.csv",
+    "split_gap.csv",
+    "split_gap.json",
     "metrics_summary.json",
 ]
 
