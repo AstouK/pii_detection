@@ -11,6 +11,8 @@ Design principle:
 
 from pathlib import Path
 
+from config.settings import OLLAMA_MODEL
+
 from classification.config import (
     CLASSIFICATION_DIR,
     DEFAULT_INPUT_FILE,
@@ -80,6 +82,12 @@ STRATEGIES = {
         "provider": "qwen",
         "model_family": "qwen",
         "model_name": "qwen3.7-plus",
+    },
+    "rule_plus_ollama": {
+        "strategy": "rule_plus_ollama",
+        "provider": "ollama",
+        "model_family": "llm",
+        "model_name": OLLAMA_MODEL,
     },
     "rule_plus_openrouter": {
         "strategy": "rule_plus_openrouter",

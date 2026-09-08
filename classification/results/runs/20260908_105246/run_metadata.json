@@ -1,0 +1,38 @@
+{
+  "run_id": "20260908_105246",
+  "dataset_version": "v1",
+  "prompt_version": "pii_review_v1",
+  "saved_files": [
+    "/Users/maxseidlitz/1-CODING/TUM-Uni/DeepLearningAndDecisionMaking/origin_pii-detection/pii_detection/classification/results/runs/20260908_105246/sweep1.csv",
+    "/Users/maxseidlitz/1-CODING/TUM-Uni/DeepLearningAndDecisionMaking/origin_pii-detection/pii_detection/classification/results/runs/20260908_105246/rule_plus_ollama.csv"
+  ],
+  "strategies": [
+    "rule_plus_ollama"
+  ],
+  "documents_total": 500,
+  "documents_sent_to_review": 83,
+  "documents_resolved_locally": 417,
+  "routing_rate": 0.166,
+  "local_processing_rate": 0.834,
+  "sweep1_runtime_seconds": 9.4904,
+  "sweep2_runtime_seconds": 194.9379,
+  "pipeline_runtime_seconds": 204.4414,
+  "strategy_runtime_seconds": {
+    "rule_plus_ollama": 194.9379
+  },
+  "strategy_usage": {
+    "rule_plus_ollama": {
+      "llm_requests_attempted": 83,
+      "llm_requests_successful": 83,
+      "llm_prompt_tokens": 42474,
+      "llm_completion_tokens": 2784,
+      "llm_total_tokens": 45258,
+      "llm_reasoning_tokens": 0,
+      "llm_cached_tokens": 0,
+      "llm_reported_cost": 0.0,
+      "bert_requests_attempted": 0,
+      "bert_requests_successful": 0,
+      "bert_runtime_seconds": 0.0
+    }
+  }
+}

@@ -5,7 +5,8 @@ This pipeline evaluates saved classification run outputs.
 
 It does not rerun production classification code. Instead, it:
 1. Loads a classification run from classification/results/runs/
-2. Loads prediction outputs such as rule_based.csv, rule_plus_qwen.csv
+2. Loads prediction outputs such as rule_based.csv, rule_plus_qwen.csv,
+   rule_plus_ollama.csv
 3. Computes metrics for each output
 4. Runs row-level error analysis for each output
 5. Saves evaluation artifacts under classification/evaluation/results/runs/
@@ -81,6 +82,7 @@ def evaluate_prediction_output(
         sweep1
         rule_based
         rule_plus_qwen
+        rule_plus_ollama
         rule_plus_gpt4o_mini
     """
 

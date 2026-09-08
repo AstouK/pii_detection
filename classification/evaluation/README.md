@@ -26,9 +26,11 @@ Load Prediction Outputs
         |
         +--> sweep1.csv
         |
-        +--> qwen.csv
+        +--> rule_plus_qwen.csv
         |
-        +--> openrouter.csv
+        +--> rule_plus_gpt4o_mini.csv
+        |
+        +--> rule_plus_ollama.csv
         |
         v
 Metric Computation
@@ -70,12 +72,18 @@ Supported output types include:
 
 ```text
 sweep1
-openrouter
-qwen
+rule_based
+rule_plus_qwen
+rule_plus_gpt4o_mini
+rule_plus_ollama
 future local models (BERT, DistilBERT, etc.)
 ```
 
 Each output is evaluated independently using the same ground truth.
+
+`rule_plus_ollama` is evaluated the same way as `rule_plus_qwen`: if a
+classification run wrote `rule_plus_ollama.csv`, `evaluate` scores it into
+its own result directory and includes it in `benchmark_summary.csv`.
 
 This enables direct comparison of:
 
@@ -382,7 +390,13 @@ classification/evaluation/results/
         │   ├── false_positives.csv
         │   ├── false_negatives.csv
         │   └── error_summary.csv
-        ├── qwen/
+        ├── rule_plus_qwen/
+        │   ├── metrics.csv
+        │   ├── predictions_with_error_labels.csv
+        │   ├── false_positives.csv
+        │   ├── false_negatives.csv
+        │   └── error_summary.csv
+        ├── rule_plus_ollama/
         │   ├── metrics.csv
         │   ├── predictions_with_error_labels.csv
         │   ├── false_positives.csv

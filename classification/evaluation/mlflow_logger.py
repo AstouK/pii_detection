@@ -98,7 +98,8 @@ def log_benchmark_summary_to_mlflow(
 
     One MLflow run is created per evaluated output (strategy based):
         rule_based
-        rule_based_plus_qwen
+        rule_plus_qwen
+        rule_plus_ollama
         ...
 
     Each run logs:

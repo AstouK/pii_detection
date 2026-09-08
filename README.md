@@ -26,13 +26,13 @@ flowchart TD
 
     S1 -->|clear personal data| SC1["LOCAL_PII<br/>no LLM call"]
     S1 -->|no signal at all| SC2["LOCAL_NON_PII<br/>no LLM call"]
-    S1 -->|ambiguous| PF{"Pre-filter — DistilBERT<br/>p = P(personal data)"}
+    S1 -->|ambiguous| PF["Pre-filter — DistilBERT<br/>p = P(personal data)"]
 
     PF -->|"p below t_low"| Z1["confident non-PII<br/>no LLM call"]
     PF -->|"p above t_high"| Z3["confident PII<br/>no LLM call"]
     PF -->|"p between t_low and t_high"| Z2["uncertain<br/>routed_to_llm = true"]
 
-    Z2 --> LLM["Sweep 2 — LLM review"]
+    Z2 --> LLM{"Sweep 2 — LLM review"}
 
     SC1 --> OUT([Final prediction])
     SC2 --> OUT
@@ -40,15 +40,19 @@ flowchart TD
     Z3 --> OUT
     LLM --> OUT
 
-    classDef cheap fill:#e8f5e9,stroke:#2e7d32,color:#1b5e20;
-    classDef costly fill:#fdecea,stroke:#c62828,color:#8e1c1c;
-    class SC1,SC2,Z1,Z3 cheap;
-    class Z2,LLM costly;
+    style S1 fill:#bbdefb,stroke:#1565c0,color:#0d47a1
+    style LLM fill:#bbdefb,stroke:#1565c0,color:#0d47a1
+    style SC1 fill:#e8f5e9,stroke:#2e7d32,color:#1b5e20
+    style SC2 fill:#e8f5e9,stroke:#2e7d32,color:#1b5e20
+    style Z1 fill:#e8f5e9,stroke:#2e7d32,color:#1b5e20
+    style Z3 fill:#e8f5e9,stroke:#2e7d32,color:#1b5e20
+    style Z2 fill:#fdecea,stroke:#c62828,color:#8e1c1c
 ```
 
-The two Sweep 1 short-circuits and the two confident pre-filter zones all
-terminate without an LLM call. Only the uncertain band in the middle is paid
-for.
+Sweep 1 and Sweep 2 are the two checks (same colour, same diamond). DistilBERT
+is a scorer, not a router. The two Sweep 1 short-circuits and the two confident
+pre-filter zones all terminate without an LLM call. Only the uncertain band in
+the middle is paid for.
 
 ## Where things are
 

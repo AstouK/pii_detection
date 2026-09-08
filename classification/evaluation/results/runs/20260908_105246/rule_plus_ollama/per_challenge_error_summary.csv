@@ -1,0 +1,17 @@
+challenge_category,error_type,count
+employee_id,false_negative,1
+employee_id,true_negative,5
+employee_id,true_positive,4
+medical_context,true_positive,7
+none,false_positive,59
+none,true_negative,356
+none,true_positive,21
+other_edge_case,false_negative,5
+other_edge_case,false_positive,2
+other_edge_case,true_negative,12
+other_edge_case,true_positive,14
+passport_context,true_negative,1
+passport_context,true_positive,2
+vat_number,false_positive,3
+vat_number,true_negative,2
+vat_number,true_positive,6

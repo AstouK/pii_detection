@@ -1,0 +1,83 @@
+document_id,file_name,document_type,scenario_type,language,source_system,responsible_owner,owner_email,data_source,file_created_date,last_modified_date,dataset_created_at,file_size_mb,full_text,contains_personal_data,PERSON_yes_no,EMAIL_ADDRESS_yes_no,PHONE_NUMBER_yes_no,LOCATION_yes_no,IBAN_CODE_yes_no,CREDIT_CARD_yes_no,PASSPORT_yes_no,NRP_yes_no,DATE_TIME_yes_no,IP_ADDRESS_yes_no,URL_yes_no,MEDICAL_LICENSE_yes_no,personal_data_categories,primary_pii_type,category_count,pii_count,difficulty,edge_case,challenge_category,retention_period_exceeded_3y,recommended_split,synthetic,synthetic_generator,generation_prompt_version,human_reviewed,review_status,review_notes,dataset_version,labeling_notes,entities,per_type_conf,detected_categories,strong_pii_categories,potential_pii_categories,detected_pii,detected_any_pii,has_person_hint,route,routing_reason,needs_llm_review,llm_provider,llm_model_id,llm_model_name,llm_pii,llm_reason,llm_prompt_tokens,llm_completion_tokens,llm_total_tokens,llm_reasoning_tokens,llm_cached_tokens,llm_request_cost,llm_request_success,final_pii,predicted_pii,run_id,strategy,provider,model_family,model_name,prompt_version,prediction_source,_ground_truth_bool,_prediction_bool,error_type,is_correct,evaluated_ground_truth_col,evaluated_prediction_col
+DOC-0007,expense_report_finding_0007.pdf,Expense Report,expense_report,en,HR Archive,Maria Schmidt,maria.schmidt@bosch.example,manual,2020-09-16,2020-12-16,2026-08-10,3.76,"Expense Reimbursement (Filled)
+Purpose: Example of a completed expense reimbursement record.
+Employee: Jonas Keller (E-20680)
+Department: Project Management
+Date: 16 Sept 2020
+Category: Travel
+Amount: 128.40 EUR
+Description: Train ticket for customer workshop (round trip).
+Additional Person Reference: Jonas Keller
+Travel History: Bangalore on 2022-09-03, Pune on 2022-09-07, and Chennai on 2022-09-09
+Expense Reimbursement (Filled) - Review
+Purpose: Example of a completed expense reimbursement record.
+Summary: Total claimed: 128.40 EUR. Receipts attached.
+Manager: Philipp Neumann
+Decision: Approved
+Date: 18 Sept 2020",yes,yes,no,no,yes,no,no,no,no,yes,no,no,no,travel_history; first_name; last_name,MULTIPLE,3,3,medium,yes,employee_id,yes,train,no,,,no,,,v1,Useful for testing ambiguous/OCR/context-heavy personal-data detection.,"[{'type': 'PERSON', 'value': 'Jonas Keller', 'confidence': 0.85, 'source': 'presidio', 'start': 103, 'end': 115}, {'type': 'PERSON', 'value': 'Jonas Keller', 'confidence': 0.85, 'source': 'presidio', 'start': 303, 'end': 315}, {'type': 'LOCATION', 'value': 'Bangalore', 'confidence': 0.85, 'source': 'presidio', 'start': 332, 'end': 341}, {'type': 'DATE_TIME', 'value': '2022-09-03', 'confidence': 0.85, 'source': 'presidio', 'start': 345, 'end': 355}, {'type': 'LOCATION', 'value': 'Pune', 'confidence': 0.85, 'source': 'presidio', 'start': 357, 'end': 361}, {'type': 'DATE_TIME', 'value': '2022-09-07', 'confidence': 0.85, 'source': 'presidio', 'start': 365, 'end': 375}, {'type': 'LOCATION', 'value': 'Chennai', 'confidence': 0.85, 'source': 'presidio', 'start': 381, 'end': 388}, {'type': 'DATE_TIME', 'value': '2022-09-09', 'confidence': 0.85, 'source': 'presidio', 'start': 392, 'end': 402}, {'type': 'PERSON', 'value': 'Philipp Neumann', 'confidence': 0.85, 'source': 'presidio', 'start': 569, 'end': 584}, {'type': 'DATE_TIME', 'value': '18 Sept 2020', 'confidence': 0.85, 'source': 'presidio', 'start': 610, 'end': 622}]","{'PERSON': 0.85, 'LOCATION': 0.85, 'DATE_TIME': 0.85}","['DATE_TIME', 'LOCATION', 'PERSON']",[],"['PERSON', 'LOCATION', 'DATE_TIME']",False,True,True,low_cost_llm,potential_pii_evidence,True,ollama,ollama_local,qwen2.5,False,"No clear personal data such as names, IDs, or contact information is directly stated or implied.",601,35,636,0,0,0.0,True,False,False,20260908_105246,rule_plus_ollama,ollama,llm,qwen2.5,pii_review_v1,llm,True,False,false_negative,False,contains_personal_data,predicted_pii
+DOC-0203,incident_report_finding_0203.pdf,Incident Report,general_document,en,Shared Drive,Maria Schmidt,maria.schmidt@bosch.example,manual,2021-09-03,2023-12-21,2026-08-10,3.06,"Incident Report (Filled)
+Purpose: Example of a documented incident for compliance review.
+Date: 03 Sept 2021
+Location: Meeting Room A
+Type: Safety
+Description: Minor slip incident near entrance due to wet floor; no injury reported.
+Additional Person Reference: Jonas Keller
+Travel History: Bangalore on 2022-09-03, Pune on 2022-09-07, and Chennai on 2022-09-09
+Incident Report (Filled) - Review
+Purpose: Example of a documented incident for compliance review.
+Root Cause: Cleaning sign placed after area was already wet; timing issue.
+Corrective Action: Update cleaning SOP to place signage before wet cleaning
+Owner: Jonas Keller
+Deadline: 20 May 2026",yes,yes,no,no,yes,no,no,no,no,yes,no,no,no,travel_history; first_name; last_name,MULTIPLE,3,3,medium,yes,other_edge_case,no,train,no,,,no,,,v1,Useful for testing ambiguous/OCR/context-heavy personal-data detection.,"[{'type': 'PERSON', 'value': 'Jonas Keller', 'confidence': 0.85, 'source': 'presidio', 'start': 261, 'end': 273}, {'type': 'LOCATION', 'value': 'Bangalore', 'confidence': 0.85, 'source': 'presidio', 'start': 290, 'end': 299}, {'type': 'DATE_TIME', 'value': '2022-09-03', 'confidence': 0.85, 'source': 'presidio', 'start': 303, 'end': 313}, {'type': 'LOCATION', 'value': 'Pune', 'confidence': 0.85, 'source': 'presidio', 'start': 315, 'end': 319}, {'type': 'DATE_TIME', 'value': '2022-09-07', 'confidence': 0.85, 'source': 'presidio', 'start': 323, 'end': 333}, {'type': 'LOCATION', 'value': 'Chennai', 'confidence': 0.85, 'source': 'presidio', 'start': 339, 'end': 346}, {'type': 'DATE_TIME', 'value': '2022-09-09', 'confidence': 0.85, 'source': 'presidio', 'start': 350, 'end': 360}, {'type': 'PERSON', 'value': 'Jonas Keller', 'confidence': 0.85, 'source': 'presidio', 'start': 618, 'end': 630}, {'type': 'DATE_TIME', 'value': 'May 2026', 'confidence': 0.85, 'source': 'presidio', 'start': 644, 'end': 652}]","{'PERSON': 0.85, 'LOCATION': 0.85, 'DATE_TIME': 0.85}","['DATE_TIME', 'LOCATION', 'PERSON']",[],"['PERSON', 'LOCATION', 'DATE_TIME']",False,True,False,low_cost_llm,potential_pii_evidence,True,ollama,ollama_local,qwen2.5,False,"No personal data such as names, contact details, or unique identifiers are present.",577,32,609,0,0,0.0,True,False,False,20260908_105246,rule_plus_ollama,ollama,llm,qwen2.5,pii_review_v1,llm,True,False,false_negative,False,contains_personal_data,predicted_pii
+DOC-0211,incident_report_finding_0211.pdf,Incident Report,general_document,en,OneDrive,Maria Schmidt,maria.schmidt@bosch.example,manual,2022-06-26,2022-08-08,2026-08-10,0.87,"Incident Report (Filled)
+Purpose: Example of a documented incident for compliance review.
+Date: 26 Jun 2022
+Location: Meeting Room A
+Type: Safety
+Description: Minor slip incident near entrance due to wet floor; no injury reported.
+Phone: zero one seven six, four four two, nine eight nine eight
+Incident Report (Filled) - Review
+Purpose: Example of a documented incident for compliance review.
+Root Cause: Cleaning sign placed after area was already wet; timing issue.
+Corrective Action: Update cleaning SOP to place signage before wet cleaning
+Owner: Facility Coordinator
+Deadline: 20 May 2026",yes,no,no,yes,no,no,no,no,no,no,no,no,no,phone_number,PHONE_NUMBER,1,1,medium,yes,other_edge_case,yes,train,no,,,no,,,v1,Useful for testing ambiguous/OCR/context-heavy personal-data detection.,[],{},[],[],[],False,False,False,local_non_pii,no_meaningful_signal,False,ollama,ollama_local,qwen2.5,False,,0,0,0,0,0,0.0,False,False,False,20260908_105246,rule_plus_ollama,ollama,llm,qwen2.5,pii_review_v1,llm,True,False,false_negative,False,contains_personal_data,predicted_pii
+DOC-0212,incident_report_finding_0212.pdf,Incident Report,general_document,en,SharePoint,Lukas Weber,lukas.weber@bosch.example,manual,2022-08-02,2022-09-27,2026-08-10,0.32,"Incident Report (Filled)
+Purpose: Example of a documented incident for compliance review.
+Date: 02 Aug 2022
+Location: Office Floor 3
+Type: Data Handling
+Description: A document containing personal data was mistakenly shared to an incorrect internal distribution list.
+Home Address: Parkring 3, 90402 Nuremberg, Germany
+Incident Report (Filled) - Review
+Purpose: Example of a documented incident for compliance review.
+Root Cause: Incorrect selection of recipient group during email composition; no secondary review step.
+Corrective Action: Introduce a mandatory recipient review checklist
+Owner: Team Lead
+Deadline: 30 May 2026",yes,no,no,no,yes,no,no,no,no,no,no,no,no,home_address,LOCATION,1,1,medium,yes,other_edge_case,yes,train,no,,,no,,,v1,Useful for testing ambiguous/OCR/context-heavy personal-data detection.,"[{'type': 'LOCATION', 'value': 'Nuremberg', 'confidence': 0.85, 'source': 'presidio', 'start': 300, 'end': 309}, {'type': 'LOCATION', 'value': 'Germany', 'confidence': 0.85, 'source': 'presidio', 'start': 311, 'end': 318}]",{'LOCATION': 0.85},['LOCATION'],[],[],False,False,True,local_non_pii,no_meaningful_signal,False,ollama,ollama_local,qwen2.5,False,,0,0,0,0,0,0.0,False,False,False,20260908_105246,rule_plus_ollama,ollama,llm,qwen2.5,pii_review_v1,llm,True,False,false_negative,False,contains_personal_data,predicted_pii
+DOC-0408,training_evaluation_finding_0408.pdf,Training Evaluation,general_document,en,Shared Drive,Priya Nair,priya.nair@bosch.example,manual,2023-07-20,2025-10-01,2026-08-10,8.61,"Training Evaluation (Filled)
+Purpose: Example of a completed training feedback form.
+Participant: Nina Beck
+Course: Data Protection Basics
+Date: 20 Jul 2023
+Content: 5/5
+Trainer: 4/5
+Material: 4/5
+Home Address: Parkring 3, 90402 Nuremberg, Germany
+Training Evaluation (Filled) - Review
+Purpose: Example of a completed training feedback form.
+Comments: Clear structure and helpful examples; add more hands-on exercises.
+Recommendation: Repeat quarterly for new joiners.",yes,no,no,no,yes,no,no,no,no,no,no,no,no,home_address,LOCATION,1,1,medium,yes,other_edge_case,no,train,no,,,no,,,v1,Useful for testing ambiguous/OCR/context-heavy personal-data detection.,"[{'type': 'PERSON', 'value': 'Nina Beck', 'confidence': 0.85, 'source': 'presidio', 'start': 98, 'end': 107}, {'type': 'LOCATION', 'value': 'Nuremberg', 'confidence': 0.85, 'source': 'presidio', 'start': 229, 'end': 238}, {'type': 'LOCATION', 'value': 'Germany', 'confidence': 0.85, 'source': 'presidio', 'start': 240, 'end': 247}, {'type': 'DATE_TIME', 'value': 'quarterly', 'confidence': 0.85, 'source': 'presidio', 'start': 442, 'end': 451}]","{'PERSON': 0.85, 'LOCATION': 0.85, 'DATE_TIME': 0.85}","['DATE_TIME', 'LOCATION', 'PERSON']",[],"['PERSON', 'LOCATION', 'DATE_TIME']",False,True,True,low_cost_llm,potential_pii_evidence,True,ollama,ollama_local,qwen2.5,False,"No personal data such as names, contact details, or identifiers are present in the text.",538,34,572,0,0,0.0,True,False,False,20260908_105246,rule_plus_ollama,ollama,llm,qwen2.5,pii_review_v1,llm,True,False,false_negative,False,contains_personal_data,predicted_pii
+DOC-0410,training_evaluation_finding_0410.pdf,Training Evaluation,general_document,en,Teams Export,Sofia Hartmann,sofia.hartmann@bosch.example,manual,2023-10-02,2026-01-09,2026-08-10,3.03,"Training Evaluation (Filled)
+Purpose: Example of a completed training feedback form.
+Participant: Elena Fischer
+Course: Document Classification Workshop
+Date: 02 Oct 2023
+Content: 4/5
+Trainer: 5/5
+Material: 3/5
+ID Card Number: T88Q-3920I76
+Training Evaluation (Filled) - Review
+Purpose: Example of a completed training feedback form.
+Comments: Trainer excellent; slides were dense—provide a cheat sheet.
+Recommendation: Add a short pre-read and a 15-min quiz.",yes,no,no,no,no,no,no,no,yes,no,no,no,no,id_card_number,NRP,1,1,hard,yes,other_edge_case,no,train,no,,,no,,,v1,Useful for testing ambiguous/OCR/context-heavy personal-data detection.,"[{'type': 'PERSON', 'value': 'Elena Fischer', 'confidence': 0.85, 'source': 'presidio', 'start': 98, 'end': 111}, {'type': 'DATE_TIME', 'value': 'Oct 2023', 'confidence': 0.85, 'source': 'presidio', 'start': 162, 'end': 170}]","{'PERSON': 0.85, 'DATE_TIME': 0.85}","['DATE_TIME', 'PERSON']",[],"['PERSON', 'DATE_TIME']",False,True,False,low_cost_llm,potential_pii_evidence,True,ollama,ollama_local,qwen2.5,False,"The text contains an ID card number, but it is not clearly linked to a specific person.",517,35,552,0,0,0.0,True,False,False,20260908_105246,rule_plus_ollama,ollama,llm,qwen2.5,pii_review_v1,llm,True,False,false_negative,False,contains_personal_data,predicted_pii

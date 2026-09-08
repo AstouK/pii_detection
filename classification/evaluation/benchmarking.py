@@ -44,9 +44,11 @@ def extract_benchmark_row(
         metric_name = standardized
 
     This means:
-        sweep1.csv       -> predicted_pii = detected_pii
-        rule_based.csv       -> predicted_pii = final_pii
-        rule_plus_gpt4o_mini.csv   -> predicted_pii = final_pii
+        sweep1.csv                 -> predicted_pii = detected_pii
+        rule_based.csv             -> predicted_pii = final_pii
+        rule_plus_qwen.csv        -> predicted_pii = final_pii
+        rule_plus_ollama.csv      -> predicted_pii = final_pii
+        rule_plus_gpt4o_mini.csv  -> predicted_pii = final_pii
         ...
     """
 
@@ -80,7 +82,8 @@ def build_benchmark_summary_from_metric_files(
         evaluation/results/runs/<run_id>/
         ├── sweep1/metrics.csv
         ├── rule_based/metrics.csv
-        └── rule_plus_qwen/metrics.csv
+        ├── rule_plus_qwen/metrics.csv
+        └── rule_plus_ollama/metrics.csv
     """
 
     rows = []

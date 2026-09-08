@@ -1,0 +1,14 @@
+scenario_type,error_type,count
+employee_record,false_positive,13
+employee_record,true_negative,61
+expense_report,false_negative,6
+expense_report,true_negative,88
+expense_report,true_positive,6
+general_document,false_negative,20
+general_document,false_positive,51
+general_document,true_negative,226
+general_document,true_positive,18
+medical_record,true_positive,5
+passport_record,false_negative,3
+passport_record,true_negative,1
+passport_record,true_positive,2

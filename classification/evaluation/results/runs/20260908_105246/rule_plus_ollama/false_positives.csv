@@ -1,0 +1,957 @@
+document_id,file_name,document_type,scenario_type,language,source_system,responsible_owner,owner_email,data_source,file_created_date,last_modified_date,dataset_created_at,file_size_mb,full_text,contains_personal_data,PERSON_yes_no,EMAIL_ADDRESS_yes_no,PHONE_NUMBER_yes_no,LOCATION_yes_no,IBAN_CODE_yes_no,CREDIT_CARD_yes_no,PASSPORT_yes_no,NRP_yes_no,DATE_TIME_yes_no,IP_ADDRESS_yes_no,URL_yes_no,MEDICAL_LICENSE_yes_no,personal_data_categories,primary_pii_type,category_count,pii_count,difficulty,edge_case,challenge_category,retention_period_exceeded_3y,recommended_split,synthetic,synthetic_generator,generation_prompt_version,human_reviewed,review_status,review_notes,dataset_version,labeling_notes,entities,per_type_conf,detected_categories,strong_pii_categories,potential_pii_categories,detected_pii,detected_any_pii,has_person_hint,route,routing_reason,needs_llm_review,llm_provider,llm_model_id,llm_model_name,llm_pii,llm_reason,llm_prompt_tokens,llm_completion_tokens,llm_total_tokens,llm_reasoning_tokens,llm_cached_tokens,llm_request_cost,llm_request_success,final_pii,predicted_pii,run_id,strategy,provider,model_family,model_name,prompt_version,prediction_source,_ground_truth_bool,_prediction_bool,error_type,is_correct,evaluated_ground_truth_col,evaluated_prediction_col
+DOC-0251,incident_report_clean_0251.pdf,Incident Report,general_document,en,SharePoint,Elena Hoffmann,elena.hoffmann@bosch.example,manual,2020-03-28,2021-10-12,2026-08-10,0.85,"Incident Report (Filled)
+Purpose: Example of a documented incident for compliance review.
+Date: 28 Mar 2020
+Location: Office Floor 3
+Type: Data Handling
+Description: Process deviation recorded without naming any affected person.
+Incident Report (Filled) - Review
+Purpose: Example of a documented incident for compliance review.
+Root Cause: Incorrect selection of recipient group during email composition; no secondary review step.
+Corrective Action: Introduce a mandatory recipient review checklist
+Owner: Team Lead
+Deadline: 30 May 2026
+Notes: Contact is procurement@example-supplier.test, a generic functional mailbox rather than a person's email.",no,no,no,no,no,no,no,no,no,no,no,no,no,,NONE,0,0,hard,yes,other_edge_case,yes,train,no,,,no,,,v1,Negative edge case: looks sensitive but should be no personal data.,"[{'type': 'EMAIL_ADDRESS', 'value': 'procurement@example-supplier.test', 'confidence': 0.9, 'source': 'custom_regex', 'start': 556, 'end': 589}]",{'EMAIL_ADDRESS': 0.9},['EMAIL_ADDRESS'],['EMAIL_ADDRESS'],[],True,True,False,local_pii,strong_pii_detected,False,ollama,ollama_local,qwen2.5,False,,0,0,0,0,0,0.0,False,True,True,20260908_105246,rule_plus_ollama,ollama,llm,qwen2.5,pii_review_v1,llm,False,True,false_positive,False,contains_personal_data,predicted_pii
+DOC-0313,supplier_onboarding_clean_0313.pdf,Supplier Onboarding,general_document,en,HR Archive,Noah Becker,noah.becker@bosch.example,manual,2020-03-22,2021-07-04,2026-08-10,2.7,"Supplier Onboarding (Filled)
+Purpose: Example of a completed supplier onboarding record.
+Company: Nordic Components GmbH
+Address: Hauptstr. 12, 70173 Stuttgart
+Contact: procurement@nordic-components.example
+Tax ID: DE123456789
+Certification: ISO 9001
+Risk Level: Medium
+Supplier Onboarding (Filled) - Review
+Purpose: Example of a completed supplier onboarding record.
+Reviewer: Procurement Ops
+Comments: Documents verified; banking details pending validation.
+Approval: Conditionally Approved
+Notes: Activate vendor after bank verification.
+Notes: Blank template fields remain underscores only, matching the unfilled PDF examples.",no,no,no,no,no,no,no,no,no,no,no,no,no,,NONE,0,0,easy,no,none,yes,train,no,,,no,,,v1,Clean negative sample.,"[{'type': 'DATE_TIME', 'value': '70173', 'confidence': 0.85, 'source': 'presidio', 'start': 144, 'end': 149}, {'type': 'LOCATION', 'value': 'Stuttgart', 'confidence': 0.85, 'source': 'presidio', 'start': 150, 'end': 159}, {'type': 'EMAIL_ADDRESS', 'value': 'procurement@nordic-components.example', 'confidence': 0.9, 'source': 'custom_regex', 'start': 169, 'end': 206}]","{'DATE_TIME': 0.85, 'LOCATION': 0.85, 'EMAIL_ADDRESS': 0.9}","['DATE_TIME', 'EMAIL_ADDRESS', 'LOCATION']",['EMAIL_ADDRESS'],[],True,True,True,local_pii,strong_pii_detected,False,ollama,ollama_local,qwen2.5,False,,0,0,0,0,0,0.0,False,True,True,20260908_105246,rule_plus_ollama,ollama,llm,qwen2.5,pii_review_v1,llm,False,True,false_positive,False,contains_personal_data,predicted_pii
+DOC-0314,supplier_onboarding_clean_0314.pdf,Supplier Onboarding,employee_record,en,HR Archive,Noah Becker,noah.becker@bosch.example,manual,2020-04-28,2021-08-23,2026-08-10,7.12,"Supplier Onboarding (Filled)
+Purpose: Example of a completed supplier onboarding record.
+Company: Alpine Services AG
+Address: Industriestr. 8, 80331 München
+Contact: vendor@alpine-services.example
+Tax ID: DE987654321
+Certification: ISO 27001
+Risk Level: Low
+Supplier Onboarding (Filled) - Review
+Purpose: Example of a completed supplier onboarding record.
+Reviewer: Vendor Management
+Comments: All compliance checks passed.
+Approval: Approved
+Notes: Eligible for standard payment terms.
+Notes: Department aggregate only; no named participant, employee, manager, reviewer, or contact person is included.",no,no,no,no,no,no,no,no,no,no,no,no,no,,NONE,0,0,easy,no,none,yes,train,no,,,no,,,v1,Clean negative sample.,"[{'type': 'LOCATION', 'value': 'München', 'confidence': 0.85, 'source': 'presidio', 'start': 149, 'end': 156}, {'type': 'EMAIL_ADDRESS', 'value': 'vendor@alpine-services.example', 'confidence': 0.9, 'source': 'custom_regex', 'start': 166, 'end': 196}]","{'LOCATION': 0.85, 'EMAIL_ADDRESS': 0.9}","['EMAIL_ADDRESS', 'LOCATION']",['EMAIL_ADDRESS'],[],True,True,True,local_pii,strong_pii_detected,False,ollama,ollama_local,qwen2.5,False,,0,0,0,0,0,0.0,False,True,True,20260908_105246,rule_plus_ollama,ollama,llm,qwen2.5,pii_review_v1,llm,False,True,false_positive,False,contains_personal_data,predicted_pii
+DOC-0317,supplier_onboarding_clean_0317.pdf,Supplier Onboarding,general_document,en,OneDrive,Maria Schmidt,maria.schmidt@bosch.example,manual,2020-08-17,2022-01-20,2026-08-10,2.66,"Supplier Onboarding (Filled)
+Purpose: Example of a completed supplier onboarding record.
+Company: Alpine Services AG
+Address: Industriestr. 8, 80331 München
+Contact: vendor@alpine-services.example
+Tax ID: DE987654321
+Certification: ISO 27001
+Risk Level: Low
+Supplier Onboarding (Filled) - Review
+Purpose: Example of a completed supplier onboarding record.
+Reviewer: Vendor Management
+Comments: All compliance checks passed.
+Approval: Approved
+Notes: Eligible for standard payment terms.
+Notes: Comments mention 'healthy process' and 'sick pipeline' as metaphors, not health information.",no,no,no,no,no,no,no,no,no,no,no,no,no,,NONE,0,0,hard,yes,vat_number,yes,train,no,,,no,,,v1,Negative edge case: looks sensitive but should be no personal data.,"[{'type': 'LOCATION', 'value': 'München', 'confidence': 0.85, 'source': 'presidio', 'start': 149, 'end': 156}, {'type': 'EMAIL_ADDRESS', 'value': 'vendor@alpine-services.example', 'confidence': 0.9, 'source': 'custom_regex', 'start': 166, 'end': 196}]","{'LOCATION': 0.85, 'EMAIL_ADDRESS': 0.9}","['EMAIL_ADDRESS', 'LOCATION']",['EMAIL_ADDRESS'],[],True,True,True,local_pii,strong_pii_detected,False,ollama,ollama_local,qwen2.5,False,,0,0,0,0,0,0.0,False,True,True,20260908_105246,rule_plus_ollama,ollama,llm,qwen2.5,pii_review_v1,llm,False,True,false_positive,False,contains_personal_data,predicted_pii
+DOC-0318,supplier_onboarding_clean_0318.pdf,Supplier Onboarding,general_document,en,Shared Drive,Anna Keller,anna.keller@bosch.example,manual,2020-09-23,2022-03-11,2026-08-10,4.35,"Supplier Onboarding (Filled)
+Purpose: Example of a completed supplier onboarding record.
+Company: Nordic Components GmbH
+Address: Hauptstr. 12, 70173 Stuttgart
+Contact: procurement@nordic-components.example
+Tax ID: DE123456789
+Certification: ISO 9001
+Risk Level: Medium
+Supplier Onboarding (Filled) - Review
+Purpose: Example of a completed supplier onboarding record.
+Reviewer: Procurement Ops
+Comments: Documents verified; banking details pending validation.
+Approval: Conditionally Approved
+Notes: Activate vendor after bank verification.
+Notes: Training results are aggregated by course and do not contain individual comments from a participant.",no,no,no,no,no,no,no,no,no,no,no,no,no,,NONE,0,0,easy,no,none,yes,train,no,,,no,,,v1,Clean negative sample.,"[{'type': 'DATE_TIME', 'value': '70173', 'confidence': 0.85, 'source': 'presidio', 'start': 144, 'end': 149}, {'type': 'LOCATION', 'value': 'Stuttgart', 'confidence': 0.85, 'source': 'presidio', 'start': 150, 'end': 159}, {'type': 'EMAIL_ADDRESS', 'value': 'procurement@nordic-components.example', 'confidence': 0.9, 'source': 'custom_regex', 'start': 169, 'end': 206}]","{'DATE_TIME': 0.85, 'LOCATION': 0.85, 'EMAIL_ADDRESS': 0.9}","['DATE_TIME', 'EMAIL_ADDRESS', 'LOCATION']",['EMAIL_ADDRESS'],[],True,True,True,local_pii,strong_pii_detected,False,ollama,ollama_local,qwen2.5,False,,0,0,0,0,0,0.0,False,True,True,20260908_105246,rule_plus_ollama,ollama,llm,qwen2.5,pii_review_v1,llm,False,True,false_positive,False,contains_personal_data,predicted_pii
+DOC-0320,supplier_onboarding_clean_0320.pdf,Supplier Onboarding,general_document,en,SharePoint,Lukas Weber,lukas.weber@bosch.example,manual,2020-12-06,2022-06-19,2026-08-10,4.23,"Supplier Onboarding (Filled)
+Purpose: Example of a completed supplier onboarding record.
+Company: Nordic Components GmbH
+Address: Hauptstr. 12, 70173 Stuttgart
+Contact: procurement@nordic-components.example
+Tax ID: DE123456789
+Certification: ISO 9001
+Risk Level: Medium
+Supplier Onboarding (Filled) - Review
+Purpose: Example of a completed supplier onboarding record.
+Reviewer: Procurement Ops
+Comments: Documents verified; banking details pending validation.
+Approval: Conditionally Approved
+Notes: Activate vendor after bank verification.
+Notes: Supplier company contact is a generic mailbox and business address, not an individual person's details.",no,no,no,no,no,no,no,no,no,no,no,no,no,,NONE,0,0,easy,no,none,yes,train,no,,,no,,,v1,Clean negative sample.,"[{'type': 'DATE_TIME', 'value': '70173', 'confidence': 0.85, 'source': 'presidio', 'start': 144, 'end': 149}, {'type': 'LOCATION', 'value': 'Stuttgart', 'confidence': 0.85, 'source': 'presidio', 'start': 150, 'end': 159}, {'type': 'EMAIL_ADDRESS', 'value': 'procurement@nordic-components.example', 'confidence': 0.9, 'source': 'custom_regex', 'start': 169, 'end': 206}]","{'DATE_TIME': 0.85, 'LOCATION': 0.85, 'EMAIL_ADDRESS': 0.9}","['DATE_TIME', 'EMAIL_ADDRESS', 'LOCATION']",['EMAIL_ADDRESS'],[],True,True,True,local_pii,strong_pii_detected,False,ollama,ollama_local,qwen2.5,False,,0,0,0,0,0,0.0,False,True,True,20260908_105246,rule_plus_ollama,ollama,llm,qwen2.5,pii_review_v1,llm,False,True,false_positive,False,contains_personal_data,predicted_pii
+DOC-0322,supplier_onboarding_clean_0322.pdf,Supplier Onboarding,general_document,en,Teams Export,Max Wagner,max.wagner@bosch.example,manual,2021-02-18,2022-09-27,2026-08-10,8.1,"Supplier Onboarding (Filled)
+Purpose: Example of a completed supplier onboarding record.
+Company: Alpine Services AG
+Address: Industriestr. 8, 80331 München
+Contact: vendor@alpine-services.example
+Tax ID: DE987654321
+Certification: ISO 27001
+Risk Level: Low
+Supplier Onboarding (Filled) - Review
+Purpose: Example of a completed supplier onboarding record.
+Reviewer: Vendor Management
+Comments: All compliance checks passed.
+Approval: Approved
+Notes: Eligible for standard payment terms.
+Notes: Supplier company contact is a generic mailbox and business address, not an individual person's details.",no,no,no,no,no,no,no,no,no,no,no,no,no,,NONE,0,0,easy,no,none,yes,train,no,,,no,,,v1,Clean negative sample.,"[{'type': 'LOCATION', 'value': 'München', 'confidence': 0.85, 'source': 'presidio', 'start': 149, 'end': 156}, {'type': 'EMAIL_ADDRESS', 'value': 'vendor@alpine-services.example', 'confidence': 0.9, 'source': 'custom_regex', 'start': 166, 'end': 196}]","{'LOCATION': 0.85, 'EMAIL_ADDRESS': 0.9}","['EMAIL_ADDRESS', 'LOCATION']",['EMAIL_ADDRESS'],[],True,True,True,local_pii,strong_pii_detected,False,ollama,ollama_local,qwen2.5,False,,0,0,0,0,0,0.0,False,True,True,20260908_105246,rule_plus_ollama,ollama,llm,qwen2.5,pii_review_v1,llm,False,True,false_positive,False,contains_personal_data,predicted_pii
+DOC-0323,supplier_onboarding_clean_0323.pdf,Supplier Onboarding,employee_record,en,OneDrive,Anna Keller,anna.keller@bosch.example,manual,2021-03-27,2022-11-16,2026-08-10,7.48,"Supplier Onboarding (Filled)
+Purpose: Example of a completed supplier onboarding record.
+Company: Alpine Services AG
+Address: Industriestr. 8, 80331 München
+Contact: vendor@alpine-services.example
+Tax ID: DE987654321
+Certification: ISO 27001
+Risk Level: Low
+Supplier Onboarding (Filled) - Review
+Purpose: Example of a completed supplier onboarding record.
+Reviewer: Vendor Management
+Comments: All compliance checks passed.
+Approval: Approved
+Notes: Eligible for standard payment terms.
+Notes: Department aggregate only; no named participant, employee, manager, reviewer, or contact person is included.",no,no,no,no,no,no,no,no,no,no,no,no,no,,NONE,0,0,easy,no,none,yes,train,no,,,no,,,v1,Clean negative sample.,"[{'type': 'LOCATION', 'value': 'München', 'confidence': 0.85, 'source': 'presidio', 'start': 149, 'end': 156}, {'type': 'EMAIL_ADDRESS', 'value': 'vendor@alpine-services.example', 'confidence': 0.9, 'source': 'custom_regex', 'start': 166, 'end': 196}]","{'LOCATION': 0.85, 'EMAIL_ADDRESS': 0.9}","['EMAIL_ADDRESS', 'LOCATION']",['EMAIL_ADDRESS'],[],True,True,True,local_pii,strong_pii_detected,False,ollama,ollama_local,qwen2.5,False,,0,0,0,0,0,0.0,False,True,True,20260908_105246,rule_plus_ollama,ollama,llm,qwen2.5,pii_review_v1,llm,False,True,false_positive,False,contains_personal_data,predicted_pii
+DOC-0324,supplier_onboarding_clean_0324.pdf,Supplier Onboarding,general_document,en,SharePoint,Max Wagner,max.wagner@bosch.example,manual,2021-05-03,2023-01-05,2026-08-10,0.77,"Supplier Onboarding (Filled)
+Purpose: Example of a completed supplier onboarding record.
+Company: Alpine Services AG
+Address: Industriestr. 8, 80331 München
+Contact: vendor@alpine-services.example
+Tax ID: DE987654321
+Certification: ISO 27001
+Risk Level: Low
+Supplier Onboarding (Filled) - Review
+Purpose: Example of a completed supplier onboarding record.
+Reviewer: Vendor Management
+Comments: All compliance checks passed.
+Approval: Approved
+Notes: Eligible for standard payment terms.
+Notes: Supplier company contact is a generic mailbox and business address, not an individual person's details.",no,no,no,no,no,no,no,no,no,no,no,no,no,,NONE,0,0,easy,no,none,yes,train,no,,,no,,,v1,Clean negative sample.,"[{'type': 'LOCATION', 'value': 'München', 'confidence': 0.85, 'source': 'presidio', 'start': 149, 'end': 156}, {'type': 'EMAIL_ADDRESS', 'value': 'vendor@alpine-services.example', 'confidence': 0.9, 'source': 'custom_regex', 'start': 166, 'end': 196}]","{'LOCATION': 0.85, 'EMAIL_ADDRESS': 0.9}","['EMAIL_ADDRESS', 'LOCATION']",['EMAIL_ADDRESS'],[],True,True,True,local_pii,strong_pii_detected,False,ollama,ollama_local,qwen2.5,False,,0,0,0,0,0,0.0,False,True,True,20260908_105246,rule_plus_ollama,ollama,llm,qwen2.5,pii_review_v1,llm,False,True,false_positive,False,contains_personal_data,predicted_pii
+DOC-0325,supplier_onboarding_clean_0325.pdf,Supplier Onboarding,employee_record,en,HR Archive,Jonas Fischer,jonas.fischer@bosch.example,manual,2021-06-09,2023-02-24,2026-08-10,6.85,"Supplier Onboarding (Filled)
+Purpose: Example of a completed supplier onboarding record.
+Company: Nordic Components GmbH
+Address: Hauptstr. 12, 70173 Stuttgart
+Contact: procurement@nordic-components.example
+Tax ID: DE123456789
+Certification: ISO 9001
+Risk Level: Medium
+Supplier Onboarding (Filled) - Review
+Purpose: Example of a completed supplier onboarding record.
+Reviewer: Procurement Ops
+Comments: Documents verified; banking details pending validation.
+Approval: Conditionally Approved
+Notes: Activate vendor after bank verification.
+Notes: Department aggregate only; no named participant, employee, manager, reviewer, or contact person is included.",no,no,no,no,no,no,no,no,no,no,no,no,no,,NONE,0,0,easy,no,none,yes,train,no,,,no,,,v1,Clean negative sample.,"[{'type': 'DATE_TIME', 'value': '70173', 'confidence': 0.85, 'source': 'presidio', 'start': 144, 'end': 149}, {'type': 'LOCATION', 'value': 'Stuttgart', 'confidence': 0.85, 'source': 'presidio', 'start': 150, 'end': 159}, {'type': 'EMAIL_ADDRESS', 'value': 'procurement@nordic-components.example', 'confidence': 0.9, 'source': 'custom_regex', 'start': 169, 'end': 206}]","{'DATE_TIME': 0.85, 'LOCATION': 0.85, 'EMAIL_ADDRESS': 0.9}","['DATE_TIME', 'EMAIL_ADDRESS', 'LOCATION']",['EMAIL_ADDRESS'],[],True,True,True,local_pii,strong_pii_detected,False,ollama,ollama_local,qwen2.5,False,,0,0,0,0,0,0.0,False,True,True,20260908_105246,rule_plus_ollama,ollama,llm,qwen2.5,pii_review_v1,llm,False,True,false_positive,False,contains_personal_data,predicted_pii
+DOC-0327,supplier_onboarding_clean_0327.pdf,Supplier Onboarding,employee_record,en,Shared Drive,Elena Hoffmann,elena.hoffmann@bosch.example,manual,2021-08-22,2023-06-04,2026-08-10,5.01,"Supplier Onboarding (Filled)
+Purpose: Example of a completed supplier onboarding record.
+Company: Alpine Services AG
+Address: Industriestr. 8, 80331 München
+Contact: vendor@alpine-services.example
+Tax ID: DE987654321
+Certification: ISO 27001
+Risk Level: Low
+Supplier Onboarding (Filled) - Review
+Purpose: Example of a completed supplier onboarding record.
+Reviewer: Vendor Management
+Comments: All compliance checks passed.
+Approval: Approved
+Notes: Eligible for standard payment terms.
+Notes: Department aggregate only; no named participant, employee, manager, reviewer, or contact person is included.",no,no,no,no,no,no,no,no,no,no,no,no,no,,NONE,0,0,easy,no,none,no,train,no,,,no,,,v1,Clean negative sample.,"[{'type': 'LOCATION', 'value': 'München', 'confidence': 0.85, 'source': 'presidio', 'start': 149, 'end': 156}, {'type': 'EMAIL_ADDRESS', 'value': 'vendor@alpine-services.example', 'confidence': 0.9, 'source': 'custom_regex', 'start': 166, 'end': 196}]","{'LOCATION': 0.85, 'EMAIL_ADDRESS': 0.9}","['EMAIL_ADDRESS', 'LOCATION']",['EMAIL_ADDRESS'],[],True,True,True,local_pii,strong_pii_detected,False,ollama,ollama_local,qwen2.5,False,,0,0,0,0,0,0.0,False,True,True,20260908_105246,rule_plus_ollama,ollama,llm,qwen2.5,pii_review_v1,llm,False,True,false_positive,False,contains_personal_data,predicted_pii
+DOC-0328,supplier_onboarding_clean_0328.pdf,Supplier Onboarding,general_document,en,Teams Export,Maria Schmidt,maria.schmidt@bosch.example,manual,2021-09-28,2023-07-24,2026-08-10,7.47,"Supplier Onboarding (Filled)
+Purpose: Example of a completed supplier onboarding record.
+Company: Nordic Components GmbH
+Address: Hauptstr. 12, 70173 Stuttgart
+Contact: procurement@nordic-components.example
+Tax ID: DE123456789
+Certification: ISO 9001
+Risk Level: Medium
+Supplier Onboarding (Filled) - Review
+Purpose: Example of a completed supplier onboarding record.
+Reviewer: Procurement Ops
+Comments: Documents verified; banking details pending validation.
+Approval: Conditionally Approved
+Notes: Activate vendor after bank verification.
+Notes: Blank template fields remain underscores only, matching the unfilled PDF examples.",no,no,no,no,no,no,no,no,no,no,no,no,no,,NONE,0,0,easy,no,none,no,train,no,,,no,,,v1,Clean negative sample.,"[{'type': 'DATE_TIME', 'value': '70173', 'confidence': 0.85, 'source': 'presidio', 'start': 144, 'end': 149}, {'type': 'LOCATION', 'value': 'Stuttgart', 'confidence': 0.85, 'source': 'presidio', 'start': 150, 'end': 159}, {'type': 'EMAIL_ADDRESS', 'value': 'procurement@nordic-components.example', 'confidence': 0.9, 'source': 'custom_regex', 'start': 169, 'end': 206}]","{'DATE_TIME': 0.85, 'LOCATION': 0.85, 'EMAIL_ADDRESS': 0.9}","['DATE_TIME', 'EMAIL_ADDRESS', 'LOCATION']",['EMAIL_ADDRESS'],[],True,True,True,local_pii,strong_pii_detected,False,ollama,ollama_local,qwen2.5,False,,0,0,0,0,0,0.0,False,True,True,20260908_105246,rule_plus_ollama,ollama,llm,qwen2.5,pii_review_v1,llm,False,True,false_positive,False,contains_personal_data,predicted_pii
+DOC-0329,supplier_onboarding_clean_0329.pdf,Supplier Onboarding,employee_record,en,HR Archive,Priya Nair,priya.nair@bosch.example,manual,2021-11-04,2023-09-12,2026-08-10,2.11,"Supplier Onboarding (Filled)
+Purpose: Example of a completed supplier onboarding record.
+Company: Nordic Components GmbH
+Address: Hauptstr. 12, 70173 Stuttgart
+Contact: procurement@nordic-components.example
+Tax ID: DE123456789
+Certification: ISO 9001
+Risk Level: Medium
+Supplier Onboarding (Filled) - Review
+Purpose: Example of a completed supplier onboarding record.
+Reviewer: Procurement Ops
+Comments: Documents verified; banking details pending validation.
+Approval: Conditionally Approved
+Notes: Activate vendor after bank verification.
+Notes: Department aggregate only; no named participant, employee, manager, reviewer, or contact person is included.",no,no,no,no,no,no,no,no,no,no,no,no,no,,NONE,0,0,easy,no,none,no,train,no,,,no,,,v1,Clean negative sample.,"[{'type': 'DATE_TIME', 'value': '70173', 'confidence': 0.85, 'source': 'presidio', 'start': 144, 'end': 149}, {'type': 'LOCATION', 'value': 'Stuttgart', 'confidence': 0.85, 'source': 'presidio', 'start': 150, 'end': 159}, {'type': 'EMAIL_ADDRESS', 'value': 'procurement@nordic-components.example', 'confidence': 0.9, 'source': 'custom_regex', 'start': 169, 'end': 206}]","{'DATE_TIME': 0.85, 'LOCATION': 0.85, 'EMAIL_ADDRESS': 0.9}","['DATE_TIME', 'EMAIL_ADDRESS', 'LOCATION']",['EMAIL_ADDRESS'],[],True,True,True,local_pii,strong_pii_detected,False,ollama,ollama_local,qwen2.5,False,,0,0,0,0,0,0.0,False,True,True,20260908_105246,rule_plus_ollama,ollama,llm,qwen2.5,pii_review_v1,llm,False,True,false_positive,False,contains_personal_data,predicted_pii
+DOC-0330,supplier_onboarding_clean_0330.pdf,Supplier Onboarding,employee_record,en,HR Archive,Lukas Weber,lukas.weber@bosch.example,manual,2021-12-11,2023-11-01,2026-08-10,5.38,"Supplier Onboarding (Filled)
+Purpose: Example of a completed supplier onboarding record.
+Company: Alpine Services AG
+Address: Industriestr. 8, 80331 München
+Contact: vendor@alpine-services.example
+Tax ID: DE987654321
+Certification: ISO 27001
+Risk Level: Low
+Supplier Onboarding (Filled) - Review
+Purpose: Example of a completed supplier onboarding record.
+Reviewer: Vendor Management
+Comments: All compliance checks passed.
+Approval: Approved
+Notes: Eligible for standard payment terms.
+Notes: Department aggregate only; no named participant, employee, manager, reviewer, or contact person is included.",no,no,no,no,no,no,no,no,no,no,no,no,no,,NONE,0,0,easy,no,none,no,train,no,,,no,,,v1,Clean negative sample.,"[{'type': 'LOCATION', 'value': 'München', 'confidence': 0.85, 'source': 'presidio', 'start': 149, 'end': 156}, {'type': 'EMAIL_ADDRESS', 'value': 'vendor@alpine-services.example', 'confidence': 0.9, 'source': 'custom_regex', 'start': 166, 'end': 196}]","{'LOCATION': 0.85, 'EMAIL_ADDRESS': 0.9}","['EMAIL_ADDRESS', 'LOCATION']",['EMAIL_ADDRESS'],[],True,True,True,local_pii,strong_pii_detected,False,ollama,ollama_local,qwen2.5,False,,0,0,0,0,0,0.0,False,True,True,20260908_105246,rule_plus_ollama,ollama,llm,qwen2.5,pii_review_v1,llm,False,True,false_positive,False,contains_personal_data,predicted_pii
+DOC-0331,supplier_onboarding_clean_0331.pdf,Supplier Onboarding,employee_record,en,OneDrive,Noah Becker,noah.becker@bosch.example,manual,2022-01-17,2023-12-21,2026-08-10,7.54,"Supplier Onboarding (Filled)
+Purpose: Example of a completed supplier onboarding record.
+Company: Nordic Components GmbH
+Address: Hauptstr. 12, 70173 Stuttgart
+Contact: procurement@nordic-components.example
+Tax ID: DE123456789
+Certification: ISO 9001
+Risk Level: Medium
+Supplier Onboarding (Filled) - Review
+Purpose: Example of a completed supplier onboarding record.
+Reviewer: Procurement Ops
+Comments: Documents verified; banking details pending validation.
+Approval: Conditionally Approved
+Notes: Activate vendor after bank verification.
+Notes: Department aggregate only; no named participant, employee, manager, reviewer, or contact person is included.",no,no,no,no,no,no,no,no,no,no,no,no,no,,NONE,0,0,easy,no,none,no,train,no,,,no,,,v1,Clean negative sample.,"[{'type': 'DATE_TIME', 'value': '70173', 'confidence': 0.85, 'source': 'presidio', 'start': 144, 'end': 149}, {'type': 'LOCATION', 'value': 'Stuttgart', 'confidence': 0.85, 'source': 'presidio', 'start': 150, 'end': 159}, {'type': 'EMAIL_ADDRESS', 'value': 'procurement@nordic-components.example', 'confidence': 0.9, 'source': 'custom_regex', 'start': 169, 'end': 206}]","{'DATE_TIME': 0.85, 'LOCATION': 0.85, 'EMAIL_ADDRESS': 0.9}","['DATE_TIME', 'EMAIL_ADDRESS', 'LOCATION']",['EMAIL_ADDRESS'],[],True,True,True,local_pii,strong_pii_detected,False,ollama,ollama_local,qwen2.5,False,,0,0,0,0,0,0.0,False,True,True,20260908_105246,rule_plus_ollama,ollama,llm,qwen2.5,pii_review_v1,llm,False,True,false_positive,False,contains_personal_data,predicted_pii
+DOC-0332,supplier_onboarding_clean_0332.pdf,Supplier Onboarding,general_document,en,HR Archive,Priya Nair,priya.nair@bosch.example,manual,2022-02-23,2024-02-09,2026-08-10,3.27,"Supplier Onboarding (Filled)
+Purpose: Example of a completed supplier onboarding record.
+Company: Alpine Services AG
+Address: Industriestr. 8, 80331 München
+Contact: vendor@alpine-services.example
+Tax ID: DE987654321
+Certification: ISO 27001
+Risk Level: Low
+Supplier Onboarding (Filled) - Review
+Purpose: Example of a completed supplier onboarding record.
+Reviewer: Vendor Management
+Comments: All compliance checks passed.
+Approval: Approved
+Notes: Eligible for standard payment terms.
+Notes: Role-based labels only, such as Team Lead, Facility Coordinator, Procurement Ops, or IT Service Desk.",no,no,no,no,no,no,no,no,no,no,no,no,no,,NONE,0,0,easy,no,none,no,train,no,,,no,,,v1,Clean negative sample.,"[{'type': 'LOCATION', 'value': 'München', 'confidence': 0.85, 'source': 'presidio', 'start': 149, 'end': 156}, {'type': 'EMAIL_ADDRESS', 'value': 'vendor@alpine-services.example', 'confidence': 0.9, 'source': 'custom_regex', 'start': 166, 'end': 196}]","{'LOCATION': 0.85, 'EMAIL_ADDRESS': 0.9}","['EMAIL_ADDRESS', 'LOCATION']",['EMAIL_ADDRESS'],[],True,True,True,local_pii,strong_pii_detected,False,ollama,ollama_local,qwen2.5,False,,0,0,0,0,0,0.0,False,True,True,20260908_105246,rule_plus_ollama,ollama,llm,qwen2.5,pii_review_v1,llm,False,True,false_positive,False,contains_personal_data,predicted_pii
+DOC-0334,supplier_onboarding_clean_0334.pdf,Supplier Onboarding,general_document,en,OneDrive,Noah Becker,noah.becker@bosch.example,manual,2022-05-08,2024-05-19,2026-08-10,5.6,"Supplier Onboarding (Filled)
+Purpose: Example of a completed supplier onboarding record.
+Company: Nordic Components GmbH
+Address: Hauptstr. 12, 70173 Stuttgart
+Contact: procurement@nordic-components.example
+Tax ID: DE123456789
+Certification: ISO 9001
+Risk Level: Medium
+Supplier Onboarding (Filled) - Review
+Purpose: Example of a completed supplier onboarding record.
+Reviewer: Procurement Ops
+Comments: Documents verified; banking details pending validation.
+Approval: Conditionally Approved
+Notes: Activate vendor after bank verification.
+Notes: Contact is procurement@example-supplier.test, a generic functional mailbox rather than a person's email.",no,no,no,no,no,no,no,no,no,no,no,no,no,,NONE,0,0,hard,yes,vat_number,no,train,no,,,no,,,v1,Negative edge case: looks sensitive but should be no personal data.,"[{'type': 'DATE_TIME', 'value': '70173', 'confidence': 0.85, 'source': 'presidio', 'start': 144, 'end': 149}, {'type': 'LOCATION', 'value': 'Stuttgart', 'confidence': 0.85, 'source': 'presidio', 'start': 150, 'end': 159}, {'type': 'EMAIL_ADDRESS', 'value': 'procurement@nordic-components.example', 'confidence': 0.9, 'source': 'custom_regex', 'start': 169, 'end': 206}, {'type': 'EMAIL_ADDRESS', 'value': 'procurement@example-supplier.test', 'confidence': 0.9, 'source': 'custom_regex', 'start': 559, 'end': 592}]","{'DATE_TIME': 0.85, 'LOCATION': 0.85, 'EMAIL_ADDRESS': 0.9}","['DATE_TIME', 'EMAIL_ADDRESS', 'LOCATION']",['EMAIL_ADDRESS'],[],True,True,True,local_pii,strong_pii_detected,False,ollama,ollama_local,qwen2.5,False,,0,0,0,0,0,0.0,False,True,True,20260908_105246,rule_plus_ollama,ollama,llm,qwen2.5,pii_review_v1,llm,False,True,false_positive,False,contains_personal_data,predicted_pii
+DOC-0335,supplier_onboarding_clean_0335.pdf,Supplier Onboarding,general_document,en,OneDrive,Jonas Fischer,jonas.fischer@bosch.example,manual,2022-06-14,2024-07-08,2026-08-10,5.5,"Supplier Onboarding (Filled)
+Purpose: Example of a completed supplier onboarding record.
+Company: Nordic Components GmbH
+Address: Hauptstr. 12, 70173 Stuttgart
+Contact: procurement@nordic-components.example
+Tax ID: DE123456789
+Certification: ISO 9001
+Risk Level: Medium
+Supplier Onboarding (Filled) - Review
+Purpose: Example of a completed supplier onboarding record.
+Reviewer: Procurement Ops
+Comments: Documents verified; banking details pending validation.
+Approval: Conditionally Approved
+Notes: Activate vendor after bank verification.
+Notes: Supplier company contact is a generic mailbox and business address, not an individual person's details.",no,no,no,no,no,no,no,no,no,no,no,no,no,,NONE,0,0,easy,no,none,no,train,no,,,no,,,v1,Clean negative sample.,"[{'type': 'DATE_TIME', 'value': '70173', 'confidence': 0.85, 'source': 'presidio', 'start': 144, 'end': 149}, {'type': 'LOCATION', 'value': 'Stuttgart', 'confidence': 0.85, 'source': 'presidio', 'start': 150, 'end': 159}, {'type': 'EMAIL_ADDRESS', 'value': 'procurement@nordic-components.example', 'confidence': 0.9, 'source': 'custom_regex', 'start': 169, 'end': 206}]","{'DATE_TIME': 0.85, 'LOCATION': 0.85, 'EMAIL_ADDRESS': 0.9}","['DATE_TIME', 'EMAIL_ADDRESS', 'LOCATION']",['EMAIL_ADDRESS'],[],True,True,True,local_pii,strong_pii_detected,False,ollama,ollama_local,qwen2.5,False,,0,0,0,0,0,0.0,False,True,True,20260908_105246,rule_plus_ollama,ollama,llm,qwen2.5,pii_review_v1,llm,False,True,false_positive,False,contains_personal_data,predicted_pii
+DOC-0336,supplier_onboarding_clean_0336.pdf,Supplier Onboarding,general_document,en,OneDrive,Tom Nguyen,tom.nguyen@bosch.example,manual,2022-07-21,2024-08-27,2026-08-10,5.89,"Supplier Onboarding (Filled)
+Purpose: Example of a completed supplier onboarding record.
+Company: Nordic Components GmbH
+Address: Hauptstr. 12, 70173 Stuttgart
+Contact: procurement@nordic-components.example
+Tax ID: DE123456789
+Certification: ISO 9001
+Risk Level: Medium
+Supplier Onboarding (Filled) - Review
+Purpose: Example of a completed supplier onboarding record.
+Reviewer: Procurement Ops
+Comments: Documents verified; banking details pending validation.
+Approval: Conditionally Approved
+Notes: Activate vendor after bank verification.
+Notes: Supplier company contact is a generic mailbox and business address, not an individual person's details.",no,no,no,no,no,no,no,no,no,no,no,no,no,,NONE,0,0,easy,no,none,no,train,no,,,no,,,v1,Clean negative sample.,"[{'type': 'DATE_TIME', 'value': '70173', 'confidence': 0.85, 'source': 'presidio', 'start': 144, 'end': 149}, {'type': 'LOCATION', 'value': 'Stuttgart', 'confidence': 0.85, 'source': 'presidio', 'start': 150, 'end': 159}, {'type': 'EMAIL_ADDRESS', 'value': 'procurement@nordic-components.example', 'confidence': 0.9, 'source': 'custom_regex', 'start': 169, 'end': 206}]","{'DATE_TIME': 0.85, 'LOCATION': 0.85, 'EMAIL_ADDRESS': 0.9}","['DATE_TIME', 'EMAIL_ADDRESS', 'LOCATION']",['EMAIL_ADDRESS'],[],True,True,True,local_pii,strong_pii_detected,False,ollama,ollama_local,qwen2.5,False,,0,0,0,0,0,0.0,False,True,True,20260908_105246,rule_plus_ollama,ollama,llm,qwen2.5,pii_review_v1,llm,False,True,false_positive,False,contains_personal_data,predicted_pii
+DOC-0337,supplier_onboarding_clean_0337.pdf,Supplier Onboarding,employee_record,en,OneDrive,Tom Nguyen,tom.nguyen@bosch.example,manual,2022-08-27,2024-10-16,2026-08-10,3.46,"Supplier Onboarding (Filled)
+Purpose: Example of a completed supplier onboarding record.
+Company: Alpine Services AG
+Address: Industriestr. 8, 80331 München
+Contact: vendor@alpine-services.example
+Tax ID: DE987654321
+Certification: ISO 27001
+Risk Level: Low
+Supplier Onboarding (Filled) - Review
+Purpose: Example of a completed supplier onboarding record.
+Reviewer: Vendor Management
+Comments: All compliance checks passed.
+Approval: Approved
+Notes: Eligible for standard payment terms.
+Notes: Department aggregate only; no named participant, employee, manager, reviewer, or contact person is included.",no,no,no,no,no,no,no,no,no,no,no,no,no,,NONE,0,0,easy,no,none,no,train,no,,,no,,,v1,Clean negative sample.,"[{'type': 'LOCATION', 'value': 'München', 'confidence': 0.85, 'source': 'presidio', 'start': 149, 'end': 156}, {'type': 'EMAIL_ADDRESS', 'value': 'vendor@alpine-services.example', 'confidence': 0.9, 'source': 'custom_regex', 'start': 166, 'end': 196}]","{'LOCATION': 0.85, 'EMAIL_ADDRESS': 0.9}","['EMAIL_ADDRESS', 'LOCATION']",['EMAIL_ADDRESS'],[],True,True,True,local_pii,strong_pii_detected,False,ollama,ollama_local,qwen2.5,False,,0,0,0,0,0,0.0,False,True,True,20260908_105246,rule_plus_ollama,ollama,llm,qwen2.5,pii_review_v1,llm,False,True,false_positive,False,contains_personal_data,predicted_pii
+DOC-0338,supplier_onboarding_clean_0338.pdf,Supplier Onboarding,general_document,en,Shared Drive,Sofia Hartmann,sofia.hartmann@bosch.example,manual,2022-10-03,2024-12-05,2026-08-10,3.06,"Supplier Onboarding (Filled)
+Purpose: Example of a completed supplier onboarding record.
+Company: Alpine Services AG
+Address: Industriestr. 8, 80331 München
+Contact: vendor@alpine-services.example
+Tax ID: DE987654321
+Certification: ISO 27001
+Risk Level: Low
+Supplier Onboarding (Filled) - Review
+Purpose: Example of a completed supplier onboarding record.
+Reviewer: Vendor Management
+Comments: All compliance checks passed.
+Approval: Approved
+Notes: Eligible for standard payment terms.
+Notes: Role-based labels only, such as Team Lead, Facility Coordinator, Procurement Ops, or IT Service Desk.",no,no,no,no,no,no,no,no,no,no,no,no,no,,NONE,0,0,easy,no,none,no,train,no,,,no,,,v1,Clean negative sample.,"[{'type': 'LOCATION', 'value': 'München', 'confidence': 0.85, 'source': 'presidio', 'start': 149, 'end': 156}, {'type': 'EMAIL_ADDRESS', 'value': 'vendor@alpine-services.example', 'confidence': 0.9, 'source': 'custom_regex', 'start': 166, 'end': 196}]","{'LOCATION': 0.85, 'EMAIL_ADDRESS': 0.9}","['EMAIL_ADDRESS', 'LOCATION']",['EMAIL_ADDRESS'],[],True,True,True,local_pii,strong_pii_detected,False,ollama,ollama_local,qwen2.5,False,,0,0,0,0,0,0.0,False,True,True,20260908_105246,rule_plus_ollama,ollama,llm,qwen2.5,pii_review_v1,llm,False,True,false_positive,False,contains_personal_data,predicted_pii
+DOC-0339,supplier_onboarding_clean_0339.pdf,Supplier Onboarding,general_document,en,Shared Drive,Tom Nguyen,tom.nguyen@bosch.example,manual,2022-11-09,2025-01-24,2026-08-10,5.17,"Supplier Onboarding (Filled)
+Purpose: Example of a completed supplier onboarding record.
+Company: Alpine Services AG
+Address: Industriestr. 8, 80331 München
+Contact: vendor@alpine-services.example
+Tax ID: DE987654321
+Certification: ISO 27001
+Risk Level: Low
+Supplier Onboarding (Filled) - Review
+Purpose: Example of a completed supplier onboarding record.
+Reviewer: Vendor Management
+Comments: All compliance checks passed.
+Approval: Approved
+Notes: Eligible for standard payment terms.
+Notes: Blank template fields remain underscores only, matching the unfilled PDF examples.",no,no,no,no,no,no,no,no,no,no,no,no,no,,NONE,0,0,easy,no,none,no,train,no,,,no,,,v1,Clean negative sample.,"[{'type': 'LOCATION', 'value': 'München', 'confidence': 0.85, 'source': 'presidio', 'start': 149, 'end': 156}, {'type': 'EMAIL_ADDRESS', 'value': 'vendor@alpine-services.example', 'confidence': 0.9, 'source': 'custom_regex', 'start': 166, 'end': 196}]","{'LOCATION': 0.85, 'EMAIL_ADDRESS': 0.9}","['EMAIL_ADDRESS', 'LOCATION']",['EMAIL_ADDRESS'],[],True,True,True,local_pii,strong_pii_detected,False,ollama,ollama_local,qwen2.5,False,,0,0,0,0,0,0.0,False,True,True,20260908_105246,rule_plus_ollama,ollama,llm,qwen2.5,pii_review_v1,llm,False,True,false_positive,False,contains_personal_data,predicted_pii
+DOC-0343,supplier_onboarding_clean_0343.pdf,Supplier Onboarding,general_document,en,SharePoint,Elena Hoffmann,elena.hoffmann@bosch.example,manual,2023-04-06,2025-08-12,2026-08-10,1.7,"Supplier Onboarding (Filled)
+Purpose: Example of a completed supplier onboarding record.
+Company: Nordic Components GmbH
+Address: Hauptstr. 12, 70173 Stuttgart
+Contact: procurement@nordic-components.example
+Tax ID: DE123456789
+Certification: ISO 9001
+Risk Level: Medium
+Supplier Onboarding (Filled) - Review
+Purpose: Example of a completed supplier onboarding record.
+Reviewer: Procurement Ops
+Comments: Documents verified; banking details pending validation.
+Approval: Conditionally Approved
+Notes: Activate vendor after bank verification.
+Notes: Training results are aggregated by course and do not contain individual comments from a participant.",no,no,no,no,no,no,no,no,no,no,no,no,no,,NONE,0,0,easy,no,none,no,train,no,,,no,,,v1,Clean negative sample.,"[{'type': 'DATE_TIME', 'value': '70173', 'confidence': 0.85, 'source': 'presidio', 'start': 144, 'end': 149}, {'type': 'LOCATION', 'value': 'Stuttgart', 'confidence': 0.85, 'source': 'presidio', 'start': 150, 'end': 159}, {'type': 'EMAIL_ADDRESS', 'value': 'procurement@nordic-components.example', 'confidence': 0.9, 'source': 'custom_regex', 'start': 169, 'end': 206}]","{'DATE_TIME': 0.85, 'LOCATION': 0.85, 'EMAIL_ADDRESS': 0.9}","['DATE_TIME', 'EMAIL_ADDRESS', 'LOCATION']",['EMAIL_ADDRESS'],[],True,True,True,local_pii,strong_pii_detected,False,ollama,ollama_local,qwen2.5,False,,0,0,0,0,0,0.0,False,True,True,20260908_105246,rule_plus_ollama,ollama,llm,qwen2.5,pii_review_v1,llm,False,True,false_positive,False,contains_personal_data,predicted_pii
+DOC-0344,supplier_onboarding_clean_0344.pdf,Supplier Onboarding,general_document,en,Teams Export,Noah Becker,noah.becker@bosch.example,manual,2023-05-13,2025-10-01,2026-08-10,5.41,"Supplier Onboarding (Filled)
+Purpose: Example of a completed supplier onboarding record.
+Company: Nordic Components GmbH
+Address: Hauptstr. 12, 70173 Stuttgart
+Contact: procurement@nordic-components.example
+Tax ID: DE123456789
+Certification: ISO 9001
+Risk Level: Medium
+Supplier Onboarding (Filled) - Review
+Purpose: Example of a completed supplier onboarding record.
+Reviewer: Procurement Ops
+Comments: Documents verified; banking details pending validation.
+Approval: Conditionally Approved
+Notes: Activate vendor after bank verification.
+Notes: Role-based labels only, such as Team Lead, Facility Coordinator, Procurement Ops, or IT Service Desk.",no,no,no,no,no,no,no,no,no,no,no,no,no,,NONE,0,0,easy,no,none,no,train,no,,,no,,,v1,Clean negative sample.,"[{'type': 'DATE_TIME', 'value': '70173', 'confidence': 0.85, 'source': 'presidio', 'start': 144, 'end': 149}, {'type': 'LOCATION', 'value': 'Stuttgart', 'confidence': 0.85, 'source': 'presidio', 'start': 150, 'end': 159}, {'type': 'EMAIL_ADDRESS', 'value': 'procurement@nordic-components.example', 'confidence': 0.9, 'source': 'custom_regex', 'start': 169, 'end': 206}]","{'DATE_TIME': 0.85, 'LOCATION': 0.85, 'EMAIL_ADDRESS': 0.9}","['DATE_TIME', 'EMAIL_ADDRESS', 'LOCATION']",['EMAIL_ADDRESS'],[],True,True,True,local_pii,strong_pii_detected,False,ollama,ollama_local,qwen2.5,False,,0,0,0,0,0,0.0,False,True,True,20260908_105246,rule_plus_ollama,ollama,llm,qwen2.5,pii_review_v1,llm,False,True,false_positive,False,contains_personal_data,predicted_pii
+DOC-0348,supplier_onboarding_clean_0348.pdf,Supplier Onboarding,general_document,en,Teams Export,Noah Becker,noah.becker@bosch.example,manual,2023-10-08,2023-11-01,2026-08-10,5.17,"Supplier Onboarding (Filled)
+Purpose: Example of a completed supplier onboarding record.
+Company: Alpine Services AG
+Address: Industriestr. 8, 80331 München
+Contact: vendor@alpine-services.example
+Tax ID: DE987654321
+Certification: ISO 27001
+Risk Level: Low
+Supplier Onboarding (Filled) - Review
+Purpose: Example of a completed supplier onboarding record.
+Reviewer: Vendor Management
+Comments: All compliance checks passed.
+Approval: Approved
+Notes: Eligible for standard payment terms.
+Notes: Role-based labels only, such as Team Lead, Facility Coordinator, Procurement Ops, or IT Service Desk.",no,no,no,no,no,no,no,no,no,no,no,no,no,,NONE,0,0,easy,no,none,no,train,no,,,no,,,v1,Clean negative sample.,"[{'type': 'LOCATION', 'value': 'München', 'confidence': 0.85, 'source': 'presidio', 'start': 149, 'end': 156}, {'type': 'EMAIL_ADDRESS', 'value': 'vendor@alpine-services.example', 'confidence': 0.9, 'source': 'custom_regex', 'start': 166, 'end': 196}]","{'LOCATION': 0.85, 'EMAIL_ADDRESS': 0.9}","['EMAIL_ADDRESS', 'LOCATION']",['EMAIL_ADDRESS'],[],True,True,True,local_pii,strong_pii_detected,False,ollama,ollama_local,qwen2.5,False,,0,0,0,0,0,0.0,False,True,True,20260908_105246,rule_plus_ollama,ollama,llm,qwen2.5,pii_review_v1,llm,False,True,false_positive,False,contains_personal_data,predicted_pii
+DOC-0349,supplier_onboarding_clean_0349.pdf,Supplier Onboarding,general_document,en,HR Archive,Tom Nguyen,tom.nguyen@bosch.example,manual,2023-11-14,2023-12-21,2026-08-10,1.49,"Supplier Onboarding (Filled)
+Purpose: Example of a completed supplier onboarding record.
+Company: Alpine Services AG
+Address: Industriestr. 8, 80331 München
+Contact: vendor@alpine-services.example
+Tax ID: DE987654321
+Certification: ISO 27001
+Risk Level: Low
+Supplier Onboarding (Filled) - Review
+Purpose: Example of a completed supplier onboarding record.
+Reviewer: Vendor Management
+Comments: All compliance checks passed.
+Approval: Approved
+Notes: Eligible for standard payment terms.
+Notes: Training results are aggregated by course and do not contain individual comments from a participant.",no,no,no,no,no,no,no,no,no,no,no,no,no,,NONE,0,0,easy,no,none,no,train,no,,,no,,,v1,Clean negative sample.,"[{'type': 'LOCATION', 'value': 'München', 'confidence': 0.85, 'source': 'presidio', 'start': 149, 'end': 156}, {'type': 'EMAIL_ADDRESS', 'value': 'vendor@alpine-services.example', 'confidence': 0.9, 'source': 'custom_regex', 'start': 166, 'end': 196}]","{'LOCATION': 0.85, 'EMAIL_ADDRESS': 0.9}","['EMAIL_ADDRESS', 'LOCATION']",['EMAIL_ADDRESS'],[],True,True,True,local_pii,strong_pii_detected,False,ollama,ollama_local,qwen2.5,False,,0,0,0,0,0,0.0,False,True,True,20260908_105246,rule_plus_ollama,ollama,llm,qwen2.5,pii_review_v1,llm,False,True,false_positive,False,contains_personal_data,predicted_pii
+DOC-0351,supplier_onboarding_clean_0351.pdf,Supplier Onboarding,general_document,en,SharePoint,Lukas Weber,lukas.weber@bosch.example,manual,2024-01-27,2024-03-30,2026-08-10,7.16,"Supplier Onboarding (Filled)
+Purpose: Example of a completed supplier onboarding record.
+Company: Nordic Components GmbH
+Address: Hauptstr. 12, 70173 Stuttgart
+Contact: procurement@nordic-components.example
+Tax ID: DE123456789
+Certification: ISO 9001
+Risk Level: Medium
+Supplier Onboarding (Filled) - Review
+Purpose: Example of a completed supplier onboarding record.
+Reviewer: Procurement Ops
+Comments: Documents verified; banking details pending validation.
+Approval: Conditionally Approved
+Notes: Activate vendor after bank verification.
+Notes: Address is a supplier company location, not a home, billing, or shipping address for a person.",no,no,no,no,no,no,no,no,no,no,no,no,no,,NONE,0,0,hard,yes,vat_number,no,train,no,,,no,,,v1,Negative edge case: looks sensitive but should be no personal data.,"[{'type': 'DATE_TIME', 'value': '70173', 'confidence': 0.85, 'source': 'presidio', 'start': 144, 'end': 149}, {'type': 'LOCATION', 'value': 'Stuttgart', 'confidence': 0.85, 'source': 'presidio', 'start': 150, 'end': 159}, {'type': 'EMAIL_ADDRESS', 'value': 'procurement@nordic-components.example', 'confidence': 0.9, 'source': 'custom_regex', 'start': 169, 'end': 206}]","{'DATE_TIME': 0.85, 'LOCATION': 0.85, 'EMAIL_ADDRESS': 0.9}","['DATE_TIME', 'EMAIL_ADDRESS', 'LOCATION']",['EMAIL_ADDRESS'],[],True,True,True,local_pii,strong_pii_detected,False,ollama,ollama_local,qwen2.5,False,,0,0,0,0,0,0.0,False,True,True,20260908_105246,rule_plus_ollama,ollama,llm,qwen2.5,pii_review_v1,llm,False,True,false_positive,False,contains_personal_data,predicted_pii
+DOC-0352,supplier_onboarding_clean_0352.pdf,Supplier Onboarding,general_document,en,Teams Export,Anna Keller,anna.keller@bosch.example,manual,2024-03-04,2024-05-19,2026-08-10,2.91,"Supplier Onboarding (Filled)
+Purpose: Example of a completed supplier onboarding record.
+Company: Nordic Components GmbH
+Address: Hauptstr. 12, 70173 Stuttgart
+Contact: procurement@nordic-components.example
+Tax ID: DE123456789
+Certification: ISO 9001
+Risk Level: Medium
+Supplier Onboarding (Filled) - Review
+Purpose: Example of a completed supplier onboarding record.
+Reviewer: Procurement Ops
+Comments: Documents verified; banking details pending validation.
+Approval: Conditionally Approved
+Notes: Activate vendor after bank verification.
+Notes: Blank template fields remain underscores only, matching the unfilled PDF examples.",no,no,no,no,no,no,no,no,no,no,no,no,no,,NONE,0,0,easy,no,none,no,train,no,,,no,,,v1,Clean negative sample.,"[{'type': 'DATE_TIME', 'value': '70173', 'confidence': 0.85, 'source': 'presidio', 'start': 144, 'end': 149}, {'type': 'LOCATION', 'value': 'Stuttgart', 'confidence': 0.85, 'source': 'presidio', 'start': 150, 'end': 159}, {'type': 'EMAIL_ADDRESS', 'value': 'procurement@nordic-components.example', 'confidence': 0.9, 'source': 'custom_regex', 'start': 169, 'end': 206}]","{'DATE_TIME': 0.85, 'LOCATION': 0.85, 'EMAIL_ADDRESS': 0.9}","['DATE_TIME', 'EMAIL_ADDRESS', 'LOCATION']",['EMAIL_ADDRESS'],[],True,True,True,local_pii,strong_pii_detected,False,ollama,ollama_local,qwen2.5,False,,0,0,0,0,0,0.0,False,True,True,20260908_105246,rule_plus_ollama,ollama,llm,qwen2.5,pii_review_v1,llm,False,True,false_positive,False,contains_personal_data,predicted_pii
+DOC-0353,supplier_onboarding_clean_0353.pdf,Supplier Onboarding,general_document,en,HR Archive,Anna Keller,anna.keller@bosch.example,manual,2024-04-10,2024-07-08,2026-08-10,4.91,"Supplier Onboarding (Filled)
+Purpose: Example of a completed supplier onboarding record.
+Company: Alpine Services AG
+Address: Industriestr. 8, 80331 München
+Contact: vendor@alpine-services.example
+Tax ID: DE987654321
+Certification: ISO 27001
+Risk Level: Low
+Supplier Onboarding (Filled) - Review
+Purpose: Example of a completed supplier onboarding record.
+Reviewer: Vendor Management
+Comments: All compliance checks passed.
+Approval: Approved
+Notes: Eligible for standard payment terms.
+Notes: Blank template fields remain underscores only, matching the unfilled PDF examples.",no,no,no,no,no,no,no,no,no,no,no,no,no,,NONE,0,0,easy,no,none,no,train,no,,,no,,,v1,Clean negative sample.,"[{'type': 'LOCATION', 'value': 'München', 'confidence': 0.85, 'source': 'presidio', 'start': 149, 'end': 156}, {'type': 'EMAIL_ADDRESS', 'value': 'vendor@alpine-services.example', 'confidence': 0.9, 'source': 'custom_regex', 'start': 166, 'end': 196}]","{'LOCATION': 0.85, 'EMAIL_ADDRESS': 0.9}","['EMAIL_ADDRESS', 'LOCATION']",['EMAIL_ADDRESS'],[],True,True,True,local_pii,strong_pii_detected,False,ollama,ollama_local,qwen2.5,False,,0,0,0,0,0,0.0,False,True,True,20260908_105246,rule_plus_ollama,ollama,llm,qwen2.5,pii_review_v1,llm,False,True,false_positive,False,contains_personal_data,predicted_pii
+DOC-0354,supplier_onboarding_clean_0354.pdf,Supplier Onboarding,employee_record,en,OneDrive,Sofia Hartmann,sofia.hartmann@bosch.example,manual,2024-05-17,2024-08-27,2026-08-10,7.79,"Supplier Onboarding (Filled)
+Purpose: Example of a completed supplier onboarding record.
+Company: Nordic Components GmbH
+Address: Hauptstr. 12, 70173 Stuttgart
+Contact: procurement@nordic-components.example
+Tax ID: DE123456789
+Certification: ISO 9001
+Risk Level: Medium
+Supplier Onboarding (Filled) - Review
+Purpose: Example of a completed supplier onboarding record.
+Reviewer: Procurement Ops
+Comments: Documents verified; banking details pending validation.
+Approval: Conditionally Approved
+Notes: Activate vendor after bank verification.
+Notes: Department aggregate only; no named participant, employee, manager, reviewer, or contact person is included.",no,no,no,no,no,no,no,no,no,no,no,no,no,,NONE,0,0,easy,no,none,no,train,no,,,no,,,v1,Clean negative sample.,"[{'type': 'DATE_TIME', 'value': '70173', 'confidence': 0.85, 'source': 'presidio', 'start': 144, 'end': 149}, {'type': 'LOCATION', 'value': 'Stuttgart', 'confidence': 0.85, 'source': 'presidio', 'start': 150, 'end': 159}, {'type': 'EMAIL_ADDRESS', 'value': 'procurement@nordic-components.example', 'confidence': 0.9, 'source': 'custom_regex', 'start': 169, 'end': 206}]","{'DATE_TIME': 0.85, 'LOCATION': 0.85, 'EMAIL_ADDRESS': 0.9}","['DATE_TIME', 'EMAIL_ADDRESS', 'LOCATION']",['EMAIL_ADDRESS'],[],True,True,True,local_pii,strong_pii_detected,False,ollama,ollama_local,qwen2.5,False,,0,0,0,0,0,0.0,False,True,True,20260908_105246,rule_plus_ollama,ollama,llm,qwen2.5,pii_review_v1,llm,False,True,false_positive,False,contains_personal_data,predicted_pii
+DOC-0355,supplier_onboarding_clean_0355.pdf,Supplier Onboarding,general_document,en,HR Archive,Tom Nguyen,tom.nguyen@bosch.example,manual,2024-06-23,2024-10-16,2026-08-10,3.58,"Supplier Onboarding (Filled)
+Purpose: Example of a completed supplier onboarding record.
+Company: Nordic Components GmbH
+Address: Hauptstr. 12, 70173 Stuttgart
+Contact: procurement@nordic-components.example
+Tax ID: DE123456789
+Certification: ISO 9001
+Risk Level: Medium
+Supplier Onboarding (Filled) - Review
+Purpose: Example of a completed supplier onboarding record.
+Reviewer: Procurement Ops
+Comments: Documents verified; banking details pending validation.
+Approval: Conditionally Approved
+Notes: Activate vendor after bank verification.
+Notes: Supplier company contact is a generic mailbox and business address, not an individual person's details.",no,no,no,no,no,no,no,no,no,no,no,no,no,,NONE,0,0,easy,no,none,no,train,no,,,no,,,v1,Clean negative sample.,"[{'type': 'DATE_TIME', 'value': '70173', 'confidence': 0.85, 'source': 'presidio', 'start': 144, 'end': 149}, {'type': 'LOCATION', 'value': 'Stuttgart', 'confidence': 0.85, 'source': 'presidio', 'start': 150, 'end': 159}, {'type': 'EMAIL_ADDRESS', 'value': 'procurement@nordic-components.example', 'confidence': 0.9, 'source': 'custom_regex', 'start': 169, 'end': 206}]","{'DATE_TIME': 0.85, 'LOCATION': 0.85, 'EMAIL_ADDRESS': 0.9}","['DATE_TIME', 'EMAIL_ADDRESS', 'LOCATION']",['EMAIL_ADDRESS'],[],True,True,True,local_pii,strong_pii_detected,False,ollama,ollama_local,qwen2.5,False,,0,0,0,0,0,0.0,False,True,True,20260908_105246,rule_plus_ollama,ollama,llm,qwen2.5,pii_review_v1,llm,False,True,false_positive,False,contains_personal_data,predicted_pii
+DOC-0356,supplier_onboarding_clean_0356.pdf,Supplier Onboarding,general_document,en,Teams Export,Maria Schmidt,maria.schmidt@bosch.example,manual,2024-07-30,2024-12-05,2026-08-10,7.27,"Supplier Onboarding (Filled)
+Purpose: Example of a completed supplier onboarding record.
+Company: Nordic Components GmbH
+Address: Hauptstr. 12, 70173 Stuttgart
+Contact: procurement@nordic-components.example
+Tax ID: DE123456789
+Certification: ISO 9001
+Risk Level: Medium
+Supplier Onboarding (Filled) - Review
+Purpose: Example of a completed supplier onboarding record.
+Reviewer: Procurement Ops
+Comments: Documents verified; banking details pending validation.
+Approval: Conditionally Approved
+Notes: Activate vendor after bank verification.
+Notes: Blank template fields remain underscores only, matching the unfilled PDF examples.",no,no,no,no,no,no,no,no,no,no,no,no,no,,NONE,0,0,easy,no,none,no,train,no,,,no,,,v1,Clean negative sample.,"[{'type': 'DATE_TIME', 'value': '70173', 'confidence': 0.85, 'source': 'presidio', 'start': 144, 'end': 149}, {'type': 'LOCATION', 'value': 'Stuttgart', 'confidence': 0.85, 'source': 'presidio', 'start': 150, 'end': 159}, {'type': 'EMAIL_ADDRESS', 'value': 'procurement@nordic-components.example', 'confidence': 0.9, 'source': 'custom_regex', 'start': 169, 'end': 206}]","{'DATE_TIME': 0.85, 'LOCATION': 0.85, 'EMAIL_ADDRESS': 0.9}","['DATE_TIME', 'EMAIL_ADDRESS', 'LOCATION']",['EMAIL_ADDRESS'],[],True,True,True,local_pii,strong_pii_detected,False,ollama,ollama_local,qwen2.5,False,,0,0,0,0,0,0.0,False,True,True,20260908_105246,rule_plus_ollama,ollama,llm,qwen2.5,pii_review_v1,llm,False,True,false_positive,False,contains_personal_data,predicted_pii
+DOC-0357,supplier_onboarding_clean_0357.pdf,Supplier Onboarding,general_document,en,Shared Drive,Jonas Fischer,jonas.fischer@bosch.example,manual,2024-09-05,2025-01-24,2026-08-10,1.09,"Supplier Onboarding (Filled)
+Purpose: Example of a completed supplier onboarding record.
+Company: Nordic Components GmbH
+Address: Hauptstr. 12, 70173 Stuttgart
+Contact: procurement@nordic-components.example
+Tax ID: DE123456789
+Certification: ISO 9001
+Risk Level: Medium
+Supplier Onboarding (Filled) - Review
+Purpose: Example of a completed supplier onboarding record.
+Reviewer: Procurement Ops
+Comments: Documents verified; banking details pending validation.
+Approval: Conditionally Approved
+Notes: Activate vendor after bank verification.
+Notes: Role-based labels only, such as Team Lead, Facility Coordinator, Procurement Ops, or IT Service Desk.",no,no,no,no,no,no,no,no,no,no,no,no,no,,NONE,0,0,easy,no,none,no,train,no,,,no,,,v1,Clean negative sample.,"[{'type': 'DATE_TIME', 'value': '70173', 'confidence': 0.85, 'source': 'presidio', 'start': 144, 'end': 149}, {'type': 'LOCATION', 'value': 'Stuttgart', 'confidence': 0.85, 'source': 'presidio', 'start': 150, 'end': 159}, {'type': 'EMAIL_ADDRESS', 'value': 'procurement@nordic-components.example', 'confidence': 0.9, 'source': 'custom_regex', 'start': 169, 'end': 206}]","{'DATE_TIME': 0.85, 'LOCATION': 0.85, 'EMAIL_ADDRESS': 0.9}","['DATE_TIME', 'EMAIL_ADDRESS', 'LOCATION']",['EMAIL_ADDRESS'],[],True,True,True,local_pii,strong_pii_detected,False,ollama,ollama_local,qwen2.5,False,,0,0,0,0,0,0.0,False,True,True,20260908_105246,rule_plus_ollama,ollama,llm,qwen2.5,pii_review_v1,llm,False,True,false_positive,False,contains_personal_data,predicted_pii
+DOC-0358,supplier_onboarding_clean_0358.pdf,Supplier Onboarding,general_document,en,Teams Export,Priya Nair,priya.nair@bosch.example,manual,2024-10-12,2025-03-15,2026-08-10,5.66,"Supplier Onboarding (Filled)
+Purpose: Example of a completed supplier onboarding record.
+Company: Nordic Components GmbH
+Address: Hauptstr. 12, 70173 Stuttgart
+Contact: procurement@nordic-components.example
+Tax ID: DE123456789
+Certification: ISO 9001
+Risk Level: Medium
+Supplier Onboarding (Filled) - Review
+Purpose: Example of a completed supplier onboarding record.
+Reviewer: Procurement Ops
+Comments: Documents verified; banking details pending validation.
+Approval: Conditionally Approved
+Notes: Activate vendor after bank verification.
+Notes: Role-based labels only, such as Team Lead, Facility Coordinator, Procurement Ops, or IT Service Desk.",no,no,no,no,no,no,no,no,no,no,no,no,no,,NONE,0,0,easy,no,none,no,train,no,,,no,,,v1,Clean negative sample.,"[{'type': 'DATE_TIME', 'value': '70173', 'confidence': 0.85, 'source': 'presidio', 'start': 144, 'end': 149}, {'type': 'LOCATION', 'value': 'Stuttgart', 'confidence': 0.85, 'source': 'presidio', 'start': 150, 'end': 159}, {'type': 'EMAIL_ADDRESS', 'value': 'procurement@nordic-components.example', 'confidence': 0.9, 'source': 'custom_regex', 'start': 169, 'end': 206}]","{'DATE_TIME': 0.85, 'LOCATION': 0.85, 'EMAIL_ADDRESS': 0.9}","['DATE_TIME', 'EMAIL_ADDRESS', 'LOCATION']",['EMAIL_ADDRESS'],[],True,True,True,local_pii,strong_pii_detected,False,ollama,ollama_local,qwen2.5,False,,0,0,0,0,0,0.0,False,True,True,20260908_105246,rule_plus_ollama,ollama,llm,qwen2.5,pii_review_v1,llm,False,True,false_positive,False,contains_personal_data,predicted_pii
+DOC-0360,supplier_onboarding_clean_0360.pdf,Supplier Onboarding,general_document,en,SharePoint,Maria Schmidt,maria.schmidt@bosch.example,manual,2024-12-25,2025-06-23,2026-08-10,6.72,"Supplier Onboarding (Filled)
+Purpose: Example of a completed supplier onboarding record.
+Company: Nordic Components GmbH
+Address: Hauptstr. 12, 70173 Stuttgart
+Contact: procurement@nordic-components.example
+Tax ID: DE123456789
+Certification: ISO 9001
+Risk Level: Medium
+Supplier Onboarding (Filled) - Review
+Purpose: Example of a completed supplier onboarding record.
+Reviewer: Procurement Ops
+Comments: Documents verified; banking details pending validation.
+Approval: Conditionally Approved
+Notes: Activate vendor after bank verification.
+Notes: Blank template fields remain underscores only, matching the unfilled PDF examples.",no,no,no,no,no,no,no,no,no,no,no,no,no,,NONE,0,0,easy,no,none,no,train,no,,,no,,,v1,Clean negative sample.,"[{'type': 'DATE_TIME', 'value': '70173', 'confidence': 0.85, 'source': 'presidio', 'start': 144, 'end': 149}, {'type': 'LOCATION', 'value': 'Stuttgart', 'confidence': 0.85, 'source': 'presidio', 'start': 150, 'end': 159}, {'type': 'EMAIL_ADDRESS', 'value': 'procurement@nordic-components.example', 'confidence': 0.9, 'source': 'custom_regex', 'start': 169, 'end': 206}]","{'DATE_TIME': 0.85, 'LOCATION': 0.85, 'EMAIL_ADDRESS': 0.9}","['DATE_TIME', 'EMAIL_ADDRESS', 'LOCATION']",['EMAIL_ADDRESS'],[],True,True,True,local_pii,strong_pii_detected,False,ollama,ollama_local,qwen2.5,False,,0,0,0,0,0,0.0,False,True,True,20260908_105246,rule_plus_ollama,ollama,llm,qwen2.5,pii_review_v1,llm,False,True,false_positive,False,contains_personal_data,predicted_pii
+DOC-0361,supplier_onboarding_clean_0361.pdf,Supplier Onboarding,general_document,en,Teams Export,Priya Nair,priya.nair@bosch.example,manual,2025-01-31,2025-08-12,2026-08-10,6.49,"Supplier Onboarding (Filled)
+Purpose: Example of a completed supplier onboarding record.
+Company: Nordic Components GmbH
+Address: Hauptstr. 12, 70173 Stuttgart
+Contact: procurement@nordic-components.example
+Tax ID: DE123456789
+Certification: ISO 9001
+Risk Level: Medium
+Supplier Onboarding (Filled) - Review
+Purpose: Example of a completed supplier onboarding record.
+Reviewer: Procurement Ops
+Comments: Documents verified; banking details pending validation.
+Approval: Conditionally Approved
+Notes: Activate vendor after bank verification.
+Notes: Blank template fields remain underscores only, matching the unfilled PDF examples.",no,no,no,no,no,no,no,no,no,no,no,no,no,,NONE,0,0,easy,no,none,no,train,no,,,no,,,v1,Clean negative sample.,"[{'type': 'DATE_TIME', 'value': '70173', 'confidence': 0.85, 'source': 'presidio', 'start': 144, 'end': 149}, {'type': 'LOCATION', 'value': 'Stuttgart', 'confidence': 0.85, 'source': 'presidio', 'start': 150, 'end': 159}, {'type': 'EMAIL_ADDRESS', 'value': 'procurement@nordic-components.example', 'confidence': 0.9, 'source': 'custom_regex', 'start': 169, 'end': 206}]","{'DATE_TIME': 0.85, 'LOCATION': 0.85, 'EMAIL_ADDRESS': 0.9}","['DATE_TIME', 'EMAIL_ADDRESS', 'LOCATION']",['EMAIL_ADDRESS'],[],True,True,True,local_pii,strong_pii_detected,False,ollama,ollama_local,qwen2.5,False,,0,0,0,0,0,0.0,False,True,True,20260908_105246,rule_plus_ollama,ollama,llm,qwen2.5,pii_review_v1,llm,False,True,false_positive,False,contains_personal_data,predicted_pii
+DOC-0362,supplier_onboarding_clean_0362.pdf,Supplier Onboarding,employee_record,en,OneDrive,Sofia Hartmann,sofia.hartmann@bosch.example,manual,2025-03-09,2025-10-01,2026-08-10,2.49,"Supplier Onboarding (Filled)
+Purpose: Example of a completed supplier onboarding record.
+Company: Nordic Components GmbH
+Address: Hauptstr. 12, 70173 Stuttgart
+Contact: procurement@nordic-components.example
+Tax ID: DE123456789
+Certification: ISO 9001
+Risk Level: Medium
+Supplier Onboarding (Filled) - Review
+Purpose: Example of a completed supplier onboarding record.
+Reviewer: Procurement Ops
+Comments: Documents verified; banking details pending validation.
+Approval: Conditionally Approved
+Notes: Activate vendor after bank verification.
+Notes: Department aggregate only; no named participant, employee, manager, reviewer, or contact person is included.",no,no,no,no,no,no,no,no,no,no,no,no,no,,NONE,0,0,easy,no,none,no,train,no,,,no,,,v1,Clean negative sample.,"[{'type': 'DATE_TIME', 'value': '70173', 'confidence': 0.85, 'source': 'presidio', 'start': 144, 'end': 149}, {'type': 'LOCATION', 'value': 'Stuttgart', 'confidence': 0.85, 'source': 'presidio', 'start': 150, 'end': 159}, {'type': 'EMAIL_ADDRESS', 'value': 'procurement@nordic-components.example', 'confidence': 0.9, 'source': 'custom_regex', 'start': 169, 'end': 206}]","{'DATE_TIME': 0.85, 'LOCATION': 0.85, 'EMAIL_ADDRESS': 0.9}","['DATE_TIME', 'EMAIL_ADDRESS', 'LOCATION']",['EMAIL_ADDRESS'],[],True,True,True,local_pii,strong_pii_detected,False,ollama,ollama_local,qwen2.5,False,,0,0,0,0,0,0.0,False,True,True,20260908_105246,rule_plus_ollama,ollama,llm,qwen2.5,pii_review_v1,llm,False,True,false_positive,False,contains_personal_data,predicted_pii
+DOC-0363,supplier_onboarding_clean_0363.pdf,Supplier Onboarding,general_document,en,SharePoint,Tom Nguyen,tom.nguyen@bosch.example,manual,2025-04-15,2025-11-20,2026-08-10,0.88,"Supplier Onboarding (Filled)
+Purpose: Example of a completed supplier onboarding record.
+Company: Alpine Services AG
+Address: Industriestr. 8, 80331 München
+Contact: vendor@alpine-services.example
+Tax ID: DE987654321
+Certification: ISO 27001
+Risk Level: Low
+Supplier Onboarding (Filled) - Review
+Purpose: Example of a completed supplier onboarding record.
+Reviewer: Vendor Management
+Comments: All compliance checks passed.
+Approval: Approved
+Notes: Eligible for standard payment terms.
+Notes: Training results are aggregated by course and do not contain individual comments from a participant.",no,no,no,no,no,no,no,no,no,no,no,no,no,,NONE,0,0,easy,no,none,no,train,no,,,no,,,v1,Clean negative sample.,"[{'type': 'LOCATION', 'value': 'München', 'confidence': 0.85, 'source': 'presidio', 'start': 149, 'end': 156}, {'type': 'EMAIL_ADDRESS', 'value': 'vendor@alpine-services.example', 'confidence': 0.9, 'source': 'custom_regex', 'start': 166, 'end': 196}]","{'LOCATION': 0.85, 'EMAIL_ADDRESS': 0.9}","['EMAIL_ADDRESS', 'LOCATION']",['EMAIL_ADDRESS'],[],True,True,True,local_pii,strong_pii_detected,False,ollama,ollama_local,qwen2.5,False,,0,0,0,0,0,0.0,False,True,True,20260908_105246,rule_plus_ollama,ollama,llm,qwen2.5,pii_review_v1,llm,False,True,false_positive,False,contains_personal_data,predicted_pii
+DOC-0366,supplier_onboarding_clean_0366.pdf,Supplier Onboarding,general_document,en,OneDrive,Sofia Hartmann,sofia.hartmann@bosch.example,manual,2025-08-04,2026-04-19,2026-08-10,4.41,"Supplier Onboarding (Filled)
+Purpose: Example of a completed supplier onboarding record.
+Company: Nordic Components GmbH
+Address: Hauptstr. 12, 70173 Stuttgart
+Contact: procurement@nordic-components.example
+Tax ID: DE123456789
+Certification: ISO 9001
+Risk Level: Medium
+Supplier Onboarding (Filled) - Review
+Purpose: Example of a completed supplier onboarding record.
+Reviewer: Procurement Ops
+Comments: Documents verified; banking details pending validation.
+Approval: Conditionally Approved
+Notes: Activate vendor after bank verification.
+Notes: Training results are aggregated by course and do not contain individual comments from a participant.",no,no,no,no,no,no,no,no,no,no,no,no,no,,NONE,0,0,easy,no,none,no,train,no,,,no,,,v1,Clean negative sample.,"[{'type': 'DATE_TIME', 'value': '70173', 'confidence': 0.85, 'source': 'presidio', 'start': 144, 'end': 149}, {'type': 'LOCATION', 'value': 'Stuttgart', 'confidence': 0.85, 'source': 'presidio', 'start': 150, 'end': 159}, {'type': 'EMAIL_ADDRESS', 'value': 'procurement@nordic-components.example', 'confidence': 0.9, 'source': 'custom_regex', 'start': 169, 'end': 206}]","{'DATE_TIME': 0.85, 'LOCATION': 0.85, 'EMAIL_ADDRESS': 0.9}","['DATE_TIME', 'EMAIL_ADDRESS', 'LOCATION']",['EMAIL_ADDRESS'],[],True,True,True,local_pii,strong_pii_detected,False,ollama,ollama_local,qwen2.5,False,,0,0,0,0,0,0.0,False,True,True,20260908_105246,rule_plus_ollama,ollama,llm,qwen2.5,pii_review_v1,llm,False,True,false_positive,False,contains_personal_data,predicted_pii
+DOC-0367,supplier_onboarding_clean_0367.pdf,Supplier Onboarding,general_document,en,OneDrive,Maria Schmidt,maria.schmidt@bosch.example,manual,2025-09-10,2026-06-08,2026-08-10,0.25,"Supplier Onboarding (Filled)
+Purpose: Example of a completed supplier onboarding record.
+Company: Nordic Components GmbH
+Address: Hauptstr. 12, 70173 Stuttgart
+Contact: procurement@nordic-components.example
+Tax ID: DE123456789
+Certification: ISO 9001
+Risk Level: Medium
+Supplier Onboarding (Filled) - Review
+Purpose: Example of a completed supplier onboarding record.
+Reviewer: Procurement Ops
+Comments: Documents verified; banking details pending validation.
+Approval: Conditionally Approved
+Notes: Activate vendor after bank verification.
+Notes: Supplier company contact is a generic mailbox and business address, not an individual person's details.",no,no,no,no,no,no,no,no,no,no,no,no,no,,NONE,0,0,easy,no,none,no,train,no,,,no,,,v1,Clean negative sample.,"[{'type': 'DATE_TIME', 'value': '70173', 'confidence': 0.85, 'source': 'presidio', 'start': 144, 'end': 149}, {'type': 'LOCATION', 'value': 'Stuttgart', 'confidence': 0.85, 'source': 'presidio', 'start': 150, 'end': 159}, {'type': 'EMAIL_ADDRESS', 'value': 'procurement@nordic-components.example', 'confidence': 0.9, 'source': 'custom_regex', 'start': 169, 'end': 206}]","{'DATE_TIME': 0.85, 'LOCATION': 0.85, 'EMAIL_ADDRESS': 0.9}","['DATE_TIME', 'EMAIL_ADDRESS', 'LOCATION']",['EMAIL_ADDRESS'],[],True,True,True,local_pii,strong_pii_detected,False,ollama,ollama_local,qwen2.5,False,,0,0,0,0,0,0.0,False,True,True,20260908_105246,rule_plus_ollama,ollama,llm,qwen2.5,pii_review_v1,llm,False,True,false_positive,False,contains_personal_data,predicted_pii
+DOC-0369,supplier_onboarding_clean_0369.pdf,Supplier Onboarding,general_document,en,SharePoint,Max Wagner,max.wagner@bosch.example,manual,2025-11-23,2026-09-16,2026-08-10,3.06,"Supplier Onboarding (Filled)
+Purpose: Example of a completed supplier onboarding record.
+Company: Nordic Components GmbH
+Address: Hauptstr. 12, 70173 Stuttgart
+Contact: procurement@nordic-components.example
+Tax ID: DE123456789
+Certification: ISO 9001
+Risk Level: Medium
+Supplier Onboarding (Filled) - Review
+Purpose: Example of a completed supplier onboarding record.
+Reviewer: Procurement Ops
+Comments: Documents verified; banking details pending validation.
+Approval: Conditionally Approved
+Notes: Activate vendor after bank verification.
+Notes: Supplier company contact is a generic mailbox and business address, not an individual person's details.",no,no,no,no,no,no,no,no,no,no,no,no,no,,NONE,0,0,easy,no,none,no,train,no,,,no,,,v1,Clean negative sample.,"[{'type': 'DATE_TIME', 'value': '70173', 'confidence': 0.85, 'source': 'presidio', 'start': 144, 'end': 149}, {'type': 'LOCATION', 'value': 'Stuttgart', 'confidence': 0.85, 'source': 'presidio', 'start': 150, 'end': 159}, {'type': 'EMAIL_ADDRESS', 'value': 'procurement@nordic-components.example', 'confidence': 0.9, 'source': 'custom_regex', 'start': 169, 'end': 206}]","{'DATE_TIME': 0.85, 'LOCATION': 0.85, 'EMAIL_ADDRESS': 0.9}","['DATE_TIME', 'EMAIL_ADDRESS', 'LOCATION']",['EMAIL_ADDRESS'],[],True,True,True,local_pii,strong_pii_detected,False,ollama,ollama_local,qwen2.5,False,,0,0,0,0,0,0.0,False,True,True,20260908_105246,rule_plus_ollama,ollama,llm,qwen2.5,pii_review_v1,llm,False,True,false_positive,False,contains_personal_data,predicted_pii
+DOC-0370,supplier_onboarding_clean_0370.pdf,Supplier Onboarding,general_document,en,HR Archive,Max Wagner,max.wagner@bosch.example,manual,2025-12-30,2026-11-05,2026-08-10,4.86,"Supplier Onboarding (Filled)
+Purpose: Example of a completed supplier onboarding record.
+Company: Alpine Services AG
+Address: Industriestr. 8, 80331 München
+Contact: vendor@alpine-services.example
+Tax ID: DE987654321
+Certification: ISO 27001
+Risk Level: Low
+Supplier Onboarding (Filled) - Review
+Purpose: Example of a completed supplier onboarding record.
+Reviewer: Vendor Management
+Comments: All compliance checks passed.
+Approval: Approved
+Notes: Eligible for standard payment terms.
+Notes: Role-based labels only, such as Team Lead, Facility Coordinator, Procurement Ops, or IT Service Desk.",no,no,no,no,no,no,no,no,no,no,no,no,no,,NONE,0,0,easy,no,none,no,train,no,,,no,,,v1,Clean negative sample.,"[{'type': 'LOCATION', 'value': 'München', 'confidence': 0.85, 'source': 'presidio', 'start': 149, 'end': 156}, {'type': 'EMAIL_ADDRESS', 'value': 'vendor@alpine-services.example', 'confidence': 0.9, 'source': 'custom_regex', 'start': 166, 'end': 196}]","{'LOCATION': 0.85, 'EMAIL_ADDRESS': 0.9}","['EMAIL_ADDRESS', 'LOCATION']",['EMAIL_ADDRESS'],[],True,True,True,local_pii,strong_pii_detected,False,ollama,ollama_local,qwen2.5,False,,0,0,0,0,0,0.0,False,True,True,20260908_105246,rule_plus_ollama,ollama,llm,qwen2.5,pii_review_v1,llm,False,True,false_positive,False,contains_personal_data,predicted_pii
+DOC-0373,supplier_onboarding_clean_0373.pdf,Supplier Onboarding,general_document,en,Shared Drive,Priya Nair,priya.nair@bosch.example,manual,2020-01-02,2020-12-16,2026-08-10,3.55,"Supplier Onboarding (Filled)
+Purpose: Example of a completed supplier onboarding record.
+Company: Nordic Components GmbH
+Address: Hauptstr. 12, 70173 Stuttgart
+Contact: procurement@nordic-components.example
+Tax ID: DE123456789
+Certification: ISO 9001
+Risk Level: Medium
+Supplier Onboarding (Filled) - Review
+Purpose: Example of a completed supplier onboarding record.
+Reviewer: Procurement Ops
+Comments: Documents verified; banking details pending validation.
+Approval: Conditionally Approved
+Notes: Activate vendor after bank verification.
+Notes: Training results are aggregated by course and do not contain individual comments from a participant.",no,no,no,no,no,no,no,no,no,no,no,no,no,,NONE,0,0,easy,no,none,yes,validation,no,,,no,,,v1,Clean negative sample.,"[{'type': 'DATE_TIME', 'value': '70173', 'confidence': 0.85, 'source': 'presidio', 'start': 144, 'end': 149}, {'type': 'LOCATION', 'value': 'Stuttgart', 'confidence': 0.85, 'source': 'presidio', 'start': 150, 'end': 159}, {'type': 'EMAIL_ADDRESS', 'value': 'procurement@nordic-components.example', 'confidence': 0.9, 'source': 'custom_regex', 'start': 169, 'end': 206}]","{'DATE_TIME': 0.85, 'LOCATION': 0.85, 'EMAIL_ADDRESS': 0.9}","['DATE_TIME', 'EMAIL_ADDRESS', 'LOCATION']",['EMAIL_ADDRESS'],[],True,True,True,local_pii,strong_pii_detected,False,ollama,ollama_local,qwen2.5,False,,0,0,0,0,0,0.0,False,True,True,20260908_105246,rule_plus_ollama,ollama,llm,qwen2.5,pii_review_v1,llm,False,True,false_positive,False,contains_personal_data,predicted_pii
+DOC-0374,supplier_onboarding_clean_0374.pdf,Supplier Onboarding,general_document,en,HR Archive,Maria Schmidt,maria.schmidt@bosch.example,manual,2020-02-08,2021-02-04,2026-08-10,2.44,"Supplier Onboarding (Filled)
+Purpose: Example of a completed supplier onboarding record.
+Company: Alpine Services AG
+Address: Industriestr. 8, 80331 München
+Contact: vendor@alpine-services.example
+Tax ID: DE987654321
+Certification: ISO 27001
+Risk Level: Low
+Supplier Onboarding (Filled) - Review
+Purpose: Example of a completed supplier onboarding record.
+Reviewer: Vendor Management
+Comments: All compliance checks passed.
+Approval: Approved
+Notes: Eligible for standard payment terms.
+Notes: Role-based labels only, such as Team Lead, Facility Coordinator, Procurement Ops, or IT Service Desk.",no,no,no,no,no,no,no,no,no,no,no,no,no,,NONE,0,0,easy,no,none,yes,validation,no,,,no,,,v1,Clean negative sample.,"[{'type': 'LOCATION', 'value': 'München', 'confidence': 0.85, 'source': 'presidio', 'start': 149, 'end': 156}, {'type': 'EMAIL_ADDRESS', 'value': 'vendor@alpine-services.example', 'confidence': 0.9, 'source': 'custom_regex', 'start': 166, 'end': 196}]","{'LOCATION': 0.85, 'EMAIL_ADDRESS': 0.9}","['EMAIL_ADDRESS', 'LOCATION']",['EMAIL_ADDRESS'],[],True,True,True,local_pii,strong_pii_detected,False,ollama,ollama_local,qwen2.5,False,,0,0,0,0,0,0.0,False,True,True,20260908_105246,rule_plus_ollama,ollama,llm,qwen2.5,pii_review_v1,llm,False,True,false_positive,False,contains_personal_data,predicted_pii
+DOC-0375,supplier_onboarding_clean_0375.pdf,Supplier Onboarding,general_document,en,SharePoint,Priya Nair,priya.nair@bosch.example,manual,2020-03-16,2021-03-26,2026-08-10,6.08,"Supplier Onboarding (Filled)
+Purpose: Example of a completed supplier onboarding record.
+Company: Alpine Services AG
+Address: Industriestr. 8, 80331 München
+Contact: vendor@alpine-services.example
+Tax ID: DE987654321
+Certification: ISO 27001
+Risk Level: Low
+Supplier Onboarding (Filled) - Review
+Purpose: Example of a completed supplier onboarding record.
+Reviewer: Vendor Management
+Comments: All compliance checks passed.
+Approval: Approved
+Notes: Eligible for standard payment terms.
+Notes: Blank template fields remain underscores only, matching the unfilled PDF examples.",no,no,no,no,no,no,no,no,no,no,no,no,no,,NONE,0,0,easy,no,none,yes,validation,no,,,no,,,v1,Clean negative sample.,"[{'type': 'LOCATION', 'value': 'München', 'confidence': 0.85, 'source': 'presidio', 'start': 149, 'end': 156}, {'type': 'EMAIL_ADDRESS', 'value': 'vendor@alpine-services.example', 'confidence': 0.9, 'source': 'custom_regex', 'start': 166, 'end': 196}]","{'LOCATION': 0.85, 'EMAIL_ADDRESS': 0.9}","['EMAIL_ADDRESS', 'LOCATION']",['EMAIL_ADDRESS'],[],True,True,True,local_pii,strong_pii_detected,False,ollama,ollama_local,qwen2.5,False,,0,0,0,0,0,0.0,False,True,True,20260908_105246,rule_plus_ollama,ollama,llm,qwen2.5,pii_review_v1,llm,False,True,false_positive,False,contains_personal_data,predicted_pii
+DOC-0376,supplier_onboarding_clean_0376.pdf,Supplier Onboarding,employee_record,en,Shared Drive,Jonas Fischer,jonas.fischer@bosch.example,manual,2020-04-22,2021-05-15,2026-08-10,0.96,"Supplier Onboarding (Filled)
+Purpose: Example of a completed supplier onboarding record.
+Company: Alpine Services AG
+Address: Industriestr. 8, 80331 München
+Contact: vendor@alpine-services.example
+Tax ID: DE987654321
+Certification: ISO 27001
+Risk Level: Low
+Supplier Onboarding (Filled) - Review
+Purpose: Example of a completed supplier onboarding record.
+Reviewer: Vendor Management
+Comments: All compliance checks passed.
+Approval: Approved
+Notes: Eligible for standard payment terms.
+Notes: Department aggregate only; no named participant, employee, manager, reviewer, or contact person is included.",no,no,no,no,no,no,no,no,no,no,no,no,no,,NONE,0,0,easy,no,none,yes,validation,no,,,no,,,v1,Clean negative sample.,"[{'type': 'LOCATION', 'value': 'München', 'confidence': 0.85, 'source': 'presidio', 'start': 149, 'end': 156}, {'type': 'EMAIL_ADDRESS', 'value': 'vendor@alpine-services.example', 'confidence': 0.9, 'source': 'custom_regex', 'start': 166, 'end': 196}]","{'LOCATION': 0.85, 'EMAIL_ADDRESS': 0.9}","['EMAIL_ADDRESS', 'LOCATION']",['EMAIL_ADDRESS'],[],True,True,True,local_pii,strong_pii_detected,False,ollama,ollama_local,qwen2.5,False,,0,0,0,0,0,0.0,False,True,True,20260908_105246,rule_plus_ollama,ollama,llm,qwen2.5,pii_review_v1,llm,False,True,false_positive,False,contains_personal_data,predicted_pii
+DOC-0377,supplier_onboarding_clean_0377.pdf,Supplier Onboarding,general_document,en,HR Archive,Maria Schmidt,maria.schmidt@bosch.example,manual,2020-05-29,2021-07-04,2026-08-10,5.83,"Supplier Onboarding (Filled)
+Purpose: Example of a completed supplier onboarding record.
+Company: Alpine Services AG
+Address: Industriestr. 8, 80331 München
+Contact: vendor@alpine-services.example
+Tax ID: DE987654321
+Certification: ISO 27001
+Risk Level: Low
+Supplier Onboarding (Filled) - Review
+Purpose: Example of a completed supplier onboarding record.
+Reviewer: Vendor Management
+Comments: All compliance checks passed.
+Approval: Approved
+Notes: Eligible for standard payment terms.
+Notes: Blank template fields remain underscores only, matching the unfilled PDF examples.",no,no,no,no,no,no,no,no,no,no,no,no,no,,NONE,0,0,easy,no,none,yes,validation,no,,,no,,,v1,Clean negative sample.,"[{'type': 'LOCATION', 'value': 'München', 'confidence': 0.85, 'source': 'presidio', 'start': 149, 'end': 156}, {'type': 'EMAIL_ADDRESS', 'value': 'vendor@alpine-services.example', 'confidence': 0.9, 'source': 'custom_regex', 'start': 166, 'end': 196}]","{'LOCATION': 0.85, 'EMAIL_ADDRESS': 0.9}","['EMAIL_ADDRESS', 'LOCATION']",['EMAIL_ADDRESS'],[],True,True,True,local_pii,strong_pii_detected,False,ollama,ollama_local,qwen2.5,False,,0,0,0,0,0,0.0,False,True,True,20260908_105246,rule_plus_ollama,ollama,llm,qwen2.5,pii_review_v1,llm,False,True,false_positive,False,contains_personal_data,predicted_pii
+DOC-0379,supplier_onboarding_clean_0379.pdf,Supplier Onboarding,general_document,en,OneDrive,Sofia Hartmann,sofia.hartmann@bosch.example,manual,2020-08-11,2021-10-12,2026-08-10,3.62,"Supplier Onboarding (Filled)
+Purpose: Example of a completed supplier onboarding record.
+Company: Nordic Components GmbH
+Address: Hauptstr. 12, 70173 Stuttgart
+Contact: procurement@nordic-components.example
+Tax ID: DE123456789
+Certification: ISO 9001
+Risk Level: Medium
+Supplier Onboarding (Filled) - Review
+Purpose: Example of a completed supplier onboarding record.
+Reviewer: Procurement Ops
+Comments: Documents verified; banking details pending validation.
+Approval: Conditionally Approved
+Notes: Activate vendor after bank verification.
+Notes: Role-based labels only, such as Team Lead, Facility Coordinator, Procurement Ops, or IT Service Desk.",no,no,no,no,no,no,no,no,no,no,no,no,no,,NONE,0,0,easy,no,none,yes,validation,no,,,no,,,v1,Clean negative sample.,"[{'type': 'DATE_TIME', 'value': '70173', 'confidence': 0.85, 'source': 'presidio', 'start': 144, 'end': 149}, {'type': 'LOCATION', 'value': 'Stuttgart', 'confidence': 0.85, 'source': 'presidio', 'start': 150, 'end': 159}, {'type': 'EMAIL_ADDRESS', 'value': 'procurement@nordic-components.example', 'confidence': 0.9, 'source': 'custom_regex', 'start': 169, 'end': 206}]","{'DATE_TIME': 0.85, 'LOCATION': 0.85, 'EMAIL_ADDRESS': 0.9}","['DATE_TIME', 'EMAIL_ADDRESS', 'LOCATION']",['EMAIL_ADDRESS'],[],True,True,True,local_pii,strong_pii_detected,False,ollama,ollama_local,qwen2.5,False,,0,0,0,0,0,0.0,False,True,True,20260908_105246,rule_plus_ollama,ollama,llm,qwen2.5,pii_review_v1,llm,False,True,false_positive,False,contains_personal_data,predicted_pii
+DOC-0380,supplier_onboarding_clean_0380.pdf,Supplier Onboarding,general_document,en,Shared Drive,Elena Hoffmann,elena.hoffmann@bosch.example,manual,2020-09-17,2021-12-01,2026-08-10,0.86,"Supplier Onboarding (Filled)
+Purpose: Example of a completed supplier onboarding record.
+Company: Nordic Components GmbH
+Address: Hauptstr. 12, 70173 Stuttgart
+Contact: procurement@nordic-components.example
+Tax ID: DE123456789
+Certification: ISO 9001
+Risk Level: Medium
+Supplier Onboarding (Filled) - Review
+Purpose: Example of a completed supplier onboarding record.
+Reviewer: Procurement Ops
+Comments: Documents verified; banking details pending validation.
+Approval: Conditionally Approved
+Notes: Activate vendor after bank verification.
+Notes: Blank template fields remain underscores only, matching the unfilled PDF examples.",no,no,no,no,no,no,no,no,no,no,no,no,no,,NONE,0,0,easy,no,none,yes,validation,no,,,no,,,v1,Clean negative sample.,"[{'type': 'DATE_TIME', 'value': '70173', 'confidence': 0.85, 'source': 'presidio', 'start': 144, 'end': 149}, {'type': 'LOCATION', 'value': 'Stuttgart', 'confidence': 0.85, 'source': 'presidio', 'start': 150, 'end': 159}, {'type': 'EMAIL_ADDRESS', 'value': 'procurement@nordic-components.example', 'confidence': 0.9, 'source': 'custom_regex', 'start': 169, 'end': 206}]","{'DATE_TIME': 0.85, 'LOCATION': 0.85, 'EMAIL_ADDRESS': 0.9}","['DATE_TIME', 'EMAIL_ADDRESS', 'LOCATION']",['EMAIL_ADDRESS'],[],True,True,True,local_pii,strong_pii_detected,False,ollama,ollama_local,qwen2.5,False,,0,0,0,0,0,0.0,False,True,True,20260908_105246,rule_plus_ollama,ollama,llm,qwen2.5,pii_review_v1,llm,False,True,false_positive,False,contains_personal_data,predicted_pii
+DOC-0381,supplier_onboarding_clean_0381.pdf,Supplier Onboarding,general_document,en,OneDrive,Noah Becker,noah.becker@bosch.example,manual,2020-10-24,2022-01-20,2026-08-10,1.34,"Supplier Onboarding (Filled)
+Purpose: Example of a completed supplier onboarding record.
+Company: Alpine Services AG
+Address: Industriestr. 8, 80331 München
+Contact: vendor@alpine-services.example
+Tax ID: DE987654321
+Certification: ISO 27001
+Risk Level: Low
+Supplier Onboarding (Filled) - Review
+Purpose: Example of a completed supplier onboarding record.
+Reviewer: Vendor Management
+Comments: All compliance checks passed.
+Approval: Approved
+Notes: Eligible for standard payment terms.
+Notes: Training results are aggregated by course and do not contain individual comments from a participant.",no,no,no,no,no,no,no,no,no,no,no,no,no,,NONE,0,0,easy,no,none,yes,validation,no,,,no,,,v1,Clean negative sample.,"[{'type': 'LOCATION', 'value': 'München', 'confidence': 0.85, 'source': 'presidio', 'start': 149, 'end': 156}, {'type': 'EMAIL_ADDRESS', 'value': 'vendor@alpine-services.example', 'confidence': 0.9, 'source': 'custom_regex', 'start': 166, 'end': 196}]","{'LOCATION': 0.85, 'EMAIL_ADDRESS': 0.9}","['EMAIL_ADDRESS', 'LOCATION']",['EMAIL_ADDRESS'],[],True,True,True,local_pii,strong_pii_detected,False,ollama,ollama_local,qwen2.5,False,,0,0,0,0,0,0.0,False,True,True,20260908_105246,rule_plus_ollama,ollama,llm,qwen2.5,pii_review_v1,llm,False,True,false_positive,False,contains_personal_data,predicted_pii
+DOC-0382,supplier_onboarding_clean_0382.pdf,Supplier Onboarding,general_document,en,SharePoint,Priya Nair,priya.nair@bosch.example,manual,2020-11-30,2022-03-11,2026-08-10,2.49,"Supplier Onboarding (Filled)
+Purpose: Example of a completed supplier onboarding record.
+Company: Alpine Services AG
+Address: Industriestr. 8, 80331 München
+Contact: vendor@alpine-services.example
+Tax ID: DE987654321
+Certification: ISO 27001
+Risk Level: Low
+Supplier Onboarding (Filled) - Review
+Purpose: Example of a completed supplier onboarding record.
+Reviewer: Vendor Management
+Comments: All compliance checks passed.
+Approval: Approved
+Notes: Eligible for standard payment terms.
+Notes: Supplier company contact is a generic mailbox and business address, not an individual person's details.",no,no,no,no,no,no,no,no,no,no,no,no,no,,NONE,0,0,easy,no,none,yes,validation,no,,,no,,,v1,Clean negative sample.,"[{'type': 'LOCATION', 'value': 'München', 'confidence': 0.85, 'source': 'presidio', 'start': 149, 'end': 156}, {'type': 'EMAIL_ADDRESS', 'value': 'vendor@alpine-services.example', 'confidence': 0.9, 'source': 'custom_regex', 'start': 166, 'end': 196}]","{'LOCATION': 0.85, 'EMAIL_ADDRESS': 0.9}","['EMAIL_ADDRESS', 'LOCATION']",['EMAIL_ADDRESS'],[],True,True,True,local_pii,strong_pii_detected,False,ollama,ollama_local,qwen2.5,False,,0,0,0,0,0,0.0,False,True,True,20260908_105246,rule_plus_ollama,ollama,llm,qwen2.5,pii_review_v1,llm,False,True,false_positive,False,contains_personal_data,predicted_pii
+DOC-0384,supplier_onboarding_clean_0384.pdf,Supplier Onboarding,general_document,en,OneDrive,Maria Schmidt,maria.schmidt@bosch.example,manual,2021-02-12,2022-06-19,2026-08-10,2.15,"Supplier Onboarding (Filled)
+Purpose: Example of a completed supplier onboarding record.
+Company: Nordic Components GmbH
+Address: Hauptstr. 12, 70173 Stuttgart
+Contact: procurement@nordic-components.example
+Tax ID: DE123456789
+Certification: ISO 9001
+Risk Level: Medium
+Supplier Onboarding (Filled) - Review
+Purpose: Example of a completed supplier onboarding record.
+Reviewer: Procurement Ops
+Comments: Documents verified; banking details pending validation.
+Approval: Conditionally Approved
+Notes: Activate vendor after bank verification.
+Notes: Role-based labels only, such as Team Lead, Facility Coordinator, Procurement Ops, or IT Service Desk.",no,no,no,no,no,no,no,no,no,no,no,no,no,,NONE,0,0,easy,no,none,yes,validation,no,,,no,,,v1,Clean negative sample.,"[{'type': 'DATE_TIME', 'value': '70173', 'confidence': 0.85, 'source': 'presidio', 'start': 144, 'end': 149}, {'type': 'LOCATION', 'value': 'Stuttgart', 'confidence': 0.85, 'source': 'presidio', 'start': 150, 'end': 159}, {'type': 'EMAIL_ADDRESS', 'value': 'procurement@nordic-components.example', 'confidence': 0.9, 'source': 'custom_regex', 'start': 169, 'end': 206}]","{'DATE_TIME': 0.85, 'LOCATION': 0.85, 'EMAIL_ADDRESS': 0.9}","['DATE_TIME', 'EMAIL_ADDRESS', 'LOCATION']",['EMAIL_ADDRESS'],[],True,True,True,local_pii,strong_pii_detected,False,ollama,ollama_local,qwen2.5,False,,0,0,0,0,0,0.0,False,True,True,20260908_105246,rule_plus_ollama,ollama,llm,qwen2.5,pii_review_v1,llm,False,True,false_positive,False,contains_personal_data,predicted_pii
+DOC-0386,supplier_onboarding_clean_0386.pdf,Supplier Onboarding,employee_record,en,OneDrive,Maria Schmidt,maria.schmidt@bosch.example,manual,2021-04-27,2022-09-27,2026-08-10,6.05,"Supplier Onboarding (Filled)
+Purpose: Example of a completed supplier onboarding record.
+Company: Nordic Components GmbH
+Address: Hauptstr. 12, 70173 Stuttgart
+Contact: procurement@nordic-components.example
+Tax ID: DE123456789
+Certification: ISO 9001
+Risk Level: Medium
+Supplier Onboarding (Filled) - Review
+Purpose: Example of a completed supplier onboarding record.
+Reviewer: Procurement Ops
+Comments: Documents verified; banking details pending validation.
+Approval: Conditionally Approved
+Notes: Activate vendor after bank verification.
+Notes: Department aggregate only; no named participant, employee, manager, reviewer, or contact person is included.",no,no,no,no,no,no,no,no,no,no,no,no,no,,NONE,0,0,easy,no,none,yes,test,no,,,no,,,v1,Clean negative sample.,"[{'type': 'DATE_TIME', 'value': '70173', 'confidence': 0.85, 'source': 'presidio', 'start': 144, 'end': 149}, {'type': 'LOCATION', 'value': 'Stuttgart', 'confidence': 0.85, 'source': 'presidio', 'start': 150, 'end': 159}, {'type': 'EMAIL_ADDRESS', 'value': 'procurement@nordic-components.example', 'confidence': 0.9, 'source': 'custom_regex', 'start': 169, 'end': 206}]","{'DATE_TIME': 0.85, 'LOCATION': 0.85, 'EMAIL_ADDRESS': 0.9}","['DATE_TIME', 'EMAIL_ADDRESS', 'LOCATION']",['EMAIL_ADDRESS'],[],True,True,True,local_pii,strong_pii_detected,False,ollama,ollama_local,qwen2.5,False,,0,0,0,0,0,0.0,False,True,True,20260908_105246,rule_plus_ollama,ollama,llm,qwen2.5,pii_review_v1,llm,False,True,false_positive,False,contains_personal_data,predicted_pii
+DOC-0388,supplier_onboarding_clean_0388.pdf,Supplier Onboarding,general_document,en,HR Archive,Noah Becker,noah.becker@bosch.example,manual,2021-07-10,2023-01-05,2026-08-10,5.5,"Supplier Onboarding (Filled)
+Purpose: Example of a completed supplier onboarding record.
+Company: Nordic Components GmbH
+Address: Hauptstr. 12, 70173 Stuttgart
+Contact: procurement@nordic-components.example
+Tax ID: DE123456789
+Certification: ISO 9001
+Risk Level: Medium
+Supplier Onboarding (Filled) - Review
+Purpose: Example of a completed supplier onboarding record.
+Reviewer: Procurement Ops
+Comments: Documents verified; banking details pending validation.
+Approval: Conditionally Approved
+Notes: Activate vendor after bank verification.
+Notes: Blank template fields remain underscores only, matching the unfilled PDF examples.",no,no,no,no,no,no,no,no,no,no,no,no,no,,NONE,0,0,easy,no,none,yes,test,no,,,no,,,v1,Clean negative sample.,"[{'type': 'DATE_TIME', 'value': '70173', 'confidence': 0.85, 'source': 'presidio', 'start': 144, 'end': 149}, {'type': 'LOCATION', 'value': 'Stuttgart', 'confidence': 0.85, 'source': 'presidio', 'start': 150, 'end': 159}, {'type': 'EMAIL_ADDRESS', 'value': 'procurement@nordic-components.example', 'confidence': 0.9, 'source': 'custom_regex', 'start': 169, 'end': 206}]","{'DATE_TIME': 0.85, 'LOCATION': 0.85, 'EMAIL_ADDRESS': 0.9}","['DATE_TIME', 'EMAIL_ADDRESS', 'LOCATION']",['EMAIL_ADDRESS'],[],True,True,True,local_pii,strong_pii_detected,False,ollama,ollama_local,qwen2.5,False,,0,0,0,0,0,0.0,False,True,True,20260908_105246,rule_plus_ollama,ollama,llm,qwen2.5,pii_review_v1,llm,False,True,false_positive,False,contains_personal_data,predicted_pii
+DOC-0389,supplier_onboarding_clean_0389.pdf,Supplier Onboarding,general_document,en,HR Archive,Lukas Weber,lukas.weber@bosch.example,manual,2021-08-16,2023-02-24,2026-08-10,1.4,"Supplier Onboarding (Filled)
+Purpose: Example of a completed supplier onboarding record.
+Company: Nordic Components GmbH
+Address: Hauptstr. 12, 70173 Stuttgart
+Contact: procurement@nordic-components.example
+Tax ID: DE123456789
+Certification: ISO 9001
+Risk Level: Medium
+Supplier Onboarding (Filled) - Review
+Purpose: Example of a completed supplier onboarding record.
+Reviewer: Procurement Ops
+Comments: Documents verified; banking details pending validation.
+Approval: Conditionally Approved
+Notes: Activate vendor after bank verification.
+Notes: Training results are aggregated by course and do not contain individual comments from a participant.",no,no,no,no,no,no,no,no,no,no,no,no,no,,NONE,0,0,easy,no,none,yes,test,no,,,no,,,v1,Clean negative sample.,"[{'type': 'DATE_TIME', 'value': '70173', 'confidence': 0.85, 'source': 'presidio', 'start': 144, 'end': 149}, {'type': 'LOCATION', 'value': 'Stuttgart', 'confidence': 0.85, 'source': 'presidio', 'start': 150, 'end': 159}, {'type': 'EMAIL_ADDRESS', 'value': 'procurement@nordic-components.example', 'confidence': 0.9, 'source': 'custom_regex', 'start': 169, 'end': 206}]","{'DATE_TIME': 0.85, 'LOCATION': 0.85, 'EMAIL_ADDRESS': 0.9}","['DATE_TIME', 'EMAIL_ADDRESS', 'LOCATION']",['EMAIL_ADDRESS'],[],True,True,True,local_pii,strong_pii_detected,False,ollama,ollama_local,qwen2.5,False,,0,0,0,0,0,0.0,False,True,True,20260908_105246,rule_plus_ollama,ollama,llm,qwen2.5,pii_review_v1,llm,False,True,false_positive,False,contains_personal_data,predicted_pii
+DOC-0390,supplier_onboarding_clean_0390.pdf,Supplier Onboarding,general_document,en,OneDrive,Max Wagner,max.wagner@bosch.example,manual,2021-09-22,2023-04-15,2026-08-10,8.59,"Supplier Onboarding (Filled)
+Purpose: Example of a completed supplier onboarding record.
+Company: Alpine Services AG
+Address: Industriestr. 8, 80331 München
+Contact: vendor@alpine-services.example
+Tax ID: DE987654321
+Certification: ISO 27001
+Risk Level: Low
+Supplier Onboarding (Filled) - Review
+Purpose: Example of a completed supplier onboarding record.
+Reviewer: Vendor Management
+Comments: All compliance checks passed.
+Approval: Approved
+Notes: Eligible for standard payment terms.
+Notes: Training results are aggregated by course and do not contain individual comments from a participant.",no,no,no,no,no,no,no,no,no,no,no,no,no,,NONE,0,0,easy,no,none,yes,test,no,,,no,,,v1,Clean negative sample.,"[{'type': 'LOCATION', 'value': 'München', 'confidence': 0.85, 'source': 'presidio', 'start': 149, 'end': 156}, {'type': 'EMAIL_ADDRESS', 'value': 'vendor@alpine-services.example', 'confidence': 0.9, 'source': 'custom_regex', 'start': 166, 'end': 196}]","{'LOCATION': 0.85, 'EMAIL_ADDRESS': 0.9}","['EMAIL_ADDRESS', 'LOCATION']",['EMAIL_ADDRESS'],[],True,True,True,local_pii,strong_pii_detected,False,ollama,ollama_local,qwen2.5,False,,0,0,0,0,0,0.0,False,True,True,20260908_105246,rule_plus_ollama,ollama,llm,qwen2.5,pii_review_v1,llm,False,True,false_positive,False,contains_personal_data,predicted_pii
+DOC-0393,supplier_onboarding_clean_0393.pdf,Supplier Onboarding,general_document,en,Shared Drive,Elena Hoffmann,elena.hoffmann@bosch.example,manual,2022-01-11,2023-09-12,2026-08-10,4.82,"Supplier Onboarding (Filled)
+Purpose: Example of a completed supplier onboarding record.
+Company: Nordic Components GmbH
+Address: Hauptstr. 12, 70173 Stuttgart
+Contact: procurement@nordic-components.example
+Tax ID: DE123456789
+Certification: ISO 9001
+Risk Level: Medium
+Supplier Onboarding (Filled) - Review
+Purpose: Example of a completed supplier onboarding record.
+Reviewer: Procurement Ops
+Comments: Documents verified; banking details pending validation.
+Approval: Conditionally Approved
+Notes: Activate vendor after bank verification.
+Notes: Supplier company contact is a generic mailbox and business address, not an individual person's details.",no,no,no,no,no,no,no,no,no,no,no,no,no,,NONE,0,0,easy,no,none,no,test,no,,,no,,,v1,Clean negative sample.,"[{'type': 'DATE_TIME', 'value': '70173', 'confidence': 0.85, 'source': 'presidio', 'start': 144, 'end': 149}, {'type': 'LOCATION', 'value': 'Stuttgart', 'confidence': 0.85, 'source': 'presidio', 'start': 150, 'end': 159}, {'type': 'EMAIL_ADDRESS', 'value': 'procurement@nordic-components.example', 'confidence': 0.9, 'source': 'custom_regex', 'start': 169, 'end': 206}]","{'DATE_TIME': 0.85, 'LOCATION': 0.85, 'EMAIL_ADDRESS': 0.9}","['DATE_TIME', 'EMAIL_ADDRESS', 'LOCATION']",['EMAIL_ADDRESS'],[],True,True,True,local_pii,strong_pii_detected,False,ollama,ollama_local,qwen2.5,False,,0,0,0,0,0,0.0,False,True,True,20260908_105246,rule_plus_ollama,ollama,llm,qwen2.5,pii_review_v1,llm,False,True,false_positive,False,contains_personal_data,predicted_pii
+DOC-0394,supplier_onboarding_clean_0394.pdf,Supplier Onboarding,general_document,en,HR Archive,Max Wagner,max.wagner@bosch.example,manual,2022-02-17,2023-11-01,2026-08-10,7.55,"Supplier Onboarding (Filled)
+Purpose: Example of a completed supplier onboarding record.
+Company: Alpine Services AG
+Address: Industriestr. 8, 80331 München
+Contact: vendor@alpine-services.example
+Tax ID: DE987654321
+Certification: ISO 27001
+Risk Level: Low
+Supplier Onboarding (Filled) - Review
+Purpose: Example of a completed supplier onboarding record.
+Reviewer: Vendor Management
+Comments: All compliance checks passed.
+Approval: Approved
+Notes: Eligible for standard payment terms.
+Notes: Blank template fields remain underscores only, matching the unfilled PDF examples.",no,no,no,no,no,no,no,no,no,no,no,no,no,,NONE,0,0,easy,no,none,no,test,no,,,no,,,v1,Clean negative sample.,"[{'type': 'LOCATION', 'value': 'München', 'confidence': 0.85, 'source': 'presidio', 'start': 149, 'end': 156}, {'type': 'EMAIL_ADDRESS', 'value': 'vendor@alpine-services.example', 'confidence': 0.9, 'source': 'custom_regex', 'start': 166, 'end': 196}]","{'LOCATION': 0.85, 'EMAIL_ADDRESS': 0.9}","['EMAIL_ADDRESS', 'LOCATION']",['EMAIL_ADDRESS'],[],True,True,True,local_pii,strong_pii_detected,False,ollama,ollama_local,qwen2.5,False,,0,0,0,0,0,0.0,False,True,True,20260908_105246,rule_plus_ollama,ollama,llm,qwen2.5,pii_review_v1,llm,False,True,false_positive,False,contains_personal_data,predicted_pii
+DOC-0396,supplier_onboarding_clean_0396.pdf,Supplier Onboarding,general_document,en,SharePoint,Elena Hoffmann,elena.hoffmann@bosch.example,manual,2022-05-02,2024-02-09,2026-08-10,3.79,"Supplier Onboarding (Filled)
+Purpose: Example of a completed supplier onboarding record.
+Company: Alpine Services AG
+Address: Industriestr. 8, 80331 München
+Contact: vendor@alpine-services.example
+Tax ID: DE987654321
+Certification: ISO 27001
+Risk Level: Low
+Supplier Onboarding (Filled) - Review
+Purpose: Example of a completed supplier onboarding record.
+Reviewer: Vendor Management
+Comments: All compliance checks passed.
+Approval: Approved
+Notes: Eligible for standard payment terms.
+Notes: Training results are aggregated by course and do not contain individual comments from a participant.",no,no,no,no,no,no,no,no,no,no,no,no,no,,NONE,0,0,easy,no,none,no,test,no,,,no,,,v1,Clean negative sample.,"[{'type': 'LOCATION', 'value': 'München', 'confidence': 0.85, 'source': 'presidio', 'start': 149, 'end': 156}, {'type': 'EMAIL_ADDRESS', 'value': 'vendor@alpine-services.example', 'confidence': 0.9, 'source': 'custom_regex', 'start': 166, 'end': 196}]","{'LOCATION': 0.85, 'EMAIL_ADDRESS': 0.9}","['EMAIL_ADDRESS', 'LOCATION']",['EMAIL_ADDRESS'],[],True,True,True,local_pii,strong_pii_detected,False,ollama,ollama_local,qwen2.5,False,,0,0,0,0,0,0.0,False,True,True,20260908_105246,rule_plus_ollama,ollama,llm,qwen2.5,pii_review_v1,llm,False,True,false_positive,False,contains_personal_data,predicted_pii
+DOC-0397,supplier_onboarding_clean_0397.pdf,Supplier Onboarding,general_document,en,HR Archive,Elena Hoffmann,elena.hoffmann@bosch.example,manual,2022-06-08,2024-03-30,2026-08-10,5.9,"Supplier Onboarding (Filled)
+Purpose: Example of a completed supplier onboarding record.
+Company: Alpine Services AG
+Address: Industriestr. 8, 80331 München
+Contact: vendor@alpine-services.example
+Tax ID: DE987654321
+Certification: ISO 27001
+Risk Level: Low
+Supplier Onboarding (Filled) - Review
+Purpose: Example of a completed supplier onboarding record.
+Reviewer: Vendor Management
+Comments: All compliance checks passed.
+Approval: Approved
+Notes: Eligible for standard payment terms.
+Notes: Role-based labels only, such as Team Lead, Facility Coordinator, Procurement Ops, or IT Service Desk.",no,no,no,no,no,no,no,no,no,no,no,no,no,,NONE,0,0,easy,no,none,no,test,no,,,no,,,v1,Clean negative sample.,"[{'type': 'LOCATION', 'value': 'München', 'confidence': 0.85, 'source': 'presidio', 'start': 149, 'end': 156}, {'type': 'EMAIL_ADDRESS', 'value': 'vendor@alpine-services.example', 'confidence': 0.9, 'source': 'custom_regex', 'start': 166, 'end': 196}]","{'LOCATION': 0.85, 'EMAIL_ADDRESS': 0.9}","['EMAIL_ADDRESS', 'LOCATION']",['EMAIL_ADDRESS'],[],True,True,True,local_pii,strong_pii_detected,False,ollama,ollama_local,qwen2.5,False,,0,0,0,0,0,0.0,False,True,True,20260908_105246,rule_plus_ollama,ollama,llm,qwen2.5,pii_review_v1,llm,False,True,false_positive,False,contains_personal_data,predicted_pii
+DOC-0398,supplier_onboarding_clean_0398.pdf,Supplier Onboarding,general_document,en,Teams Export,Max Wagner,max.wagner@bosch.example,manual,2022-07-15,2024-05-19,2026-08-10,2.68,"Supplier Onboarding (Filled)
+Purpose: Example of a completed supplier onboarding record.
+Company: Alpine Services AG
+Address: Industriestr. 8, 80331 München
+Contact: vendor@alpine-services.example
+Tax ID: DE987654321
+Certification: ISO 27001
+Risk Level: Low
+Supplier Onboarding (Filled) - Review
+Purpose: Example of a completed supplier onboarding record.
+Reviewer: Vendor Management
+Comments: All compliance checks passed.
+Approval: Approved
+Notes: Eligible for standard payment terms.
+Notes: Supplier company contact is a generic mailbox and business address, not an individual person's details.",no,no,no,no,no,no,no,no,no,no,no,no,no,,NONE,0,0,easy,no,none,no,test,no,,,no,,,v1,Clean negative sample.,"[{'type': 'LOCATION', 'value': 'München', 'confidence': 0.85, 'source': 'presidio', 'start': 149, 'end': 156}, {'type': 'EMAIL_ADDRESS', 'value': 'vendor@alpine-services.example', 'confidence': 0.9, 'source': 'custom_regex', 'start': 166, 'end': 196}]","{'LOCATION': 0.85, 'EMAIL_ADDRESS': 0.9}","['EMAIL_ADDRESS', 'LOCATION']",['EMAIL_ADDRESS'],[],True,True,True,local_pii,strong_pii_detected,False,ollama,ollama_local,qwen2.5,False,,0,0,0,0,0,0.0,False,True,True,20260908_105246,rule_plus_ollama,ollama,llm,qwen2.5,pii_review_v1,llm,False,True,false_positive,False,contains_personal_data,predicted_pii
+DOC-0399,supplier_onboarding_clean_0399.pdf,Supplier Onboarding,general_document,en,Teams Export,Maria Schmidt,maria.schmidt@bosch.example,manual,2022-08-21,2024-07-08,2026-08-10,0.37,"Supplier Onboarding (Filled)
+Purpose: Example of a completed supplier onboarding record.
+Company: Nordic Components GmbH
+Address: Hauptstr. 12, 70173 Stuttgart
+Contact: procurement@nordic-components.example
+Tax ID: DE123456789
+Certification: ISO 9001
+Risk Level: Medium
+Supplier Onboarding (Filled) - Review
+Purpose: Example of a completed supplier onboarding record.
+Reviewer: Procurement Ops
+Comments: Documents verified; banking details pending validation.
+Approval: Conditionally Approved
+Notes: Activate vendor after bank verification.
+Notes: Training results are aggregated by course and do not contain individual comments from a participant.",no,no,no,no,no,no,no,no,no,no,no,no,no,,NONE,0,0,easy,no,none,no,test,no,,,no,,,v1,Clean negative sample.,"[{'type': 'DATE_TIME', 'value': '70173', 'confidence': 0.85, 'source': 'presidio', 'start': 144, 'end': 149}, {'type': 'LOCATION', 'value': 'Stuttgart', 'confidence': 0.85, 'source': 'presidio', 'start': 150, 'end': 159}, {'type': 'EMAIL_ADDRESS', 'value': 'procurement@nordic-components.example', 'confidence': 0.9, 'source': 'custom_regex', 'start': 169, 'end': 206}]","{'DATE_TIME': 0.85, 'LOCATION': 0.85, 'EMAIL_ADDRESS': 0.9}","['DATE_TIME', 'EMAIL_ADDRESS', 'LOCATION']",['EMAIL_ADDRESS'],[],True,True,True,local_pii,strong_pii_detected,False,ollama,ollama_local,qwen2.5,False,,0,0,0,0,0,0.0,False,True,True,20260908_105246,rule_plus_ollama,ollama,llm,qwen2.5,pii_review_v1,llm,False,True,false_positive,False,contains_personal_data,predicted_pii
+DOC-0400,supplier_onboarding_clean_0400.pdf,Supplier Onboarding,employee_record,en,SharePoint,Anna Keller,anna.keller@bosch.example,manual,2022-09-27,2024-08-27,2026-08-10,4.54,"Supplier Onboarding (Filled)
+Purpose: Example of a completed supplier onboarding record.
+Company: Alpine Services AG
+Address: Industriestr. 8, 80331 München
+Contact: vendor@alpine-services.example
+Tax ID: DE987654321
+Certification: ISO 27001
+Risk Level: Low
+Supplier Onboarding (Filled) - Review
+Purpose: Example of a completed supplier onboarding record.
+Reviewer: Vendor Management
+Comments: All compliance checks passed.
+Approval: Approved
+Notes: Eligible for standard payment terms.
+Notes: Department aggregate only; no named participant, employee, manager, reviewer, or contact person is included.",no,no,no,no,no,no,no,no,no,no,no,no,no,,NONE,0,0,easy,no,none,no,test,no,,,no,,,v1,Clean negative sample.,"[{'type': 'LOCATION', 'value': 'München', 'confidence': 0.85, 'source': 'presidio', 'start': 149, 'end': 156}, {'type': 'EMAIL_ADDRESS', 'value': 'vendor@alpine-services.example', 'confidence': 0.9, 'source': 'custom_regex', 'start': 166, 'end': 196}]","{'LOCATION': 0.85, 'EMAIL_ADDRESS': 0.9}","['EMAIL_ADDRESS', 'LOCATION']",['EMAIL_ADDRESS'],[],True,True,True,local_pii,strong_pii_detected,False,ollama,ollama_local,qwen2.5,False,,0,0,0,0,0,0.0,False,True,True,20260908_105246,rule_plus_ollama,ollama,llm,qwen2.5,pii_review_v1,llm,False,True,false_positive,False,contains_personal_data,predicted_pii
+DOC-0434,training_evaluation_clean_0434.pdf,Training Evaluation,general_document,en,OneDrive,Noah Becker,noah.becker@bosch.example,manual,2026-03-08,2026-11-05,2026-08-10,6.58,"Training Evaluation (Filled)
+Purpose: Example of a completed training feedback form.
+Participant: Aggregated response group
+Course: Document Classification Workshop
+Date: 08 Mar 2026
+Content: 4/5
+Trainer: 5/5
+Material: 3/5
+Training Evaluation (Filled) - Review
+Purpose: Example of a completed training feedback form.
+Comments: Department-level statistics only.
+Recommendation: Add a short pre-read and a 15-min quiz.
+Notes: Contact is procurement@example-supplier.test, a generic functional mailbox rather than a person's email.",no,no,no,no,no,no,no,no,no,no,no,no,no,,NONE,0,0,hard,yes,other_edge_case,no,train,no,,,no,,,v1,Negative edge case: looks sensitive but should be no personal data.,"[{'type': 'EMAIL_ADDRESS', 'value': 'procurement@example-supplier.test', 'confidence': 0.9, 'source': 'custom_regex', 'start': 435, 'end': 468}]",{'EMAIL_ADDRESS': 0.9},['EMAIL_ADDRESS'],['EMAIL_ADDRESS'],[],True,True,False,local_pii,strong_pii_detected,False,ollama,ollama_local,qwen2.5,False,,0,0,0,0,0,0.0,False,True,True,20260908_105246,rule_plus_ollama,ollama,llm,qwen2.5,pii_review_v1,llm,False,True,false_positive,False,contains_personal_data,predicted_pii

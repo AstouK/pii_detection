@@ -1,0 +1,14 @@
+primary_pii_type,error_type,count
+EMAIL_ADDRESS,true_positive,3
+LOCATION,false_negative,2
+LOCATION,true_positive,1
+MULTIPLE,false_negative,2
+MULTIPLE,true_positive,37
+NONE,false_positive,64
+NONE,true_negative,376
+NRP,false_negative,1
+NRP,true_positive,5
+PASSPORT,true_positive,3
+PERSON,true_positive,3
+PHONE_NUMBER,false_negative,1
+PHONE_NUMBER,true_positive,2
