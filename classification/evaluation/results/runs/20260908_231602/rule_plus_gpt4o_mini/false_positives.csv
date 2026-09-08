@@ -1,0 +1,553 @@
+document_id,file_name,document_type,scenario_type,language,source_system,responsible_owner,owner_email,data_source,file_created_date,last_modified_date,dataset_created_at,file_size_mb,full_text,contains_personal_data,PERSON_yes_no,EMAIL_ADDRESS_yes_no,PHONE_NUMBER_yes_no,LOCATION_yes_no,IBAN_CODE_yes_no,CREDIT_CARD_yes_no,PASSPORT_yes_no,NRP_yes_no,DATE_TIME_yes_no,IP_ADDRESS_yes_no,URL_yes_no,MEDICAL_LICENSE_yes_no,personal_data_categories,primary_pii_type,category_count,pii_count,difficulty,edge_case,challenge_category,retention_period_exceeded_3y,recommended_split,synthetic,synthetic_generator,generation_prompt_version,human_reviewed,review_status,review_notes,dataset_version,labeling_notes,entities,per_type_conf,detected_categories,strong_pii_categories,potential_pii_categories,detected_pii,detected_any_pii,has_person_hint,route,routing_reason,needs_llm_review,llm_provider,llm_model_id,llm_model_name,llm_pii,llm_reason,llm_prompt_tokens,llm_completion_tokens,llm_total_tokens,llm_reasoning_tokens,llm_cached_tokens,llm_request_cost,llm_request_success,final_pii,predicted_pii,run_id,strategy,provider,model_family,model_name,prompt_version,prediction_source,_ground_truth_bool,_prediction_bool,error_type,is_correct,evaluated_ground_truth_col,evaluated_prediction_col
+SYN-EMPLOYEE_RECORD-0020,synthetic_employee_record_0020.txt,hr_record,employee_record,en,synthetic_generation,,,synthetic,2026-08-28,2026-08-28,2026-08-28,0,"Employee Record
+
+Employee: Employee details not provided
+Department: IT
+Role: Specialist
+Employee Id: REF-4324364
+Manager: Team Lead
+Start Date: 2024-10-16
+Address: Registered office information pending
+Nationality: Nationality not provided
+Contact: Department Contact
+Notes: Employee REF-4324364 is scheduled to start on 2024-10-16. Further details regarding registered office information and nationality are pending. Manager is designated as Team Lead. License number REF-1649446 and identification number REF-4568871 are noted for compliance.
+License Number: REF-1649446
+Identification Number: REF-4568871",no,no,no,no,no,no,no,no,no,no,no,no,no,,NONE,0,0,easy,no,none,no,test,yes,openrouter_gpt4o_mini_field,field_llm_v1,no,,,v2,Synthetic document generated for controlled PII training data.,"[{'type': 'PHONE_NUMBER', 'value': '1649446', 'confidence': 0.75, 'source': 'presidio', 'start': 474, 'end': 481}, {'type': 'PHONE_NUMBER', 'value': '1649446', 'confidence': 0.75, 'source': 'presidio', 'start': 566, 'end': 573}]",{'PHONE_NUMBER': 0.75},['PHONE_NUMBER'],['PHONE_NUMBER'],[],True,True,True,local_pii,strong_pii_detected,False,openrouter,gpt4o_mini,openai/gpt-4o-mini,False,,0,0,0,0,0,0.0,False,True,True,20260908_231602,rule_plus_gpt4o_mini,openrouter,llm,openai/gpt-4o-mini,pii_review_v1,llm,False,True,false_positive,False,contains_personal_data,predicted_pii
+SYN-GENERAL_DOCUMENT-0246,synthetic_general_document_0246.txt,general_document,general_document,en,synthetic_generation,,,synthetic,2026-08-28,2026-08-28,2026-08-28,0,"**Project Status Update**
+
+**Project Title:** Process Improvement Initiative  
+**Date:** July 23, 2027  
+**Prepared by:** Corporate Communications Team  
+
+**Current Status:** In Progress  
+**Reference Number:** REF-9024463  
+
+**Overview:**  
+The Process Improvement Initiative is designed to enhance operational efficiencies across various departments within the organization. This project aims to identify bottlenecks and implement streamlined procedures.
+
+**Key Developments:**  
+- A comprehensive analysis of existing workflows has been completed.  
+- Initial feedback sessions with department heads have been conducted to gather insights.  
+- Proposed changes have been drafted and are currently under review.
+
+**Next Steps:**  
+- Finalize proposed adjustments based on feedback received.  
+- Schedule training sessions for staff on new processes.  
+- Target implementation date is set for August 15, 2027.
+
+**Location for Correspondence:**  
+597 Kenneth Pine, Arnoldshire, CT 23745  
+
+Please direct any questions or comments regarding this update to the Corporate Communications Team.",no,no,no,no,no,no,no,no,no,no,no,no,no,,NONE,0,0,easy,no,none,no,validation,yes,openrouter_gpt4o_mini_document,llm_rewrite_v1,no,,,v2,Synthetic document generated for controlled PII training data. Relabeled 2026-09-03: standalone LOCATION with no co-occurring identifier does not meet GDPR Art.4(1) identifiability threshold; corrected from positive to negative.,"[{'type': 'DATE_TIME', 'value': 'August 15, 2027', 'confidence': 0.85, 'source': 'presidio', 'start': 894, 'end': 909}, {'type': 'PERSON', 'value': 'Kenneth Pine', 'confidence': 0.85, 'source': 'presidio', 'start': 951, 'end': 963}, {'type': 'LOCATION', 'value': 'Arnoldshire', 'confidence': 0.85, 'source': 'presidio', 'start': 965, 'end': 976}]","{'DATE_TIME': 0.85, 'PERSON': 0.85, 'LOCATION': 0.85}","['DATE_TIME', 'LOCATION', 'PERSON']",[],"['DATE_TIME', 'PERSON', 'LOCATION']",False,True,False,low_cost_llm,potential_pii_evidence,True,openrouter,gpt4o_mini,openai/gpt-4o-mini,True,The address provided includes a specific location that can be linked to an identifiable natural person.,474,32,506,0,0,9.03e-05,True,True,True,20260908_231602,rule_plus_gpt4o_mini,openrouter,llm,openai/gpt-4o-mini,pii_review_v1,llm,False,True,false_positive,False,contains_personal_data,predicted_pii
+SYN-MEETING_NOTES-0003,synthetic_meeting_notes_0003.txt,meeting_notes,meeting_notes,de,synthetic_generation,,,synthetic,2026-08-28,2026-08-28,2026-08-28,0,"Besprechungsnotizen
+
+Titel: Entscheidungen aus dem Projektteam-Meeting vom 12. März 2027
+Datum: 2027-03-12
+Ort: Hauptstandort
+Teilnehmer: Projektteam
+Kontakt: Abteilungskontakt
+Agenda: 1. Projektstatus-Update
+2. Nächste Schritte für die Implementierung
+3. Ressourcenplanung
+4. Offene Fragen und Risiken
+Diskussion: Das Projektteam hat den aktuellen Stand der Implementierung besprochen und festgestellt, dass wir im Zeitplan liegen. Es gab jedoch Bedenken hinsichtlich der Verfügbarkeit von Ressourcen in den kommenden Wochen. Die Teammitglieder haben Vorschläge zur Optimierung der Arbeitsabläufe gemacht und mögliche Risiken identifiziert, die die nächsten Schritte beeinflussen könnten. Die Diskussion drehte sich auch um die Notwendigkeit zusätzlicher Schulungen für das Team, um die Effizienz zu steigern.
+Entscheidungen: Es wurde beschlossen, dass das Team die Ressourcenplanung bis Ende der Woche abschließen muss. Zudem wurde entschieden, dass eine Schulung für alle Mitarbeiter erforderlich ist, um die Implementierung reibungslos zu gestalten.
+Aufgaben: 1. Ressourcenplanung bis zum 17. März 2027 abschließen - Verantwortlicher: Max Müller
+2. Schulungstermine festlegen und kommunizieren - Verantwortlicher: Anna Schmidt",no,no,no,no,no,no,no,no,no,no,no,no,no,,NONE,0,0,easy,no,none,no,train,yes,openrouter_gpt4o_mini_field,field_llm_v1,no,,,v2,Synthetic document generated for controlled PII training data.,"[{'type': 'LOCATION', 'value': 'Projektteam-Meeting', 'confidence': 0.85, 'source': 'presidio', 'start': 51, 'end': 70}, {'type': 'PERSON', 'value': 'Max Müller', 'confidence': 0.85, 'source': 'presidio', 'start': 1139, 'end': 1149}, {'type': 'PERSON', 'value': 'Anna Schmidt', 'confidence': 0.85, 'source': 'presidio', 'start': 1218, 'end': 1230}, {'type': 'DATE_TIME', 'value': '2027-03-12', 'confidence': 0.6, 'source': 'presidio', 'start': 96, 'end': 106}]","{'LOCATION': 0.85, 'PERSON': 0.85, 'DATE_TIME': 0.6}","['DATE_TIME', 'LOCATION', 'PERSON']",[],"['LOCATION', 'PERSON', 'DATE_TIME']",False,True,True,low_cost_llm,potential_pii_evidence,True,openrouter,gpt4o_mini,openai/gpt-4o-mini,True,"The text contains the names 'Max Müller' and 'Anna Schmidt', which are identifiable natural persons.",553,36,589,0,0,0.00010455,True,True,True,20260908_231602,rule_plus_gpt4o_mini,openrouter,llm,openai/gpt-4o-mini,pii_review_v1,llm,False,True,false_positive,False,contains_personal_data,predicted_pii
+SYN-MEETING_NOTES-0007,synthetic_meeting_notes_0007.txt,meeting_notes,meeting_notes,de,synthetic_generation,,,synthetic,2026-08-28,2026-08-28,2026-08-28,0,"Besprechungsnotizen
+
+Titel: Entscheidungsprotokoll vom 03.07.2025
+Datum: 2025-07-03
+Ort: Betriebsbereich
+Teilnehmer: Projektteam
+Kontakt: Zentrale Kontaktstelle
+Agenda: Besprechung zur Projektfortschritt und strategischen Entscheidungen
+Diskussion: Das Projektteam hat die aktuellen Fortschritte des Projekts diskutiert und mögliche Hindernisse identifiziert. Es wurde festgestellt, dass die Fristen für die nächsten Schritte eingehalten werden können, wenn die Ressourcen entsprechend verteilt werden. Zudem wurde das Feedback der Stakeholder erörtert, das positive Rückmeldungen zur bisherigen Umsetzung beinhaltete. Die Notwendigkeit für regelmäßige Updates wurde hervorgehoben, um die Transparenz innerhalb des Teams zu gewährleisten.
+Entscheidungen: Das Projektteam hat beschlossen, die Ressourcen für die nächsten zwei Monate um 15% aufzustocken, um die Effizienz zu steigern. Darüber hinaus wurde entschieden, wöchentliche Statusmeetings einzuführen, um den Fortschritt besser zu verfolgen.
+Aufgaben: 1. Verantwortlicher: Max Müller, der die Ressourcenverteilung bis zum 10.07.2025 anpassen wird. 2. Verantwortlicher: Anna Schmidt, die die ersten wöchentlichen Statusmeetings ab dem 15.07.2025 organisieren wird.",no,no,no,no,no,no,no,no,no,no,no,no,no,,NONE,0,0,easy,no,none,no,train,yes,openrouter_gpt4o_mini_field,field_llm_v1,no,,,v2,Synthetic document generated for controlled PII training data.,"[{'type': 'PERSON', 'value': 'Max Müller', 'confidence': 0.85, 'source': 'presidio', 'start': 1029, 'end': 1039}, {'type': 'PERSON', 'value': 'Anna Schmidt', 'confidence': 0.85, 'source': 'presidio', 'start': 1125, 'end': 1137}, {'type': 'DATE_TIME', 'value': '10.07.2025', 'confidence': 0.6, 'source': 'presidio', 'start': 1078, 'end': 1088}, {'type': 'DATE_TIME', 'value': '15.07.2025', 'confidence': 0.6, 'source': 'presidio', 'start': 1190, 'end': 1200}]","{'PERSON': 0.85, 'DATE_TIME': 0.6}","['DATE_TIME', 'PERSON']",[],"['PERSON', 'DATE_TIME']",False,True,False,low_cost_llm,potential_pii_evidence,True,openrouter,gpt4o_mini,openai/gpt-4o-mini,True,"The text contains real names of individuals, Max Müller and Anna Schmidt, which are considered personal data under GDPR.",496,37,533,0,0,9.66e-05,True,True,True,20260908_231602,rule_plus_gpt4o_mini,openrouter,llm,openai/gpt-4o-mini,pii_review_v1,llm,False,True,false_positive,False,contains_personal_data,predicted_pii
+SYN-MEETING_NOTES-0016,synthetic_meeting_notes_0016.txt,meeting_notes,meeting_notes,en,synthetic_generation,,,synthetic,2026-08-28,2026-08-28,2026-08-28,0,"Meeting Notes
+
+Title: IT Department Strategy Meeting - October 2024
+Date: 2024-10-03
+Location: IT Department
+Participants: Working Group
+Contact: Department Contact
+Agenda: 1. Review current IT projects
+2. Discuss upcoming technology implementations
+3. Allocate resources for Q4 initiatives
+4. Address any outstanding issues
+Discussion: The meeting opened with a review of current IT projects, highlighting the progress on the cloud migration initiative. Participants noted that while the project is on schedule, additional resources may be necessary to meet the deadline. The group then shifted focus to upcoming technology implementations, specifically the new cybersecurity measures. Concerns were raised regarding potential disruptions during the rollout. An update on the Q4 initiatives was provided, with discussions on how to best allocate available resources. Finally, outstanding issues, including hardware shortages and software licensing delays, were addressed.
+Decisions: It was decided to allocate two additional team members to the cloud migration project to ensure timely completion. Furthermore, the group agreed to implement the new cybersecurity measures in a phased approach to minimize disruptions.
+Action Items: 1. John Doe to finalize resource allocation for the cloud migration project by October 10, 2024.
+2. Sarah Smith to develop a phased rollout plan for the cybersecurity measures by October 15, 2024.
+3. The team to follow up on hardware shortages with suppliers by October 7, 2024.",no,no,no,no,no,no,no,no,no,no,no,no,no,,NONE,0,0,easy,no,none,no,validation,yes,openrouter_gpt4o_mini_field,field_llm_v1,no,,,v2,Synthetic document generated for controlled PII training data.,"[{'type': 'PERSON', 'value': 'John Doe', 'confidence': 0.85, 'source': 'presidio', 'start': 1236, 'end': 1244}, {'type': 'DATE_TIME', 'value': 'October 10, 2024', 'confidence': 0.85, 'source': 'presidio', 'start': 1312, 'end': 1328}, {'type': 'PERSON', 'value': 'Sarah Smith', 'confidence': 0.85, 'source': 'presidio', 'start': 1333, 'end': 1344}, {'type': 'DATE_TIME', 'value': 'October 15, 2024', 'confidence': 0.85, 'source': 'presidio', 'start': 1412, 'end': 1428}, {'type': 'DATE_TIME', 'value': 'October 7, 2024', 'confidence': 0.85, 'source': 'presidio', 'start': 1495, 'end': 1510}]","{'PERSON': 0.85, 'DATE_TIME': 0.85}","['DATE_TIME', 'PERSON']",[],"['PERSON', 'DATE_TIME']",False,True,True,low_cost_llm,potential_pii_evidence,True,openrouter,gpt4o_mini,openai/gpt-4o-mini,True,"The text contains real names of individuals, specifically 'John Doe' and 'Sarah Smith'.",494,34,528,0,0,9.45e-05,True,True,True,20260908_231602,rule_plus_gpt4o_mini,openrouter,llm,openai/gpt-4o-mini,pii_review_v1,llm,False,True,false_positive,False,contains_personal_data,predicted_pii
+SYN-MEETING_NOTES-0018,synthetic_meeting_notes_0018.txt,meeting_notes,meeting_notes,de,synthetic_generation,,,synthetic,2026-08-28,2026-08-28,2026-08-28,0,"Besprechungsnotizen
+
+Titel: Entscheidungen zur Projektoptimierung
+Datum: 2026-05-31
+Ort: Betriebsbereich
+Teilnehmer: Arbeitsgruppe
+Kontakt: Zentrale Kontaktstelle
+Agenda: 1. Projektstatusupdate 2. Identifikation von Engpässen 3. Festlegung von Verantwortlichkeiten 4. Nächste Schritte
+Diskussion: Die Arbeitsgruppe hat den aktuellen Status des Projekts besprochen und mehrere Engpässe identifiziert, die die Fortschritte behindern. Insbesondere wurden Verzögerungen in der Beschaffung von Materialien und in der Kommunikation zwischen den Teams festgestellt. Es wurde eine offene Diskussion über mögliche Lösungen geführt, um diese Herausforderungen zu bewältigen.
+Entscheidungen: Es wurde beschlossen, die Beschaffungsstrategie zu überarbeiten, um Engpässe zu minimieren. Zudem wurde entschieden, wöchentliche Statusmeetings einzuführen, um die Kommunikation zu verbessern.
+Aufgaben: 1. Max Müller wird die überarbeitete Beschaffungsstrategie bis zum 15. Juni 2026 vorlegen. 2. Sarah Schmidt wird das erste wöchentliche Statusmeeting am 7. Juni 2026 organisieren und die Agenda dafür festlegen.",no,no,no,no,no,no,no,no,no,no,no,no,no,,NONE,0,0,easy,no,none,no,validation,yes,openrouter_gpt4o_mini_field,field_llm_v1,no,,,v2,Synthetic document generated for controlled PII training data.,"[{'type': 'PERSON', 'value': 'Max Müller', 'confidence': 0.85, 'source': 'presidio', 'start': 888, 'end': 898}, {'type': 'PERSON', 'value': 'Sarah Schmidt', 'confidence': 0.85, 'source': 'presidio', 'start': 979, 'end': 992}]",{'PERSON': 0.85},['PERSON'],[],['PERSON'],False,True,False,low_cost_llm,potential_pii_evidence,True,openrouter,gpt4o_mini,openai/gpt-4o-mini,True,"The text contains real names of individuals, Max Müller and Sarah Schmidt, which are considered personal data under GDPR.",496,38,534,0,0,9.72e-05,True,True,True,20260908_231602,rule_plus_gpt4o_mini,openrouter,llm,openai/gpt-4o-mini,pii_review_v1,llm,False,True,false_positive,False,contains_personal_data,predicted_pii
+SYN-MEETING_NOTES-0028,synthetic_meeting_notes_0028.txt,meeting_notes,meeting_notes,de,synthetic_generation,,,synthetic,2026-08-28,2026-08-28,2026-08-28,0,"Besprechungsnotizen
+
+Titel: Entscheidungen zur Optimierung der Lagerlogistik
+Datum: 2025-03-20
+Ort: Lagerbereich
+Teilnehmer: Projektteam
+Kontakt: Serviceteam
+Agenda: 1. Einführung in die aktuellen Herausforderungen
+2. Entscheidung über neue Lagerprozesse
+3. Zuweisung von Verantwortlichkeiten
+4. Festlegung von nächsten Schritten
+Diskussion: Im Rahmen des Meetings wurden die aktuellen Herausforderungen in der Lagerlogistik erörtert. Das Projektteam stellte fest, dass die Effizienz der Abläufe in letzter Zeit nachgelassen hat. Es wurden verschiedene Ansätze zur Optimierung der Prozesse diskutiert, jedoch lag der Fokus auf konkreten Entscheidungen und Zuweisungen von Verantwortlichkeiten.
+Entscheidungen: Das Projektteam hat beschlossen, die Einführung eines neuen Lagerverwaltungssystems zu priorisieren. Verantwortlichkeiten wurden den Teammitgliedern zugewiesen, um die Implementierung voranzutreiben.
+Aufgaben: 1. Max Müller wird die Recherche zu verschiedenen Lagerverwaltungssystemen bis zum 30.03.2025 abschließen.
+2. Sarah Schmidt wird einen Vorschlag für die Schulung der Mitarbeiter bis zum 05.04.2025 erstellen.
+3. Das Serviceteam wird bis zum 15.04.2025 die notwendige Hardware für das neue System bereitstellen.",no,no,no,no,no,no,no,no,no,no,no,no,no,,NONE,0,0,easy,no,none,no,train,yes,openrouter_gpt4o_mini_field,field_llm_v1,no,,,v2,Synthetic document generated for controlled PII training data.,"[{'type': 'PERSON', 'value': 'Max Müller', 'confidence': 0.85, 'source': 'presidio', 'start': 923, 'end': 933}, {'type': 'PERSON', 'value': 'Sarah Schmidt', 'confidence': 0.85, 'source': 'presidio', 'start': 1030, 'end': 1043}, {'type': 'DATE_TIME', 'value': '30.03.2025', 'confidence': 0.6, 'source': 'presidio', 'start': 1003, 'end': 1013}, {'type': 'DATE_TIME', 'value': '05.04.2025', 'confidence': 0.6, 'source': 'presidio', 'start': 1106, 'end': 1116}, {'type': 'DATE_TIME', 'value': '15.04.2025', 'confidence': 0.6, 'source': 'presidio', 'start': 1160, 'end': 1170}]","{'PERSON': 0.85, 'DATE_TIME': 0.6}","['DATE_TIME', 'PERSON']",[],"['PERSON', 'DATE_TIME']",False,True,True,low_cost_llm,potential_pii_evidence,True,openrouter,gpt4o_mini,openai/gpt-4o-mini,True,"The text contains the real names 'Max Müller' and 'Sarah Schmidt', which are identifiable natural persons.",512,37,549,0,0,9.9e-05,True,True,True,20260908_231602,rule_plus_gpt4o_mini,openrouter,llm,openai/gpt-4o-mini,pii_review_v1,llm,False,True,false_positive,False,contains_personal_data,predicted_pii
+SYN-MEETING_NOTES-0032,synthetic_meeting_notes_0032.txt,meeting_notes,meeting_notes,de,synthetic_generation,,,synthetic,2026-08-28,2026-08-28,2026-08-28,0,"Besprechungsnotizen
+
+Titel: Entscheidungsprotokoll der Arbeitsgruppe
+Datum: 2024-11-23
+Ort: Hauptstandort
+Teilnehmer: Arbeitsgruppe
+Kontakt: Zentrale Kontaktstelle
+Agenda: Besprechung der aktuellen Projekte und Festlegung weiterer Schritte.
+Diskussion: Die Arbeitsgruppe hat die Fortschritte der laufenden Projekte besprochen. Besonders wurde das Projekt zur Implementierung des neuen CRM-Systems hervorgehoben. Die Teilnehmer äußerten Bedenken hinsichtlich der Integration mit bestehenden Systemen. Es wurden verschiedene Lösungsansätze diskutiert, um die Herausforderungen zu bewältigen.
+Entscheidungen: Die Arbeitsgruppe hat beschlossen, das neue CRM-System bis Ende des nächsten Quartals zu implementieren. Zudem wurde festgelegt, dass regelmäßige Updates zum Fortschritt der Implementierung bereitgestellt werden.
+Aufgaben: 1. Max Müller wird die Integration des CRM-Systems mit den bestehenden Systemen prüfen. 2. Sarah Schmidt ist verantwortlich für die Erstellung eines Zeitplans für die Implementierung. 3. Die nächste Besprechung findet am 15. Dezember 2024 statt, um den Fortschritt zu überprüfen.",no,no,no,no,no,no,no,no,no,no,no,no,no,,NONE,0,0,easy,no,none,no,train,yes,openrouter_gpt4o_mini_field,field_llm_v1,no,,,v2,Synthetic document generated for controlled PII training data.,"[{'type': 'PERSON', 'value': 'Max Müller', 'confidence': 0.85, 'source': 'presidio', 'start': 832, 'end': 842}, {'type': 'PERSON', 'value': 'Sarah Schmidt', 'confidence': 0.85, 'source': 'presidio', 'start': 920, 'end': 933}]",{'PERSON': 0.85},['PERSON'],[],['PERSON'],False,True,False,low_cost_llm,potential_pii_evidence,True,openrouter,gpt4o_mini,openai/gpt-4o-mini,True,"The text contains the real names 'Max Müller' and 'Sarah Schmidt', which are identifiable natural persons.",496,37,533,0,0,9.66e-05,True,True,True,20260908_231602,rule_plus_gpt4o_mini,openrouter,llm,openai/gpt-4o-mini,pii_review_v1,llm,False,True,false_positive,False,contains_personal_data,predicted_pii
+SYN-MEETING_NOTES-0037,synthetic_meeting_notes_0037.txt,meeting_notes,meeting_notes,de,synthetic_generation,,,synthetic,2026-08-28,2026-08-28,2026-08-28,0,"Besprechungsnotizen
+
+Titel: Entscheidungsprotokoll der Abteilungsvertretungen
+Datum: 2026-01-15
+Ort: Betriebsbereich
+Teilnehmer: Abteilungsvertretungen
+Kontakt: Zentrale Kontaktstelle
+Agenda: Besprechung zur Klärung wichtiger Entscheidungen und Zuweisung von Verantwortlichkeiten.
+Diskussion: In der Sitzung wurden verschiedene Punkte erörtert, darunter die Optimierung der internen Kommunikation und die Implementierung neuer Softwaretools zur Effizienzsteigerung. Es wurde betont, dass die Abteilungsvertretungen aktiv an der Verbesserung der Arbeitsabläufe mitwirken sollten.
+Entscheidungen: Die Abteilungsvertretungen haben beschlossen, die regelmäßigen Meetings auf monatlich zu erhöhen, um die Fortschritte besser zu überwachen. Zudem wurde entschieden, Schulungen für das neue Softwaretool bis Ende des ersten Quartals anzubieten.
+Aufgaben: 1. Verantwortlichkeiten für die Planung der Schulungen wurden wie folgt zugewiesen: Max Müller übernimmt die Organisation, während Anna Schmidt die Inhalte vorbereitet. 2. Das nächste Meeting findet am 15. Februar 2026 statt.",no,no,no,no,no,no,no,no,no,no,no,no,no,,NONE,0,0,easy,no,none,no,train,yes,openrouter_gpt4o_mini_field,field_llm_v1,no,,,v2,Synthetic document generated for controlled PII training data.,"[{'type': 'LOCATION', 'value': 'Abteilungsvertretungen', 'confidence': 0.85, 'source': 'presidio', 'start': 55, 'end': 77}, {'type': 'PERSON', 'value': 'Max Müller', 'confidence': 0.85, 'source': 'presidio', 'start': 932, 'end': 942}, {'type': 'PERSON', 'value': 'Anna Schmidt', 'confidence': 0.85, 'source': 'presidio', 'start': 979, 'end': 991}, {'type': 'DATE_TIME', 'value': '2026-01-15', 'confidence': 0.6, 'source': 'presidio', 'start': 85, 'end': 95}]","{'LOCATION': 0.85, 'PERSON': 0.85, 'DATE_TIME': 0.6}","['DATE_TIME', 'LOCATION', 'PERSON']",[],"['LOCATION', 'PERSON', 'DATE_TIME']",False,True,False,low_cost_llm,potential_pii_evidence,True,openrouter,gpt4o_mini,openai/gpt-4o-mini,True,"The text contains real names of individuals, specifically 'Max Müller' and 'Anna Schmidt', which are considered personal data under GDPR.",545,42,587,0,0,0.00010695,True,True,True,20260908_231602,rule_plus_gpt4o_mini,openrouter,llm,openai/gpt-4o-mini,pii_review_v1,llm,False,True,false_positive,False,contains_personal_data,predicted_pii
+SYN-MEETING_NOTES-0043,synthetic_meeting_notes_0043.txt,meeting_notes,meeting_notes,de,synthetic_generation,,,synthetic,2026-08-28,2026-08-28,2026-08-28,0,"Besprechungsnotizen
+
+Titel: Wöchentliche Projektbesprechung
+Datum: 2025-11-14
+Ort: IT-Abteilung
+Teilnehmer: Projektteam
+Kontakt: Zentrale Kontaktstelle
+Agenda: 1. Statusupdates der einzelnen Teammitglieder
+2. Diskussion über Herausforderungen
+3. Nächste Schritte und Fristen
+Diskussion: Wir haben die aktuellen Fortschritte von jedem Teammitglied besprochen:
+- Max: Fortschritt bei der Softwareentwicklung, aber es gibt einige Bugs zu beheben.
+- Lisa: Datenanalyse abgeschlossen, aber noch keine Rückmeldung vom Marketing.
+- Tom: Bereitet die Präsentation für den nächsten Kundenstamm vor.
+
+Herausforderungen:
+- Bugs in der Software, die dringend gelöst werden müssen.
+- Verzögerungen bei den Daten von externen Partnern.
+
+Nächste Schritte wurden festgelegt und Fristen diskutiert.
+Entscheidungen: Es wurde beschlossen, dass:
+- Max die Bugs bis Ende nächster Woche beheben soll.
+- Lisa den Marketingkontakt nächste Woche direkt anruft.
+- Tom die Präsentation bis zum nächsten Treffen fertigstellt.
+Aufgaben: 1. Max: Bugs bis 21.11.2025 beheben
+2. Lisa: Marketing kontaktieren bis 19.11.2025
+3. Tom: Präsentation vorbereiten bis 21.11.2025",no,no,no,no,no,no,no,no,no,no,no,no,no,,NONE,0,0,easy,no,none,no,train,yes,openrouter_gpt4o_mini_field,field_llm_v1,no,,,v2,Synthetic document generated for controlled PII training data.,"[{'type': 'PERSON', 'value': 'Lisa den Marketingkontakt', 'confidence': 0.85, 'source': 'presidio', 'start': 881, 'end': 906}, {'type': 'DATE_TIME', 'value': '21.11.2025', 'confidence': 0.6, 'source': 'presidio', 'start': 1025, 'end': 1035}, {'type': 'DATE_TIME', 'value': '19.11.2025', 'confidence': 0.6, 'source': 'presidio', 'start': 1080, 'end': 1090}]","{'PERSON': 0.85, 'DATE_TIME': 0.6}","['DATE_TIME', 'PERSON']",[],"['PERSON', 'DATE_TIME']",False,True,False,low_cost_llm,potential_pii_evidence,True,openrouter,gpt4o_mini,openai/gpt-4o-mini,True,"The text contains identifiable names (Max, Lisa, Tom) associated with specific tasks and deadlines.",517,35,552,0,0,9.855e-05,True,True,True,20260908_231602,rule_plus_gpt4o_mini,openrouter,llm,openai/gpt-4o-mini,pii_review_v1,llm,False,True,false_positive,False,contains_personal_data,predicted_pii
+SYN-MEETING_NOTES-0046,synthetic_meeting_notes_0046.txt,meeting_notes,meeting_notes,de,synthetic_generation,,,synthetic,2026-08-28,2026-08-28,2026-08-28,0,"Besprechungsnotizen
+
+Titel: Entscheidungsprotokoll zur Systemmigration
+Datum: 2027-03-28
+Ort: IT-Abteilung
+Teilnehmer: Projektteam
+Kontakt: Abteilungskontakt
+Agenda: 1. Begrüßung und Einführung
+2. Statusbericht zur Systemmigration
+3. Diskussion über die nächsten Schritte
+4. Festlegung von Verantwortlichkeiten
+5. Abschluss und nächste Schritte
+Diskussion: Das Projektteam hat den aktuellen Status der Systemmigration besprochen. Es wurden Herausforderungen identifiziert, insbesondere in Bezug auf die Datenmigration. Die Meinungen der Teilnehmer wurden gehört und es gab Vorschläge zur Optimierung der Prozesse. Es wurde betont, dass eine enge Zusammenarbeit mit der IT-Abteilung notwendig ist, um die Fristen einzuhalten.
+Entscheidungen: Es wurde entschieden, dass die Datenmigration bis zum 15. April 2027 abgeschlossen sein muss. Außerdem wurde beschlossen, dass wöchentliche Status-Updates an das gesamte Projektteam gesendet werden.
+Aufgaben: 1. Verantwortlicher: Max Müller - Datenmigration bis 15. April 2027 abschließen.
+2. Verantwortlicher: Lisa Schmidt - Wöchentliche Status-Updates erstellen und versenden.
+3. Verantwortlicher: Peter Becker - Engen Kontakt zur IT-Abteilung pflegen.",no,no,no,no,no,no,no,no,no,no,no,no,no,,NONE,0,0,easy,no,none,no,validation,yes,openrouter_gpt4o_mini_field,field_llm_v1,no,,,v2,Synthetic document generated for controlled PII training data.,"[{'type': 'LOCATION', 'value': 'Systemmigration', 'confidence': 0.85, 'source': 'presidio', 'start': 55, 'end': 70}, {'type': 'PERSON', 'value': 'Max Müller', 'confidence': 0.85, 'source': 'presidio', 'start': 971, 'end': 981}, {'type': 'PERSON', 'value': 'Lisa Schmidt', 'confidence': 0.85, 'source': 'presidio', 'start': 1052, 'end': 1064}, {'type': 'PERSON', 'value': 'Peter Becker', 'confidence': 0.85, 'source': 'presidio', 'start': 1141, 'end': 1153}, {'type': 'DATE_TIME', 'value': '2027-03-28', 'confidence': 0.6, 'source': 'presidio', 'start': 78, 'end': 88}]","{'LOCATION': 0.85, 'PERSON': 0.85, 'DATE_TIME': 0.6}","['DATE_TIME', 'LOCATION', 'PERSON']",[],"['LOCATION', 'PERSON', 'DATE_TIME']",False,True,False,low_cost_llm,potential_pii_evidence,True,openrouter,gpt4o_mini,openai/gpt-4o-mini,True,"The text contains real names of individuals (Max Müller, Lisa Schmidt, Peter Becker) which are considered personal data under GDPR.",576,41,617,0,0,0.000111,True,True,True,20260908_231602,rule_plus_gpt4o_mini,openrouter,llm,openai/gpt-4o-mini,pii_review_v1,llm,False,True,false_positive,False,contains_personal_data,predicted_pii
+SYN-MEETING_NOTES-0069,synthetic_meeting_notes_0069.txt,meeting_notes,meeting_notes,de,synthetic_generation,,,synthetic,2026-08-28,2026-08-28,2026-08-28,0,"Besprechungsnotizen
+
+Titel: Protokoll der Sitzung der Arbeitsgruppe zur IT-Optimierung
+Datum: 2024-09-26
+Ort: IT-Abteilung
+Teilnehmer: Arbeitsgruppe
+Kontakt: Serviceteam
+Agenda: 1. Begrüßung und Feststellung der Beschlussfähigkeit
+2. Statusbericht zu den aktuellen IT-Projekten
+3. Diskussion über neue Softwarelösungen
+4. Planung der nächsten Schritte zur Systemintegration
+5. Sonstiges
+Diskussion: Die Sitzung begann um 10:00 Uhr mit der Begrüßung durch den Vorsitzenden. Es wurde festgestellt, dass die Beschlussfähigkeit gegeben ist. Der Statusbericht zu den aktuellen IT-Projekten zeigte Fortschritte in der Implementierung der neuen Sicherheitsprotokolle. In der Diskussion über neue Softwarelösungen wurden mehrere Optionen vorgestellt, darunter Cloud-basierte Anwendungen und lokale Installationen. Die Teilnehmer waren sich einig, dass eine detaillierte Analyse der Vor- und Nachteile erforderlich ist. Zudem wurde die Notwendigkeit einer verbesserten Kommunikation zwischen den Abteilungen hervorgehoben, um die Systemintegration zu optimieren. Unter Sonstiges wurden verschiedene Herausforderungen angesprochen, die während der letzten Monate aufgetreten sind.
+Entscheidungen: Es wurde beschlossen, eine Arbeitsgruppe zu bilden, die sich mit der Analyse der neuen Softwarelösungen beschäftigt. Zudem wurde vereinbart, ein weiteres Treffen in zwei Wochen anzusetzen, um die Fortschritte zu überprüfen und offene Fragen zu klären.
+Aufgaben: 1. Bildung einer Arbeitsgruppe zur Analyse der neuen Softwarelösungen, verantwortlich: Max Mustermann.
+2. Vorbereitung einer detaillierten Analyse der Vor- und Nachteile der vorgeschlagenen Lösungen, Frist: 10. Oktober 2024.
+3. Planung des nächsten Treffens für den 10. Oktober 2024, verantwortlich: Serviceteam.",no,no,no,no,no,no,no,no,no,no,no,no,no,,NONE,0,0,easy,no,none,no,train,yes,openrouter_gpt4o_mini_field,field_llm_v1,no,,,v2,Synthetic document generated for controlled PII training data.,"[{'type': 'PERSON', 'value': 'Max Mustermann', 'confidence': 0.85, 'source': 'presidio', 'start': 1536, 'end': 1550}]",{'PERSON': 0.85},['PERSON'],[],['PERSON'],False,True,False,low_cost_llm,potential_pii_evidence,True,openrouter,gpt4o_mini,openai/gpt-4o-mini,True,"The text contains the real name 'Max Mustermann', which identifies a natural person.",489,33,522,0,0,9.315e-05,True,True,True,20260908_231602,rule_plus_gpt4o_mini,openrouter,llm,openai/gpt-4o-mini,pii_review_v1,llm,False,True,false_positive,False,contains_personal_data,predicted_pii
+SYN-MEETING_NOTES-0087,synthetic_meeting_notes_0087.txt,meeting_notes,meeting_notes,de,synthetic_generation,,,synthetic,2026-08-28,2026-08-28,2026-08-28,0,"Besprechungsnotizen
+
+Titel: Entscheidungen zur Systemmigration
+Datum: 2025-09-10
+Ort: IT-Abteilung
+Teilnehmer: Projektteam
+Kontakt: Abteilungskontakt
+Agenda: 1. Status der aktuellen Migration 2. Diskussion über Probleme 3. Festlegung von Verantwortlichkeiten 4. Planung der nächsten Schritte
+Diskussion: Das Projektteam hat den aktuellen Status der Systemmigration besprochen. Es wurden einige technische Schwierigkeiten identifiziert, insbesondere in Bezug auf die Datenintegration. Diese Probleme wurden von den Teammitgliedern eingehend erörtert. Es wurde auch darauf hingewiesen, dass die Schulung der Mitarbeiter für die neuen Systeme entscheidend ist. Der Zeitrahmen für die Migration bleibt jedoch unverändert, da die Frist von der Geschäftsführung festgelegt wurde.
+Entscheidungen: Die Entscheidung wurde getroffen, zusätzliche Ressourcen für die Datenintegration bereitzustellen. Außerdem wurde beschlossen, ein wöchentliches Update-Meeting einzuführen, um den Fortschritt zu überwachen.
+Aufgaben: Max Müller wird die zusätzlichen Ressourcen bis zum 15. September 2025 anfordern. Anna Schmidt ist verantwortlich für die Organisation des ersten Update-Meetings, das am 20. September 2025 stattfinden soll.",no,no,no,no,no,no,no,no,no,no,no,no,no,,NONE,0,0,easy,no,none,no,train,yes,openrouter_gpt4o_mini_field,field_llm_v1,no,,,v2,Synthetic document generated for controlled PII training data.,"[{'type': 'PERSON', 'value': 'Max Müller', 'confidence': 0.85, 'source': 'presidio', 'start': 1007, 'end': 1017}, {'type': 'PERSON', 'value': 'Anna Schmidt', 'confidence': 0.85, 'source': 'presidio', 'start': 1089, 'end': 1101}]",{'PERSON': 0.85},['PERSON'],[],['PERSON'],False,True,True,low_cost_llm,potential_pii_evidence,True,openrouter,gpt4o_mini,openai/gpt-4o-mini,True,"The text contains the real names 'Max Müller' and 'Anna Schmidt', which are identifiable natural persons.",480,37,517,0,0,9.42e-05,True,True,True,20260908_231602,rule_plus_gpt4o_mini,openrouter,llm,openai/gpt-4o-mini,pii_review_v1,llm,False,True,false_positive,False,contains_personal_data,predicted_pii
+SYN-MEETING_NOTES-0100,synthetic_meeting_notes_0100.txt,meeting_notes,meeting_notes,de,synthetic_generation,,,synthetic,2026-08-28,2026-08-28,2026-08-28,0,"Besprechungsnotizen
+
+Titel: Entscheidungen zur IT-Infrastruktur
+Datum: 2026-05-03
+Ort: IT-Abteilung
+Teilnehmer: Arbeitsgruppe
+Kontakt: Serviceteam
+Agenda: Überprüfung der aktuellen IT-Projekte und Festlegung der nächsten Schritte.
+Diskussion: Die Arbeitsgruppe hat die Fortschritte der laufenden Projekte diskutiert, einschließlich der Implementierung neuer Sicherheitsprotokolle und der Aktualisierung der Serverhardware. Es wurde ein Überblick über die Herausforderungen gegeben, mit denen die Teams konfrontiert sind, sowie über die Notwendigkeit, die Benutzerfreundlichkeit der Systeme zu verbessern. Die Teilnehmer haben auch die Wichtigkeit der Einhaltung von Fristen betont und Vorschläge zur Optimierung der Ressourcenverwaltung gemacht.
+Entscheidungen: Es wurde beschlossen, die Sicherheitsprotokolle bis Ende des Monats abzuschließen und die Serverhardware bis zum nächsten Quartal zu aktualisieren.
+Aufgaben: Die Verantwortlichen für die Sicherheitsprotokolle sind Max Müller und Sarah Schmidt. Sie müssen bis zum 15. Mai einen Fortschrittsbericht vorlegen. Die Hardwareaktualisierung wird von Thomas Becker geleitet, der bis zum 1. Juni einen detaillierten Plan präsentieren soll.",no,no,no,no,no,no,no,no,no,no,no,no,no,,NONE,0,0,easy,no,none,no,train,yes,openrouter_gpt4o_mini_field,field_llm_v1,no,,,v2,Synthetic document generated for controlled PII training data.,"[{'type': 'LOCATION', 'value': 'Sicherheitsprotokolle', 'confidence': 0.85, 'source': 'presidio', 'start': 788, 'end': 809}, {'type': 'PERSON', 'value': 'Max Müller', 'confidence': 0.85, 'source': 'presidio', 'start': 976, 'end': 986}, {'type': 'PERSON', 'value': 'Sarah Schmidt', 'confidence': 0.85, 'source': 'presidio', 'start': 991, 'end': 1004}, {'type': 'PERSON', 'value': 'Thomas Becker', 'confidence': 0.85, 'source': 'presidio', 'start': 1105, 'end': 1118}]","{'LOCATION': 0.85, 'PERSON': 0.85}","['LOCATION', 'PERSON']",[],"['LOCATION', 'PERSON']",False,True,False,low_cost_llm,potential_pii_evidence,True,openrouter,gpt4o_mini,openai/gpt-4o-mini,True,"The text contains real names of individuals, which are considered personal data under GDPR.",519,31,550,0,0,9.645e-05,True,True,True,20260908_231602,rule_plus_gpt4o_mini,openrouter,llm,openai/gpt-4o-mini,pii_review_v1,llm,False,True,false_positive,False,contains_personal_data,predicted_pii
+SYN-MEETING_NOTES-0106,synthetic_meeting_notes_0106.txt,meeting_notes,meeting_notes,de,synthetic_generation,,,synthetic,2026-08-28,2026-08-28,2026-08-28,0,"Besprechungsnotizen
+
+Titel: Entscheidungsprotokoll vom Projektteam
+Datum: 2026-04-05
+Ort: Lagerbereich
+Teilnehmer: Projektteam
+Kontakt: Zentrale Kontaktstelle
+Agenda: Überprüfung der aktuellen Fortschritte und Festlegung von nächsten Schritten.
+Diskussion: Das Projektteam hat die bisherigen Fortschritte in den letzten Wochen besprochen. Es wurde festgestellt, dass einige Aufgaben hinter dem Zeitplan liegen. Die Gründe für die Verzögerungen wurden analysiert, und das Team hat Strategien entwickelt, um diese Herausforderungen zu bewältigen. Es gab auch einen Austausch über die Notwendigkeit zusätzlicher Ressourcen für die nächsten Phasen des Projekts.
+Entscheidungen: Das Projektteam hat beschlossen, die Fristen für die verzögerten Aufgaben um zwei Wochen zu verlängern. Zudem wurde beschlossen, zusätzliche Schulungen für die Teammitglieder anzubieten, um die Effizienz zu steigern.
+Aufgaben: 1. Verantwortlich für die Aktualisierung der Zeitpläne: Max Müller. 2. Organisation der Schulungen: Anna Schmidt bis zum 20. April 2026. 3. Nächstes Treffen zur Überprüfung des Fortschritts: 10. Mai 2026.",no,no,no,no,no,no,no,no,no,no,no,no,no,,NONE,0,0,easy,no,none,no,train,yes,openrouter_gpt4o_mini_field,field_llm_v1,no,,,v2,Synthetic document generated for controlled PII training data.,"[{'type': 'PERSON', 'value': 'Max Müller', 'confidence': 0.85, 'source': 'presidio', 'start': 957, 'end': 967}, {'type': 'PERSON', 'value': 'Anna Schmidt', 'confidence': 0.85, 'source': 'presidio', 'start': 1001, 'end': 1013}]",{'PERSON': 0.85},['PERSON'],[],['PERSON'],False,True,False,low_cost_llm,potential_pii_evidence,True,openrouter,gpt4o_mini,openai/gpt-4o-mini,True,"The text includes real names of individuals, Max Müller and Anna Schmidt, which are considered personal data under GDPR.",487,37,524,0,0,9.525e-05,True,True,True,20260908_231602,rule_plus_gpt4o_mini,openrouter,llm,openai/gpt-4o-mini,pii_review_v1,llm,False,True,false_positive,False,contains_personal_data,predicted_pii
+SYN-MEETING_NOTES-0112,synthetic_meeting_notes_0112.txt,meeting_notes,meeting_notes,de,synthetic_generation,,,synthetic,2026-08-28,2026-08-28,2026-08-28,0,"Besprechungsnotizen
+
+Titel: Entscheidungsprotokoll des Projektteams
+Datum: 2027-04-01
+Ort: Hauptstandort
+Teilnehmer: Projektteam
+Kontakt: Zentrale Kontaktstelle
+Agenda: 1. Statusupdate der aktuellen Projekte 2. Diskussion über Ressourcenplanung 3. Festlegung der nächsten Schritte
+Diskussion: Das Projektteam hat die Fortschritte der aktuellen Projekte besprochen. Es wurde festgestellt, dass die Ressourcenplanung optimiert werden muss, um Engpässe zu vermeiden. Zudem wurde die Notwendigkeit betont, klare Verantwortlichkeiten für die nächsten Schritte zu definieren.
+Entscheidungen: Das Projektteam hat beschlossen, dass die Ressourcenplanung bis zum 15. April 2027 überarbeitet werden muss. Außerdem wurden die Projektziele für das zweite Quartal 2027 festgelegt.
+Aufgaben: 1. Verantwortlicher für die Überarbeitung der Ressourcenplanung: Max Müller 2. Erstellung eines detaillierten Berichts über die Projektziele bis zum 10. April 2027: Lisa Schmidt 3. Nächstes Treffen zur Überprüfung der Fortschritte: 20. April 2027",no,no,no,no,no,no,no,no,no,no,no,no,no,,NONE,0,0,easy,no,none,no,test,yes,openrouter_gpt4o_mini_field,field_llm_v1,no,,,v2,Synthetic document generated for controlled PII training data.,"[{'type': 'PERSON', 'value': 'Max Müller', 'confidence': 0.85, 'source': 'presidio', 'start': 843, 'end': 853}, {'type': 'PERSON', 'value': 'Lisa Schmidt', 'confidence': 0.85, 'source': 'presidio', 'start': 943, 'end': 955}]",{'PERSON': 0.85},['PERSON'],[],['PERSON'],False,True,False,low_cost_llm,potential_pii_evidence,True,openrouter,gpt4o_mini,openai/gpt-4o-mini,True,"The text contains real names of individuals, Max Müller and Lisa Schmidt, which are considered personal data under GDPR.",492,38,530,0,0,9.66e-05,True,True,True,20260908_231602,rule_plus_gpt4o_mini,openrouter,llm,openai/gpt-4o-mini,pii_review_v1,llm,False,True,false_positive,False,contains_personal_data,predicted_pii
+SYN-MEETING_NOTES-0116,synthetic_meeting_notes_0116.txt,meeting_notes,meeting_notes,en,synthetic_generation,,,synthetic,2026-08-28,2026-08-28,2026-08-28,0,"Meeting Notes
+
+Title: Meeting Notes - Decision Log for Operational Strategies
+Date: 2025-11-17
+Location: Warehouse Area
+Participants: Department Representatives
+Contact: Department Contact
+Agenda: 1. Review current operational performance
+2. Discuss potential improvements
+3. Assign responsibilities for action items
+Discussion: The team reviewed the latest performance metrics and identified key areas for improvement, including inventory management and fulfillment processes. Suggestions were made for enhancing coordination between departments to streamline operations. Several representatives shared their insights on challenges faced in the warehouse area, emphasizing the need for better communication and resource allocation.
+Decisions: It was decided to implement a new inventory tracking system to enhance accuracy and efficiency. Additionally, a cross-department task force will be established to address communication gaps.
+Action Items: 1. John Smith will research and propose options for the new inventory tracking system by December 1, 2025.
+2. Sarah Johnson will coordinate the formation of the cross-department task force and schedule the first meeting by November 30, 2025.",no,no,no,no,no,no,no,no,no,no,no,no,no,,NONE,0,0,easy,no,none,no,train,yes,openrouter_gpt4o_mini_field,field_llm_v1,no,,,v2,Synthetic document generated for controlled PII training data.,"[{'type': 'PERSON', 'value': 'John Smith', 'confidence': 0.85, 'source': 'presidio', 'start': 952, 'end': 962}, {'type': 'DATE_TIME', 'value': 'December 1, 2025', 'confidence': 0.85, 'source': 'presidio', 'start': 1038, 'end': 1054}, {'type': 'PERSON', 'value': 'Sarah Johnson', 'confidence': 0.85, 'source': 'presidio', 'start': 1059, 'end': 1072}, {'type': 'DATE_TIME', 'value': 'November 30, 2025', 'confidence': 0.85, 'source': 'presidio', 'start': 1172, 'end': 1189}]","{'PERSON': 0.85, 'DATE_TIME': 0.85}","['DATE_TIME', 'PERSON']",[],"['PERSON', 'DATE_TIME']",False,True,True,low_cost_llm,potential_pii_evidence,True,openrouter,gpt4o_mini,openai/gpt-4o-mini,True,"The text includes real names of individuals, John Smith and Sarah Johnson, which are considered personal data under GDPR.",482,37,519,0,0,9.45e-05,True,True,True,20260908_231602,rule_plus_gpt4o_mini,openrouter,llm,openai/gpt-4o-mini,pii_review_v1,llm,False,True,false_positive,False,contains_personal_data,predicted_pii
+SYN-MEETING_NOTES-0126,synthetic_meeting_notes_0126.txt,meeting_notes,meeting_notes,de,synthetic_generation,,,synthetic,2026-08-28,2026-08-28,2026-08-28,0,"Besprechungsnotizen
+
+Titel: Entscheidungen aus dem Projektteam-Meeting
+Datum: 2025-04-24
+Ort: Hauptstandort
+Teilnehmer: Projektteam
+Kontakt: Abteilungskontakt
+Agenda: Besprechung der aktuellen Projektfortschritte, Identifikation von Herausforderungen und Festlegung von nächsten Schritten.
+Diskussion: Im Meeting wurden die Fortschritte des Projekts erörtert, insbesondere die Herausforderungen bei der Implementierung neuer Funktionen. Es wurde festgestellt, dass einige Teammitglieder zusätzliche Unterstützung benötigen, um bestimmte Aufgaben fristgerecht abzuschließen. Die Bedeutung einer klaren Kommunikation wurde hervorgehoben, um Missverständnisse zu vermeiden.
+Entscheidungen: Es wurde entschieden, dass das Team wöchentliche Statusupdates einführen wird, um den Fortschritt besser zu überwachen. Zudem soll ein zusätzliches Meeting in der nächsten Woche stattfinden, um die spezifischen Herausforderungen zu besprechen.
+Aufgaben: 1. Max Müller wird die wöchentlichen Statusupdates organisieren. 2. Sarah Schmidt wird die Agenda für das nächste Meeting vorbereiten. 3. Alle Teammitglieder sollen bis Ende der Woche ihre aktuellen Aufgaben und Herausforderungen an das Projektteam kommunizieren.",no,no,no,no,no,no,no,no,no,no,no,no,no,,NONE,0,0,easy,no,none,no,test,yes,openrouter_gpt4o_mini_field,field_llm_v1,no,,,v2,Synthetic document generated for controlled PII training data.,"[{'type': 'LOCATION', 'value': 'Projektteam-Meeting', 'confidence': 0.85, 'source': 'presidio', 'start': 51, 'end': 70}, {'type': 'PERSON', 'value': 'Max Müller', 'confidence': 0.85, 'source': 'presidio', 'start': 944, 'end': 954}, {'type': 'PERSON', 'value': 'Sarah Schmidt', 'confidence': 0.85, 'source': 'presidio', 'start': 1009, 'end': 1022}, {'type': 'DATE_TIME', 'value': '2025-04-24', 'confidence': 0.6, 'source': 'presidio', 'start': 78, 'end': 88}]","{'LOCATION': 0.85, 'PERSON': 0.85, 'DATE_TIME': 0.6}","['DATE_TIME', 'LOCATION', 'PERSON']",[],"['LOCATION', 'PERSON', 'DATE_TIME']",False,True,False,low_cost_llm,potential_pii_evidence,True,openrouter,gpt4o_mini,openai/gpt-4o-mini,True,"The text includes the names 'Max Müller' and 'Sarah Schmidt', which are identifiable natural persons.",557,35,592,0,0,0.00010455,True,True,True,20260908_231602,rule_plus_gpt4o_mini,openrouter,llm,openai/gpt-4o-mini,pii_review_v1,llm,False,True,false_positive,False,contains_personal_data,predicted_pii
+SYN-MEETING_NOTES-0129,synthetic_meeting_notes_0129.txt,meeting_notes,meeting_notes,de,synthetic_generation,,,synthetic,2026-08-28,2026-08-28,2026-08-28,0,"Besprechungsnotizen
+
+Titel: Entscheidungsprotokoll der Arbeitsgruppe
+Datum: 2025-01-01
+Ort: Lagerbereich
+Teilnehmer: Arbeitsgruppe
+Kontakt: Zentrale Kontaktstelle
+Agenda: 1. Begrüßung und Einführung 2. Überprüfung der letzten Entscheidungen 3. Aktuelle Themen und Herausforderungen 4. Festlegung von Verantwortlichkeiten 5. Nächste Schritte und Fristen
+Diskussion: Die Sitzung begann mit einer kurzen Begrüßung durch den Moderator. Anschließend wurden die letzten Entscheidungen, die in der letzten Sitzung getroffen wurden, überprüft. Die Teilnehmer diskutierten aktuelle Herausforderungen im Lagerbereich, insbesondere in Bezug auf die Lagerverwaltung und die Effizienzsteigerung. Es wurde festgestellt, dass die Einführung eines neuen Lagerverwaltungssystems notwendig ist, um die Abläufe zu optimieren. Die Gruppe erörterte verschiedene Optionen, wobei der Fokus auf der Benutzerfreundlichkeit und den Kosten lag.
+Entscheidungen: Die Arbeitsgruppe hat beschlossen, ein neues Lagerverwaltungssystem zu implementieren. Verantwortlich für die Evaluierung der Systeme sind Herr Müller und Frau Schmidt. Die Entscheidung zur Implementierung wird in der nächsten Sitzung finalisiert.
+Aufgaben: 1. Herr Müller und Frau Schmidt evaluieren verschiedene Lagerverwaltungssysteme bis zum 15. Januar 2025. 2. Eine Übersicht der Optionen wird in der nächsten Sitzung präsentiert. 3. Alle Teilnehmer sollen bis zum 10. Januar 2025 ihre Vorschläge für weitere Themen einreichen.",no,no,no,no,no,no,no,no,no,no,no,no,no,,NONE,0,0,easy,no,none,no,train,yes,openrouter_gpt4o_mini_field,field_llm_v1,no,,,v2,Synthetic document generated for controlled PII training data.,"[{'type': 'PERSON', 'value': 'Herr Müller', 'confidence': 0.85, 'source': 'presidio', 'start': 1073, 'end': 1084}, {'type': 'PERSON', 'value': 'Frau Schmidt', 'confidence': 0.85, 'source': 'presidio', 'start': 1089, 'end': 1101}, {'type': 'PERSON', 'value': 'Frau Schmidt', 'confidence': 0.85, 'source': 'presidio', 'start': 1211, 'end': 1223}]",{'PERSON': 0.85},['PERSON'],[],['PERSON'],False,True,True,low_cost_llm,potential_pii_evidence,True,openrouter,gpt4o_mini,openai/gpt-4o-mini,True,"The text contains the names 'Herr Müller' and 'Frau Schmidt', which are identifiable natural persons.",510,37,547,0,0,9.87e-05,True,True,True,20260908_231602,rule_plus_gpt4o_mini,openrouter,llm,openai/gpt-4o-mini,pii_review_v1,llm,False,True,false_positive,False,contains_personal_data,predicted_pii
+SYN-MEETING_NOTES-0141,synthetic_meeting_notes_0141.txt,meeting_notes,meeting_notes,en,synthetic_generation,,,synthetic,2026-08-28,2026-08-28,2026-08-28,0,"Meeting Notes
+
+Title: IT Department Strategy Alignment Meeting
+Date: 2027-07-29
+Location: IT Department
+Participants: Department Representatives
+Contact: Central Contact Point
+Agenda: 1. Review current project statuses
+2. Discuss upcoming initiatives
+3. Assign ownership for new tasks
+Discussion: The meeting commenced with a review of the ongoing projects. Each representative provided updates, highlighting successes and areas needing improvement. There was a thorough discussion on the upcoming initiatives that align with the department's strategic goals, focusing on resource allocation and timeline expectations. The importance of collaboration across teams was emphasized to ensure all initiatives are successfully executed.
+Decisions: It was decided to prioritize the development of the new project management tool and to allocate additional resources to the cybersecurity initiative. Additionally, each team will submit a weekly progress report to maintain transparency and accountability.
+Action Items: 1. John Smith will lead the development of the project management tool by August 15.
+2. Sarah Johnson is tasked with enhancing the cybersecurity initiative and will report back on progress by August 22.
+3. All teams are to submit their weekly progress reports starting next week.",no,no,no,no,no,no,no,no,no,no,no,no,no,,NONE,0,0,easy,no,none,no,test,yes,openrouter_gpt4o_mini_field,field_llm_v1,no,,,v2,Synthetic document generated for controlled PII training data.,"[{'type': 'DATE_TIME', 'value': 'weekly', 'confidence': 0.85, 'source': 'presidio', 'start': 931, 'end': 937}, {'type': 'PERSON', 'value': 'John Smith', 'confidence': 0.85, 'source': 'presidio', 'start': 1016, 'end': 1026}, {'type': 'DATE_TIME', 'value': 'August 15', 'confidence': 0.85, 'source': 'presidio', 'start': 1087, 'end': 1096}, {'type': 'PERSON', 'value': 'Sarah Johnson', 'confidence': 0.85, 'source': 'presidio', 'start': 1101, 'end': 1114}, {'type': 'DATE_TIME', 'value': 'August 22', 'confidence': 0.85, 'source': 'presidio', 'start': 1205, 'end': 1214}, {'type': 'DATE_TIME', 'value': 'weekly', 'confidence': 0.85, 'source': 'presidio', 'start': 1249, 'end': 1255}, {'type': 'DATE_TIME', 'value': 'next week', 'confidence': 0.85, 'source': 'presidio', 'start': 1282, 'end': 1291}]","{'DATE_TIME': 0.85, 'PERSON': 0.85}","['DATE_TIME', 'PERSON']",[],"['DATE_TIME', 'PERSON']",False,True,False,low_cost_llm,potential_pii_evidence,True,openrouter,gpt4o_mini,openai/gpt-4o-mini,True,"The text contains real names of individuals, specifically 'John Smith' and 'Sarah Johnson'.",495,34,529,0,0,9.465e-05,True,True,True,20260908_231602,rule_plus_gpt4o_mini,openrouter,llm,openai/gpt-4o-mini,pii_review_v1,llm,False,True,false_positive,False,contains_personal_data,predicted_pii
+SYN-MEETING_NOTES-0144,synthetic_meeting_notes_0144.txt,meeting_notes,meeting_notes,de,synthetic_generation,,,synthetic,2026-08-28,2026-08-28,2026-08-28,0,"Besprechungsnotizen
+
+Titel: Protokoll der Sitzung der IT-Abteilung vom 23. April 2026
+Datum: 2026-04-23
+Ort: IT-Abteilung
+Teilnehmer: Arbeitsgruppe
+Kontakt: Serviceteam
+Agenda: 1. Eröffnung und Begrüßung
+2. Genehmigung des Protokolls der vorherigen Sitzung
+3. Statusbericht zu aktuellen Projekten
+4. Diskussion über neue IT-Initiativen
+5. Verschiedenes
+Diskussion: Die Sitzung wurde um 10:00 Uhr von dem Vorsitzenden eröffnet. Es wurde das Protokoll der vorherigen Sitzung genehmigt. Der Statusbericht zu aktuellen Projekten zeigte Fortschritte in der Implementierung des neuen IT-Systems, jedoch wurden Verzögerungen bei der Schulung der Mitarbeiter festgestellt. In der Diskussion über neue IT-Initiativen wurden verschiedene Vorschläge präsentiert, darunter die Einführung eines neuen Kommunikationstools zur Verbesserung der internen Zusammenarbeit. Die Teilnehmer äußerten sich positiv über die vorgeschlagene Initiative, wobei einige Bedenken hinsichtlich der Integration in bestehende Systeme geäußert wurden.
+Entscheidungen: Es wurde beschlossen, die Schulungsmaßnahmen für das neue IT-System zu priorisieren und einen Zeitplan für die Implementierung des neuen Kommunikations-Tools zu erstellen. Zudem wurde vereinbart, die nächsten Schritte zur Lösung der Integrationsprobleme zu klären.
+Aufgaben: 1. Erstellung eines aktualisierten Schulungsplans bis zum 30. April 2026 - Verantwortlich: Herr Müller
+2. Entwicklung eines Zeitplans für die Implementierung des Kommunikations-Tools bis zum 15. Mai 2026 - Verantwortlich: Frau Schmidt
+3. Klärung der Integrationsprobleme mit dem IT-Support-Team bis zum 7. Mai 2026 - Verantwortlich: Herr Becker",no,no,no,no,no,no,no,no,no,no,no,no,no,,NONE,0,0,easy,no,none,no,train,yes,openrouter_gpt4o_mini_field,field_llm_v1,no,,,v2,Synthetic document generated for controlled PII training data.,"[{'type': 'LOCATION', 'value': 'IT-Initiativen', 'confidence': 0.85, 'source': 'presidio', 'start': 321, 'end': 335}, {'type': 'LOCATION', 'value': 'IT-Initiativen', 'confidence': 0.85, 'source': 'presidio', 'start': 693, 'end': 707}, {'type': 'PERSON', 'value': 'Herr Müller', 'confidence': 0.85, 'source': 'presidio', 'start': 1399, 'end': 1410}]","{'LOCATION': 0.85, 'PERSON': 0.85}","['LOCATION', 'PERSON']",[],"['LOCATION', 'PERSON']",False,True,True,low_cost_llm,potential_pii_evidence,True,openrouter,gpt4o_mini,openai/gpt-4o-mini,True,The text contains identifiable names (Herr Müller and Frau Schmidt) which relate to specific individuals.,665,33,698,0,0,0.00011955,True,True,True,20260908_231602,rule_plus_gpt4o_mini,openrouter,llm,openai/gpt-4o-mini,pii_review_v1,llm,False,True,false_positive,False,contains_personal_data,predicted_pii
+SYN-MEETING_NOTES-0149,synthetic_meeting_notes_0149.txt,meeting_notes,meeting_notes,de,synthetic_generation,,,synthetic,2026-08-28,2026-08-28,2026-08-28,0,"Besprechungsnotizen
+
+Titel: Entscheidungsprotokoll des Projektteams
+Datum: 2027-05-13
+Ort: Hauptstandort
+Teilnehmer: Projektteam
+Kontakt: Serviceteam
+Agenda: 1. Projektfortschritt 2. Ressourcenbedarf 3. Nächste Schritte
+Diskussion: Das Projektteam hat den Fortschritt der letzten Woche besprochen. Es wurde festgestellt, dass die Meilensteine größtenteils erreicht wurden, jedoch ein erhöhter Ressourcenbedarf festgestellt wurde. Die Teammitglieder äußerten Bedenken hinsichtlich der Verfügbarkeit von Fachkräften in den kommenden Monaten. Zudem wurde die Notwendigkeit von zusätzlichen Schulungen für die neuen Softwaretools diskutiert. Die nächsten Schritte wurden ebenfalls erörtert, um sicherzustellen, dass der Zeitplan eingehalten wird.
+Entscheidungen: Es wurde beschlossen, zusätzliche Ressourcen für das Projekt zu beantragen und Schulungen für das Team zu organisieren.
+Aufgaben: 1. Verantwortlicher: Max Müller - Antrag auf zusätzliche Ressourcen bis 20. Mai 2027 einreichen. 2. Verantwortlicher: Sarah Schmidt - Schulungsplan erstellen und bis Ende Mai 2027 vorstellen.",no,no,no,no,no,no,no,no,no,no,no,no,no,,NONE,0,0,easy,no,none,no,train,yes,openrouter_gpt4o_mini_field,field_llm_v1,no,,,v2,Synthetic document generated for controlled PII training data.,"[{'type': 'PERSON', 'value': 'Max Müller', 'confidence': 0.85, 'source': 'presidio', 'start': 910, 'end': 920}, {'type': 'PERSON', 'value': 'Sarah Schmidt', 'confidence': 0.85, 'source': 'presidio', 'start': 1007, 'end': 1020}]",{'PERSON': 0.85},['PERSON'],[],['PERSON'],False,True,False,low_cost_llm,potential_pii_evidence,True,openrouter,gpt4o_mini,openai/gpt-4o-mini,True,"The text contains real names of individuals, Max Müller and Sarah Schmidt, which are considered personal data under GDPR.",478,38,516,0,0,9.45e-05,True,True,True,20260908_231602,rule_plus_gpt4o_mini,openrouter,llm,openai/gpt-4o-mini,pii_review_v1,llm,False,True,false_positive,False,contains_personal_data,predicted_pii
+SYN-MEETING_NOTES-0154,synthetic_meeting_notes_0154.txt,meeting_notes,meeting_notes,de,synthetic_generation,,,synthetic,2026-08-28,2026-08-28,2026-08-28,0,"Besprechungsnotizen
+
+Titel: Entscheidungsprotokoll des Projektteams
+Datum: 2026-01-21
+Ort: Hauptstandort
+Teilnehmer: Projektteam
+Kontakt: Abteilungskontakt
+Agenda: 1. Statusupdates der aktuellen Projekte
+2. Entscheidungsfindung zu neuen Initiativen
+3. Zuweisung von Verantwortlichkeiten
+4. Nächste Schritte und Fristen
+Diskussion: Das Projektteam hat die aktuellen Statusupdates der laufenden Projekte besprochen. Es wurde festgestellt, dass das Projekt A hinter dem Zeitplan liegt, während Projekt B positive Fortschritte macht. Die Diskussion über neue Initiativen konzentrierte sich auf die Implementierung von Projekt C, wobei Bedenken hinsichtlich der Ressourcen geäußert wurden. Teammitglieder äußerten Vorschläge zur Verbesserung der Kommunikation zwischen den Abteilungen.
+Entscheidungen: Das Team hat beschlossen, dass Projekt C in der nächsten Phase priorisiert wird. Die Verantwortlichkeiten für die verschiedenen Aufgaben wurden ebenfalls festgelegt, um die Effizienz zu steigern.
+Aufgaben: 1. Max Müller wird die Ressourcen für Projekt C überprüfen und einen Bericht bis zum 15. Februar vorlegen.
+2. Anna Schmidt soll ein Follow-up-Meeting für den 25. Januar planen, um den Fortschritt der Projekte zu überprüfen.
+3. Alle Teammitglieder müssen ihre Statusberichte bis zum 10. Februar einreichen.",no,no,no,no,no,no,no,no,no,no,no,no,no,,NONE,0,0,easy,no,none,no,train,yes,openrouter_gpt4o_mini_field,field_llm_v1,no,,,v2,Synthetic document generated for controlled PII training data.,"[{'type': 'PERSON', 'value': 'Max Müller', 'confidence': 0.85, 'source': 'presidio', 'start': 1006, 'end': 1016}, {'type': 'PERSON', 'value': 'Anna Schmidt', 'confidence': 0.85, 'source': 'presidio', 'start': 1113, 'end': 1125}]",{'PERSON': 0.85},['PERSON'],[],['PERSON'],False,True,False,low_cost_llm,potential_pii_evidence,True,openrouter,gpt4o_mini,openai/gpt-4o-mini,True,"The text contains real names of individuals, specifically 'Max Müller' and 'Anna Schmidt', which are considered personal data under GDPR.",501,42,543,0,0,0.00010035,True,True,True,20260908_231602,rule_plus_gpt4o_mini,openrouter,llm,openai/gpt-4o-mini,pii_review_v1,llm,False,True,false_positive,False,contains_personal_data,predicted_pii
+SYN-MEETING_NOTES-0164,synthetic_meeting_notes_0164.txt,meeting_notes,meeting_notes,en,synthetic_generation,,,synthetic,2026-08-28,2026-08-28,2026-08-28,0,"Meeting Notes
+
+Title: Warehouse Operations Review Meeting
+Date: 2025-06-20
+Location: Warehouse Area
+Participants: Project Team
+Contact: Department Contact
+Agenda: 1. Review current warehouse operations
+2. Discuss inventory management improvements
+3. Assign action items for upcoming tasks
+Discussion: During the meeting, the team reviewed the performance metrics of the current warehouse operations. It was noted that while productivity has increased, there are still challenges in inventory management that need to be addressed. Several team members provided insights into potential improvements, including better tracking systems and optimized storage solutions. The discussion highlighted the importance of addressing these issues to ensure efficiency and reduce overhead costs.
+Decisions: The team decided to implement a new inventory management software solution by the end of Q3 2025. It was also agreed that a follow-up meeting will be scheduled in two weeks to assess progress on the integration.
+Action Items: 1. John Doe to research potential inventory management software options by next week.
+2. Sarah Smith to prepare a proposal for storage optimization strategies for the next meeting.
+3. All team members to gather feedback on current processes and bring suggestions to the next session.",no,no,no,no,no,no,no,no,no,no,no,no,no,,NONE,0,0,easy,no,none,no,train,yes,openrouter_gpt4o_mini_field,field_llm_v1,no,,,v2,Synthetic document generated for controlled PII training data.,"[{'type': 'DATE_TIME', 'value': 'the end of Q3 2025', 'confidence': 0.85, 'source': 'presidio', 'start': 871, 'end': 889}, {'type': 'DATE_TIME', 'value': 'two weeks', 'confidence': 0.85, 'source': 'presidio', 'start': 956, 'end': 965}, {'type': 'PERSON', 'value': 'John Doe', 'confidence': 0.85, 'source': 'presidio', 'start': 1022, 'end': 1030}, {'type': 'DATE_TIME', 'value': 'next week', 'confidence': 0.85, 'source': 'presidio', 'start': 1094, 'end': 1103}, {'type': 'PERSON', 'value': 'Sarah Smith', 'confidence': 0.85, 'source': 'presidio', 'start': 1108, 'end': 1119}]","{'DATE_TIME': 0.85, 'PERSON': 0.85}","['DATE_TIME', 'PERSON']",[],"['DATE_TIME', 'PERSON']",False,True,False,low_cost_llm,potential_pii_evidence,True,openrouter,gpt4o_mini,openai/gpt-4o-mini,True,"The text includes real names of individuals, specifically 'John Doe' and 'Sarah Smith', which are identifiable natural persons.",512,39,551,0,0,0.0001002,True,True,True,20260908_231602,rule_plus_gpt4o_mini,openrouter,llm,openai/gpt-4o-mini,pii_review_v1,llm,False,True,false_positive,False,contains_personal_data,predicted_pii
+SYN-MEETING_NOTES-0175,synthetic_meeting_notes_0175.txt,meeting_notes,meeting_notes,en,synthetic_generation,,,synthetic,2026-08-28,2026-08-28,2026-08-28,0,"Meeting Notes
+
+Title: IT Department Working Group Meeting - Decision Log
+Date: 2024-11-21
+Location: IT Department
+Participants: Working Group
+Contact: Department Contact
+Agenda: 1. Review ongoing projects
+2. Discuss resource allocation for upcoming tasks
+3. Evaluate recent initiatives and their impact
+4. Set priorities for the next quarter
+Discussion: The meeting focused on the current status of ongoing projects within the IT Department. Participants provided updates on their respective initiatives, highlighting progress and identifying any roadblocks. The group discussed resource allocation, emphasizing the need for additional support on high-priority tasks. Recent initiatives were evaluated, with feedback gathered on their effectiveness and areas for improvement. The consensus was to streamline processes to enhance team collaboration and efficiency.
+Decisions: The Working Group decided to allocate additional resources to the cybersecurity project and prioritize the implementation of the new project management tool. It was agreed that regular check-ins would occur bi-weekly to monitor progress.
+Action Items: 1. Allocate additional resources for the cybersecurity project - Owner: John Doe
+2. Implement the new project management tool by December 15, 2024 - Owner: Sarah Smith
+3. Schedule bi-weekly check-ins to track progress - Owner: Emily Johnson",no,no,no,no,no,no,no,no,no,no,no,no,no,,NONE,0,0,easy,no,none,no,train,yes,openrouter_gpt4o_mini_field,field_llm_v1,no,,,v2,Synthetic document generated for controlled PII training data.,"[{'type': 'DATE_TIME', 'value': 'bi-weekly', 'confidence': 0.85, 'source': 'presidio', 'start': 1082, 'end': 1091}, {'type': 'PERSON', 'value': 'John Doe\n2', 'confidence': 0.85, 'source': 'presidio', 'start': 1199, 'end': 1209}, {'type': 'DATE_TIME', 'value': 'December 15, 2024 - Owner', 'confidence': 0.85, 'source': 'presidio', 'start': 1256, 'end': 1281}, {'type': 'PERSON', 'value': 'Sarah Smith', 'confidence': 0.85, 'source': 'presidio', 'start': 1283, 'end': 1294}, {'type': 'DATE_TIME', 'value': 'Schedule bi-weekly', 'confidence': 0.85, 'source': 'presidio', 'start': 1298, 'end': 1316}, {'type': 'PERSON', 'value': 'Emily Johnson', 'confidence': 0.85, 'source': 'presidio', 'start': 1354, 'end': 1367}]","{'DATE_TIME': 0.85, 'PERSON': 0.85}","['DATE_TIME', 'PERSON']",[],"['DATE_TIME', 'PERSON']",False,True,False,low_cost_llm,potential_pii_evidence,True,openrouter,gpt4o_mini,openai/gpt-4o-mini,True,"The text includes real names of individuals (John Doe, Sarah Smith, Emily Johnson) which are considered personal data under GDPR.",490,41,531,0,0,9.81e-05,True,True,True,20260908_231602,rule_plus_gpt4o_mini,openrouter,llm,openai/gpt-4o-mini,pii_review_v1,llm,False,True,false_positive,False,contains_personal_data,predicted_pii
+SYN-MEETING_NOTES-0179,synthetic_meeting_notes_0179.txt,meeting_notes,meeting_notes,en,synthetic_generation,,,synthetic,2026-08-28,2026-08-28,2026-08-28,0,"Meeting Notes
+
+Title: IT Project Status Review Meeting
+Date: 2026-04-21
+Location: IT Department
+Participants: Working Group
+Contact: Central Contact Point
+Agenda: 1. Review current project status
+2. Discuss upcoming milestones
+3. Identify risks and issues
+4. Assign action items
+Discussion: During the meeting, the team reviewed the progress of ongoing IT projects. It was noted that several projects are on track, while a few are facing potential delays due to resource allocation issues. The team discussed upcoming milestones, specifically focusing on the integration of new software tools. Risks associated with data migration were highlighted, and potential mitigation strategies were explored. The participants provided updates on their respective tasks, ensuring that everyone is aligned with the project goals.
+Decisions: The working group decided to prioritize the completion of the software integration by the end of Q2 2026. Additionally, it was agreed that a weekly check-in will be established to monitor progress and address any emerging issues promptly.
+Action Items: 1. John Smith will prepare a detailed project timeline by April 28, 2026.
+2. Sarah Jones will coordinate with the finance department to secure additional resources by April 30, 2026.
+3. Alex Brown will draft a risk management plan and circulate it by May 5, 2026.",no,no,no,no,no,no,no,no,no,no,no,no,no,,NONE,0,0,easy,no,none,no,train,yes,openrouter_gpt4o_mini_field,field_llm_v1,no,,,v2,Synthetic document generated for controlled PII training data.,"[{'type': 'DATE_TIME', 'value': 'the end of', 'confidence': 0.85, 'source': 'presidio', 'start': 916, 'end': 926}, {'type': 'DATE_TIME', 'value': 'weekly', 'confidence': 0.85, 'source': 'presidio', 'start': 971, 'end': 977}, {'type': 'PERSON', 'value': 'John Smith', 'confidence': 0.85, 'source': 'presidio', 'start': 1086, 'end': 1096}, {'type': 'DATE_TIME', 'value': 'April 28, 2026', 'confidence': 0.85, 'source': 'presidio', 'start': 1141, 'end': 1155}, {'type': 'PERSON', 'value': 'Sarah Jones', 'confidence': 0.85, 'source': 'presidio', 'start': 1160, 'end': 1171}, {'type': 'DATE_TIME', 'value': 'April 30, 2026', 'confidence': 0.85, 'source': 'presidio', 'start': 1250, 'end': 1264}, {'type': 'PERSON', 'value': 'Alex Brown', 'confidence': 0.85, 'source': 'presidio', 'start': 1269, 'end': 1279}, {'type': 'DATE_TIME', 'value': 'May 5, 2026', 'confidence': 0.85, 'source': 'presidio', 'start': 1334, 'end': 1345}]","{'DATE_TIME': 0.85, 'PERSON': 0.85}","['DATE_TIME', 'PERSON']",[],"['DATE_TIME', 'PERSON']",False,True,True,low_cost_llm,potential_pii_evidence,True,openrouter,gpt4o_mini,openai/gpt-4o-mini,True,"The text contains real names of individuals, which are considered personal data under GDPR.",527,32,559,0,0,9.825e-05,True,True,True,20260908_231602,rule_plus_gpt4o_mini,openrouter,llm,openai/gpt-4o-mini,pii_review_v1,llm,False,True,false_positive,False,contains_personal_data,predicted_pii
+SYN-MEETING_NOTES-0199,synthetic_meeting_notes_0199.txt,meeting_notes,meeting_notes,en,synthetic_generation,,,synthetic,2026-08-28,2026-08-28,2026-08-28,0,"Meeting Notes
+
+Title: Q4 Strategy Alignment Meeting
+Date: 2025-11-01
+Location: Operations Area
+Participants: Department Representatives
+Contact: Department Contact
+Agenda: 1. Review Q3 performance metrics
+2. Discuss strategic initiatives for Q4
+3. Assign ownership for key projects
+4. Define action items and deadlines
+Discussion: During the meeting, participants reviewed the Q3 performance metrics and identified areas for improvement. The discussion included insights from various department representatives on how to better align their efforts with overall company goals. Key strategic initiatives for Q4 were proposed, focusing on enhancing operational efficiency and customer engagement. The group emphasized the importance of clear ownership for each initiative to ensure accountability and progress. Each representative contributed their thoughts on potential challenges and opportunities within their departments.
+Decisions: The team decided to prioritize three main initiatives for Q4: 1) Implementation of a new customer feedback system, 2) Streamlining the supply chain processes, and 3) Launching a targeted marketing campaign. It was agreed that each initiative would have a designated owner responsible for its execution.
+Action Items: 1. John Doe will lead the implementation of the customer feedback system by December 1, 2025.
+2. Sarah Smith is tasked with evaluating and proposing improvements to the supply chain processes by November 15, 2025.
+3. Mark Johnson is assigned to develop a detailed plan for the marketing campaign by November 30, 2025.",no,no,no,no,no,no,no,no,no,no,no,no,no,,NONE,0,0,easy,no,none,no,train,yes,openrouter_gpt4o_mini_field,field_llm_v1,no,,,v2,Synthetic document generated for controlled PII training data.,"[{'type': 'PERSON', 'value': 'John Doe', 'confidence': 0.85, 'source': 'presidio', 'start': 1254, 'end': 1262}, {'type': 'DATE_TIME', 'value': 'December 1, 2025', 'confidence': 0.85, 'source': 'presidio', 'start': 1327, 'end': 1343}, {'type': 'PERSON', 'value': 'Sarah Smith', 'confidence': 0.85, 'source': 'presidio', 'start': 1348, 'end': 1359}, {'type': 'DATE_TIME', 'value': 'November 15, 2025', 'confidence': 0.85, 'source': 'presidio', 'start': 1446, 'end': 1463}, {'type': 'PERSON', 'value': 'Mark Johnson', 'confidence': 0.85, 'source': 'presidio', 'start': 1468, 'end': 1480}, {'type': 'DATE_TIME', 'value': 'November 30, 2025', 'confidence': 0.85, 'source': 'presidio', 'start': 1550, 'end': 1567}]","{'PERSON': 0.85, 'DATE_TIME': 0.85}","['DATE_TIME', 'PERSON']",[],"['PERSON', 'DATE_TIME']",False,True,False,low_cost_llm,potential_pii_evidence,True,openrouter,gpt4o_mini,openai/gpt-4o-mini,True,"The text contains real names of individuals, which are considered personal data under GDPR.",503,31,534,0,0,9.405e-05,True,True,True,20260908_231602,rule_plus_gpt4o_mini,openrouter,llm,openai/gpt-4o-mini,pii_review_v1,llm,False,True,false_positive,False,contains_personal_data,predicted_pii
+SYN-MEETING_NOTES-0202,synthetic_meeting_notes_0202.txt,meeting_notes,meeting_notes,de,synthetic_generation,,,synthetic,2026-08-28,2026-08-28,2026-08-28,0,"Besprechungsnotizen
+
+Titel: Entscheidungen zur Optimierung des Lagerbetriebs
+Datum: 2025-01-18
+Ort: Lagerbereich
+Teilnehmer: Arbeitsgruppe
+Kontakt: Zentrale Kontaktstelle
+Agenda: 1. Review der aktuellen Lagerprozesse
+2. Identifikation von Verbesserungsmöglichkeiten
+3. Festlegung von Verantwortlichkeiten
+4. Nächste Schritte und To-Dos
+Diskussion: Die Arbeitsgruppe hat die aktuellen Lagerprozesse analysiert und festgestellt, dass die Effizienz in mehreren Bereichen verbessert werden kann. Besondere Aufmerksamkeit wurde auf die Lagerbestandsverwaltung gelegt, da hier häufig Verzögerungen auftreten. Es wurde diskutiert, wie die Einführung eines neuen Softwaretools helfen könnte, die Prozesse zu straffen und die Kommunikation zwischen den Teammitgliedern zu verbessern.
+Entscheidungen: Es wurde beschlossen, ein neues Lagerverwaltungssystem zu implementieren, um die Effizienz zu steigern. Zudem wurde festgelegt, dass regelmäßige Schulungen für alle Mitarbeiter im Lager durchgeführt werden müssen, um den Umgang mit dem neuen System zu optimieren.
+Aufgaben: 1. Verantwortlicher: Max Müller, Auswahl und Beschaffung des neuen Lagerverwaltungssystems bis zum 15. Februar 2025.
+2. Verantwortlicher: Sarah Schmidt, Planung und Durchführung der Schulungen bis Ende März 2025.
+3. Verantwortlicher: Thomas Becker, Monitoring der ersten Implementierungsphase und Feedback sammeln bis Ende April 2025.",no,no,no,no,no,no,no,no,no,no,no,no,no,,NONE,0,0,easy,no,none,no,train,yes,openrouter_gpt4o_mini_field,field_llm_v1,no,,,v2,Synthetic document generated for controlled PII training data.,"[{'type': 'PERSON', 'value': 'Max Müller', 'confidence': 0.85, 'source': 'presidio', 'start': 1086, 'end': 1096}, {'type': 'PERSON', 'value': 'Sarah Schmidt', 'confidence': 0.85, 'source': 'presidio', 'start': 1203, 'end': 1216}, {'type': 'PERSON', 'value': 'Thomas Becker', 'confidence': 0.85, 'source': 'presidio', 'start': 1299, 'end': 1312}]",{'PERSON': 0.85},['PERSON'],[],['PERSON'],False,True,True,low_cost_llm,potential_pii_evidence,True,openrouter,gpt4o_mini,openai/gpt-4o-mini,True,"The text contains real names of individuals, which are considered personal data under GDPR.",505,32,537,0,0,9.495e-05,True,True,True,20260908_231602,rule_plus_gpt4o_mini,openrouter,llm,openai/gpt-4o-mini,pii_review_v1,llm,False,True,false_positive,False,contains_personal_data,predicted_pii
+SYN-MEETING_NOTES-0203,synthetic_meeting_notes_0203.txt,meeting_notes,meeting_notes,en,synthetic_generation,,,synthetic,2026-08-28,2026-08-28,2026-08-28,0,"Meeting Notes
+
+Title: Warehouse Area Optimization Meeting
+Date: 2025-12-25
+Location: Warehouse Area
+Participants: Working Group
+Contact: Service Team
+Agenda: 1. Review current warehouse operations
+2. Discuss areas for improvement
+3. Assign action items for next steps
+Discussion: The Working Group reviewed current warehouse operations, highlighting the need for improved inventory tracking. Various suggestions were made to enhance efficiency, but the focus remained on prioritizing actionable steps. The Service Team provided insights on technology upgrades that could assist in streamlining processes.
+Decisions: The group decided to implement a new inventory management system by Q1 2026 and to schedule a follow-up meeting in January to assess progress.
+Action Items: 1. John Smith to research potential inventory management systems by January 10, 2026.
+2. Sarah Johnson to prepare a cost analysis for the proposed systems by January 15, 2026.
+3. The Service Team to coordinate training sessions for staff on the new system following selection.",no,no,no,no,no,no,no,no,no,no,no,no,no,,NONE,0,0,easy,no,none,no,validation,yes,openrouter_gpt4o_mini_field,field_llm_v1,no,,,v2,Synthetic document generated for controlled PII training data.,"[{'type': 'DATE_TIME', 'value': 'January', 'confidence': 0.85, 'source': 'presidio', 'start': 731, 'end': 738}, {'type': 'PERSON', 'value': 'John Smith', 'confidence': 0.85, 'source': 'presidio', 'start': 776, 'end': 786}, {'type': 'DATE_TIME', 'value': 'January 10, 2026', 'confidence': 0.85, 'source': 'presidio', 'start': 841, 'end': 857}, {'type': 'PERSON', 'value': 'Sarah Johnson', 'confidence': 0.85, 'source': 'presidio', 'start': 862, 'end': 875}, {'type': 'DATE_TIME', 'value': 'January 15, 2026', 'confidence': 0.85, 'source': 'presidio', 'start': 931, 'end': 947}]","{'DATE_TIME': 0.85, 'PERSON': 0.85}","['DATE_TIME', 'PERSON']",[],"['DATE_TIME', 'PERSON']",False,True,False,low_cost_llm,potential_pii_evidence,True,openrouter,gpt4o_mini,openai/gpt-4o-mini,True,"The text includes real names of individuals, specifically 'John Smith' and 'Sarah Johnson', which are considered personal data under GDPR.",501,41,542,0,0,9.975e-05,True,True,True,20260908_231602,rule_plus_gpt4o_mini,openrouter,llm,openai/gpt-4o-mini,pii_review_v1,llm,False,True,false_positive,False,contains_personal_data,predicted_pii
+SYN-MEETING_NOTES-0207,synthetic_meeting_notes_0207.txt,meeting_notes,meeting_notes,de,synthetic_generation,,,synthetic,2026-08-28,2026-08-28,2026-08-28,0,"Besprechungsnotizen
+
+Titel: Entscheidungen zur Projektumsetzung
+Datum: 2025-11-10
+Ort: IT-Abteilung
+Teilnehmer: Projektteam
+Kontakt: Zentrale Kontaktstelle
+Agenda: Besprechung der aktuellen Fortschritte und Festlegung weiterer Schritte.
+Diskussion: Im Rahmen der Sitzung hat das Projektteam die bisherigen Fortschritte bei der Umsetzung des Projekts bewertet. Es wurden mehrere Herausforderungen identifiziert, darunter Verzögerungen bei der Softwareentwicklung und benötigte Ressourcen für die nächsten Phasen. Die Teilnehmer haben Vorschläge zur Optimierung der Arbeitsabläufe diskutiert, wobei der Schwerpunkt auf der Verbesserung der Kommunikation zwischen den Abteilungen lag.
+Entscheidungen: Es wurde beschlossen, die Frist für die nächsten Meilensteine um zwei Wochen zu verlängern, um den Entwicklungsprozess nicht zu behindern. Zudem wurde ein wöchentlicher Statusbericht eingeführt, um die Fortschritte besser überwachen zu können.
+Aufgaben: 1. Max Müller wird die aktualisierten Fristen im Projektplan einpflegen. 2. Sarah Schmidt übernimmt die Verantwortung für die Erstellung des ersten wöchentlichen Statusberichts. 3. Das Team wird ein Follow-up-Meeting in einer Woche ansetzen, um den Fortschritt zu überprüfen.",no,no,no,no,no,no,no,no,no,no,no,no,no,,NONE,0,0,easy,no,none,no,test,yes,openrouter_gpt4o_mini_field,field_llm_v1,no,,,v2,Synthetic document generated for controlled PII training data.,"[{'type': 'PERSON', 'value': 'Max Müller', 'confidence': 0.85, 'source': 'presidio', 'start': 955, 'end': 965}, {'type': 'PERSON', 'value': 'Sarah Schmidt', 'confidence': 0.85, 'source': 'presidio', 'start': 1028, 'end': 1041}]",{'PERSON': 0.85},['PERSON'],[],['PERSON'],False,True,False,low_cost_llm,potential_pii_evidence,True,openrouter,gpt4o_mini,openai/gpt-4o-mini,True,"The text contains the real names of individuals, Max Müller and Sarah Schmidt, which are considered personal data under GDPR.",498,39,537,0,0,9.81e-05,True,True,True,20260908_231602,rule_plus_gpt4o_mini,openrouter,llm,openai/gpt-4o-mini,pii_review_v1,llm,False,True,false_positive,False,contains_personal_data,predicted_pii
+SYN-MEETING_NOTES-0217,synthetic_meeting_notes_0217.txt,meeting_notes,meeting_notes,de,synthetic_generation,,,synthetic,2026-08-28,2026-08-28,2026-08-28,0,"Besprechungsnotizen
+
+Titel: Entscheidungen zur Optimierung des Lagerbetriebs
+Datum: 2024-10-17
+Ort: Lagerbereich
+Teilnehmer: Arbeitsgruppe
+Kontakt: Zentrale Kontaktstelle
+Agenda: 1. Begrüßung und Einführung
+2. Vorstellung der aktuellen Lagerkennzahlen
+3. Diskussion über Optimierungsmöglichkeiten
+4. Festlegung von Maßnahmen und Verantwortlichkeiten
+5. Abschluss und nächste Schritte
+Diskussion: Die Teilnehmer haben die aktuellen Lagerkennzahlen analysiert und verschiedene Optimierungsmöglichkeiten erörtert. Es wurden Herausforderungen im Bereich der Bestandsführung identifiziert, die durch den Einsatz neuer Technologien und verbesserte Prozesse angegangen werden können. Die Wichtigkeit der Schulung des Personals wurde ebenfalls hervorgehoben, um eine reibungslose Implementierung der neuen Systeme zu gewährleisten.
+Entscheidungen: Es wurde beschlossen, die Implementierung eines neuen Lagerverwaltungssystems zu priorisieren, um die Effizienz zu steigern. Zudem wurde die Schulung des Lagerpersonals als entscheidend angesehen, um die Akzeptanz der neuen Technologien zu fördern.
+Aufgaben: 1. Verantwortlicher: Max Müller – Recherche und Auswahl eines geeigneten Lagerverwaltungssystems bis zum 31.10.2024.
+2. Verantwortlicher: Anna Schmidt – Entwicklung eines Schulungsplans für das Lagerpersonal bis zum 15.11.2024.",no,no,no,no,no,no,no,no,no,no,no,no,no,,NONE,0,0,easy,no,none,no,test,yes,openrouter_gpt4o_mini_field,field_llm_v1,no,,,v2,Synthetic document generated for controlled PII training data.,"[{'type': 'LOCATION', 'value': 'Lagerpersonals', 'confidence': 0.85, 'source': 'presidio', 'start': 994, 'end': 1008}, {'type': 'PERSON', 'value': 'Max Müller', 'confidence': 0.85, 'source': 'presidio', 'start': 1120, 'end': 1130}, {'type': 'PERSON', 'value': 'Anna Schmidt', 'confidence': 0.85, 'source': 'presidio', 'start': 1237, 'end': 1249}, {'type': 'LOCATION', 'value': 'Lagerpersonal', 'confidence': 0.85, 'source': 'presidio', 'start': 1293, 'end': 1306}, {'type': 'LOCATION', 'value': '15.11.2024.', 'confidence': 0.85, 'source': 'presidio', 'start': 1315, 'end': 1326}, {'type': 'DATE_TIME', 'value': '31.10.2024', 'confidence': 0.6, 'source': 'presidio', 'start': 1204, 'end': 1214}, {'type': 'DATE_TIME', 'value': '15.11.2024', 'confidence': 0.6, 'source': 'presidio', 'start': 1315, 'end': 1325}]","{'LOCATION': 0.85, 'PERSON': 0.85, 'DATE_TIME': 0.6}","['DATE_TIME', 'LOCATION', 'PERSON']",[],"['LOCATION', 'PERSON', 'DATE_TIME']",False,True,False,low_cost_llm,potential_pii_evidence,True,openrouter,gpt4o_mini,openai/gpt-4o-mini,True,"The text contains real names of individuals, Max Müller and Anna Schmidt, which are considered personal data under GDPR.",513,37,550,0,0,9.915e-05,True,True,True,20260908_231602,rule_plus_gpt4o_mini,openrouter,llm,openai/gpt-4o-mini,pii_review_v1,llm,False,True,false_positive,False,contains_personal_data,predicted_pii
+SYN-MEETING_NOTES-0230,synthetic_meeting_notes_0230.txt,meeting_notes,meeting_notes,en,synthetic_generation,,,synthetic,2026-08-28,2026-08-28,2026-08-28,0,"Meeting Notes
+
+Title: April 2025 Working Group Meeting Notes
+Date: 2025-04-13
+Location: Warehouse Area
+Participants: Working Group
+Contact: Central Contact Point
+Agenda: 1. Review previous action items
+2. Discuss inventory management improvements
+3. Evaluate vendor performance
+4. Plan next steps for the upcoming project
+Discussion: The meeting commenced with a review of the previous action items, focusing on the completion status of each. The group engaged in a detailed discussion about inventory management improvements, highlighting the need for better tracking systems. Additionally, the performance of current vendors was evaluated, with some concerns raised about delivery times. Finally, the team discussed the upcoming project timeline and necessary preparations.
+Decisions: The group decided to implement a new inventory tracking system by the end of Q2 2025. It was also agreed to schedule a follow-up meeting with underperforming vendors to address delivery issues.
+Action Items: 1. [Owner: John Doe] Research and propose new inventory tracking system options by April 30, 2025.
+2. [Owner: Sarah Smith] Arrange a meeting with underperforming vendors for May 5, 2025.
+3. [Owner: Mike Johnson] Prepare project timeline for the upcoming project by April 25, 2025.",no,no,no,no,no,no,no,no,no,no,no,no,no,,NONE,0,0,easy,no,none,no,train,yes,openrouter_gpt4o_mini_field,field_llm_v1,no,,,v2,Synthetic document generated for controlled PII training data.,"[{'type': 'DATE_TIME', 'value': 'the end of', 'confidence': 0.85, 'source': 'presidio', 'start': 853, 'end': 863}, {'type': 'PERSON', 'value': 'John Doe] Research', 'confidence': 0.85, 'source': 'presidio', 'start': 1006, 'end': 1024}, {'type': 'DATE_TIME', 'value': 'April 30, 2025', 'confidence': 0.85, 'source': 'presidio', 'start': 1078, 'end': 1092}, {'type': 'PERSON', 'value': 'Sarah Smith', 'confidence': 0.85, 'source': 'presidio', 'start': 1105, 'end': 1116}, {'type': 'DATE_TIME', 'value': 'May 5, 2025', 'confidence': 0.85, 'source': 'presidio', 'start': 1169, 'end': 1180}, {'type': 'PERSON', 'value': 'Mike Johnson', 'confidence': 0.85, 'source': 'presidio', 'start': 1193, 'end': 1205}, {'type': 'DATE_TIME', 'value': 'April 25, 2025', 'confidence': 0.85, 'source': 'presidio', 'start': 1260, 'end': 1274}]","{'DATE_TIME': 0.85, 'PERSON': 0.85}","['DATE_TIME', 'PERSON']",[],"['DATE_TIME', 'PERSON']",False,True,True,low_cost_llm,potential_pii_evidence,True,openrouter,gpt4o_mini,openai/gpt-4o-mini,True,"The text includes real names of individuals, which are considered personal data under GDPR.",535,31,566,0,0,9.885e-05,True,True,True,20260908_231602,rule_plus_gpt4o_mini,openrouter,llm,openai/gpt-4o-mini,pii_review_v1,llm,False,True,false_positive,False,contains_personal_data,predicted_pii
+SYN-MEETING_NOTES-0232,synthetic_meeting_notes_0232.txt,meeting_notes,meeting_notes,de,synthetic_generation,,,synthetic,2026-08-28,2026-08-28,2026-08-28,0,"Besprechungsnotizen
+
+Titel: Protokoll der Abteilungsbesprechung vom 15. April 2027
+Datum: 2027-04-15
+Ort: Lagerbereich
+Teilnehmer: Abteilungsvertretungen
+Kontakt: Abteilungskontakt
+Agenda: 1. Begrüßung und Feststellung der Beschlussfähigkeit
+2. Genehmigung des letzten Protokolls
+3. Aktuelle Themen im Lagerbereich
+4. Maßnahmen zur Effizienzsteigerung
+5. Verschiedenes
+Diskussion: Die Sitzung wurde um 10:00 Uhr von der Vorsitzenden eröffnet. Nach der Feststellung der Beschlussfähigkeit wurde das Protokoll der letzten Sitzung genehmigt. Im Rahmen des Punktes zu aktuellen Themen im Lagerbereich wurde die Notwendigkeit einer Überprüfung der Lagerbestände angesprochen, um Engpässe zu vermeiden. Des Weiteren wurde diskutiert, wie die Effizienz im Lagerbereich durch optimierte Arbeitsabläufe gesteigert werden kann. Verschiedene Vorschläge zur Implementierung von neuen Softwarelösungen wurden vorgestellt und deren Vor- und Nachteile erörtert.
+Entscheidungen: Es wurde beschlossen, eine Arbeitsgruppe zu bilden, die bis zur nächsten Sitzung konkrete Vorschläge zur Effizienzsteigerung im Lagerbereich ausarbeiten soll. Darüber hinaus wurde die Überprüfung der Lagerbestände bis Ende April 2027 als dringlich eingestuft.
+Aufgaben: 1. Bildung einer Arbeitsgruppe zur Effizienzsteigerung, verantwortlich: Herr Müller, bis zum 30. April 2027.
+2. Durchführung der Lagerbestandsüberprüfung, verantwortlich: Frau Schmidt, bis zum 28. April 2027.",no,no,no,no,no,no,no,no,no,no,no,no,no,,NONE,0,0,easy,no,none,no,test,yes,openrouter_gpt4o_mini_field,field_llm_v1,no,,,v2,Synthetic document generated for controlled PII training data.,"[{'type': 'PERSON', 'value': 'Herr Müller', 'confidence': 0.85, 'source': 'presidio', 'start': 1305, 'end': 1316}, {'type': 'PERSON', 'value': 'Frau Schmidt', 'confidence': 0.85, 'source': 'presidio', 'start': 1404, 'end': 1416}]",{'PERSON': 0.85},['PERSON'],[],['PERSON'],False,True,True,low_cost_llm,potential_pii_evidence,True,openrouter,gpt4o_mini,openai/gpt-4o-mini,True,"The text contains the names 'Herr Müller' and 'Frau Schmidt', which are identifiable natural persons.",477,37,514,0,0,9.375e-05,True,True,True,20260908_231602,rule_plus_gpt4o_mini,openrouter,llm,openai/gpt-4o-mini,pii_review_v1,llm,False,True,false_positive,False,contains_personal_data,predicted_pii
+SYN-MEETING_NOTES-0234,synthetic_meeting_notes_0234.txt,meeting_notes,meeting_notes,de,synthetic_generation,,,synthetic,2026-08-28,2026-08-28,2026-08-28,0,"Besprechungsnotizen
+
+Titel: Entscheidungen zur Projektumsetzung 2027
+Datum: 2027-01-14
+Ort: Betriebsbereich
+Teilnehmer: Arbeitsgruppe
+Kontakt: Zentrale Kontaktstelle
+Agenda: 1. Statusupdate der aktuellen Projekte
+2. Diskussion über Ressourcenverteilung
+3. Entscheidungen zu neuen Initiativen
+4. Festlegung von Verantwortlichkeiten
+Diskussion: Die Arbeitsgruppe hat den aktuellen Stand der Projekte besprochen, insbesondere die Fortschritte bei der Einführung neuer Softwarelösungen. Dabei wurde auch die Notwendigkeit einer genaueren Ressourcenplanung hervorgehoben, um Engpässe zu vermeiden. Es wurden verschiedene Vorschläge für neue Initiativen diskutiert, die das Ziel haben, die Effizienz der Betriebsabläufe zu steigern.
+Entscheidungen: Es wurde beschlossen, die Priorität auf die Entwicklung der neuen Softwarelösung zu legen. Außerdem wurde entschieden, dass die Ressourcen für das nächste Quartal angepasst werden müssen, um die Projektziele zu erreichen.
+Aufgaben: 1. Max Mustermann wird die Ressourcenplanung bis zum 31. Januar 2027 aktualisieren.
+2. Die Arbeitsgruppe wird bis zum 15. Februar 2027 Vorschläge für neue Initiativen einreichen.
+3. Ein Follow-up Meeting wird für den 28. Februar 2027 angesetzt.",no,no,no,no,no,no,no,no,no,no,no,no,no,,NONE,0,0,easy,no,none,no,validation,yes,openrouter_gpt4o_mini_field,field_llm_v1,no,,,v2,Synthetic document generated for controlled PII training data.,"[{'type': 'PERSON', 'value': 'Max Mustermann', 'confidence': 0.85, 'source': 'presidio', 'start': 978, 'end': 992}]",{'PERSON': 0.85},['PERSON'],[],['PERSON'],False,True,False,low_cost_llm,potential_pii_evidence,True,openrouter,gpt4o_mini,openai/gpt-4o-mini,True,"The text contains the real name 'Max Mustermann', which identifies a natural person.",487,33,520,0,0,9.285e-05,True,True,True,20260908_231602,rule_plus_gpt4o_mini,openrouter,llm,openai/gpt-4o-mini,pii_review_v1,llm,False,True,false_positive,False,contains_personal_data,predicted_pii
+SYN-MEETING_NOTES-0235,synthetic_meeting_notes_0235.txt,meeting_notes,meeting_notes,de,synthetic_generation,,,synthetic,2026-08-28,2026-08-28,2026-08-28,0,"Besprechungsnotizen
+
+Titel: Entscheidungen zur Projektpriorisierung
+Datum: 2027-01-03
+Ort: Hauptstandort
+Teilnehmer: Arbeitsgruppe
+Kontakt: Serviceteam
+Agenda: Diskussion über die Priorisierung aktueller Projekte und Zuweisung von Verantwortlichkeiten.
+Diskussion: Im Laufe der Sitzung wurden verschiedene Projekte besprochen, darunter das Marketingprojekt und die Softwareentwicklung. Die Teilnehmer kamen überein, dass einige Projekte Vorrang haben sollten, um die Effizienz zu steigern. Zudem wurde die Notwendigkeit betont, klare Verantwortlichkeiten festzulegen, um Verzögerungen zu vermeiden.
+Entscheidungen: Die folgenden Projekte wurden priorisiert: 1. Marketingprojekt (Owner: Max Müller), 2. Softwareentwicklung (Owner: Anna Schmidt).
+Aufgaben: Max Müller wird bis zum 10. Januar einen detaillierten Plan für das Marketingprojekt erstellen. Anna Schmidt wird bis zum 15. Januar ein Update zur Softwareentwicklung bereitstellen.",no,no,no,no,no,no,no,no,no,no,no,no,no,,NONE,0,0,easy,no,none,no,train,yes,openrouter_gpt4o_mini_field,field_llm_v1,no,,,v2,Synthetic document generated for controlled PII training data.,"[{'type': 'PERSON', 'value': 'Max Müller', 'confidence': 0.85, 'source': 'presidio', 'start': 686, 'end': 696}, {'type': 'PERSON', 'value': 'Anna Schmidt', 'confidence': 0.85, 'source': 'presidio', 'start': 730, 'end': 742}, {'type': 'PERSON', 'value': 'Max Müller', 'confidence': 0.85, 'source': 'presidio', 'start': 755, 'end': 765}, {'type': 'PERSON', 'value': 'Anna Schmidt', 'confidence': 0.85, 'source': 'presidio', 'start': 851, 'end': 863}]",{'PERSON': 0.85},['PERSON'],[],['PERSON'],False,True,False,low_cost_llm,potential_pii_evidence,True,openrouter,gpt4o_mini,openai/gpt-4o-mini,True,"The text contains real names of individuals, specifically 'Max Müller' and 'Anna Schmidt', which are identifiable natural persons.",492,40,532,0,0,9.78e-05,True,True,True,20260908_231602,rule_plus_gpt4o_mini,openrouter,llm,openai/gpt-4o-mini,pii_review_v1,llm,False,True,false_positive,False,contains_personal_data,predicted_pii
+SYN-MEETING_NOTES-0249,synthetic_meeting_notes_0249.txt,meeting_notes,meeting_notes,en,synthetic_generation,,,synthetic,2026-08-28,2026-08-28,2026-08-28,0,"Meeting Notes
+
+Title: Decision Log from Project Team Meeting
+Date: 2027-06-07
+Location: IT Department
+Participants: Project Team
+Contact: Department Contact
+Agenda: Review project progress, address challenges, and define next steps.
+Discussion: The meeting started with an overview of the current project status. Team members shared updates on their respective tasks and highlighted challenges faced. Key points included the need for improved communication between departments and the importance of adhering to the project timeline. The team discussed potential resource allocations to address delays and proposed solutions for upcoming milestones.
+Decisions: It was decided that the team will implement bi-weekly check-ins to ensure better alignment on project tasks. Additionally, a dedicated communication channel will be established for quick updates and issue resolution. The team agreed to prioritize task completion by the end of the month.
+Action Items: 1. [Owner: John Doe] to set up the bi-weekly check-in schedule by June 10. 2. [Owner: Sarah Smith] to create the dedicated communication channel by June 12. 3. [Owner: Mike Johnson] to compile a report on current resource needs by June 15.",no,no,no,no,no,no,no,no,no,no,no,no,no,,NONE,0,0,easy,no,none,no,validation,yes,openrouter_gpt4o_mini_field,field_llm_v1,no,,,v2,Synthetic document generated for controlled PII training data.,"[{'type': 'DATE_TIME', 'value': 'the end of the month', 'confidence': 0.85, 'source': 'presidio', 'start': 926, 'end': 946}, {'type': 'PERSON', 'value': 'John Doe', 'confidence': 0.85, 'source': 'presidio', 'start': 973, 'end': 981}, {'type': 'DATE_TIME', 'value': 'the bi-weekly', 'confidence': 0.85, 'source': 'presidio', 'start': 993, 'end': 1006}, {'type': 'DATE_TIME', 'value': 'June 10.', 'confidence': 0.85, 'source': 'presidio', 'start': 1028, 'end': 1036}, {'type': 'PERSON', 'value': 'Sarah Smith', 'confidence': 0.85, 'source': 'presidio', 'start': 1048, 'end': 1059}, {'type': 'DATE_TIME', 'value': 'June 12', 'confidence': 0.85, 'source': 'presidio', 'start': 1110, 'end': 1117}, {'type': 'PERSON', 'value': 'Mike Johnson', 'confidence': 0.85, 'source': 'presidio', 'start': 1130, 'end': 1142}, {'type': 'DATE_TIME', 'value': 'June 15', 'confidence': 0.85, 'source': 'presidio', 'start': 1193, 'end': 1200}]","{'DATE_TIME': 0.85, 'PERSON': 0.85}","['DATE_TIME', 'PERSON']",[],"['DATE_TIME', 'PERSON']",False,True,True,low_cost_llm,potential_pii_evidence,True,openrouter,gpt4o_mini,openai/gpt-4o-mini,True,"The text includes real names of individuals, which are considered personal data under GDPR.",500,32,532,0,0,9.42e-05,True,True,True,20260908_231602,rule_plus_gpt4o_mini,openrouter,llm,openai/gpt-4o-mini,pii_review_v1,llm,False,True,false_positive,False,contains_personal_data,predicted_pii
+SYN-SUPPLIER_ONBOARDING-0120,synthetic_supplier_onboarding_0120.txt,form,supplier_onboarding,en,synthetic_generation,,,synthetic,2026-08-28,2026-08-28,2026-08-28,0,"Supplier Onboarding
+
+Company: Vendor Organization
+Address: Business address not provided
+Contact: Department Contact
+Tax Id: REF-4572595
+Certification: Supplier Code of Conduct
+Risk Level: Low
+Payment Details: Standard corporate payment process
+Reviewer: Procurement Team
+Comments: The vendor has completed all necessary onboarding steps. Awaiting final approval from the Procurement Team.
+Approval: Pending Review
+Notes: Ensure compliance with the Supplier Code of Conduct before moving forward with the approval process.
+Nationality: Nationality not provided
+Identification Number: REF-3107931",no,no,no,no,no,no,no,no,no,no,no,no,no,,NONE,0,0,easy,no,none,no,train,yes,openrouter_gpt4o_mini_field,field_llm_v1,no,,,v2,Synthetic document generated for controlled PII training data.,"[{'type': 'PHONE_NUMBER', 'value': '3107931', 'confidence': 0.75, 'source': 'presidio', 'start': 588, 'end': 595}]",{'PHONE_NUMBER': 0.75},['PHONE_NUMBER'],['PHONE_NUMBER'],[],True,True,True,local_pii,strong_pii_detected,False,openrouter,gpt4o_mini,openai/gpt-4o-mini,False,,0,0,0,0,0,0.0,False,True,True,20260908_231602,rule_plus_gpt4o_mini,openrouter,llm,openai/gpt-4o-mini,pii_review_v1,llm,False,True,false_positive,False,contains_personal_data,predicted_pii
+SYN-SUPPLIER_ONBOARDING-0221,synthetic_supplier_onboarding_0221.txt,form,supplier_onboarding,en,synthetic_generation,,,synthetic,2026-08-28,2026-08-28,2026-08-28,0,"Supplier Onboarding
+
+Company: Vendor Organization
+Address: Business address not provided
+Contact: Central Contact Point
+Tax Id: REF-6536235
+Certification: Supplier Code of Conduct
+Risk Level: High
+Payment Details: Payment terms on file
+Reviewer: Procurement Team
+Comments: Supplier Organization has met all onboarding requirements as per the Supplier Code of Conduct. Compliance documentation reviewed by the Procurement Team indicates adherence to standards despite the high risk level.
+Approval: Approved
+Notes: Further evaluation may be necessary to address the high risk level associated with Vendor Organization. Continuous monitoring is recommended to ensure ongoing compliance with payment terms on file.
+Nationality: Nationality not provided
+Identification Number: REF-1680850",no,no,no,no,no,no,no,no,no,no,no,no,no,,NONE,0,0,easy,no,none,no,test,yes,openrouter_gpt4o_mini_field,field_llm_v1,no,,,v2,Synthetic document generated for controlled PII training data.,"[{'type': 'PHONE_NUMBER', 'value': '1680850', 'confidence': 0.75, 'source': 'presidio', 'start': 777, 'end': 784}]",{'PHONE_NUMBER': 0.75},['PHONE_NUMBER'],['PHONE_NUMBER'],[],True,True,True,local_pii,strong_pii_detected,False,openrouter,gpt4o_mini,openai/gpt-4o-mini,False,,0,0,0,0,0,0.0,False,True,True,20260908_231602,rule_plus_gpt4o_mini,openrouter,llm,openai/gpt-4o-mini,pii_review_v1,llm,False,True,false_positive,False,contains_personal_data,predicted_pii
