@@ -486,8 +486,7 @@ def audit_basic_integrity(
         )
         return
 
-    # Without a manifest we cannot tell whether duplicate text
-    # belongs to an intentional blank template.
+    # Without a manifest we cannot tell whether duplicate text belongs to an intentional blank template.
     if manifest is None:
         report.warn(
             "duplicate_text",

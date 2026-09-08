@@ -215,9 +215,6 @@ SCENARIO_ENTITY_FIELD_PREFERENCES = {
         "EMAIL_ADDRESS": ["contact"],
         "LOCATION": ["parties", "contact"],
         "DATE_TIME": ["effective_date", "terms"],
-        # This archetype now has its own dedicated "payment_details"
-        # field (added alongside this entity) -- same field
-        # invoice/expense_report already use for IBAN_CODE/CREDIT_CARD.
         "IBAN_CODE": ["payment_details"],
     },
  
@@ -227,14 +224,7 @@ SCENARIO_ENTITY_FIELD_PREFERENCES = {
         "PHONE_NUMBER": ["contact"],
         "IP_ADDRESS": ["description", "resolution"],
         "URL": ["description", "resolution"],
-        # Second home for CREDIT_CARD (a billing-dispute ticket
-        # referencing a card number) -- reuses the existing free-text
-        # "description" field.
         "CREDIT_CARD": ["description"],
-        # Fourth home for NRP (an international support case
-        # referencing a customer's nationality) -- differentiates it
-        # from PASSPORT, which otherwise sits in the exact same
-        # scenarios. Reuses the existing "description" field.
         "NRP": ["description"],
     },
  
@@ -245,13 +235,7 @@ SCENARIO_ENTITY_FIELD_PREFERENCES = {
         "LOCATION": ["address", "notes"],
         "NRP": ["nationality", "notes"],
         "DATE_TIME": ["start_date", "notes"],
-        # This archetype now has its own dedicated "license_number"
-        # field (added alongside this entity) instead of the generic
-        # "notes" catch-all.
         "MEDICAL_LICENSE": ["license_number"],
-        # Second home for PASSPORT (HR keeping a passport copy on
-        # file for a work visa) -- reuses the same
-        # "identification_number" field built for supplier_onboarding.
         "PASSPORT": ["identification_number"],
     },
  
@@ -270,9 +254,6 @@ SCENARIO_ENTITY_FIELD_PREFERENCES = {
         "LOCATION": ["content", "notes"],
         "DATE_TIME": ["date", "content"],
         "URL": ["content", "notes"],
-        # Fifth home for IP_ADDRESS (an internal memo/report
-        # mentioning a system's IP address) -- reuses the existing
-        # free-text "content" field.
         "IP_ADDRESS": ["content", "notes"],
     },
  
@@ -280,8 +261,6 @@ SCENARIO_ENTITY_FIELD_PREFERENCES = {
         "PERSON": ["owner", "description"],
         "LOCATION": ["location"],
         "DATE_TIME": ["date", "deadline"],
-        # "description" already holds free text for this archetype
-        # (an incident's narrative can plausibly mention a logged IP).
         "IP_ADDRESS": ["description"],
     },
  
@@ -289,13 +268,8 @@ SCENARIO_ENTITY_FIELD_PREFERENCES = {
         "PERSON": ["sender", "recipient", "signature"],
         "EMAIL_ADDRESS": ["sender", "recipient"],
         "PHONE_NUMBER": ["body", "signature"],
-        # Second home for IP_ADDRESS (an IT/ops email mentioning a
-        # server IP) -- reuses the existing "body" field.
         "IP_ADDRESS": ["body"],
         "URL": ["body"],
-        # Fourth home for CREDIT_CARD (an email thread about an
-        # expense or billing issue mentioning a card number) --
-        # reuses the existing "body" field.
         "CREDIT_CARD": ["body"],
     },
  
@@ -341,17 +315,8 @@ SCENARIO_ENTITY_FIELD_PREFERENCES = {
         "PHONE_NUMBER": ["contact", "comments"],
         "LOCATION": ["address", "notes"],
         "IBAN_CODE": ["payment_details", "notes", "comments"],
-        # This archetype now has its own dedicated
-        # "identification_number" and "nationality" fields (added
-        # alongside these entities, for international-supplier
-        # compliance/KYC checks) instead of the generic notes/comments
-        # catch-all.
         "PASSPORT": ["identification_number"],
         "NRP": ["nationality"],
-        # Second home for MEDICAL_LICENSE (onboarding a
-        # healthcare-services supplier) -- reuses the existing
-        # "certification" field, already used for compliance
-        # credentials on this archetype.
         "MEDICAL_LICENSE": ["certification"],
     },
  
@@ -359,18 +324,12 @@ SCENARIO_ENTITY_FIELD_PREFERENCES = {
         "PERSON": ["participant", "trainer", "comments"],
         "EMAIL_ADDRESS": ["contact", "comments"],
         "DATE_TIME": ["date", "comments"],
-        # A link to training material fits naturally in the
-        # free-text "comments" field.
         "URL": ["comments"],
     },
 }
  
  # ---------------------------------------------------------
 # Variant-specific deterministic values
-#
-# These keep the structural backbone identical while giving
-# document variants distinct content profiles even when the
-# LLM is disabled or falls back.
 # ---------------------------------------------------------
  
 VARIANT_VALUES = {
@@ -514,8 +473,8 @@ VARIANT_VALUES = {
  
  
 # ---------------------------------------------------------
-    # Scenario-specific structured values
-    # ---------------------------------------------------------
+# Scenario-specific structured values
+ # ---------------------------------------------------------
  
  
 SCENARIO_VALUES = {
@@ -705,10 +664,6 @@ SCENARIO_VALUES = {
  
 # ---------------------------------------------------------
 # Safe structured fallback values
-#
-# Used for populated non-PII documents where a field should
-# contain something realistic but must not introduce personal
-# data or identifiers.
 # ---------------------------------------------------------
  
 GENERIC_STRUCTURED_VALUES = {

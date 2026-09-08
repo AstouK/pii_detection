@@ -31,7 +31,9 @@ CLASSIFICATION_DIR = Path(__file__).resolve().parent
 DATA_DIR = CLASSIFICATION_DIR / "data"
 RESULTS_DIR = CLASSIFICATION_DIR / "results"
 
-DEFAULT_INPUT_FILE = DATA_DIR / "pii_dataset.csv"
+# 3,500-row bilingual synthetic dataset (see classification/data_generation/README.md).
+# Overridable via `classify --input-file <path>`.
+DEFAULT_INPUT_FILE = DATA_GENERATION_OUTPUT_DIR / "synthetic_dataset_3500.csv"
 
 # ─────────────────────────────────────────────────────────────
 # Model Registry

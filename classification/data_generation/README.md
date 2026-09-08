@@ -137,38 +137,29 @@ Dataset and manifest rows align one-to-one through `document_id`.
 Run generation from the repository root:
 
 ```bash
-python -m classification.data_generation.generate
+python -m classification.data_generation.generate \
+    --documents-per-scenario 250
 ```
-
-The default run generates 100 documents for each of the 14 scenarios:
-
-```text
-1,400 documents
-```
-
-LLM enrichment is enabled by the generation CLI.
 
 The output filename is derived from the total dataset size:
 
 ```text
-synthetic_dataset_1400.csv
-synthetic_dataset_1400_manifest.csv
+synthetic_dataset_3500.csv
+synthetic_dataset_3500_manifest.csv
 ```
 
 This makes differently sized generations separate artifacts rather than version-numbered datasets.
 
-To generate a larger dataset:
-
 ```bash
 python -m classification.data_generation.generate \
-    --documents-per-scenario 200
+    --documents-per-scenario 250
 ```
 
 This produces:
 
 ```text
-synthetic_dataset_2800.csv
-synthetic_dataset_2800_manifest.csv
+synthetic_dataset_3500.csv
+synthetic_dataset_3500_manifest.csv
 ```
 
 A custom dataset filename can also be supplied:

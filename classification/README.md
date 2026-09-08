@@ -230,18 +230,31 @@ Execution flow:
 5. For each strategy: run it, compute the final prediction, save `<strategy>.csv`.
 6. Compute routing metrics and save `run_metadata.json`.
 
+
 ## Input dataset
 
 | | |
 |---|---|
-| Location | `classification/data/pii_dataset.csv` |
+| Default location | `classification/data_generation/output/synthetic_dataset_3500.csv` |
 | Required column | `full_text` |
 | Optional column | `language` — defaults to `en` when absent |
 | Supported languages | `en`, `de` |
 
-The dataset in this branch is the 500-row pilot: 5 document types,
-60 positive / 440 negative, English only, 253–821 characters. The larger
-1,400-row synthetic set is fetched into the git-ignored
+`DEFAULT_INPUT_FILE` in `config.py` points at the 3,500-row bilingual
+(German/English) synthetic dataset — 14 document archetypes, 12.0% positive
+rate before splitting, generated and audited as described in
+[`data_generation/README.md`](data_generation/README.md). Override it for a
+one-off run with:
+
+```bash
+classify --input-file <path-to-csv>
+```
+
+The older 500-row pilot (5 document types, 60 positive / 440 negative,
+English only, 253–821 characters) still lives at
+`classification/data/pii_dataset.csv` and is no longer the default — pass
+`--input-file classification/data/pii_dataset.csv` explicitly if you need it.
+The 1,400-row intermediate synthetic set is fetched into the git-ignored
 `classification/data/external/` rather than vendored here.
 
 ## Results

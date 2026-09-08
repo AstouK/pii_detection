@@ -542,7 +542,6 @@ def top_up_rare_entity_coverage(
                         and r.contains_personal_data
                     )
 
-                    # Never remove the last negative example from a split.
                     negatives_in_split = total_in_split - positive_in_split
                     if negatives_in_split <= 1:
                         break
@@ -552,8 +551,6 @@ def top_up_rare_entity_coverage(
                     )
 
                     if projected_rate > max_local_positive_rate:
-                        # This scenario is capped -- try the next
-                        # eligible scenario instead.
                         break
 
                     req = reqs[index]
