@@ -1,0 +1,511 @@
+document_id,file_name,document_type,scenario_type,language,source_system,responsible_owner,owner_email,data_source,file_created_date,last_modified_date,dataset_created_at,file_size_mb,full_text,contains_personal_data,PERSON_yes_no,EMAIL_ADDRESS_yes_no,PHONE_NUMBER_yes_no,LOCATION_yes_no,IBAN_CODE_yes_no,CREDIT_CARD_yes_no,PASSPORT_yes_no,NRP_yes_no,DATE_TIME_yes_no,IP_ADDRESS_yes_no,URL_yes_no,MEDICAL_LICENSE_yes_no,personal_data_categories,primary_pii_type,category_count,pii_count,difficulty,edge_case,challenge_category,retention_period_exceeded_3y,recommended_split,synthetic,synthetic_generator,generation_prompt_version,human_reviewed,review_status,review_notes,dataset_version,labeling_notes,entities,per_type_conf,detected_categories,strong_pii_categories,potential_pii_categories,detected_pii,detected_any_pii,has_person_hint,route,routing_reason,needs_llm_review,run_id,strategy,provider,model_family,model_name,prompt_version,prediction_source,predicted_pii,_ground_truth_bool,_prediction_bool,error_type,is_correct,evaluated_ground_truth_col,evaluated_prediction_col
+DOC-0001,expense_report_finding_0001.pdf,Expense Report,expense_report,en,HR Archive,Anna Keller,anna.keller@bosch.example,manual,2020-02-07,2020-02-20,2026-08-10,8.65,"Expense Reimbursement (Filled)
+Purpose: Example of a completed expense reimbursement record.
+Employee: Maria Schmidt (E-20556)
+Department: Engineering
+Date: 07 Feb 2020
+Category: Meals
+Amount: 24.90 EUR
+Description: Meal during approved business trip.
+Additional Person Reference: Maria Schmidt
+Email: maria.schmidt@bosch.example
+Phone: +49 151 2345 7821
+Expense Reimbursement (Filled) - Review
+Purpose: Example of a completed expense reimbursement record.
+Summary: Total claimed: 24.90 EUR. Policy limits checked.
+Manager: Laura König
+Decision: Approved
+Date: 09 Feb 2020",yes,yes,yes,yes,no,no,no,no,no,no,no,no,no,first_name; last_name; email_address; phone_number,MULTIPLE,4,4,easy,no,none,yes,train,no,,,no,,,v1,Straightforward labeled personal-data example.,"[{'type': 'PERSON', 'value': 'Maria Schmidt', 'confidence': 0.85, 'source': 'presidio', 'start': 103, 'end': 116}, {'type': 'DATE_TIME', 'value': '07 Feb 2020', 'confidence': 0.85, 'source': 'presidio', 'start': 157, 'end': 168}, {'type': 'PERSON', 'value': 'Maria Schmidt', 'confidence': 0.85, 'source': 'presidio', 'start': 281, 'end': 294}, {'type': 'PERSON', 'value': 'Laura König', 'confidence': 0.85, 'source': 'presidio', 'start': 524, 'end': 535}, {'type': 'DATE_TIME', 'value': '09 Feb 2020', 'confidence': 0.85, 'source': 'presidio', 'start': 561, 'end': 572}, {'type': 'PHONE_NUMBER', 'value': '+49 151 2345 7821', 'confidence': 0.75, 'source': 'presidio', 'start': 337, 'end': 354}, {'type': 'URL', 'value': 'maria.sc', 'confidence': 0.5, 'source': 'presidio', 'start': 302, 'end': 310}, {'type': 'EMAIL_ADDRESS', 'value': 'maria.schmidt@bosch.example', 'confidence': 0.9, 'source': 'custom_regex', 'start': 302, 'end': 329}, {'type': 'CREDIT_CARD', 'value': '49 151 2345 7821', 'confidence': 0.9, 'source': 'custom_regex', 'start': 338, 'end': 354}]","{'PERSON': 0.85, 'DATE_TIME': 0.85, 'PHONE_NUMBER': 0.75, 'URL': 0.5, 'EMAIL_ADDRESS': 0.9, 'CREDIT_CARD': 0.9}","['CREDIT_CARD', 'DATE_TIME', 'EMAIL_ADDRESS', 'PERSON', 'PHONE_NUMBER', 'URL']","['PHONE_NUMBER', 'EMAIL_ADDRESS', 'CREDIT_CARD']","['PERSON', 'DATE_TIME', 'URL']",True,True,True,local_pii,strong_pii_detected,False,20260908_105246,rule_based,local,rules,regex_presidio_fusion_v1,not_applicable,rules,True,True,True,true_positive,True,contains_personal_data,predicted_pii
+DOC-0002,expense_report_finding_0002.pdf,Expense Report,expense_report,en,Teams Export,Maria Schmidt,maria.schmidt@bosch.example,manual,2020-03-15,2020-04-10,2026-08-10,4.52,"Expense Reimbursement (Filled)
+Purpose: Example of a completed expense reimbursement record.
+Employee: Elena Fischer (E-20503)
+Department: Project Management
+Date: 15 Mar 2020
+Category: Travel
+Amount: 128.40 EUR
+Description: Train ticket for customer workshop (round trip).
+Login Name: efischer08
+Email: elena.fischer@bosch.example
+Last Login IP: 192.168.12.34
+User Record URL: https://grc.example/access/elena-fischer
+Expense Reimbursement (Filled) - Review
+Purpose: Example of a completed expense reimbursement record.
+Summary: Total claimed: 128.40 EUR. Receipts attached.
+Manager: Philipp Neumann
+Decision: Approved
+Date: 17 Mar 2020",yes,no,yes,no,no,no,no,no,no,no,yes,yes,no,username_login; email_address; ip_address; url,MULTIPLE,4,4,easy,no,none,yes,train,no,,,no,,,v1,Straightforward labeled personal-data example.,"[{'type': 'IP_ADDRESS', 'value': '192.168.12.34', 'confidence': 0.95, 'source': 'presidio', 'start': 347, 'end': 360}, {'type': 'PERSON', 'value': 'Elena Fischer', 'confidence': 0.85, 'source': 'presidio', 'start': 103, 'end': 116}, {'type': 'DATE_TIME', 'value': '2020', 'confidence': 0.85, 'source': 'presidio', 'start': 171, 'end': 175}, {'type': 'PERSON', 'value': 'efischer08\nEmail', 'confidence': 0.85, 'source': 'presidio', 'start': 286, 'end': 302}, {'type': 'PERSON', 'value': 'Philipp Neumann', 'confidence': 0.85, 'source': 'presidio', 'start': 585, 'end': 600}, {'type': 'DATE_TIME', 'value': '2020', 'confidence': 0.85, 'source': 'presidio', 'start': 633, 'end': 637}, {'type': 'URL', 'value': 'elena.fi', 'confidence': 0.5, 'source': 'presidio', 'start': 304, 'end': 312}, {'type': 'EMAIL_ADDRESS', 'value': 'elena.fischer@bosch.example', 'confidence': 0.9, 'source': 'custom_regex', 'start': 304, 'end': 331}, {'type': 'URL', 'value': 'https://grc.example/access/elena-fischer', 'confidence': 0.9, 'source': 'custom_regex', 'start': 378, 'end': 418}]","{'IP_ADDRESS': 0.95, 'PERSON': 0.85, 'DATE_TIME': 0.85, 'URL': 1.0, 'EMAIL_ADDRESS': 0.9}","['DATE_TIME', 'EMAIL_ADDRESS', 'IP_ADDRESS', 'PERSON', 'URL']","['IP_ADDRESS', 'EMAIL_ADDRESS']","['PERSON', 'DATE_TIME', 'URL']",True,True,True,local_pii,strong_pii_detected,False,20260908_105246,rule_based,local,rules,regex_presidio_fusion_v1,not_applicable,rules,True,True,True,true_positive,True,contains_personal_data,predicted_pii
+DOC-0006,expense_report_finding_0006.pdf,Expense Report,expense_report,en,OneDrive,Maria Schmidt,maria.schmidt@bosch.example,manual,2020-08-10,2020-10-27,2026-08-10,4.07,"Expense Reimbursement (Filled)
+Purpose: Example of a completed expense reimbursement record.
+Employee: Elena Fischer (E-20529)
+Department: Engineering
+Date: 10 Aug 2020
+Category: Meals
+Amount: 24.90 EUR
+Description: Meal during approved business trip.
+Additional Person Reference: Elena Fischer
+Driver's License Number: F-4409-1182-21
+Expense Reimbursement (Filled) - Review
+Purpose: Example of a completed expense reimbursement record.
+Summary: Total claimed: 24.90 EUR. Policy limits checked.
+Manager: Laura König
+Decision: Approved
+Date: 12 Aug 2020",yes,yes,no,no,no,no,no,no,yes,no,no,no,no,drivers_license_number; first_name; last_name,MULTIPLE,3,3,easy,no,none,yes,train,no,,,no,,,v1,Straightforward labeled personal-data example.,"[{'type': 'PERSON', 'value': 'Elena Fischer', 'confidence': 0.85, 'source': 'presidio', 'start': 103, 'end': 116}, {'type': 'DATE_TIME', 'value': '10 Aug 2020', 'confidence': 0.85, 'source': 'presidio', 'start': 157, 'end': 168}, {'type': 'PERSON', 'value': 'Elena Fischer', 'confidence': 0.85, 'source': 'presidio', 'start': 281, 'end': 294}, {'type': 'PERSON', 'value': 'Laura König', 'confidence': 0.85, 'source': 'presidio', 'start': 504, 'end': 515}, {'type': 'DATE_TIME', 'value': '12 Aug 2020', 'confidence': 0.85, 'source': 'presidio', 'start': 541, 'end': 552}, {'type': 'PHONE_NUMBER', 'value': '4409-1182-21', 'confidence': 0.75, 'source': 'presidio', 'start': 322, 'end': 334}]","{'PERSON': 0.85, 'DATE_TIME': 0.85, 'PHONE_NUMBER': 0.75}","['DATE_TIME', 'PERSON', 'PHONE_NUMBER']",['PHONE_NUMBER'],"['PERSON', 'DATE_TIME']",True,True,True,local_pii,strong_pii_detected,False,20260908_105246,rule_based,local,rules,regex_presidio_fusion_v1,not_applicable,rules,True,True,True,true_positive,True,contains_personal_data,predicted_pii
+DOC-0008,expense_report_finding_0008.pdf,Expense Report,expense_report,en,OneDrive,Jonas Fischer,jonas.fischer@bosch.example,manual,2020-10-23,2021-02-04,2026-08-10,0.25,"Expense Reimbursement (Filled)
+Purpose: Example of a completed expense reimbursement record.
+Employee: Nina Beck (E-20608)
+Department: Engineering
+Date: 23 Oct 2020
+Category: Meals
+Amount: 24.90 EUR
+Description: Meal during approved business trip.
+Phone: +49 172 3310 5519
+Billing / Shipping Address: Am Markt 5, 01067 Dresden, Germany
+IBAN: DE02 1000 0000 0123 4567 89
+Corporate Credit Card: 3782 822463 10005
+Expense Reimbursement (Filled) - Review
+Purpose: Example of a completed expense reimbursement record.
+Summary: Total claimed: 24.90 EUR. Policy limits checked.
+Manager: Laura König
+Decision: Approved
+Date: 25 Oct 2020",yes,no,no,yes,yes,yes,yes,no,no,no,no,no,no,billing_shipping_address; phone_number; bank_account; credit_card,MULTIPLE,4,4,easy,no,none,yes,train,no,,,no,,,v1,Straightforward labeled personal-data example.,"[{'type': 'CREDIT_CARD', 'value': '3782 822463 10005', 'confidence': 1.0, 'source': 'presidio', 'start': 393, 'end': 410}, {'type': 'PERSON', 'value': 'Nina Beck', 'confidence': 0.85, 'source': 'presidio', 'start': 103, 'end': 112}, {'type': 'LOCATION', 'value': 'Dresden', 'confidence': 0.85, 'source': 'presidio', 'start': 319, 'end': 326}, {'type': 'LOCATION', 'value': 'Germany', 'confidence': 0.85, 'source': 'presidio', 'start': 328, 'end': 335}, {'type': 'PERSON', 'value': 'Laura König', 'confidence': 0.85, 'source': 'presidio', 'start': 580, 'end': 591}, {'type': 'DATE_TIME', 'value': '25 Oct 2020', 'confidence': 0.85, 'source': 'presidio', 'start': 617, 'end': 628}, {'type': 'PHONE_NUMBER', 'value': '+49 172 3310 5519', 'confidence': 0.75, 'source': 'presidio', 'start': 255, 'end': 272}, {'type': 'CREDIT_CARD', 'value': '49 172 3310 5519', 'confidence': 0.9, 'source': 'custom_regex', 'start': 256, 'end': 272}, {'type': 'CREDIT_CARD', 'value': '1000 0000 0123', 'confidence': 0.9, 'source': 'custom_regex', 'start': 347, 'end': 361}, {'type': 'CREDIT_CARD', 'value': '3782 822463 10005', 'confidence': 0.9, 'source': 'custom_regex', 'start': 393, 'end': 410}, {'type': 'PHONE_NUMBER', 'value': '02 1000 0000', 'confidence': 0.9, 'source': 'custom_regex', 'start': 344, 'end': 356}, {'type': 'PHONE_NUMBER', 'value': '0123 4567 89', 'confidence': 0.9, 'source': 'custom_regex', 'start': 357, 'end': 369}]","{'CREDIT_CARD': 1.0, 'PERSON': 0.85, 'LOCATION': 0.85, 'DATE_TIME': 0.85, 'PHONE_NUMBER': 1.0}","['CREDIT_CARD', 'DATE_TIME', 'LOCATION', 'PERSON', 'PHONE_NUMBER']","['CREDIT_CARD', 'PHONE_NUMBER']","['PERSON', 'LOCATION', 'DATE_TIME']",True,True,True,local_pii,strong_pii_detected,False,20260908_105246,rule_based,local,rules,regex_presidio_fusion_v1,not_applicable,rules,True,True,True,true_positive,True,contains_personal_data,predicted_pii
+DOC-0009,expense_report_finding_0009.pdf,Expense Report,expense_report,en,Teams Export,Max Wagner,max.wagner@bosch.example,manual,2020-11-29,2021-03-26,2026-08-10,4.81,"Expense Reimbursement (Filled)
+Purpose: Example of a completed expense reimbursement record.
+Employee: Maria Schmidt (E-20487)
+Department: Project Management
+Date: 29 Nov 2020
+Category: Travel
+Amount: 128.40 EUR
+Description: Train ticket for customer workshop (round trip).
+Email: maria.schmidt@bosch.example
+Fax: +49 711 811 2041
+Expense Reimbursement (Filled) - Review
+Purpose: Example of a completed expense reimbursement record.
+Summary: Total claimed: 128.40 EUR. Receipts attached.
+Manager: Philipp Neumann
+Decision: Approved
+Date: 01 Dec 2020",yes,no,yes,yes,no,no,no,no,no,no,no,no,no,fax_number; email_address,MULTIPLE,2,2,easy,no,none,yes,train,no,,,no,,,v1,Straightforward labeled personal-data example.,"[{'type': 'PERSON', 'value': 'Maria Schmidt', 'confidence': 0.85, 'source': 'presidio', 'start': 103, 'end': 116}, {'type': 'DATE_TIME', 'value': '29 Nov 2020', 'confidence': 0.85, 'source': 'presidio', 'start': 164, 'end': 175}, {'type': 'PERSON', 'value': 'Philipp Neumann', 'confidence': 0.85, 'source': 'presidio', 'start': 497, 'end': 512}, {'type': 'URL', 'value': 'maria.sc', 'confidence': 0.5, 'source': 'presidio', 'start': 281, 'end': 289}, {'type': 'EMAIL_ADDRESS', 'value': 'maria.schmidt@bosch.example', 'confidence': 0.9, 'source': 'custom_regex', 'start': 281, 'end': 308}, {'type': 'CREDIT_CARD', 'value': '49 711 811 2041', 'confidence': 0.9, 'source': 'custom_regex', 'start': 315, 'end': 330}]","{'PERSON': 0.85, 'DATE_TIME': 0.85, 'URL': 0.5, 'EMAIL_ADDRESS': 0.9, 'CREDIT_CARD': 0.9}","['CREDIT_CARD', 'DATE_TIME', 'EMAIL_ADDRESS', 'PERSON', 'URL']","['EMAIL_ADDRESS', 'CREDIT_CARD']","['PERSON', 'DATE_TIME', 'URL']",True,True,True,local_pii,strong_pii_detected,False,20260908_105246,rule_based,local,rules,regex_presidio_fusion_v1,not_applicable,rules,True,True,True,true_positive,True,contains_personal_data,predicted_pii
+DOC-0012,expense_report_finding_0012.pdf,Expense Report,expense_report,en,HR Archive,Jonas Fischer,jonas.fischer@bosch.example,manual,2021-03-20,2021-08-23,2026-08-10,6.71,"Expense Reimbursement (Filled)
+Purpose: Example of a completed expense reimbursement record.
+Employee: Nina Beck (E-20459)
+Department: Project Management
+Date: 20 Mar 2021
+Category: Travel
+Amount: 128.40 EUR
+Description: Train ticket for customer workshop (round trip).
+Additional Person Reference: Nina Beck
+Date of Birth: 1994-02-19
+Medical ID: MED-DE-510483
+Health / Accommodation Note: asked for ergonomic seating due to recurring back pain
+Expense Reimbursement (Filled) - Review
+Purpose: Example of a completed expense reimbursement record.
+Summary: Total claimed: 128.40 EUR. Receipts attached.
+Manager: Philipp Neumann
+Decision: Approved
+Date: 22 Mar 2021",yes,yes,no,no,no,no,no,no,no,yes,no,no,yes,health_data; medical_id; birth_date; first_name; last_name,MULTIPLE,5,5,medium,yes,employee_id,yes,train,no,,,no,,,v1,Useful for testing ambiguous/OCR/context-heavy personal-data detection.,"[{'type': 'DATE_TIME', 'value': '1994-02-19', 'confidence': 0.95, 'source': 'presidio', 'start': 324, 'end': 334}, {'type': 'PERSON', 'value': 'Nina Beck', 'confidence': 0.85, 'source': 'presidio', 'start': 103, 'end': 112}, {'type': 'DATE_TIME', 'value': '2021', 'confidence': 0.85, 'source': 'presidio', 'start': 167, 'end': 171}, {'type': 'PERSON', 'value': 'Nina Beck', 'confidence': 0.85, 'source': 'presidio', 'start': 299, 'end': 308}, {'type': 'PERSON', 'value': 'Philipp Neumann', 'confidence': 0.85, 'source': 'presidio', 'start': 611, 'end': 626}, {'type': 'DATE_TIME', 'value': '2021', 'confidence': 0.85, 'source': 'presidio', 'start': 659, 'end': 663}, {'type': 'MEDICAL_LICENSE', 'value': 'Medical ID', 'confidence': 0.9, 'source': 'custom_regex', 'start': 335, 'end': 345}]","{'DATE_TIME': 0.95, 'PERSON': 0.85, 'MEDICAL_LICENSE': 0.9}","['DATE_TIME', 'MEDICAL_LICENSE', 'PERSON']",['MEDICAL_LICENSE'],"['DATE_TIME', 'PERSON']",True,True,True,local_pii,strong_pii_detected,False,20260908_105246,rule_based,local,rules,regex_presidio_fusion_v1,not_applicable,rules,True,True,True,true_positive,True,contains_personal_data,predicted_pii
+DOC-0101,it_access_request_finding_0101.pdf,IT Access Request,medical_record,en,HR Archive,Sofia Hartmann,sofia.hartmann@bosch.example,manual,2023-12-08,2025-01-24,2026-08-10,2.69,"IT System Access Request (Filled)
+Purpose: Example of a completed IT access request for audit trail and governance.
+Name: Maria Schmidt
+Department: Compliance & Risk
+Manager: Miriam Braun
+System: GRC Role Catalog
+Access Level: Viewer
+Justification: Needed for audit preparation and role verification activities.
+Travel History: Stuttgart on 2022-03-11, Lyon on 2022-04-18, and Milan on 2022-05-09
+Medical ID: MED-DE-440912
+Health / Accommodation Note: reported migraine symptoms and requested a quiet room accommodation
+IT System Access Request (Filled) - Review
+Purpose: Example of a completed IT access request for audit trail and governance.
+Reviewer: Identity & Access Team
+Comments: Least-privilege confirmed; access time-limited.
+Approval: Approved
+Approver: Compliance Officer
+Signature: M. Braun
+Date: 08 Dec 2023",yes,no,no,no,yes,no,no,no,no,yes,no,no,yes,health_data; medical_id; travel_history,MULTIPLE,3,3,hard,yes,medical_context,no,train,no,,,no,,,v1,Useful for testing ambiguous/OCR/context-heavy personal-data detection.,"[{'type': 'PERSON', 'value': 'Maria Schmidt', 'confidence': 0.85, 'source': 'presidio', 'start': 122, 'end': 135}, {'type': 'PERSON', 'value': 'Miriam Braun\nSystem', 'confidence': 0.85, 'source': 'presidio', 'start': 175, 'end': 194}, {'type': 'LOCATION', 'value': 'Stuttgart', 'confidence': 0.85, 'source': 'presidio', 'start': 328, 'end': 337}, {'type': 'DATE_TIME', 'value': '2022-03-11', 'confidence': 0.85, 'source': 'presidio', 'start': 341, 'end': 351}, {'type': 'LOCATION', 'value': 'Lyon', 'confidence': 0.85, 'source': 'presidio', 'start': 353, 'end': 357}, {'type': 'DATE_TIME', 'value': '2022-04-18', 'confidence': 0.85, 'source': 'presidio', 'start': 361, 'end': 371}, {'type': 'LOCATION', 'value': 'Milan', 'confidence': 0.85, 'source': 'presidio', 'start': 377, 'end': 382}, {'type': 'DATE_TIME', 'value': '2022-05-09', 'confidence': 0.85, 'source': 'presidio', 'start': 386, 'end': 396}, {'type': 'PERSON', 'value': 'M. Braun\n', 'confidence': 0.85, 'source': 'presidio', 'start': 795, 'end': 804}, {'type': 'MEDICAL_LICENSE', 'value': 'Medical ID', 'confidence': 0.9, 'source': 'custom_regex', 'start': 397, 'end': 407}]","{'PERSON': 0.85, 'LOCATION': 0.85, 'DATE_TIME': 0.85, 'MEDICAL_LICENSE': 0.9}","['DATE_TIME', 'LOCATION', 'MEDICAL_LICENSE', 'PERSON']",['MEDICAL_LICENSE'],"['PERSON', 'LOCATION', 'DATE_TIME']",True,True,True,local_pii,strong_pii_detected,False,20260908_105246,rule_based,local,rules,regex_presidio_fusion_v1,not_applicable,rules,True,True,True,true_positive,True,contains_personal_data,predicted_pii
+DOC-0108,it_access_request_finding_0108.pdf,IT Access Request,general_document,en,Shared Drive,Anna Keller,anna.keller@bosch.example,manual,2024-08-23,2026-01-09,2026-08-10,6.18,"IT System Access Request (Filled)
+Purpose: Example of a completed IT access request for audit trail and governance.
+Name: Nina Beck
+Department: Compliance & Risk
+Manager: Miriam Braun
+System: GRC Role Catalog
+Access Level: Viewer
+Justification: Needed for audit preparation and role verification activities.
+Additional Person Reference: Nina Beck
+Email: nina.beck@bosch.example
+Health / Accommodation Note: asked for ergonomic seating due to recurring back pain
+IT System Access Request (Filled) - Review
+Purpose: Example of a completed IT access request for audit trail and governance.
+Reviewer: Identity & Access Team
+Comments: Least-privilege confirmed; access time-limited.
+Approval: Approved
+Approver: Compliance Officer
+Signature: M. Braun
+Date: 23 Aug 2024",yes,yes,yes,no,no,no,no,no,no,no,no,no,no,first_name; last_name; email_address; health_data,MULTIPLE,4,4,hard,yes,other_edge_case,no,train,no,,,no,,,v1,Useful for testing ambiguous/OCR/context-heavy personal-data detection.,"[{'type': 'PERSON', 'value': 'Nina Beck', 'confidence': 0.85, 'source': 'presidio', 'start': 122, 'end': 131}, {'type': 'PERSON', 'value': 'Miriam Braun\nSystem', 'confidence': 0.85, 'source': 'presidio', 'start': 171, 'end': 190}, {'type': 'PERSON', 'value': 'Nina Beck', 'confidence': 0.85, 'source': 'presidio', 'start': 337, 'end': 346}, {'type': 'PERSON', 'value': 'M. Braun\n', 'confidence': 0.85, 'source': 'presidio', 'start': 737, 'end': 746}, {'type': 'DATE_TIME', 'value': '23 Aug 2024', 'confidence': 0.85, 'source': 'presidio', 'start': 752, 'end': 763}, {'type': 'URL', 'value': 'nina.be', 'confidence': 0.5, 'source': 'presidio', 'start': 354, 'end': 361}, {'type': 'EMAIL_ADDRESS', 'value': 'nina.beck@bosch.example', 'confidence': 0.9, 'source': 'custom_regex', 'start': 354, 'end': 377}]","{'PERSON': 0.85, 'DATE_TIME': 0.85, 'URL': 0.5, 'EMAIL_ADDRESS': 0.9}","['DATE_TIME', 'EMAIL_ADDRESS', 'PERSON', 'URL']",['EMAIL_ADDRESS'],"['PERSON', 'DATE_TIME', 'URL']",True,True,True,local_pii,strong_pii_detected,False,20260908_105246,rule_based,local,rules,regex_presidio_fusion_v1,not_applicable,rules,True,True,True,true_positive,True,contains_personal_data,predicted_pii
+DOC-0109,it_access_request_finding_0109.pdf,IT Access Request,general_document,en,OneDrive,Max Wagner,max.wagner@bosch.example,manual,2024-09-29,2026-02-28,2026-08-10,6.76,"IT System Access Request (Filled)
+Purpose: Example of a completed IT access request for audit trail and governance.
+Name: Maria Schmidt
+Department: Digital Operations
+Manager: Jonas Keller
+System: Document Management Portal
+Access Level: Editor
+Justification: Required to maintain project documentation and manage controlled templates.
+Additional Person Reference: Maria Schmidt
+Email: maria.schmidt@bosch.example
+Phone: +49 151 2345 7821
+IT System Access Request (Filled) - Review
+Purpose: Example of a completed IT access request for audit trail and governance.
+Reviewer: IT Service Desk
+Comments: Access aligns with role; MFA verified.
+Approval: Approved
+Approver: IT Governance Lead
+Signature: J. Keller
+Date: 29 Sept 2024",yes,yes,yes,yes,no,no,no,no,no,no,no,no,no,first_name; last_name; email_address; phone_number,MULTIPLE,4,4,easy,no,none,no,train,no,,,no,,,v1,Straightforward labeled personal-data example.,"[{'type': 'PERSON', 'value': 'Maria Schmidt', 'confidence': 0.85, 'source': 'presidio', 'start': 122, 'end': 135}, {'type': 'PERSON', 'value': 'Jonas Keller', 'confidence': 0.85, 'source': 'presidio', 'start': 176, 'end': 188}, {'type': 'PERSON', 'value': 'Maria Schmidt', 'confidence': 0.85, 'source': 'presidio', 'start': 365, 'end': 378}, {'type': 'PERSON', 'value': 'J. Keller', 'confidence': 0.85, 'source': 'presidio', 'start': 698, 'end': 707}, {'type': 'DATE_TIME', 'value': 'Sept 2024', 'confidence': 0.85, 'source': 'presidio', 'start': 717, 'end': 726}, {'type': 'PHONE_NUMBER', 'value': '+49 151 2345 7821', 'confidence': 0.75, 'source': 'presidio', 'start': 421, 'end': 438}, {'type': 'URL', 'value': 'maria.sc', 'confidence': 0.5, 'source': 'presidio', 'start': 386, 'end': 394}, {'type': 'EMAIL_ADDRESS', 'value': 'maria.schmidt@bosch.example', 'confidence': 0.9, 'source': 'custom_regex', 'start': 386, 'end': 413}, {'type': 'CREDIT_CARD', 'value': '49 151 2345 7821', 'confidence': 0.9, 'source': 'custom_regex', 'start': 422, 'end': 438}]","{'PERSON': 0.85, 'DATE_TIME': 0.85, 'PHONE_NUMBER': 0.75, 'URL': 0.5, 'EMAIL_ADDRESS': 0.9, 'CREDIT_CARD': 0.9}","['CREDIT_CARD', 'DATE_TIME', 'EMAIL_ADDRESS', 'PERSON', 'PHONE_NUMBER', 'URL']","['PHONE_NUMBER', 'EMAIL_ADDRESS', 'CREDIT_CARD']","['PERSON', 'DATE_TIME', 'URL']",True,True,True,local_pii,strong_pii_detected,False,20260908_105246,rule_based,local,rules,regex_presidio_fusion_v1,not_applicable,rules,True,True,True,true_positive,True,contains_personal_data,predicted_pii
+DOC-0110,it_access_request_finding_0110.pdf,IT Access Request,general_document,en,OneDrive,Noah Becker,noah.becker@bosch.example,manual,2024-11-05,2026-04-19,2026-08-10,8.46,"IT System Access Request (Filled)
+Purpose: Example of a completed IT access request for audit trail and governance.
+Name: Elena Fischer
+Department: Digital Operations
+Manager: Jonas Keller
+System: Document Management Portal
+Access Level: Editor
+Justification: Required to maintain project documentation and manage controlled templates.
+Login Name: efischer08
+Email: elena.fischer@bosch.example
+Last Login IP: 192.168.12.34
+User Record URL: https://grc.example/access/elena-fischer
+IT System Access Request (Filled) - Review
+Purpose: Example of a completed IT access request for audit trail and governance.
+Reviewer: IT Service Desk
+Comments: Access aligns with role; MFA verified.
+Approval: Approved
+Approver: IT Governance Lead
+Signature: J. Keller
+Date: 05 Nov 2024",yes,no,yes,no,no,no,no,no,no,no,yes,yes,no,username_login; email_address; ip_address; url,MULTIPLE,4,4,easy,no,none,no,train,no,,,no,,,v1,Straightforward labeled personal-data example.,"[{'type': 'IP_ADDRESS', 'value': '192.168.12.34', 'confidence': 0.95, 'source': 'presidio', 'start': 409, 'end': 422}, {'type': 'PERSON', 'value': 'Elena Fischer\nDepartment', 'confidence': 0.85, 'source': 'presidio', 'start': 122, 'end': 146}, {'type': 'PERSON', 'value': 'Jonas Keller', 'confidence': 0.85, 'source': 'presidio', 'start': 176, 'end': 188}, {'type': 'PERSON', 'value': 'efischer08\nEmail', 'confidence': 0.85, 'source': 'presidio', 'start': 348, 'end': 364}, {'type': 'PERSON', 'value': 'J. Keller', 'confidence': 0.85, 'source': 'presidio', 'start': 740, 'end': 749}, {'type': 'DATE_TIME', 'value': '05 Nov 2024', 'confidence': 0.85, 'source': 'presidio', 'start': 756, 'end': 767}, {'type': 'URL', 'value': 'elena.fi', 'confidence': 0.5, 'source': 'presidio', 'start': 366, 'end': 374}, {'type': 'EMAIL_ADDRESS', 'value': 'elena.fischer@bosch.example', 'confidence': 0.9, 'source': 'custom_regex', 'start': 366, 'end': 393}, {'type': 'URL', 'value': 'https://grc.example/access/elena-fischer', 'confidence': 0.9, 'source': 'custom_regex', 'start': 440, 'end': 480}]","{'IP_ADDRESS': 0.95, 'PERSON': 0.85, 'DATE_TIME': 0.85, 'URL': 1.0, 'EMAIL_ADDRESS': 0.9}","['DATE_TIME', 'EMAIL_ADDRESS', 'IP_ADDRESS', 'PERSON', 'URL']","['IP_ADDRESS', 'EMAIL_ADDRESS']","['PERSON', 'DATE_TIME', 'URL']",True,True,True,local_pii,strong_pii_detected,False,20260908_105246,rule_based,local,rules,regex_presidio_fusion_v1,not_applicable,rules,True,True,True,true_positive,True,contains_personal_data,predicted_pii
+DOC-0202,incident_report_finding_0202.pdf,Incident Report,general_document,en,OneDrive,Lukas Weber,lukas.weber@bosch.example,manual,2021-07-28,2023-11-01,2026-08-10,2.36,"Incident Report (Filled)
+Purpose: Example of a documented incident for compliance review.
+Date: 28 Jul 2021
+Location: Office Floor 3
+Type: Data Handling
+Description: A document containing personal data was mistakenly shared to an incorrect internal distribution list.
+Additional Person Reference: Elena Fischer
+Driver's License Number: F-4409-1182-21
+Incident Report (Filled) - Review
+Purpose: Example of a documented incident for compliance review.
+Root Cause: Incorrect selection of recipient group during email composition; no secondary review step.
+Corrective Action: Introduce a mandatory recipient review checklist
+Owner: Elena Fischer
+Deadline: 30 May 2026",yes,yes,no,no,no,no,no,no,yes,no,no,no,no,drivers_license_number; first_name; last_name,MULTIPLE,3,3,easy,no,none,no,train,no,,,no,,,v1,Straightforward labeled personal-data example.,"[{'type': 'DATE_TIME', 'value': '28 Jul 2021', 'confidence': 0.85, 'source': 'presidio', 'start': 96, 'end': 107}, {'type': 'PERSON', 'value': 'Elena Fischer', 'confidence': 0.85, 'source': 'presidio', 'start': 297, 'end': 310}, {'type': 'PERSON', 'value': 'Elena Fischer', 'confidence': 0.85, 'source': 'presidio', 'start': 628, 'end': 641}, {'type': 'DATE_TIME', 'value': 'May 2026', 'confidence': 0.85, 'source': 'presidio', 'start': 655, 'end': 663}, {'type': 'PHONE_NUMBER', 'value': '4409-1182-21', 'confidence': 0.75, 'source': 'presidio', 'start': 338, 'end': 350}]","{'DATE_TIME': 0.85, 'PERSON': 0.85, 'PHONE_NUMBER': 0.75}","['DATE_TIME', 'PERSON', 'PHONE_NUMBER']",['PHONE_NUMBER'],"['DATE_TIME', 'PERSON']",True,True,False,local_pii,strong_pii_detected,False,20260908_105246,rule_based,local,rules,regex_presidio_fusion_v1,not_applicable,rules,True,True,True,true_positive,True,contains_personal_data,predicted_pii
+DOC-0204,incident_report_finding_0204.pdf,Incident Report,general_document,en,SharePoint,Maria Schmidt,maria.schmidt@bosch.example,manual,2021-10-10,2024-02-09,2026-08-10,4.16,"Incident Report (Filled)
+Purpose: Example of a documented incident for compliance review.
+Date: 10 Oct 2021
+Location: Meeting Room A
+Type: Safety
+Description: Minor slip incident near entrance due to wet floor; no injury reported.
+Phone: +49 172 3310 5519
+Billing / Shipping Address: Am Markt 5, 01067 Dresden, Germany
+IBAN: DE02 1000 0000 0123 4567 89
+Corporate Credit Card: 3782 822463 10005
+Incident Report (Filled) - Review
+Purpose: Example of a documented incident for compliance review.
+Root Cause: Cleaning sign placed after area was already wet; timing issue.
+Corrective Action: Update cleaning SOP to place signage before wet cleaning
+Owner: Facility Coordinator
+Deadline: 20 May 2026",yes,no,no,yes,yes,yes,yes,no,no,no,no,no,no,billing_shipping_address; phone_number; bank_account; credit_card,MULTIPLE,4,4,easy,no,none,no,train,no,,,no,,,v1,Straightforward labeled personal-data example.,"[{'type': 'CREDIT_CARD', 'value': '3782 822463 10005', 'confidence': 1.0, 'source': 'presidio', 'start': 376, 'end': 393}, {'type': 'DATE_TIME', 'value': '10 Oct 2021', 'confidence': 0.85, 'source': 'presidio', 'start': 96, 'end': 107}, {'type': 'LOCATION', 'value': 'Dresden', 'confidence': 0.85, 'source': 'presidio', 'start': 302, 'end': 309}, {'type': 'LOCATION', 'value': 'Germany', 'confidence': 0.85, 'source': 'presidio', 'start': 311, 'end': 318}, {'type': 'PHONE_NUMBER', 'value': '+49 172 3310 5519', 'confidence': 0.75, 'source': 'presidio', 'start': 238, 'end': 255}, {'type': 'CREDIT_CARD', 'value': '49 172 3310 5519', 'confidence': 0.9, 'source': 'custom_regex', 'start': 239, 'end': 255}, {'type': 'CREDIT_CARD', 'value': '1000 0000 0123', 'confidence': 0.9, 'source': 'custom_regex', 'start': 330, 'end': 344}, {'type': 'CREDIT_CARD', 'value': '3782 822463 10005', 'confidence': 0.9, 'source': 'custom_regex', 'start': 376, 'end': 393}, {'type': 'PHONE_NUMBER', 'value': '02 1000 0000', 'confidence': 0.9, 'source': 'custom_regex', 'start': 327, 'end': 339}, {'type': 'PHONE_NUMBER', 'value': '0123 4567 89', 'confidence': 0.9, 'source': 'custom_regex', 'start': 340, 'end': 352}]","{'CREDIT_CARD': 1.0, 'DATE_TIME': 0.85, 'LOCATION': 0.85, 'PHONE_NUMBER': 1.0}","['CREDIT_CARD', 'DATE_TIME', 'LOCATION', 'PHONE_NUMBER']","['CREDIT_CARD', 'PHONE_NUMBER']",[],True,True,True,local_pii,strong_pii_detected,False,20260908_105246,rule_based,local,rules,regex_presidio_fusion_v1,not_applicable,rules,True,True,True,true_positive,True,contains_personal_data,predicted_pii
+DOC-0205,incident_report_finding_0205.pdf,Incident Report,general_document,en,SharePoint,Noah Becker,noah.becker@bosch.example,manual,2021-11-16,2024-03-30,2026-08-10,1.0,"Incident Report (Filled)
+Purpose: Example of a documented incident for compliance review.
+Date: 16 Nov 2021
+Location: Meeting Room A
+Type: Safety
+Description: Minor slip incident near entrance due to wet floor; no injury reported.
+Email: maria.schmidt@bosch.example
+Fax: +49 711 811 2041
+Incident Report (Filled) - Review
+Purpose: Example of a documented incident for compliance review.
+Root Cause: Cleaning sign placed after area was already wet; timing issue.
+Corrective Action: Update cleaning SOP to place signage before wet cleaning
+Owner: Facility Coordinator
+Deadline: 20 May 2026",yes,no,yes,yes,no,no,no,no,no,no,no,no,no,fax_number; email_address,MULTIPLE,2,2,easy,no,none,no,train,no,,,no,,,v1,Straightforward labeled personal-data example.,"[{'type': 'URL', 'value': 'maria.sc', 'confidence': 0.5, 'source': 'presidio', 'start': 238, 'end': 246}, {'type': 'EMAIL_ADDRESS', 'value': 'maria.schmidt@bosch.example', 'confidence': 0.9, 'source': 'custom_regex', 'start': 238, 'end': 265}, {'type': 'CREDIT_CARD', 'value': '49 711 811 2041', 'confidence': 0.9, 'source': 'custom_regex', 'start': 272, 'end': 287}]","{'URL': 0.5, 'EMAIL_ADDRESS': 0.9, 'CREDIT_CARD': 0.9}","['CREDIT_CARD', 'EMAIL_ADDRESS', 'URL']","['EMAIL_ADDRESS', 'CREDIT_CARD']",['URL'],True,True,False,local_pii,strong_pii_detected,False,20260908_105246,rule_based,local,rules,regex_presidio_fusion_v1,not_applicable,rules,True,True,True,true_positive,True,contains_personal_data,predicted_pii
+DOC-0208,incident_report_finding_0208.pdf,Incident Report,medical_record,en,SharePoint,Tom Nguyen,tom.nguyen@bosch.example,manual,2022-03-07,2022-03-11,2026-08-10,5.41,"Incident Report (Filled)
+Purpose: Example of a documented incident for compliance review.
+Date: 07 Mar 2022
+Location: Meeting Room A
+Type: Safety
+Description: Minor slip incident near entrance due to wet floor; no injury reported.
+Additional Person Reference: Nina Beck
+Date of Birth: 1994-02-19
+Medical ID: MED-DE-510483
+Health / Accommodation Note: asked for ergonomic seating due to recurring back pain
+Incident Report (Filled) - Review
+Purpose: Example of a documented incident for compliance review.
+Root Cause: Cleaning sign placed after area was already wet; timing issue.
+Corrective Action: Update cleaning SOP to place signage before wet cleaning
+Owner: Nina Beck
+Deadline: 20 May 2026",yes,yes,no,no,no,no,no,no,no,yes,no,no,yes,health_data; medical_id; birth_date; first_name; last_name,MULTIPLE,5,5,medium,yes,medical_context,yes,train,no,,,no,,,v1,Useful for testing ambiguous/OCR/context-heavy personal-data detection.,"[{'type': 'DATE_TIME', 'value': '1994-02-19', 'confidence': 0.95, 'source': 'presidio', 'start': 285, 'end': 295}, {'type': 'PERSON', 'value': 'Nina Beck', 'confidence': 0.85, 'source': 'presidio', 'start': 260, 'end': 269}, {'type': 'PERSON', 'value': 'Nina Beck', 'confidence': 0.85, 'source': 'presidio', 'start': 663, 'end': 672}, {'type': 'DATE_TIME', 'value': 'May 2026', 'confidence': 0.85, 'source': 'presidio', 'start': 686, 'end': 694}, {'type': 'MEDICAL_LICENSE', 'value': 'Medical ID', 'confidence': 0.9, 'source': 'custom_regex', 'start': 296, 'end': 306}]","{'DATE_TIME': 0.95, 'PERSON': 0.85, 'MEDICAL_LICENSE': 0.9}","['DATE_TIME', 'MEDICAL_LICENSE', 'PERSON']",['MEDICAL_LICENSE'],"['DATE_TIME', 'PERSON']",True,True,False,local_pii,strong_pii_detected,False,20260908_105246,rule_based,local,rules,regex_presidio_fusion_v1,not_applicable,rules,True,True,True,true_positive,True,contains_personal_data,predicted_pii
+DOC-0209,incident_report_finding_0209.pdf,Incident Report,medical_record,en,OneDrive,Priya Nair,priya.nair@bosch.example,manual,2022-04-13,2022-04-30,2026-08-10,3.88,"Incident Report (Filled)
+Purpose: Example of a documented incident for compliance review.
+Date: 13 Apr 2022
+Location: Meeting Room A
+Type: Safety
+Description: Minor slip incident near entrance due to wet floor; no injury reported.
+Travel History: Stuttgart on 2022-03-11, Lyon on 2022-04-18, and Milan on 2022-05-09
+Medical ID: MED-DE-440912
+Health / Accommodation Note: reported migraine symptoms and requested a quiet room accommodation
+Incident Report (Filled) - Review
+Purpose: Example of a documented incident for compliance review.
+Root Cause: Cleaning sign placed after area was already wet; timing issue.
+Corrective Action: Update cleaning SOP to place signage before wet cleaning
+Owner: Facility Coordinator
+Deadline: 20 May 2026",yes,no,no,no,yes,no,no,no,no,yes,no,no,yes,health_data; medical_id; travel_history,MULTIPLE,3,3,hard,yes,medical_context,yes,train,no,,,no,,,v1,Useful for testing ambiguous/OCR/context-heavy personal-data detection.,"[{'type': 'LOCATION', 'value': 'Stuttgart', 'confidence': 0.85, 'source': 'presidio', 'start': 247, 'end': 256}, {'type': 'DATE_TIME', 'value': '2022-03-11', 'confidence': 0.85, 'source': 'presidio', 'start': 260, 'end': 270}, {'type': 'LOCATION', 'value': 'Lyon', 'confidence': 0.85, 'source': 'presidio', 'start': 272, 'end': 276}, {'type': 'DATE_TIME', 'value': '2022-04-18', 'confidence': 0.85, 'source': 'presidio', 'start': 280, 'end': 290}, {'type': 'LOCATION', 'value': 'Milan', 'confidence': 0.85, 'source': 'presidio', 'start': 296, 'end': 301}, {'type': 'DATE_TIME', 'value': '2022-05-09', 'confidence': 0.85, 'source': 'presidio', 'start': 305, 'end': 315}, {'type': 'MEDICAL_LICENSE', 'value': 'Medical ID', 'confidence': 0.9, 'source': 'custom_regex', 'start': 316, 'end': 326}]","{'LOCATION': 0.85, 'DATE_TIME': 0.85, 'MEDICAL_LICENSE': 0.9}","['DATE_TIME', 'LOCATION', 'MEDICAL_LICENSE']",['MEDICAL_LICENSE'],[],True,True,False,local_pii,strong_pii_detected,False,20260908_105246,rule_based,local,rules,regex_presidio_fusion_v1,not_applicable,rules,True,True,True,true_positive,True,contains_personal_data,predicted_pii
+DOC-0301,supplier_onboarding_finding_0301.pdf,Supplier Onboarding,passport_record,en,SharePoint,Tom Nguyen,tom.nguyen@bosch.example,manual,2025-04-21,2026-02-28,2026-08-10,0.58,"Supplier Onboarding (Filled)
+Purpose: Example of a completed supplier onboarding record.
+Company: Nordic Components GmbH
+Address: Hauptstr. 12, 70173 Stuttgart
+Contact: procurement@nordic-components.example
+Tax ID: DE123456789
+Certification: ISO 9001
+Risk Level: Medium
+Passport Number: C4X829l7 4
+Supplier Onboarding (Filled) - Review
+Purpose: Example of a completed supplier onboarding record.
+Reviewer: Procurement Ops
+Comments: Documents verified; banking details pending validation.
+Approval: Conditionally Approved
+Notes: Activate vendor after bank verification.",yes,no,no,no,no,no,no,yes,no,no,no,no,no,passport_number,PASSPORT,1,1,hard,yes,vat_number,no,train,no,,,no,,,v1,Useful for testing ambiguous/OCR/context-heavy personal-data detection.,"[{'type': 'DATE_TIME', 'value': '70173', 'confidence': 0.85, 'source': 'presidio', 'start': 144, 'end': 149}, {'type': 'LOCATION', 'value': 'Stuttgart', 'confidence': 0.85, 'source': 'presidio', 'start': 150, 'end': 159}, {'type': 'EMAIL_ADDRESS', 'value': 'procurement@nordic-components.example', 'confidence': 0.9, 'source': 'custom_regex', 'start': 169, 'end': 206}]","{'DATE_TIME': 0.85, 'LOCATION': 0.85, 'EMAIL_ADDRESS': 0.9}","['DATE_TIME', 'EMAIL_ADDRESS', 'LOCATION']",['EMAIL_ADDRESS'],[],True,True,True,local_pii,strong_pii_detected,False,20260908_105246,rule_based,local,rules,regex_presidio_fusion_v1,not_applicable,rules,True,True,True,true_positive,True,contains_personal_data,predicted_pii
+DOC-0302,supplier_onboarding_finding_0302.pdf,Supplier Onboarding,general_document,en,OneDrive,Elena Hoffmann,elena.hoffmann@bosch.example,manual,2025-05-28,2026-04-19,2026-08-10,6.32,"Supplier Onboarding (Filled)
+Purpose: Example of a completed supplier onboarding record.
+Company: Nordic Components GmbH
+Address: Hauptstr. 12, 70173 Stuttgart
+Contact: procurement@nordic-components.example
+Tax ID: DE123456789
+Certification: ISO 9001
+Risk Level: Medium
+ID Card Number: T88Q-3920I76
+Supplier Onboarding (Filled) - Review
+Purpose: Example of a completed supplier onboarding record.
+Reviewer: Procurement Ops
+Comments: Documents verified; banking details pending validation.
+Approval: Conditionally Approved
+Notes: Activate vendor after bank verification.",yes,no,no,no,no,no,no,no,yes,no,no,no,no,id_card_number,NRP,1,1,hard,yes,vat_number,no,train,no,,,no,,,v1,Useful for testing ambiguous/OCR/context-heavy personal-data detection.,"[{'type': 'DATE_TIME', 'value': '70173', 'confidence': 0.85, 'source': 'presidio', 'start': 144, 'end': 149}, {'type': 'LOCATION', 'value': 'Stuttgart', 'confidence': 0.85, 'source': 'presidio', 'start': 150, 'end': 159}, {'type': 'EMAIL_ADDRESS', 'value': 'procurement@nordic-components.example', 'confidence': 0.9, 'source': 'custom_regex', 'start': 169, 'end': 206}]","{'DATE_TIME': 0.85, 'LOCATION': 0.85, 'EMAIL_ADDRESS': 0.9}","['DATE_TIME', 'EMAIL_ADDRESS', 'LOCATION']",['EMAIL_ADDRESS'],[],True,True,True,local_pii,strong_pii_detected,False,20260908_105246,rule_based,local,rules,regex_presidio_fusion_v1,not_applicable,rules,True,True,True,true_positive,True,contains_personal_data,predicted_pii
+DOC-0303,supplier_onboarding_finding_0303.pdf,Supplier Onboarding,general_document,en,Shared Drive,Tom Nguyen,tom.nguyen@bosch.example,manual,2025-07-04,2026-06-08,2026-08-10,3.23,"Supplier Onboarding (Filled)
+Purpose: Example of a completed supplier onboarding record.
+Company: Nordic Components GmbH
+Address: Hauptstr. 12, 70173 Stuttgart
+Contact: procurement@nordic-components.example
+Tax ID: DE123456789
+Certification: ISO 9001
+Risk Level: Medium
+Driver's License Number: K-1182-3309-72
+Supplier Onboarding (Filled) - Review
+Purpose: Example of a completed supplier onboarding record.
+Reviewer: Procurement Ops
+Comments: Documents verified; banking details pending validation.
+Approval: Conditionally Approved
+Notes: Activate vendor after bank verification.",yes,no,no,no,no,no,no,no,yes,no,no,no,no,drivers_license_number,NRP,1,1,medium,yes,vat_number,no,train,no,,,no,,,v1,Useful for testing ambiguous/OCR/context-heavy personal-data detection.,"[{'type': 'DATE_TIME', 'value': '70173', 'confidence': 0.85, 'source': 'presidio', 'start': 144, 'end': 149}, {'type': 'LOCATION', 'value': 'Stuttgart', 'confidence': 0.85, 'source': 'presidio', 'start': 150, 'end': 159}, {'type': 'EMAIL_ADDRESS', 'value': 'procurement@nordic-components.example', 'confidence': 0.9, 'source': 'custom_regex', 'start': 169, 'end': 206}]","{'DATE_TIME': 0.85, 'LOCATION': 0.85, 'EMAIL_ADDRESS': 0.9}","['DATE_TIME', 'EMAIL_ADDRESS', 'LOCATION']",['EMAIL_ADDRESS'],[],True,True,True,local_pii,strong_pii_detected,False,20260908_105246,rule_based,local,rules,regex_presidio_fusion_v1,not_applicable,rules,True,True,True,true_positive,True,contains_personal_data,predicted_pii
+DOC-0304,supplier_onboarding_finding_0304.pdf,Supplier Onboarding,general_document,en,HR Archive,Lukas Weber,lukas.weber@bosch.example,manual,2025-08-10,2026-07-28,2026-08-10,6.01,"Supplier Onboarding (Filled)
+Purpose: Example of a completed supplier onboarding record.
+Company: Nordic Components GmbH
+Address: Hauptstr. 12, 70173 Stuttgart
+Contact: nina.beck@bosch.example
+Tax ID: DE123456789
+Certification: ISO 9001
+Risk Level: Medium
+Additional Person Reference: Nina Beck
+Email: nina.beck@bosch.example
+Health / Accommodation Note: asked for ergonomic seating due to recurring back pain
+Supplier Onboarding (Filled) - Review
+Purpose: Example of a completed supplier onboarding record.
+Reviewer: Procurement Ops
+Comments: Documents verified; banking details pending validation.
+Approval: Conditionally Approved
+Notes: Activate vendor after bank verification.",yes,yes,yes,no,no,no,no,no,no,no,no,no,no,first_name; last_name; email_address; health_data,MULTIPLE,4,4,hard,yes,vat_number,no,train,no,,,no,,,v1,Useful for testing ambiguous/OCR/context-heavy personal-data detection.,"[{'type': 'DATE_TIME', 'value': '70173', 'confidence': 0.85, 'source': 'presidio', 'start': 144, 'end': 149}, {'type': 'LOCATION', 'value': 'Stuttgart', 'confidence': 0.85, 'source': 'presidio', 'start': 150, 'end': 159}, {'type': 'PERSON', 'value': 'Nina Beck', 'confidence': 0.85, 'source': 'presidio', 'start': 285, 'end': 294}, {'type': 'URL', 'value': 'nina.be', 'confidence': 0.5, 'source': 'presidio', 'start': 169, 'end': 176}, {'type': 'URL', 'value': 'nina.be', 'confidence': 0.5, 'source': 'presidio', 'start': 302, 'end': 309}, {'type': 'EMAIL_ADDRESS', 'value': 'nina.beck@bosch.example', 'confidence': 0.9, 'source': 'custom_regex', 'start': 169, 'end': 192}, {'type': 'EMAIL_ADDRESS', 'value': 'nina.beck@bosch.example', 'confidence': 0.9, 'source': 'custom_regex', 'start': 302, 'end': 325}]","{'DATE_TIME': 0.85, 'LOCATION': 0.85, 'PERSON': 0.85, 'URL': 0.5, 'EMAIL_ADDRESS': 0.9}","['DATE_TIME', 'EMAIL_ADDRESS', 'LOCATION', 'PERSON', 'URL']",['EMAIL_ADDRESS'],"['DATE_TIME', 'LOCATION', 'PERSON', 'URL']",True,True,True,local_pii,strong_pii_detected,False,20260908_105246,rule_based,local,rules,regex_presidio_fusion_v1,not_applicable,rules,True,True,True,true_positive,True,contains_personal_data,predicted_pii
+DOC-0305,supplier_onboarding_finding_0305.pdf,Supplier Onboarding,general_document,en,OneDrive,Maria Schmidt,maria.schmidt@bosch.example,manual,2025-09-16,2026-09-16,2026-08-10,4.45,"Supplier Onboarding (Filled)
+Purpose: Example of a completed supplier onboarding record.
+Company: Alpine Services AG
+Address: Industriestr. 8, 80331 München
+Contact: maria.schmidt@bosch.example
+Tax ID: DE987654321
+Certification: ISO 27001
+Risk Level: Low
+Additional Person Reference: Maria Schmidt
+Email: maria.schmidt@bosch.example
+Phone: +49 151 2345 7821
+Supplier Onboarding (Filled) - Review
+Purpose: Example of a completed supplier onboarding record.
+Reviewer: Vendor Management
+Comments: All compliance checks passed.
+Approval: Approved
+Notes: Eligible for standard payment terms.",yes,yes,yes,yes,no,no,no,no,no,no,no,no,no,first_name; last_name; email_address; phone_number,MULTIPLE,4,4,easy,no,none,no,train,no,,,no,,,v1,Straightforward labeled personal-data example.,"[{'type': 'LOCATION', 'value': 'München', 'confidence': 0.85, 'source': 'presidio', 'start': 149, 'end': 156}, {'type': 'PERSON', 'value': 'Maria Schmidt', 'confidence': 0.85, 'source': 'presidio', 'start': 284, 'end': 297}, {'type': 'PHONE_NUMBER', 'value': '+49 151 2345 7821', 'confidence': 0.75, 'source': 'presidio', 'start': 340, 'end': 357}, {'type': 'URL', 'value': 'maria.sc', 'confidence': 0.5, 'source': 'presidio', 'start': 166, 'end': 174}, {'type': 'URL', 'value': 'maria.sc', 'confidence': 0.5, 'source': 'presidio', 'start': 305, 'end': 313}, {'type': 'EMAIL_ADDRESS', 'value': 'maria.schmidt@bosch.example', 'confidence': 0.9, 'source': 'custom_regex', 'start': 166, 'end': 193}, {'type': 'EMAIL_ADDRESS', 'value': 'maria.schmidt@bosch.example', 'confidence': 0.9, 'source': 'custom_regex', 'start': 305, 'end': 332}, {'type': 'CREDIT_CARD', 'value': '49 151 2345 7821', 'confidence': 0.9, 'source': 'custom_regex', 'start': 341, 'end': 357}]","{'LOCATION': 0.85, 'PERSON': 0.85, 'PHONE_NUMBER': 0.75, 'URL': 0.5, 'EMAIL_ADDRESS': 0.9, 'CREDIT_CARD': 0.9}","['CREDIT_CARD', 'EMAIL_ADDRESS', 'LOCATION', 'PERSON', 'PHONE_NUMBER', 'URL']","['PHONE_NUMBER', 'EMAIL_ADDRESS', 'CREDIT_CARD']","['LOCATION', 'PERSON', 'URL']",True,True,True,local_pii,strong_pii_detected,False,20260908_105246,rule_based,local,rules,regex_presidio_fusion_v1,not_applicable,rules,True,True,True,true_positive,True,contains_personal_data,predicted_pii
+DOC-0306,supplier_onboarding_finding_0306.pdf,Supplier Onboarding,general_document,en,Teams Export,Jonas Fischer,jonas.fischer@bosch.example,manual,2025-10-23,2026-11-05,2026-08-10,5.46,"Supplier Onboarding (Filled)
+Purpose: Example of a completed supplier onboarding record.
+Company: Nordic Components GmbH
+Address: Hauptstr. 12, 70173 Stuttgart
+Contact: elena.fischer@bosch.example
+Tax ID: DE123456789
+Certification: ISO 9001
+Risk Level: Medium
+Login Name: efischer08
+Email: elena.fischer@bosch.example
+Last Login IP: 192.168.12.34
+User Record URL: https://grc.example/access/elena-fischer
+Supplier Onboarding (Filled) - Review
+Purpose: Example of a completed supplier onboarding record.
+Reviewer: Procurement Ops
+Comments: Documents verified; banking details pending validation.
+Approval: Conditionally Approved
+Notes: Activate vendor after bank verification.",yes,no,yes,no,no,no,no,no,no,no,yes,yes,no,username_login; email_address; ip_address; url,MULTIPLE,4,4,easy,no,none,no,train,no,,,no,,,v1,Straightforward labeled personal-data example.,"[{'type': 'IP_ADDRESS', 'value': '192.168.12.34', 'confidence': 0.95, 'source': 'presidio', 'start': 333, 'end': 346}, {'type': 'DATE_TIME', 'value': '70173', 'confidence': 0.85, 'source': 'presidio', 'start': 144, 'end': 149}, {'type': 'LOCATION', 'value': 'Stuttgart', 'confidence': 0.85, 'source': 'presidio', 'start': 150, 'end': 159}, {'type': 'PERSON', 'value': 'efischer08\nEmail', 'confidence': 0.85, 'source': 'presidio', 'start': 272, 'end': 288}, {'type': 'URL', 'value': 'elena.fi', 'confidence': 0.5, 'source': 'presidio', 'start': 169, 'end': 177}, {'type': 'URL', 'value': 'elena.fi', 'confidence': 0.5, 'source': 'presidio', 'start': 290, 'end': 298}, {'type': 'EMAIL_ADDRESS', 'value': 'elena.fischer@bosch.example', 'confidence': 0.9, 'source': 'custom_regex', 'start': 169, 'end': 196}, {'type': 'EMAIL_ADDRESS', 'value': 'elena.fischer@bosch.example', 'confidence': 0.9, 'source': 'custom_regex', 'start': 290, 'end': 317}, {'type': 'URL', 'value': 'https://grc.example/access/elena-fischer', 'confidence': 0.9, 'source': 'custom_regex', 'start': 364, 'end': 404}]","{'IP_ADDRESS': 0.95, 'DATE_TIME': 0.85, 'LOCATION': 0.85, 'PERSON': 0.85, 'URL': 1.0, 'EMAIL_ADDRESS': 0.9}","['DATE_TIME', 'EMAIL_ADDRESS', 'IP_ADDRESS', 'LOCATION', 'PERSON', 'URL']","['IP_ADDRESS', 'EMAIL_ADDRESS']","['DATE_TIME', 'LOCATION', 'PERSON', 'URL']",True,True,True,local_pii,strong_pii_detected,False,20260908_105246,rule_based,local,rules,regex_presidio_fusion_v1,not_applicable,rules,True,True,True,true_positive,True,contains_personal_data,predicted_pii
+DOC-0307,supplier_onboarding_finding_0307.pdf,Supplier Onboarding,general_document,en,Shared Drive,Max Wagner,max.wagner@bosch.example,manual,2025-11-29,2026-12-25,2026-08-10,3.59,"Supplier Onboarding (Filled)
+Purpose: Example of a completed supplier onboarding record.
+Company: Nordic Components GmbH
+Address: Hauptstr. 12, 70173 Stuttgart
+Contact: procurement@nordic-components.example
+Tax ID: DE123456789
+Certification: ISO 9001
+Risk Level: Medium
+Additional Person Reference: Jonas Keller
+Home Address: Bachweg 6, 50667 Cologne, Germany
+Supplier Onboarding (Filled) - Review
+Purpose: Example of a completed supplier onboarding record.
+Reviewer: Procurement Ops
+Comments: Documents verified; banking details pending validation.
+Approval: Conditionally Approved
+Notes: Activate vendor after bank verification.",yes,yes,no,no,yes,no,no,no,no,no,no,no,no,first_name; last_name; home_address,MULTIPLE,3,3,easy,no,none,no,train,no,,,no,,,v1,Straightforward labeled personal-data example.,"[{'type': 'DATE_TIME', 'value': '70173', 'confidence': 0.85, 'source': 'presidio', 'start': 144, 'end': 149}, {'type': 'LOCATION', 'value': 'Stuttgart', 'confidence': 0.85, 'source': 'presidio', 'start': 150, 'end': 159}, {'type': 'PERSON', 'value': 'Jonas Keller', 'confidence': 0.85, 'source': 'presidio', 'start': 299, 'end': 311}, {'type': 'LOCATION', 'value': 'Germany', 'confidence': 0.85, 'source': 'presidio', 'start': 352, 'end': 359}, {'type': 'EMAIL_ADDRESS', 'value': 'procurement@nordic-components.example', 'confidence': 0.9, 'source': 'custom_regex', 'start': 169, 'end': 206}]","{'DATE_TIME': 0.85, 'LOCATION': 0.85, 'PERSON': 0.85, 'EMAIL_ADDRESS': 0.9}","['DATE_TIME', 'EMAIL_ADDRESS', 'LOCATION', 'PERSON']",['EMAIL_ADDRESS'],"['DATE_TIME', 'LOCATION', 'PERSON']",True,True,True,local_pii,strong_pii_detected,False,20260908_105246,rule_based,local,rules,regex_presidio_fusion_v1,not_applicable,rules,True,True,True,true_positive,True,contains_personal_data,predicted_pii
+DOC-0308,supplier_onboarding_finding_0308.pdf,Supplier Onboarding,passport_record,en,SharePoint,Jonas Fischer,jonas.fischer@bosch.example,manual,2026-01-05,2027-02-13,2026-08-10,8.56,"Supplier Onboarding (Filled)
+Purpose: Example of a completed supplier onboarding record.
+Company: Nordic Components GmbH
+Address: Hauptstr. 12, 70173 Stuttgart
+Contact: procurement@nordic-components.example
+Tax ID: DE123456789
+Certification: ISO 9001
+Risk Level: Medium
+Additional Person Reference: Nina Beck
+Passport Number: R9V118205
+Supplier Onboarding (Filled) - Review
+Purpose: Example of a completed supplier onboarding record.
+Reviewer: Procurement Ops
+Comments: Documents verified; banking details pending validation.
+Approval: Conditionally Approved
+Notes: Activate vendor after bank verification.",yes,yes,no,no,no,no,no,yes,no,no,no,no,no,passport_number; first_name; last_name,MULTIPLE,3,3,easy,no,none,no,train,no,,,no,,,v1,Straightforward labeled personal-data example.,"[{'type': 'DATE_TIME', 'value': '70173', 'confidence': 0.85, 'source': 'presidio', 'start': 144, 'end': 149}, {'type': 'LOCATION', 'value': 'Stuttgart', 'confidence': 0.85, 'source': 'presidio', 'start': 150, 'end': 159}, {'type': 'PERSON', 'value': 'Nina Beck', 'confidence': 0.85, 'source': 'presidio', 'start': 299, 'end': 308}, {'type': 'EMAIL_ADDRESS', 'value': 'procurement@nordic-components.example', 'confidence': 0.9, 'source': 'custom_regex', 'start': 169, 'end': 206}]","{'DATE_TIME': 0.85, 'LOCATION': 0.85, 'PERSON': 0.85, 'EMAIL_ADDRESS': 0.9}","['DATE_TIME', 'EMAIL_ADDRESS', 'LOCATION', 'PERSON']",['EMAIL_ADDRESS'],"['DATE_TIME', 'LOCATION', 'PERSON']",True,True,True,local_pii,strong_pii_detected,False,20260908_105246,rule_based,local,rules,regex_presidio_fusion_v1,not_applicable,rules,True,True,True,true_positive,True,contains_personal_data,predicted_pii
+DOC-0309,supplier_onboarding_finding_0309.pdf,Supplier Onboarding,general_document,en,Teams Export,Jonas Fischer,jonas.fischer@bosch.example,manual,2026-02-11,2027-04-04,2026-08-10,5.83,"Supplier Onboarding (Filled)
+Purpose: Example of a completed supplier onboarding record.
+Company: Alpine Services AG
+Address: Industriestr. 8, 80331 München
+Contact: vendor@alpine-services.example
+Tax ID: DE987654321
+Certification: ISO 27001
+Risk Level: Low
+Additional Person Reference: Maria Schmidt
+ID Card Number: L01X-8842197
+Supplier Onboarding (Filled) - Review
+Purpose: Example of a completed supplier onboarding record.
+Reviewer: Vendor Management
+Comments: All compliance checks passed.
+Approval: Approved
+Notes: Eligible for standard payment terms.",yes,yes,no,no,no,no,no,no,yes,no,no,no,no,id_card_number; first_name; last_name,MULTIPLE,3,3,medium,yes,vat_number,no,train,no,,,no,,,v1,Useful for testing ambiguous/OCR/context-heavy personal-data detection.,"[{'type': 'LOCATION', 'value': 'München', 'confidence': 0.85, 'source': 'presidio', 'start': 149, 'end': 156}, {'type': 'PERSON', 'value': 'Maria Schmidt', 'confidence': 0.85, 'source': 'presidio', 'start': 287, 'end': 300}, {'type': 'EMAIL_ADDRESS', 'value': 'vendor@alpine-services.example', 'confidence': 0.9, 'source': 'custom_regex', 'start': 166, 'end': 196}]","{'LOCATION': 0.85, 'PERSON': 0.85, 'EMAIL_ADDRESS': 0.9}","['EMAIL_ADDRESS', 'LOCATION', 'PERSON']",['EMAIL_ADDRESS'],"['LOCATION', 'PERSON']",True,True,True,local_pii,strong_pii_detected,False,20260908_105246,rule_based,local,rules,regex_presidio_fusion_v1,not_applicable,rules,True,True,True,true_positive,True,contains_personal_data,predicted_pii
+DOC-0310,supplier_onboarding_finding_0310.pdf,Supplier Onboarding,general_document,en,HR Archive,Sofia Hartmann,sofia.hartmann@bosch.example,manual,2026-03-20,2027-05-24,2026-08-10,8.47,"Supplier Onboarding (Filled)
+Purpose: Example of a completed supplier onboarding record.
+Company: Alpine Services AG
+Address: Industriestr. 8, 80331 München
+Contact: vendor@alpine-services.example
+Tax ID: DE987654321
+Certification: ISO 27001
+Risk Level: Low
+Additional Person Reference: Elena Fischer
+Driver's License Number: F-4409-1182-21
+Supplier Onboarding (Filled) - Review
+Purpose: Example of a completed supplier onboarding record.
+Reviewer: Vendor Management
+Comments: All compliance checks passed.
+Approval: Approved
+Notes: Eligible for standard payment terms.",yes,yes,no,no,no,no,no,no,yes,no,no,no,no,drivers_license_number; first_name; last_name,MULTIPLE,3,3,easy,no,none,no,train,no,,,no,,,v1,Straightforward labeled personal-data example.,"[{'type': 'LOCATION', 'value': 'München', 'confidence': 0.85, 'source': 'presidio', 'start': 149, 'end': 156}, {'type': 'PERSON', 'value': 'Elena Fischer', 'confidence': 0.85, 'source': 'presidio', 'start': 287, 'end': 300}, {'type': 'PHONE_NUMBER', 'value': '4409-1182-21', 'confidence': 0.75, 'source': 'presidio', 'start': 328, 'end': 340}, {'type': 'EMAIL_ADDRESS', 'value': 'vendor@alpine-services.example', 'confidence': 0.9, 'source': 'custom_regex', 'start': 166, 'end': 196}]","{'LOCATION': 0.85, 'PERSON': 0.85, 'PHONE_NUMBER': 0.75, 'EMAIL_ADDRESS': 0.9}","['EMAIL_ADDRESS', 'LOCATION', 'PERSON', 'PHONE_NUMBER']","['PHONE_NUMBER', 'EMAIL_ADDRESS']","['LOCATION', 'PERSON']",True,True,True,local_pii,strong_pii_detected,False,20260908_105246,rule_based,local,rules,regex_presidio_fusion_v1,not_applicable,rules,True,True,True,true_positive,True,contains_personal_data,predicted_pii
+DOC-0311,supplier_onboarding_finding_0311.pdf,Supplier Onboarding,general_document,en,SharePoint,Priya Nair,priya.nair@bosch.example,manual,2020-01-08,2021-03-26,2026-08-10,4.08,"Supplier Onboarding (Filled)
+Purpose: Example of a completed supplier onboarding record.
+Company: Nordic Components GmbH
+Address: Hauptstr. 12, 70173 Stuttgart
+Contact: procurement@nordic-components.example
+Tax ID: DE123456789
+Certification: ISO 9001
+Risk Level: Medium
+Additional Person Reference: Jonas Keller
+Travel History: Bangalore on 2022-09-03, Pune on 2022-09-07, and Chennai on 2022-09-09
+Supplier Onboarding (Filled) - Review
+Purpose: Example of a completed supplier onboarding record.
+Reviewer: Procurement Ops
+Comments: Documents verified; banking details pending validation.
+Approval: Conditionally Approved
+Notes: Activate vendor after bank verification.",yes,yes,no,no,yes,no,no,no,no,yes,no,no,no,travel_history; first_name; last_name,MULTIPLE,3,3,medium,yes,vat_number,yes,train,no,,,no,,,v1,Useful for testing ambiguous/OCR/context-heavy personal-data detection.,"[{'type': 'DATE_TIME', 'value': '70173', 'confidence': 0.85, 'source': 'presidio', 'start': 144, 'end': 149}, {'type': 'LOCATION', 'value': 'Stuttgart', 'confidence': 0.85, 'source': 'presidio', 'start': 150, 'end': 159}, {'type': 'PERSON', 'value': 'Jonas Keller', 'confidence': 0.85, 'source': 'presidio', 'start': 299, 'end': 311}, {'type': 'LOCATION', 'value': 'Bangalore', 'confidence': 0.85, 'source': 'presidio', 'start': 328, 'end': 337}, {'type': 'DATE_TIME', 'value': '2022-09-03', 'confidence': 0.85, 'source': 'presidio', 'start': 341, 'end': 351}, {'type': 'LOCATION', 'value': 'Pune', 'confidence': 0.85, 'source': 'presidio', 'start': 353, 'end': 357}, {'type': 'DATE_TIME', 'value': '2022-09-07', 'confidence': 0.85, 'source': 'presidio', 'start': 361, 'end': 371}, {'type': 'LOCATION', 'value': 'Chennai', 'confidence': 0.85, 'source': 'presidio', 'start': 377, 'end': 384}, {'type': 'DATE_TIME', 'value': '2022-09-09', 'confidence': 0.85, 'source': 'presidio', 'start': 388, 'end': 398}, {'type': 'EMAIL_ADDRESS', 'value': 'procurement@nordic-components.example', 'confidence': 0.9, 'source': 'custom_regex', 'start': 169, 'end': 206}]","{'DATE_TIME': 0.85, 'LOCATION': 0.85, 'PERSON': 0.85, 'EMAIL_ADDRESS': 0.9}","['DATE_TIME', 'EMAIL_ADDRESS', 'LOCATION', 'PERSON']",['EMAIL_ADDRESS'],"['DATE_TIME', 'LOCATION', 'PERSON']",True,True,True,local_pii,strong_pii_detected,False,20260908_105246,rule_based,local,rules,regex_presidio_fusion_v1,not_applicable,rules,True,True,True,true_positive,True,contains_personal_data,predicted_pii
+DOC-0312,supplier_onboarding_finding_0312.pdf,Supplier Onboarding,general_document,en,Teams Export,Lukas Weber,lukas.weber@bosch.example,manual,2020-02-14,2021-05-15,2026-08-10,1.74,"Supplier Onboarding (Filled)
+Purpose: Example of a completed supplier onboarding record.
+Company: Alpine Services AG
+Address: Industriestr. 8, 80331 München
+Contact: vendor@alpine-services.example
+Tax ID: DE987654321
+Certification: ISO 27001
+Risk Level: Low
+Phone: +49 172 3310 5519
+Billing / Shipping Address: Am Markt 5, 01067 Dresden, Germany
+IBAN: DE02 1000 0000 0123 4567 89
+Corporate Credit Card: 3782 822463 10005
+Supplier Onboarding (Filled) - Review
+Purpose: Example of a completed supplier onboarding record.
+Reviewer: Vendor Management
+Comments: All compliance checks passed.
+Approval: Approved
+Notes: Eligible for standard payment terms.",yes,no,no,yes,yes,yes,yes,no,no,no,no,no,no,billing_shipping_address; phone_number; bank_account; credit_card,MULTIPLE,4,4,easy,no,none,yes,train,no,,,no,,,v1,Straightforward labeled personal-data example.,"[{'type': 'CREDIT_CARD', 'value': '3782 822463 10005', 'confidence': 1.0, 'source': 'presidio', 'start': 403, 'end': 420}, {'type': 'LOCATION', 'value': 'München', 'confidence': 0.85, 'source': 'presidio', 'start': 149, 'end': 156}, {'type': 'LOCATION', 'value': 'Dresden', 'confidence': 0.85, 'source': 'presidio', 'start': 329, 'end': 336}, {'type': 'LOCATION', 'value': 'Germany', 'confidence': 0.85, 'source': 'presidio', 'start': 338, 'end': 345}, {'type': 'PHONE_NUMBER', 'value': '+49 172 3310 5519', 'confidence': 0.75, 'source': 'presidio', 'start': 265, 'end': 282}, {'type': 'EMAIL_ADDRESS', 'value': 'vendor@alpine-services.example', 'confidence': 0.9, 'source': 'custom_regex', 'start': 166, 'end': 196}, {'type': 'CREDIT_CARD', 'value': '49 172 3310 5519', 'confidence': 0.9, 'source': 'custom_regex', 'start': 266, 'end': 282}, {'type': 'CREDIT_CARD', 'value': '1000 0000 0123', 'confidence': 0.9, 'source': 'custom_regex', 'start': 357, 'end': 371}, {'type': 'CREDIT_CARD', 'value': '3782 822463 10005', 'confidence': 0.9, 'source': 'custom_regex', 'start': 403, 'end': 420}, {'type': 'PHONE_NUMBER', 'value': '02 1000 0000', 'confidence': 0.9, 'source': 'custom_regex', 'start': 354, 'end': 366}, {'type': 'PHONE_NUMBER', 'value': '0123 4567 89', 'confidence': 0.9, 'source': 'custom_regex', 'start': 367, 'end': 379}]","{'CREDIT_CARD': 1.0, 'LOCATION': 0.85, 'PHONE_NUMBER': 1.0, 'EMAIL_ADDRESS': 0.9}","['CREDIT_CARD', 'EMAIL_ADDRESS', 'LOCATION', 'PHONE_NUMBER']","['CREDIT_CARD', 'PHONE_NUMBER', 'EMAIL_ADDRESS']",[],True,True,True,local_pii,strong_pii_detected,False,20260908_105246,rule_based,local,rules,regex_presidio_fusion_v1,not_applicable,rules,True,True,True,true_positive,True,contains_personal_data,predicted_pii
+DOC-0401,training_evaluation_finding_0401.pdf,Training Evaluation,general_document,en,OneDrive,Lukas Weber,lukas.weber@bosch.example,manual,2022-11-03,2024-10-16,2026-08-10,2.43,"Training Evaluation (Filled)
+Purpose: Example of a completed training feedback form.
+Participant: Maria Schmidt
+Course: Data Protection Basics
+Date: 03 Nov 2022
+Content: 5/5
+Trainer: 4/5
+Material: 4/5
+Email: maria.schmidt@bosch.example
+Fax: +49 711 811 2041
+Training Evaluation (Filled) - Review
+Purpose: Example of a completed training feedback form.
+Comments: Clear structure and helpful examples; add more hands-on exercises.
+Recommendation: Repeat quarterly for new joiners.",yes,no,yes,yes,no,no,no,no,no,no,no,no,no,fax_number; email_address,MULTIPLE,2,2,easy,no,none,no,train,no,,,no,,,v1,Straightforward labeled personal-data example.,"[{'type': 'PERSON', 'value': 'Maria Schmidt', 'confidence': 0.85, 'source': 'presidio', 'start': 98, 'end': 111}, {'type': 'URL', 'value': 'maria.sc', 'confidence': 0.5, 'source': 'presidio', 'start': 208, 'end': 216}, {'type': 'EMAIL_ADDRESS', 'value': 'maria.schmidt@bosch.example', 'confidence': 0.9, 'source': 'custom_regex', 'start': 208, 'end': 235}, {'type': 'CREDIT_CARD', 'value': '49 711 811 2041', 'confidence': 0.9, 'source': 'custom_regex', 'start': 242, 'end': 257}]","{'PERSON': 0.85, 'URL': 0.5, 'EMAIL_ADDRESS': 0.9, 'CREDIT_CARD': 0.9}","['CREDIT_CARD', 'EMAIL_ADDRESS', 'PERSON', 'URL']","['EMAIL_ADDRESS', 'CREDIT_CARD']","['PERSON', 'URL']",True,True,False,local_pii,strong_pii_detected,False,20260908_105246,rule_based,local,rules,regex_presidio_fusion_v1,not_applicable,rules,True,True,True,true_positive,True,contains_personal_data,predicted_pii
+DOC-0404,training_evaluation_finding_0404.pdf,Training Evaluation,medical_record,en,Shared Drive,Priya Nair,priya.nair@bosch.example,manual,2023-02-22,2025-03-15,2026-08-10,3.47,"Training Evaluation (Filled)
+Purpose: Example of a completed training feedback form.
+Participant: Nina Beck
+Course: Document Classification Workshop
+Date: 22 Feb 2023
+Content: 4/5
+Trainer: 5/5
+Material: 3/5
+Additional Person Reference: Nina Beck
+Date of Birth: 1994-02-19
+Medical ID: MED-DE-510483
+Health / Accommodation Note: asked for ergonomic seating due to recurring back pain
+Training Evaluation (Filled) - Review
+Purpose: Example of a completed training feedback form.
+Comments: Trainer excellent; slides were dense—provide a cheat sheet.
+Recommendation: Add a short pre-read and a 15-min quiz.",yes,yes,no,no,no,no,no,no,no,yes,no,no,yes,health_data; medical_id; birth_date; first_name; last_name,MULTIPLE,5,5,medium,yes,medical_context,no,train,no,,,no,,,v1,Useful for testing ambiguous/OCR/context-heavy personal-data detection.,"[{'type': 'DATE_TIME', 'value': '1994-02-19', 'confidence': 0.95, 'source': 'presidio', 'start': 261, 'end': 271}, {'type': 'PERSON', 'value': 'Nina Beck', 'confidence': 0.85, 'source': 'presidio', 'start': 98, 'end': 107}, {'type': 'PERSON', 'value': 'Nina Beck', 'confidence': 0.85, 'source': 'presidio', 'start': 236, 'end': 245}, {'type': 'MEDICAL_LICENSE', 'value': 'Medical ID', 'confidence': 0.9, 'source': 'custom_regex', 'start': 272, 'end': 282}]","{'DATE_TIME': 0.95, 'PERSON': 0.85, 'MEDICAL_LICENSE': 0.9}","['DATE_TIME', 'MEDICAL_LICENSE', 'PERSON']",['MEDICAL_LICENSE'],"['DATE_TIME', 'PERSON']",True,True,False,local_pii,strong_pii_detected,False,20260908_105246,rule_based,local,rules,regex_presidio_fusion_v1,not_applicable,rules,True,True,True,true_positive,True,contains_personal_data,predicted_pii
+DOC-0405,training_evaluation_finding_0405.pdf,Training Evaluation,medical_record,en,SharePoint,Anna Keller,anna.keller@bosch.example,manual,2023-03-31,2025-05-04,2026-08-10,6.69,"Training Evaluation (Filled)
+Purpose: Example of a completed training feedback form.
+Participant: Maria Schmidt
+Course: Data Protection Basics
+Date: 31 Mar 2023
+Content: 5/5
+Trainer: 4/5
+Material: 4/5
+Travel History: Stuttgart on 2022-03-11, Lyon on 2022-04-18, and Milan on 2022-05-09
+Medical ID: MED-DE-440912
+Health / Accommodation Note: reported migraine symptoms and requested a quiet room accommodation
+Training Evaluation (Filled) - Review
+Purpose: Example of a completed training feedback form.
+Comments: Clear structure and helpful examples; add more hands-on exercises.
+Recommendation: Repeat quarterly for new joiners.",yes,no,no,no,yes,no,no,no,no,yes,no,no,yes,health_data; medical_id; travel_history,MULTIPLE,3,3,hard,yes,medical_context,no,train,no,,,no,,,v1,Useful for testing ambiguous/OCR/context-heavy personal-data detection.,"[{'type': 'PERSON', 'value': 'Maria Schmidt', 'confidence': 0.85, 'source': 'presidio', 'start': 98, 'end': 111}, {'type': 'LOCATION', 'value': 'Stuttgart', 'confidence': 0.85, 'source': 'presidio', 'start': 217, 'end': 226}, {'type': 'DATE_TIME', 'value': '2022-03-11', 'confidence': 0.85, 'source': 'presidio', 'start': 230, 'end': 240}, {'type': 'LOCATION', 'value': 'Lyon', 'confidence': 0.85, 'source': 'presidio', 'start': 242, 'end': 246}, {'type': 'DATE_TIME', 'value': '2022-04-18', 'confidence': 0.85, 'source': 'presidio', 'start': 250, 'end': 260}, {'type': 'LOCATION', 'value': 'Milan', 'confidence': 0.85, 'source': 'presidio', 'start': 266, 'end': 271}, {'type': 'DATE_TIME', 'value': '2022-05-09', 'confidence': 0.85, 'source': 'presidio', 'start': 275, 'end': 285}, {'type': 'MEDICAL_LICENSE', 'value': 'Medical ID', 'confidence': 0.9, 'source': 'custom_regex', 'start': 286, 'end': 296}]","{'PERSON': 0.85, 'LOCATION': 0.85, 'DATE_TIME': 0.85, 'MEDICAL_LICENSE': 0.9}","['DATE_TIME', 'LOCATION', 'MEDICAL_LICENSE', 'PERSON']",['MEDICAL_LICENSE'],"['PERSON', 'LOCATION', 'DATE_TIME']",True,True,False,local_pii,strong_pii_detected,False,20260908_105246,rule_based,local,rules,regex_presidio_fusion_v1,not_applicable,rules,True,True,True,true_positive,True,contains_personal_data,predicted_pii
+DOC-0412,training_evaluation_finding_0412.pdf,Training Evaluation,general_document,en,Teams Export,Anna Keller,anna.keller@bosch.example,manual,2023-12-15,2026-04-19,2026-08-10,1.96,"Training Evaluation (Filled)
+Purpose: Example of a completed training feedback form.
+Participant: Nina Beck
+Course: Document Classification Workshop
+Date: 15 Dec 2023
+Content: 4/5
+Trainer: 5/5
+Material: 3/5
+Additional Person Reference: Nina Beck
+Email: nina.beck@bosch.example
+Health / Accommodation Note: asked for ergonomic seating due to recurring back pain
+Training Evaluation (Filled) - Review
+Purpose: Example of a completed training feedback form.
+Comments: Trainer excellent; slides were dense—provide a cheat sheet.
+Recommendation: Add a short pre-read and a 15-min quiz.",yes,yes,yes,no,no,no,no,no,no,no,no,no,no,first_name; last_name; email_address; health_data,MULTIPLE,4,4,hard,yes,other_edge_case,no,train,no,,,no,,,v1,Useful for testing ambiguous/OCR/context-heavy personal-data detection.,"[{'type': 'PERSON', 'value': 'Nina Beck', 'confidence': 0.85, 'source': 'presidio', 'start': 98, 'end': 107}, {'type': 'PERSON', 'value': 'Nina Beck', 'confidence': 0.85, 'source': 'presidio', 'start': 236, 'end': 245}, {'type': 'URL', 'value': 'nina.be', 'confidence': 0.5, 'source': 'presidio', 'start': 253, 'end': 260}, {'type': 'EMAIL_ADDRESS', 'value': 'nina.beck@bosch.example', 'confidence': 0.9, 'source': 'custom_regex', 'start': 253, 'end': 276}]","{'PERSON': 0.85, 'URL': 0.5, 'EMAIL_ADDRESS': 0.9}","['EMAIL_ADDRESS', 'PERSON', 'URL']",['EMAIL_ADDRESS'],"['PERSON', 'URL']",True,True,False,local_pii,strong_pii_detected,False,20260908_105246,rule_based,local,rules,regex_presidio_fusion_v1,not_applicable,rules,True,True,True,true_positive,True,contains_personal_data,predicted_pii

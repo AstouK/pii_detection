@@ -1,0 +1,5 @@
+provider,model_family,model_name,error_type,count
+ollama,llm,qwen2.5,false_negative,6
+ollama,llm,qwen2.5,false_positive,64
+ollama,llm,qwen2.5,true_negative,376
+ollama,llm,qwen2.5,true_positive,54

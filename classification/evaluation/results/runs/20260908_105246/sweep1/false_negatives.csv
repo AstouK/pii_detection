@@ -1,0 +1,440 @@
+document_id,file_name,document_type,scenario_type,language,source_system,responsible_owner,owner_email,data_source,file_created_date,last_modified_date,dataset_created_at,file_size_mb,full_text,contains_personal_data,PERSON_yes_no,EMAIL_ADDRESS_yes_no,PHONE_NUMBER_yes_no,LOCATION_yes_no,IBAN_CODE_yes_no,CREDIT_CARD_yes_no,PASSPORT_yes_no,NRP_yes_no,DATE_TIME_yes_no,IP_ADDRESS_yes_no,URL_yes_no,MEDICAL_LICENSE_yes_no,personal_data_categories,primary_pii_type,category_count,pii_count,difficulty,edge_case,challenge_category,retention_period_exceeded_3y,recommended_split,synthetic,synthetic_generator,generation_prompt_version,human_reviewed,review_status,review_notes,dataset_version,labeling_notes,entities,per_type_conf,detected_categories,strong_pii_categories,potential_pii_categories,detected_pii,detected_any_pii,has_person_hint,route,routing_reason,needs_llm_review,run_id,strategy,provider,model_family,model_name,prompt_version,prediction_source,predicted_pii,_ground_truth_bool,_prediction_bool,error_type,is_correct,evaluated_ground_truth_col,evaluated_prediction_col
+DOC-0003,expense_report_finding_0003.pdf,Expense Report,expense_report,en,SharePoint,Tom Nguyen,tom.nguyen@bosch.example,manual,2020-04-21,2020-05-30,2026-08-10,4.84,"Expense Reimbursement (Filled)
+Purpose: Example of a completed expense reimbursement record.
+Employee: Jonas Keller (E-20413)
+Department: Project Management
+Date: 21 Apr 2020
+Category: Travel
+Amount: 128.40 EUR
+Description: Train ticket for customer workshop (round trip).
+Additional Person Reference: Jonas Keller
+Home Address: Bachweg 6, 50667 Cologne, Germany
+Expense Reimbursement (Filled) - Review
+Purpose: Example of a completed expense reimbursement record.
+Summary: Total claimed: 128.40 EUR. Receipts attached.
+Manager: Philipp Neumann
+Decision: Approved
+Date: 23 Apr 2020",yes,yes,no,no,yes,no,no,no,no,no,no,no,no,first_name; last_name; home_address,MULTIPLE,3,3,easy,no,none,yes,train,no,,,no,,,v1,Straightforward labeled personal-data example.,"[{'type': 'PERSON', 'value': 'Jonas Keller', 'confidence': 0.85, 'source': 'presidio', 'start': 103, 'end': 115}, {'type': 'DATE_TIME', 'value': '21 Apr 2020', 'confidence': 0.85, 'source': 'presidio', 'start': 163, 'end': 174}, {'type': 'PERSON', 'value': 'Jonas Keller', 'confidence': 0.85, 'source': 'presidio', 'start': 302, 'end': 314}, {'type': 'LOCATION', 'value': 'Germany', 'confidence': 0.85, 'source': 'presidio', 'start': 355, 'end': 362}, {'type': 'PERSON', 'value': 'Philipp Neumann', 'confidence': 0.85, 'source': 'presidio', 'start': 529, 'end': 544}, {'type': 'DATE_TIME', 'value': '23 Apr 2020', 'confidence': 0.85, 'source': 'presidio', 'start': 570, 'end': 581}]","{'PERSON': 0.85, 'DATE_TIME': 0.85, 'LOCATION': 0.85}","['DATE_TIME', 'LOCATION', 'PERSON']",[],"['PERSON', 'DATE_TIME', 'LOCATION']",False,True,True,low_cost_llm,potential_pii_evidence,True,20260908_105246,rule_based,local,rules,regex_presidio_fusion_v1,not_applicable,rules,False,True,False,false_negative,False,contains_personal_data,predicted_pii
+DOC-0004,expense_report_finding_0004.pdf,Expense Report,expense_report,en,Teams Export,Max Wagner,max.wagner@bosch.example,manual,2020-05-28,2020-07-19,2026-08-10,1.78,"Expense Reimbursement (Filled)
+Purpose: Example of a completed expense reimbursement record.
+Employee: Nina Beck (E-20739)
+Department: Project Management
+Date: 28 May 2020
+Category: Travel
+Amount: 128.40 EUR
+Description: Train ticket for customer workshop (round trip).
+Additional Person Reference: Nina Beck
+Passport Number: R9V118205
+Expense Reimbursement (Filled) - Review
+Purpose: Example of a completed expense reimbursement record.
+Summary: Total claimed: 128.40 EUR. Receipts attached.
+Manager: Philipp Neumann
+Decision: Approved
+Date: 30 May 2020",yes,yes,no,no,no,no,no,yes,no,no,no,no,no,passport_number; first_name; last_name,MULTIPLE,3,3,easy,no,none,yes,train,no,,,no,,,v1,Straightforward labeled personal-data example.,"[{'type': 'PERSON', 'value': 'Nina Beck', 'confidence': 0.85, 'source': 'presidio', 'start': 103, 'end': 112}, {'type': 'DATE_TIME', 'value': 'May 2020', 'confidence': 0.85, 'source': 'presidio', 'start': 163, 'end': 171}, {'type': 'PERSON', 'value': 'Nina Beck', 'confidence': 0.85, 'source': 'presidio', 'start': 299, 'end': 308}, {'type': 'PERSON', 'value': 'Philipp Neumann', 'confidence': 0.85, 'source': 'presidio', 'start': 502, 'end': 517}, {'type': 'DATE_TIME', 'value': '30 May 2020', 'confidence': 0.85, 'source': 'presidio', 'start': 543, 'end': 554}]","{'PERSON': 0.85, 'DATE_TIME': 0.85}","['DATE_TIME', 'PERSON']",[],"['PERSON', 'DATE_TIME']",False,True,True,low_cost_llm,potential_pii_evidence,True,20260908_105246,rule_based,local,rules,regex_presidio_fusion_v1,not_applicable,rules,False,True,False,false_negative,False,contains_personal_data,predicted_pii
+DOC-0005,expense_report_finding_0005.pdf,Expense Report,expense_report,en,OneDrive,Lukas Weber,lukas.weber@bosch.example,manual,2020-07-04,2020-09-07,2026-08-10,0.74,"Expense Reimbursement (Filled)
+Purpose: Example of a completed expense reimbursement record.
+Employee: Maria Schmidt (E-20882)
+Department: Project Management
+Date: 04 Jul 2020
+Category: Travel
+Amount: 128.40 EUR
+Description: Train ticket for customer workshop (round trip).
+Additional Person Reference: Maria Schmidt
+ID Card Number: L01X-8842197
+Expense Reimbursement (Filled) - Review
+Purpose: Example of a completed expense reimbursement record.
+Summary: Total claimed: 128.40 EUR. Receipts attached.
+Manager: Philipp Neumann
+Decision: Approved
+Date: 06 Jul 2020",yes,yes,no,no,no,no,no,no,yes,no,no,no,no,id_card_number; first_name; last_name,MULTIPLE,3,3,medium,yes,employee_id,yes,train,no,,,no,,,v1,Useful for testing ambiguous/OCR/context-heavy personal-data detection.,"[{'type': 'PERSON', 'value': 'Maria Schmidt', 'confidence': 0.85, 'source': 'presidio', 'start': 103, 'end': 116}, {'type': 'DATE_TIME', 'value': '04 Jul 2020', 'confidence': 0.85, 'source': 'presidio', 'start': 164, 'end': 175}, {'type': 'PERSON', 'value': 'Maria Schmidt', 'confidence': 0.85, 'source': 'presidio', 'start': 303, 'end': 316}, {'type': 'PERSON', 'value': 'Philipp Neumann', 'confidence': 0.85, 'source': 'presidio', 'start': 512, 'end': 527}]","{'PERSON': 0.85, 'DATE_TIME': 0.85}","['DATE_TIME', 'PERSON']",[],"['PERSON', 'DATE_TIME']",False,True,True,low_cost_llm,potential_pii_evidence,True,20260908_105246,rule_based,local,rules,regex_presidio_fusion_v1,not_applicable,rules,False,True,False,false_negative,False,contains_personal_data,predicted_pii
+DOC-0007,expense_report_finding_0007.pdf,Expense Report,expense_report,en,HR Archive,Maria Schmidt,maria.schmidt@bosch.example,manual,2020-09-16,2020-12-16,2026-08-10,3.76,"Expense Reimbursement (Filled)
+Purpose: Example of a completed expense reimbursement record.
+Employee: Jonas Keller (E-20680)
+Department: Project Management
+Date: 16 Sept 2020
+Category: Travel
+Amount: 128.40 EUR
+Description: Train ticket for customer workshop (round trip).
+Additional Person Reference: Jonas Keller
+Travel History: Bangalore on 2022-09-03, Pune on 2022-09-07, and Chennai on 2022-09-09
+Expense Reimbursement (Filled) - Review
+Purpose: Example of a completed expense reimbursement record.
+Summary: Total claimed: 128.40 EUR. Receipts attached.
+Manager: Philipp Neumann
+Decision: Approved
+Date: 18 Sept 2020",yes,yes,no,no,yes,no,no,no,no,yes,no,no,no,travel_history; first_name; last_name,MULTIPLE,3,3,medium,yes,employee_id,yes,train,no,,,no,,,v1,Useful for testing ambiguous/OCR/context-heavy personal-data detection.,"[{'type': 'PERSON', 'value': 'Jonas Keller', 'confidence': 0.85, 'source': 'presidio', 'start': 103, 'end': 115}, {'type': 'PERSON', 'value': 'Jonas Keller', 'confidence': 0.85, 'source': 'presidio', 'start': 303, 'end': 315}, {'type': 'LOCATION', 'value': 'Bangalore', 'confidence': 0.85, 'source': 'presidio', 'start': 332, 'end': 341}, {'type': 'DATE_TIME', 'value': '2022-09-03', 'confidence': 0.85, 'source': 'presidio', 'start': 345, 'end': 355}, {'type': 'LOCATION', 'value': 'Pune', 'confidence': 0.85, 'source': 'presidio', 'start': 357, 'end': 361}, {'type': 'DATE_TIME', 'value': '2022-09-07', 'confidence': 0.85, 'source': 'presidio', 'start': 365, 'end': 375}, {'type': 'LOCATION', 'value': 'Chennai', 'confidence': 0.85, 'source': 'presidio', 'start': 381, 'end': 388}, {'type': 'DATE_TIME', 'value': '2022-09-09', 'confidence': 0.85, 'source': 'presidio', 'start': 392, 'end': 402}, {'type': 'PERSON', 'value': 'Philipp Neumann', 'confidence': 0.85, 'source': 'presidio', 'start': 569, 'end': 584}, {'type': 'DATE_TIME', 'value': '18 Sept 2020', 'confidence': 0.85, 'source': 'presidio', 'start': 610, 'end': 622}]","{'PERSON': 0.85, 'LOCATION': 0.85, 'DATE_TIME': 0.85}","['DATE_TIME', 'LOCATION', 'PERSON']",[],"['PERSON', 'LOCATION', 'DATE_TIME']",False,True,True,low_cost_llm,potential_pii_evidence,True,20260908_105246,rule_based,local,rules,regex_presidio_fusion_v1,not_applicable,rules,False,True,False,false_negative,False,contains_personal_data,predicted_pii
+DOC-0010,expense_report_finding_0010.pdf,Expense Report,expense_report,en,HR Archive,Priya Nair,priya.nair@bosch.example,manual,2021-01-05,2021-05-15,2026-08-10,2.23,"Expense Reimbursement (Filled)
+Purpose: Example of a completed expense reimbursement record.
+Employee: Elena Fischer (E-20645)
+Department: Project Management
+Date: 05 Jan 2021
+Category: Travel
+Amount: 128.40 EUR
+Description: Train ticket for customer workshop (round trip).
+Additional Person Reference: Elena Fischer
+Email: elena dot fischer at bosch dot example
+Signature: E. Fischer
+Expense Reimbursement (Filled) - Review
+Purpose: Example of a completed expense reimbursement record.
+Summary: Total claimed: 128.40 EUR. Receipts attached.
+Manager: Philipp Neumann
+Decision: Approved
+Signature: E. Fischer
+Date: 07 Jan 2021",yes,yes,yes,no,no,no,no,no,no,no,no,no,no,signature; first_name; last_name; email_address,MULTIPLE,4,4,medium,yes,employee_id,yes,train,no,,,no,,,v1,Useful for testing ambiguous/OCR/context-heavy personal-data detection.,"[{'type': 'PERSON', 'value': 'Elena Fischer', 'confidence': 0.85, 'source': 'presidio', 'start': 103, 'end': 116}, {'type': 'PERSON', 'value': 'Elena Fischer', 'confidence': 0.85, 'source': 'presidio', 'start': 303, 'end': 316}, {'type': 'PERSON', 'value': 'elena dot fischer', 'confidence': 0.85, 'source': 'presidio', 'start': 324, 'end': 341}, {'type': 'PERSON', 'value': 'Philipp Neumann', 'confidence': 0.85, 'source': 'presidio', 'start': 551, 'end': 566}, {'type': 'DATE_TIME', 'value': '07 Jan 2021', 'confidence': 0.85, 'source': 'presidio', 'start': 614, 'end': 625}]","{'PERSON': 0.85, 'DATE_TIME': 0.85}","['DATE_TIME', 'PERSON']",[],"['PERSON', 'DATE_TIME']",False,True,True,low_cost_llm,potential_pii_evidence,True,20260908_105246,rule_based,local,rules,regex_presidio_fusion_v1,not_applicable,rules,False,True,False,false_negative,False,contains_personal_data,predicted_pii
+DOC-0011,expense_report_finding_0011.pdf,Expense Report,expense_report,en,OneDrive,Anna Keller,anna.keller@bosch.example,manual,2021-02-11,2021-07-04,2026-08-10,5.36,"Expense Reimbursement (Filled)
+Purpose: Example of a completed expense reimbursement record.
+Employee: Jonas Keller (E-20686)
+Department: Engineering
+Date: 11 Feb 2021
+Category: Meals
+Amount: 24.90 EUR
+Description: Meal during approved business trip.
+Additional Person Reference: Jonas Keller
+Attachment: security_camera_still_keller.jpg shows Jonas Keller next to loading bay B.
+Expense Reimbursement (Filled) - Review
+Purpose: Example of a completed expense reimbursement record.
+Summary: Total claimed: 24.90 EUR. Policy limits checked.
+Manager: Laura König
+Decision: Approved
+Date: 13 Feb 2021",yes,yes,no,no,no,no,no,no,no,no,no,no,no,photo_video_person; first_name; last_name,PERSON,3,3,hard,yes,employee_id,yes,train,no,,,no,,,v1,Useful for testing ambiguous/OCR/context-heavy personal-data detection.,"[{'type': 'PERSON', 'value': 'Jonas Keller', 'confidence': 0.85, 'source': 'presidio', 'start': 103, 'end': 115}, {'type': 'DATE_TIME', 'value': '11 Feb 2021', 'confidence': 0.85, 'source': 'presidio', 'start': 156, 'end': 167}, {'type': 'PERSON', 'value': 'Jonas Keller', 'confidence': 0.85, 'source': 'presidio', 'start': 280, 'end': 292}, {'type': 'PERSON', 'value': 'Jonas Keller', 'confidence': 0.85, 'source': 'presidio', 'start': 344, 'end': 356}, {'type': 'PERSON', 'value': 'Laura König', 'confidence': 0.85, 'source': 'presidio', 'start': 549, 'end': 560}, {'type': 'DATE_TIME', 'value': '13 Feb 2021', 'confidence': 0.85, 'source': 'presidio', 'start': 586, 'end': 597}, {'type': 'URL', 'value': 'keller.jp', 'confidence': 0.5, 'source': 'presidio', 'start': 327, 'end': 336}]","{'PERSON': 0.85, 'DATE_TIME': 0.85, 'URL': 0.5}","['DATE_TIME', 'PERSON', 'URL']",[],"['PERSON', 'DATE_TIME', 'URL']",False,True,True,low_cost_llm,potential_pii_evidence,True,20260908_105246,rule_based,local,rules,regex_presidio_fusion_v1,not_applicable,rules,False,True,False,false_negative,False,contains_personal_data,predicted_pii
+DOC-0102,it_access_request_finding_0102.pdf,IT Access Request,general_document,en,Teams Export,Noah Becker,noah.becker@bosch.example,manual,2024-01-14,2025-03-15,2026-08-10,0.46,"IT System Access Request (Filled)
+Purpose: Example of a completed IT access request for audit trail and governance.
+Name: Elena Fischer
+Department: Compliance & Risk
+Manager: Miriam Braun
+System: GRC Role Catalog
+Access Level: Viewer
+Justification: Needed for audit preparation and role verification activities.
+Email: elena dot fischer at bosch dot example
+IT System Access Request (Filled) - Review
+Purpose: Example of a completed IT access request for audit trail and governance.
+Reviewer: Identity & Access Team
+Comments: Least-privilege confirmed; access time-limited.
+Approval: Approved
+Approver: Compliance Officer
+Signature: M. Braun
+Date: 14 Jan 2024",yes,no,yes,no,no,no,no,no,no,no,no,no,no,email_address,EMAIL_ADDRESS,1,1,medium,yes,other_edge_case,no,train,no,,,no,,,v1,Useful for testing ambiguous/OCR/context-heavy personal-data detection.,"[{'type': 'PERSON', 'value': 'Elena Fischer\nDepartment', 'confidence': 0.85, 'source': 'presidio', 'start': 122, 'end': 146}, {'type': 'PERSON', 'value': 'Miriam Braun\nSystem', 'confidence': 0.85, 'source': 'presidio', 'start': 175, 'end': 194}, {'type': 'PERSON', 'value': 'elena dot fischer', 'confidence': 0.85, 'source': 'presidio', 'start': 319, 'end': 336}, {'type': 'PERSON', 'value': 'M. Braun\n', 'confidence': 0.85, 'source': 'presidio', 'start': 633, 'end': 642}, {'type': 'DATE_TIME', 'value': '14 Jan 2024', 'confidence': 0.85, 'source': 'presidio', 'start': 648, 'end': 659}]","{'PERSON': 0.85, 'DATE_TIME': 0.85}","['DATE_TIME', 'PERSON']",[],"['PERSON', 'DATE_TIME']",False,True,True,low_cost_llm,potential_pii_evidence,True,20260908_105246,rule_based,local,rules,regex_presidio_fusion_v1,not_applicable,rules,False,True,False,false_negative,False,contains_personal_data,predicted_pii
+DOC-0103,it_access_request_finding_0103.pdf,IT Access Request,general_document,en,Shared Drive,Noah Becker,noah.becker@bosch.example,manual,2024-02-20,2025-05-04,2026-08-10,0.24,"IT System Access Request (Filled)
+Purpose: Example of a completed IT access request for audit trail and governance.
+Name: Jonas Keller
+Department: Compliance & Risk
+Manager: Miriam Braun
+System: GRC Role Catalog
+Access Level: Viewer
+Justification: Needed for audit preparation and role verification activities.
+Phone: zero one seven six, four four two, nine eight nine eight
+IT System Access Request (Filled) - Review
+Purpose: Example of a completed IT access request for audit trail and governance.
+Reviewer: Identity & Access Team
+Comments: Least-privilege confirmed; access time-limited.
+Approval: Approved
+Approver: Compliance Officer
+Signature: M. Braun
+Date: 20 Feb 2024",yes,no,no,yes,no,no,no,no,no,no,no,no,no,phone_number,PHONE_NUMBER,1,1,medium,yes,other_edge_case,no,train,no,,,no,,,v1,Useful for testing ambiguous/OCR/context-heavy personal-data detection.,"[{'type': 'PERSON', 'value': 'Jonas Keller', 'confidence': 0.85, 'source': 'presidio', 'start': 122, 'end': 134}, {'type': 'PERSON', 'value': 'Miriam Braun\nSystem', 'confidence': 0.85, 'source': 'presidio', 'start': 174, 'end': 193}, {'type': 'PERSON', 'value': 'M. Braun\n', 'confidence': 0.85, 'source': 'presidio', 'start': 650, 'end': 659}, {'type': 'DATE_TIME', 'value': '20 Feb 2024', 'confidence': 0.85, 'source': 'presidio', 'start': 665, 'end': 676}]","{'PERSON': 0.85, 'DATE_TIME': 0.85}","['DATE_TIME', 'PERSON']",[],"['PERSON', 'DATE_TIME']",False,True,True,low_cost_llm,potential_pii_evidence,True,20260908_105246,rule_based,local,rules,regex_presidio_fusion_v1,not_applicable,rules,False,True,False,false_negative,False,contains_personal_data,predicted_pii
+DOC-0104,it_access_request_finding_0104.pdf,IT Access Request,general_document,en,Teams Export,Maria Schmidt,maria.schmidt@bosch.example,manual,2024-03-28,2025-06-23,2026-08-10,4.07,"IT System Access Request (Filled)
+Purpose: Example of a completed IT access request for audit trail and governance.
+Name: Nina Beck
+Department: Digital Operations
+Manager: Jonas Keller
+System: Document Management Portal
+Access Level: Editor
+Justification: Required to maintain project documentation and manage controlled templates.
+Home Address: Parkring 3, 90402 Nuremberg, Germany
+IT System Access Request (Filled) - Review
+Purpose: Example of a completed IT access request for audit trail and governance.
+Reviewer: IT Service Desk
+Comments: Access aligns with role; MFA verified.
+Approval: Approved
+Approver: IT Governance Lead
+Signature: J. Keller
+Date: 28 Mar 2024",yes,no,no,no,yes,no,no,no,no,no,no,no,no,home_address,LOCATION,1,1,medium,yes,other_edge_case,no,train,no,,,no,,,v1,Useful for testing ambiguous/OCR/context-heavy personal-data detection.,"[{'type': 'PERSON', 'value': 'Nina Beck', 'confidence': 0.85, 'source': 'presidio', 'start': 122, 'end': 131}, {'type': 'PERSON', 'value': 'Jonas Keller', 'confidence': 0.85, 'source': 'presidio', 'start': 172, 'end': 184}, {'type': 'LOCATION', 'value': 'Nuremberg', 'confidence': 0.85, 'source': 'presidio', 'start': 364, 'end': 373}, {'type': 'LOCATION', 'value': 'Germany', 'confidence': 0.85, 'source': 'presidio', 'start': 375, 'end': 382}, {'type': 'PERSON', 'value': 'J. Keller', 'confidence': 0.85, 'source': 'presidio', 'start': 642, 'end': 651}]","{'PERSON': 0.85, 'LOCATION': 0.85}","['LOCATION', 'PERSON']",[],"['PERSON', 'LOCATION']",False,True,True,low_cost_llm,potential_pii_evidence,True,20260908_105246,rule_based,local,rules,regex_presidio_fusion_v1,not_applicable,rules,False,True,False,false_negative,False,contains_personal_data,predicted_pii
+DOC-0105,it_access_request_finding_0105.pdf,IT Access Request,passport_record,en,SharePoint,Jonas Fischer,jonas.fischer@bosch.example,manual,2024-05-04,2025-08-12,2026-08-10,7.81,"IT System Access Request (Filled)
+Purpose: Example of a completed IT access request for audit trail and governance.
+Name: Maria Schmidt
+Department: Digital Operations
+Manager: Jonas Keller
+System: Document Management Portal
+Access Level: Editor
+Justification: Required to maintain project documentation and manage controlled templates.
+Passport Number: C4X829l7 4
+IT System Access Request (Filled) - Review
+Purpose: Example of a completed IT access request for audit trail and governance.
+Reviewer: IT Service Desk
+Comments: Access aligns with role; MFA verified.
+Approval: Approved
+Approver: IT Governance Lead
+Signature: J. Keller
+Date: 04 May 2024",yes,no,no,no,no,no,no,yes,no,no,no,no,no,passport_number,PASSPORT,1,1,hard,yes,passport_context,no,train,no,,,no,,,v1,Useful for testing ambiguous/OCR/context-heavy personal-data detection.,"[{'type': 'PERSON', 'value': 'Maria Schmidt', 'confidence': 0.85, 'source': 'presidio', 'start': 122, 'end': 135}, {'type': 'PERSON', 'value': 'Jonas Keller', 'confidence': 0.85, 'source': 'presidio', 'start': 176, 'end': 188}, {'type': 'PERSON', 'value': 'J. Keller', 'confidence': 0.85, 'source': 'presidio', 'start': 623, 'end': 632}, {'type': 'DATE_TIME', 'value': '04 May 2024', 'confidence': 0.85, 'source': 'presidio', 'start': 639, 'end': 650}]","{'PERSON': 0.85, 'DATE_TIME': 0.85}","['DATE_TIME', 'PERSON']",[],"['PERSON', 'DATE_TIME']",False,True,True,low_cost_llm,potential_pii_evidence,True,20260908_105246,rule_based,local,rules,regex_presidio_fusion_v1,not_applicable,rules,False,True,False,false_negative,False,contains_personal_data,predicted_pii
+DOC-0106,it_access_request_finding_0106.pdf,IT Access Request,general_document,en,Teams Export,Priya Nair,priya.nair@bosch.example,manual,2024-06-10,2025-10-01,2026-08-10,8.57,"IT System Access Request (Filled)
+Purpose: Example of a completed IT access request for audit trail and governance.
+Name: Elena Fischer
+Department: Compliance & Risk
+Manager: Miriam Braun
+System: GRC Role Catalog
+Access Level: Viewer
+Justification: Needed for audit preparation and role verification activities.
+ID Card Number: T88Q-3920I76
+IT System Access Request (Filled) - Review
+Purpose: Example of a completed IT access request for audit trail and governance.
+Reviewer: Identity & Access Team
+Comments: Least-privilege confirmed; access time-limited.
+Approval: Approved
+Approver: Compliance Officer
+Signature: M. Braun
+Date: 10 Jun 2024",yes,no,no,no,no,no,no,no,yes,no,no,no,no,id_card_number,NRP,1,1,hard,yes,other_edge_case,no,train,no,,,no,,,v1,Useful for testing ambiguous/OCR/context-heavy personal-data detection.,"[{'type': 'PERSON', 'value': 'Elena Fischer\nDepartment', 'confidence': 0.85, 'source': 'presidio', 'start': 122, 'end': 146}, {'type': 'PERSON', 'value': 'Miriam Braun\nSystem', 'confidence': 0.85, 'source': 'presidio', 'start': 175, 'end': 194}, {'type': 'PERSON', 'value': 'M. Braun\n', 'confidence': 0.85, 'source': 'presidio', 'start': 616, 'end': 625}, {'type': 'DATE_TIME', 'value': '10 Jun 2024', 'confidence': 0.85, 'source': 'presidio', 'start': 631, 'end': 642}]","{'PERSON': 0.85, 'DATE_TIME': 0.85}","['DATE_TIME', 'PERSON']",[],"['PERSON', 'DATE_TIME']",False,True,True,low_cost_llm,potential_pii_evidence,True,20260908_105246,rule_based,local,rules,regex_presidio_fusion_v1,not_applicable,rules,False,True,False,false_negative,False,contains_personal_data,predicted_pii
+DOC-0107,it_access_request_finding_0107.pdf,IT Access Request,general_document,en,Shared Drive,Lukas Weber,lukas.weber@bosch.example,manual,2024-07-17,2025-11-20,2026-08-10,5.33,"IT System Access Request (Filled)
+Purpose: Example of a completed IT access request for audit trail and governance.
+Name: Jonas Keller
+Department: Digital Operations
+Manager: Jonas Keller
+System: Document Management Portal
+Access Level: Editor
+Justification: Required to maintain project documentation and manage controlled templates.
+Driver's License Number: K-1182-3309-72
+IT System Access Request (Filled) - Review
+Purpose: Example of a completed IT access request for audit trail and governance.
+Reviewer: IT Service Desk
+Comments: Access aligns with role; MFA verified.
+Approval: Approved
+Approver: IT Governance Lead
+Signature: J. Keller
+Date: 17 Jul 2024",yes,no,no,no,no,no,no,no,yes,no,no,no,no,drivers_license_number,NRP,1,1,medium,yes,medical_context,no,train,no,,,no,,,v1,Useful for testing ambiguous/OCR/context-heavy personal-data detection.,"[{'type': 'PERSON', 'value': 'Jonas Keller', 'confidence': 0.85, 'source': 'presidio', 'start': 122, 'end': 134}, {'type': 'PERSON', 'value': 'Jonas Keller', 'confidence': 0.85, 'source': 'presidio', 'start': 175, 'end': 187}, {'type': 'PERSON', 'value': 'J. Keller', 'confidence': 0.85, 'source': 'presidio', 'start': 634, 'end': 643}, {'type': 'DATE_TIME', 'value': '17 Jul 2024', 'confidence': 0.85, 'source': 'presidio', 'start': 650, 'end': 661}]","{'PERSON': 0.85, 'DATE_TIME': 0.85}","['DATE_TIME', 'PERSON']",[],"['PERSON', 'DATE_TIME']",False,True,True,low_cost_llm,potential_pii_evidence,True,20260908_105246,rule_based,local,rules,regex_presidio_fusion_v1,not_applicable,rules,False,True,False,false_negative,False,contains_personal_data,predicted_pii
+DOC-0111,it_access_request_finding_0111.pdf,IT Access Request,general_document,en,HR Archive,Lukas Weber,lukas.weber@bosch.example,manual,2024-12-12,2026-06-08,2026-08-10,2.73,"IT System Access Request (Filled)
+Purpose: Example of a completed IT access request for audit trail and governance.
+Name: Jonas Keller
+Department: Compliance & Risk
+Manager: Miriam Braun
+System: GRC Role Catalog
+Access Level: Viewer
+Justification: Needed for audit preparation and role verification activities.
+Additional Person Reference: Jonas Keller
+Home Address: Bachweg 6, 50667 Cologne, Germany
+IT System Access Request (Filled) - Review
+Purpose: Example of a completed IT access request for audit trail and governance.
+Reviewer: Identity & Access Team
+Comments: Least-privilege confirmed; access time-limited.
+Approval: Approved
+Approver: Compliance Officer
+Signature: M. Braun
+Date: 12 Dec 2024",yes,yes,no,no,yes,no,no,no,no,no,no,no,no,first_name; last_name; home_address,MULTIPLE,3,3,easy,no,none,no,train,no,,,no,,,v1,Straightforward labeled personal-data example.,"[{'type': 'PERSON', 'value': 'Jonas Keller', 'confidence': 0.85, 'source': 'presidio', 'start': 122, 'end': 134}, {'type': 'PERSON', 'value': 'Miriam Braun\nSystem', 'confidence': 0.85, 'source': 'presidio', 'start': 174, 'end': 193}, {'type': 'PERSON', 'value': 'Jonas Keller', 'confidence': 0.85, 'source': 'presidio', 'start': 340, 'end': 352}, {'type': 'LOCATION', 'value': 'Germany', 'confidence': 0.85, 'source': 'presidio', 'start': 393, 'end': 400}, {'type': 'PERSON', 'value': 'M. Braun\n', 'confidence': 0.85, 'source': 'presidio', 'start': 676, 'end': 685}, {'type': 'DATE_TIME', 'value': '12 Dec 2024', 'confidence': 0.85, 'source': 'presidio', 'start': 691, 'end': 702}]","{'PERSON': 0.85, 'LOCATION': 0.85, 'DATE_TIME': 0.85}","['DATE_TIME', 'LOCATION', 'PERSON']",[],"['PERSON', 'LOCATION', 'DATE_TIME']",False,True,True,low_cost_llm,potential_pii_evidence,True,20260908_105246,rule_based,local,rules,regex_presidio_fusion_v1,not_applicable,rules,False,True,False,false_negative,False,contains_personal_data,predicted_pii
+DOC-0112,it_access_request_finding_0112.pdf,IT Access Request,passport_record,en,OneDrive,Max Wagner,max.wagner@bosch.example,manual,2025-01-18,2026-07-28,2026-08-10,2.99,"IT System Access Request (Filled)
+Purpose: Example of a completed IT access request for audit trail and governance.
+Name: Nina Beck
+Department: Compliance & Risk
+Manager: Miriam Braun
+System: GRC Role Catalog
+Access Level: Viewer
+Justification: Needed for audit preparation and role verification activities.
+Additional Person Reference: Nina Beck
+Passport Number: R9V118205
+IT System Access Request (Filled) - Review
+Purpose: Example of a completed IT access request for audit trail and governance.
+Reviewer: Identity & Access Team
+Comments: Least-privilege confirmed; access time-limited.
+Approval: Approved
+Approver: Compliance Officer
+Signature: M. Braun
+Date: 18 Jan 2025",yes,yes,no,no,no,no,no,yes,no,no,no,no,no,passport_number; first_name; last_name,MULTIPLE,3,3,easy,no,none,no,train,no,,,no,,,v1,Straightforward labeled personal-data example.,"[{'type': 'PERSON', 'value': 'Nina Beck', 'confidence': 0.85, 'source': 'presidio', 'start': 122, 'end': 131}, {'type': 'PERSON', 'value': 'Miriam Braun\nSystem', 'confidence': 0.85, 'source': 'presidio', 'start': 171, 'end': 190}, {'type': 'PERSON', 'value': 'Nina Beck', 'confidence': 0.85, 'source': 'presidio', 'start': 337, 'end': 346}, {'type': 'PERSON', 'value': 'M. Braun\n', 'confidence': 0.85, 'source': 'presidio', 'start': 649, 'end': 658}, {'type': 'DATE_TIME', 'value': '18 Jan 2025', 'confidence': 0.85, 'source': 'presidio', 'start': 664, 'end': 675}]","{'PERSON': 0.85, 'DATE_TIME': 0.85}","['DATE_TIME', 'PERSON']",[],"['PERSON', 'DATE_TIME']",False,True,True,low_cost_llm,potential_pii_evidence,True,20260908_105246,rule_based,local,rules,regex_presidio_fusion_v1,not_applicable,rules,False,True,False,false_negative,False,contains_personal_data,predicted_pii
+DOC-0201,incident_report_finding_0201.pdf,Incident Report,general_document,en,Teams Export,Sofia Hartmann,sofia.hartmann@bosch.example,manual,2021-06-21,2023-09-12,2026-08-10,5.44,"Incident Report (Filled)
+Purpose: Example of a documented incident for compliance review.
+Date: 21 Jun 2021
+Location: Office Floor 3
+Type: Data Handling
+Description: A document containing personal data was mistakenly shared to an incorrect internal distribution list.
+Additional Person Reference: Maria Schmidt
+ID Card Number: L01X-8842197
+Incident Report (Filled) - Review
+Purpose: Example of a documented incident for compliance review.
+Root Cause: Incorrect selection of recipient group during email composition; no secondary review step.
+Corrective Action: Introduce a mandatory recipient review checklist
+Owner: Maria Schmidt
+Deadline: 30 May 2026",yes,yes,no,no,no,no,no,no,yes,no,no,no,no,id_card_number; first_name; last_name,MULTIPLE,3,3,medium,yes,other_edge_case,no,train,no,,,no,,,v1,Useful for testing ambiguous/OCR/context-heavy personal-data detection.,"[{'type': 'PERSON', 'value': 'Maria Schmidt', 'confidence': 0.85, 'source': 'presidio', 'start': 297, 'end': 310}, {'type': 'PERSON', 'value': 'Maria Schmidt', 'confidence': 0.85, 'source': 'presidio', 'start': 617, 'end': 630}, {'type': 'DATE_TIME', 'value': 'May 2026', 'confidence': 0.85, 'source': 'presidio', 'start': 644, 'end': 652}]","{'PERSON': 0.85, 'DATE_TIME': 0.85}","['DATE_TIME', 'PERSON']",[],"['PERSON', 'DATE_TIME']",False,True,False,low_cost_llm,potential_pii_evidence,True,20260908_105246,rule_based,local,rules,regex_presidio_fusion_v1,not_applicable,rules,False,True,False,false_negative,False,contains_personal_data,predicted_pii
+DOC-0203,incident_report_finding_0203.pdf,Incident Report,general_document,en,Shared Drive,Maria Schmidt,maria.schmidt@bosch.example,manual,2021-09-03,2023-12-21,2026-08-10,3.06,"Incident Report (Filled)
+Purpose: Example of a documented incident for compliance review.
+Date: 03 Sept 2021
+Location: Meeting Room A
+Type: Safety
+Description: Minor slip incident near entrance due to wet floor; no injury reported.
+Additional Person Reference: Jonas Keller
+Travel History: Bangalore on 2022-09-03, Pune on 2022-09-07, and Chennai on 2022-09-09
+Incident Report (Filled) - Review
+Purpose: Example of a documented incident for compliance review.
+Root Cause: Cleaning sign placed after area was already wet; timing issue.
+Corrective Action: Update cleaning SOP to place signage before wet cleaning
+Owner: Jonas Keller
+Deadline: 20 May 2026",yes,yes,no,no,yes,no,no,no,no,yes,no,no,no,travel_history; first_name; last_name,MULTIPLE,3,3,medium,yes,other_edge_case,no,train,no,,,no,,,v1,Useful for testing ambiguous/OCR/context-heavy personal-data detection.,"[{'type': 'PERSON', 'value': 'Jonas Keller', 'confidence': 0.85, 'source': 'presidio', 'start': 261, 'end': 273}, {'type': 'LOCATION', 'value': 'Bangalore', 'confidence': 0.85, 'source': 'presidio', 'start': 290, 'end': 299}, {'type': 'DATE_TIME', 'value': '2022-09-03', 'confidence': 0.85, 'source': 'presidio', 'start': 303, 'end': 313}, {'type': 'LOCATION', 'value': 'Pune', 'confidence': 0.85, 'source': 'presidio', 'start': 315, 'end': 319}, {'type': 'DATE_TIME', 'value': '2022-09-07', 'confidence': 0.85, 'source': 'presidio', 'start': 323, 'end': 333}, {'type': 'LOCATION', 'value': 'Chennai', 'confidence': 0.85, 'source': 'presidio', 'start': 339, 'end': 346}, {'type': 'DATE_TIME', 'value': '2022-09-09', 'confidence': 0.85, 'source': 'presidio', 'start': 350, 'end': 360}, {'type': 'PERSON', 'value': 'Jonas Keller', 'confidence': 0.85, 'source': 'presidio', 'start': 618, 'end': 630}, {'type': 'DATE_TIME', 'value': 'May 2026', 'confidence': 0.85, 'source': 'presidio', 'start': 644, 'end': 652}]","{'PERSON': 0.85, 'LOCATION': 0.85, 'DATE_TIME': 0.85}","['DATE_TIME', 'LOCATION', 'PERSON']",[],"['PERSON', 'LOCATION', 'DATE_TIME']",False,True,False,low_cost_llm,potential_pii_evidence,True,20260908_105246,rule_based,local,rules,regex_presidio_fusion_v1,not_applicable,rules,False,True,False,false_negative,False,contains_personal_data,predicted_pii
+DOC-0206,incident_report_finding_0206.pdf,Incident Report,general_document,en,SharePoint,Elena Hoffmann,elena.hoffmann@bosch.example,manual,2021-12-23,2024-05-19,2026-08-10,7.06,"Incident Report (Filled)
+Purpose: Example of a documented incident for compliance review.
+Date: 23 Dec 2021
+Location: Office Floor 3
+Type: Data Handling
+Description: A document containing personal data was mistakenly shared to an incorrect internal distribution list.
+Additional Person Reference: Elena Fischer
+Email: elena dot fischer at bosch dot example
+Signature: E. Fischer
+Incident Report (Filled) - Review
+Purpose: Example of a documented incident for compliance review.
+Root Cause: Incorrect selection of recipient group during email composition; no secondary review step.
+Corrective Action: Introduce a mandatory recipient review checklist
+Owner: Elena Fischer
+Deadline: 30 May 2026",yes,yes,yes,no,no,no,no,no,no,no,no,no,no,signature; first_name; last_name; email_address,MULTIPLE,4,4,medium,yes,other_edge_case,no,train,no,,,no,,,v1,Useful for testing ambiguous/OCR/context-heavy personal-data detection.,"[{'type': 'PERSON', 'value': 'Elena Fischer', 'confidence': 0.85, 'source': 'presidio', 'start': 297, 'end': 310}, {'type': 'PERSON', 'value': 'elena dot fischer', 'confidence': 0.85, 'source': 'presidio', 'start': 318, 'end': 335}, {'type': 'PERSON', 'value': 'Elena Fischer', 'confidence': 0.85, 'source': 'presidio', 'start': 656, 'end': 669}, {'type': 'DATE_TIME', 'value': 'May 2026', 'confidence': 0.85, 'source': 'presidio', 'start': 683, 'end': 691}]","{'PERSON': 0.85, 'DATE_TIME': 0.85}","['DATE_TIME', 'PERSON']",[],"['PERSON', 'DATE_TIME']",False,True,True,low_cost_llm,potential_pii_evidence,True,20260908_105246,rule_based,local,rules,regex_presidio_fusion_v1,not_applicable,rules,False,True,False,false_negative,False,contains_personal_data,predicted_pii
+DOC-0207,incident_report_finding_0207.pdf,Incident Report,general_document,en,SharePoint,Noah Becker,noah.becker@bosch.example,manual,2022-01-29,2024-07-08,2026-08-10,3.98,"Incident Report (Filled)
+Purpose: Example of a documented incident for compliance review.
+Date: 29 Jan 2022
+Location: Office Floor 3
+Type: Data Handling
+Description: A document containing personal data was mistakenly shared to an incorrect internal distribution list.
+Additional Person Reference: Jonas Keller
+Attachment: security_camera_still_keller.jpg shows Jonas Keller next to loading bay B.
+Incident Report (Filled) - Review
+Purpose: Example of a documented incident for compliance review.
+Root Cause: Incorrect selection of recipient group during email composition; no secondary review step.
+Corrective Action: Introduce a mandatory recipient review checklist
+Owner: Jonas Keller
+Deadline: 30 May 2026",yes,yes,no,no,no,no,no,no,no,no,no,no,no,photo_video_person; first_name; last_name,PERSON,3,3,hard,yes,other_edge_case,no,train,no,,,no,,,v1,Useful for testing ambiguous/OCR/context-heavy personal-data detection.,"[{'type': 'PERSON', 'value': 'Jonas Keller', 'confidence': 0.85, 'source': 'presidio', 'start': 297, 'end': 309}, {'type': 'PERSON', 'value': 'Jonas Keller', 'confidence': 0.85, 'source': 'presidio', 'start': 361, 'end': 373}, {'type': 'PERSON', 'value': 'Jonas Keller', 'confidence': 0.85, 'source': 'presidio', 'start': 674, 'end': 686}, {'type': 'DATE_TIME', 'value': 'May 2026', 'confidence': 0.85, 'source': 'presidio', 'start': 700, 'end': 708}, {'type': 'URL', 'value': 'keller.jp', 'confidence': 0.5, 'source': 'presidio', 'start': 344, 'end': 353}]","{'PERSON': 0.85, 'DATE_TIME': 0.85, 'URL': 0.5}","['DATE_TIME', 'PERSON', 'URL']",[],"['PERSON', 'DATE_TIME', 'URL']",False,True,False,low_cost_llm,potential_pii_evidence,True,20260908_105246,rule_based,local,rules,regex_presidio_fusion_v1,not_applicable,rules,False,True,False,false_negative,False,contains_personal_data,predicted_pii
+DOC-0210,incident_report_finding_0210.pdf,Incident Report,general_document,en,HR Archive,Anna Keller,anna.keller@bosch.example,manual,2022-05-20,2022-06-19,2026-08-10,5.3,"Incident Report (Filled)
+Purpose: Example of a documented incident for compliance review.
+Date: 20 May 2022
+Location: Meeting Room A
+Type: Safety
+Description: Minor slip incident near entrance due to wet floor; no injury reported.
+Email: elena dot fischer at bosch dot example
+Incident Report (Filled) - Review
+Purpose: Example of a documented incident for compliance review.
+Root Cause: Cleaning sign placed after area was already wet; timing issue.
+Corrective Action: Update cleaning SOP to place signage before wet cleaning
+Owner: Facility Coordinator
+Deadline: 20 May 2026",yes,no,yes,no,no,no,no,no,no,no,no,no,no,email_address,EMAIL_ADDRESS,1,1,medium,yes,other_edge_case,yes,train,no,,,no,,,v1,Useful for testing ambiguous/OCR/context-heavy personal-data detection.,"[{'type': 'DATE_TIME', 'value': 'May 2022', 'confidence': 0.85, 'source': 'presidio', 'start': 99, 'end': 107}, {'type': 'PERSON', 'value': 'elena dot fischer', 'confidence': 0.85, 'source': 'presidio', 'start': 238, 'end': 255}]","{'DATE_TIME': 0.85, 'PERSON': 0.85}","['DATE_TIME', 'PERSON']",[],"['DATE_TIME', 'PERSON']",False,True,False,low_cost_llm,potential_pii_evidence,True,20260908_105246,rule_based,local,rules,regex_presidio_fusion_v1,not_applicable,rules,False,True,False,false_negative,False,contains_personal_data,predicted_pii
+DOC-0211,incident_report_finding_0211.pdf,Incident Report,general_document,en,OneDrive,Maria Schmidt,maria.schmidt@bosch.example,manual,2022-06-26,2022-08-08,2026-08-10,0.87,"Incident Report (Filled)
+Purpose: Example of a documented incident for compliance review.
+Date: 26 Jun 2022
+Location: Meeting Room A
+Type: Safety
+Description: Minor slip incident near entrance due to wet floor; no injury reported.
+Phone: zero one seven six, four four two, nine eight nine eight
+Incident Report (Filled) - Review
+Purpose: Example of a documented incident for compliance review.
+Root Cause: Cleaning sign placed after area was already wet; timing issue.
+Corrective Action: Update cleaning SOP to place signage before wet cleaning
+Owner: Facility Coordinator
+Deadline: 20 May 2026",yes,no,no,yes,no,no,no,no,no,no,no,no,no,phone_number,PHONE_NUMBER,1,1,medium,yes,other_edge_case,yes,train,no,,,no,,,v1,Useful for testing ambiguous/OCR/context-heavy personal-data detection.,[],{},[],[],[],False,False,False,local_non_pii,no_meaningful_signal,False,20260908_105246,rule_based,local,rules,regex_presidio_fusion_v1,not_applicable,rules,False,True,False,false_negative,False,contains_personal_data,predicted_pii
+DOC-0212,incident_report_finding_0212.pdf,Incident Report,general_document,en,SharePoint,Lukas Weber,lukas.weber@bosch.example,manual,2022-08-02,2022-09-27,2026-08-10,0.32,"Incident Report (Filled)
+Purpose: Example of a documented incident for compliance review.
+Date: 02 Aug 2022
+Location: Office Floor 3
+Type: Data Handling
+Description: A document containing personal data was mistakenly shared to an incorrect internal distribution list.
+Home Address: Parkring 3, 90402 Nuremberg, Germany
+Incident Report (Filled) - Review
+Purpose: Example of a documented incident for compliance review.
+Root Cause: Incorrect selection of recipient group during email composition; no secondary review step.
+Corrective Action: Introduce a mandatory recipient review checklist
+Owner: Team Lead
+Deadline: 30 May 2026",yes,no,no,no,yes,no,no,no,no,no,no,no,no,home_address,LOCATION,1,1,medium,yes,other_edge_case,yes,train,no,,,no,,,v1,Useful for testing ambiguous/OCR/context-heavy personal-data detection.,"[{'type': 'LOCATION', 'value': 'Nuremberg', 'confidence': 0.85, 'source': 'presidio', 'start': 300, 'end': 309}, {'type': 'LOCATION', 'value': 'Germany', 'confidence': 0.85, 'source': 'presidio', 'start': 311, 'end': 318}]",{'LOCATION': 0.85},['LOCATION'],[],[],False,False,True,local_non_pii,no_meaningful_signal,False,20260908_105246,rule_based,local,rules,regex_presidio_fusion_v1,not_applicable,rules,False,True,False,false_negative,False,contains_personal_data,predicted_pii
+DOC-0402,training_evaluation_finding_0402.pdf,Training Evaluation,general_document,en,OneDrive,Elena Hoffmann,elena.hoffmann@bosch.example,manual,2022-12-10,2024-12-05,2026-08-10,6.75,"Training Evaluation (Filled)
+Purpose: Example of a completed training feedback form.
+Participant: Elena Fischer
+Course: Document Classification Workshop
+Date: 10 Dec 2022
+Content: 4/5
+Trainer: 5/5
+Material: 3/5
+Additional Person Reference: Elena Fischer
+Email: elena dot fischer at bosch dot example
+Signature: E. Fischer
+Training Evaluation (Filled) - Review
+Purpose: Example of a completed training feedback form.
+Comments: Trainer excellent; slides were dense—provide a cheat sheet.
+Recommendation: Add a short pre-read and a 15-min quiz.",yes,yes,yes,no,no,no,no,no,no,no,no,no,no,signature; first_name; last_name; email_address,MULTIPLE,4,4,medium,yes,other_edge_case,no,train,no,,,no,,,v1,Useful for testing ambiguous/OCR/context-heavy personal-data detection.,"[{'type': 'PERSON', 'value': 'Elena Fischer', 'confidence': 0.85, 'source': 'presidio', 'start': 98, 'end': 111}, {'type': 'PERSON', 'value': 'Elena Fischer', 'confidence': 0.85, 'source': 'presidio', 'start': 240, 'end': 253}, {'type': 'PERSON', 'value': 'elena dot fischer', 'confidence': 0.85, 'source': 'presidio', 'start': 261, 'end': 278}]",{'PERSON': 0.85},['PERSON'],[],['PERSON'],False,True,True,low_cost_llm,potential_pii_evidence,True,20260908_105246,rule_based,local,rules,regex_presidio_fusion_v1,not_applicable,rules,False,True,False,false_negative,False,contains_personal_data,predicted_pii
+DOC-0403,training_evaluation_finding_0403.pdf,Training Evaluation,general_document,en,OneDrive,Sofia Hartmann,sofia.hartmann@bosch.example,manual,2023-01-16,2025-01-24,2026-08-10,6.6,"Training Evaluation (Filled)
+Purpose: Example of a completed training feedback form.
+Participant: Jonas Keller
+Course: Data Protection Basics
+Date: 16 Jan 2023
+Content: 5/5
+Trainer: 4/5
+Material: 4/5
+Additional Person Reference: Jonas Keller
+Attachment: security_camera_still_keller.jpg shows Jonas Keller next to loading bay B.
+Training Evaluation (Filled) - Review
+Purpose: Example of a completed training feedback form.
+Comments: Clear structure and helpful examples; add more hands-on exercises.
+Recommendation: Repeat quarterly for new joiners.",yes,yes,no,no,no,no,no,no,no,no,no,no,no,photo_video_person; first_name; last_name,PERSON,3,3,hard,yes,other_edge_case,no,train,no,,,no,,,v1,Useful for testing ambiguous/OCR/context-heavy personal-data detection.,"[{'type': 'PERSON', 'value': 'Jonas Keller', 'confidence': 0.85, 'source': 'presidio', 'start': 98, 'end': 110}, {'type': 'PERSON', 'value': 'Jonas Keller', 'confidence': 0.85, 'source': 'presidio', 'start': 229, 'end': 241}, {'type': 'PERSON', 'value': 'Jonas Keller', 'confidence': 0.85, 'source': 'presidio', 'start': 293, 'end': 305}, {'type': 'URL', 'value': 'keller.jp', 'confidence': 0.5, 'source': 'presidio', 'start': 276, 'end': 285}]","{'PERSON': 0.85, 'URL': 0.5}","['PERSON', 'URL']",[],"['PERSON', 'URL']",False,True,False,low_cost_llm,potential_pii_evidence,True,20260908_105246,rule_based,local,rules,regex_presidio_fusion_v1,not_applicable,rules,False,True,False,false_negative,False,contains_personal_data,predicted_pii
+DOC-0406,training_evaluation_finding_0406.pdf,Training Evaluation,general_document,en,SharePoint,Jonas Fischer,jonas.fischer@bosch.example,manual,2023-05-07,2025-06-23,2026-08-10,3.24,"Training Evaluation (Filled)
+Purpose: Example of a completed training feedback form.
+Participant: Elena Fischer
+Course: Document Classification Workshop
+Date: 07 May 2023
+Content: 4/5
+Trainer: 5/5
+Material: 3/5
+Email: elena dot fischer at bosch dot example
+Training Evaluation (Filled) - Review
+Purpose: Example of a completed training feedback form.
+Comments: Trainer excellent; slides were dense—provide a cheat sheet.
+Recommendation: Add a short pre-read and a 15-min quiz.",yes,no,yes,no,no,no,no,no,no,no,no,no,no,email_address,EMAIL_ADDRESS,1,1,medium,yes,other_edge_case,no,train,no,,,no,,,v1,Useful for testing ambiguous/OCR/context-heavy personal-data detection.,"[{'type': 'PERSON', 'value': 'Elena Fischer', 'confidence': 0.85, 'source': 'presidio', 'start': 98, 'end': 111}, {'type': 'DATE_TIME', 'value': '07 May 2023', 'confidence': 0.85, 'source': 'presidio', 'start': 159, 'end': 170}, {'type': 'PERSON', 'value': 'elena dot fischer', 'confidence': 0.85, 'source': 'presidio', 'start': 218, 'end': 235}]","{'PERSON': 0.85, 'DATE_TIME': 0.85}","['DATE_TIME', 'PERSON']",[],"['PERSON', 'DATE_TIME']",False,True,False,low_cost_llm,potential_pii_evidence,True,20260908_105246,rule_based,local,rules,regex_presidio_fusion_v1,not_applicable,rules,False,True,False,false_negative,False,contains_personal_data,predicted_pii
+DOC-0407,training_evaluation_finding_0407.pdf,Training Evaluation,general_document,en,SharePoint,Priya Nair,priya.nair@bosch.example,manual,2023-06-13,2025-08-12,2026-08-10,2.1,"Training Evaluation (Filled)
+Purpose: Example of a completed training feedback form.
+Participant: Jonas Keller
+Course: Document Classification Workshop
+Date: 13 Jun 2023
+Content: 4/5
+Trainer: 5/5
+Material: 3/5
+Phone: zero one seven six, four four two, nine eight nine eight
+Training Evaluation (Filled) - Review
+Purpose: Example of a completed training feedback form.
+Comments: Trainer excellent; slides were dense—provide a cheat sheet.
+Recommendation: Add a short pre-read and a 15-min quiz.",yes,no,no,yes,no,no,no,no,no,no,no,no,no,phone_number,PHONE_NUMBER,1,1,medium,yes,other_edge_case,no,train,no,,,no,,,v1,Useful for testing ambiguous/OCR/context-heavy personal-data detection.,"[{'type': 'PERSON', 'value': 'Jonas Keller', 'confidence': 0.85, 'source': 'presidio', 'start': 98, 'end': 110}]",{'PERSON': 0.85},['PERSON'],[],['PERSON'],False,True,False,low_cost_llm,potential_pii_evidence,True,20260908_105246,rule_based,local,rules,regex_presidio_fusion_v1,not_applicable,rules,False,True,False,false_negative,False,contains_personal_data,predicted_pii
+DOC-0408,training_evaluation_finding_0408.pdf,Training Evaluation,general_document,en,Shared Drive,Priya Nair,priya.nair@bosch.example,manual,2023-07-20,2025-10-01,2026-08-10,8.61,"Training Evaluation (Filled)
+Purpose: Example of a completed training feedback form.
+Participant: Nina Beck
+Course: Data Protection Basics
+Date: 20 Jul 2023
+Content: 5/5
+Trainer: 4/5
+Material: 4/5
+Home Address: Parkring 3, 90402 Nuremberg, Germany
+Training Evaluation (Filled) - Review
+Purpose: Example of a completed training feedback form.
+Comments: Clear structure and helpful examples; add more hands-on exercises.
+Recommendation: Repeat quarterly for new joiners.",yes,no,no,no,yes,no,no,no,no,no,no,no,no,home_address,LOCATION,1,1,medium,yes,other_edge_case,no,train,no,,,no,,,v1,Useful for testing ambiguous/OCR/context-heavy personal-data detection.,"[{'type': 'PERSON', 'value': 'Nina Beck', 'confidence': 0.85, 'source': 'presidio', 'start': 98, 'end': 107}, {'type': 'LOCATION', 'value': 'Nuremberg', 'confidence': 0.85, 'source': 'presidio', 'start': 229, 'end': 238}, {'type': 'LOCATION', 'value': 'Germany', 'confidence': 0.85, 'source': 'presidio', 'start': 240, 'end': 247}, {'type': 'DATE_TIME', 'value': 'quarterly', 'confidence': 0.85, 'source': 'presidio', 'start': 442, 'end': 451}]","{'PERSON': 0.85, 'LOCATION': 0.85, 'DATE_TIME': 0.85}","['DATE_TIME', 'LOCATION', 'PERSON']",[],"['PERSON', 'LOCATION', 'DATE_TIME']",False,True,True,low_cost_llm,potential_pii_evidence,True,20260908_105246,rule_based,local,rules,regex_presidio_fusion_v1,not_applicable,rules,False,True,False,false_negative,False,contains_personal_data,predicted_pii
+DOC-0409,training_evaluation_finding_0409.pdf,Training Evaluation,passport_record,en,OneDrive,Elena Hoffmann,elena.hoffmann@bosch.example,manual,2023-08-26,2025-11-20,2026-08-10,7.75,"Training Evaluation (Filled)
+Purpose: Example of a completed training feedback form.
+Participant: Maria Schmidt
+Course: Document Classification Workshop
+Date: 26 Aug 2023
+Content: 4/5
+Trainer: 5/5
+Material: 3/5
+Passport Number: C4X829l7 4
+Training Evaluation (Filled) - Review
+Purpose: Example of a completed training feedback form.
+Comments: Trainer excellent; slides were dense—provide a cheat sheet.
+Recommendation: Add a short pre-read and a 15-min quiz.",yes,no,no,no,no,no,no,yes,no,no,no,no,no,passport_number,PASSPORT,1,1,hard,yes,passport_context,no,train,no,,,no,,,v1,Useful for testing ambiguous/OCR/context-heavy personal-data detection.,"[{'type': 'PERSON', 'value': 'Maria Schmidt', 'confidence': 0.85, 'source': 'presidio', 'start': 98, 'end': 111}]",{'PERSON': 0.85},['PERSON'],[],['PERSON'],False,True,True,low_cost_llm,potential_pii_evidence,True,20260908_105246,rule_based,local,rules,regex_presidio_fusion_v1,not_applicable,rules,False,True,False,false_negative,False,contains_personal_data,predicted_pii
+DOC-0410,training_evaluation_finding_0410.pdf,Training Evaluation,general_document,en,Teams Export,Sofia Hartmann,sofia.hartmann@bosch.example,manual,2023-10-02,2026-01-09,2026-08-10,3.03,"Training Evaluation (Filled)
+Purpose: Example of a completed training feedback form.
+Participant: Elena Fischer
+Course: Document Classification Workshop
+Date: 02 Oct 2023
+Content: 4/5
+Trainer: 5/5
+Material: 3/5
+ID Card Number: T88Q-3920I76
+Training Evaluation (Filled) - Review
+Purpose: Example of a completed training feedback form.
+Comments: Trainer excellent; slides were dense—provide a cheat sheet.
+Recommendation: Add a short pre-read and a 15-min quiz.",yes,no,no,no,no,no,no,no,yes,no,no,no,no,id_card_number,NRP,1,1,hard,yes,other_edge_case,no,train,no,,,no,,,v1,Useful for testing ambiguous/OCR/context-heavy personal-data detection.,"[{'type': 'PERSON', 'value': 'Elena Fischer', 'confidence': 0.85, 'source': 'presidio', 'start': 98, 'end': 111}, {'type': 'DATE_TIME', 'value': 'Oct 2023', 'confidence': 0.85, 'source': 'presidio', 'start': 162, 'end': 170}]","{'PERSON': 0.85, 'DATE_TIME': 0.85}","['DATE_TIME', 'PERSON']",[],"['PERSON', 'DATE_TIME']",False,True,False,low_cost_llm,potential_pii_evidence,True,20260908_105246,rule_based,local,rules,regex_presidio_fusion_v1,not_applicable,rules,False,True,False,false_negative,False,contains_personal_data,predicted_pii
+DOC-0411,training_evaluation_finding_0411.pdf,Training Evaluation,general_document,en,Teams Export,Sofia Hartmann,sofia.hartmann@bosch.example,manual,2023-11-08,2026-02-28,2026-08-10,7.24,"Training Evaluation (Filled)
+Purpose: Example of a completed training feedback form.
+Participant: Jonas Keller
+Course: Data Protection Basics
+Date: 08 Nov 2023
+Content: 5/5
+Trainer: 4/5
+Material: 4/5
+Driver's License Number: K-1182-3309-72
+Training Evaluation (Filled) - Review
+Purpose: Example of a completed training feedback form.
+Comments: Clear structure and helpful examples; add more hands-on exercises.
+Recommendation: Repeat quarterly for new joiners.",yes,no,no,no,no,no,no,no,yes,no,no,no,no,drivers_license_number,NRP,1,1,medium,yes,medical_context,no,train,no,,,no,,,v1,Useful for testing ambiguous/OCR/context-heavy personal-data detection.,"[{'type': 'PERSON', 'value': 'Jonas Keller', 'confidence': 0.85, 'source': 'presidio', 'start': 98, 'end': 110}]",{'PERSON': 0.85},['PERSON'],[],['PERSON'],False,True,False,low_cost_llm,potential_pii_evidence,True,20260908_105246,rule_based,local,rules,regex_presidio_fusion_v1,not_applicable,rules,False,True,False,false_negative,False,contains_personal_data,predicted_pii

@@ -1,0 +1,5 @@
+strategy,error_type,count
+rule_based,false_negative,29
+rule_based,false_positive,64
+rule_based,true_negative,376
+rule_based,true_positive,31
