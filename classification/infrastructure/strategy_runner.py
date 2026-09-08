@@ -14,6 +14,7 @@ Examples:
 - rule_based
 - rule_plus_qwen
 - rule_plus_gpt4o_mini
+- rule_plus_ollama
 - bert_distilbert
 - rule_plus_distilbert
 """

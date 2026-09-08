@@ -142,6 +142,7 @@ def load_prediction_outputs(run_dir: Path) -> dict[str, pd.DataFrame]:
         sweep1
         rule_based
         rule_plus_qwen
+        rule_plus_ollama
         etc.
     """
 
@@ -189,7 +190,8 @@ def create_output_eval_dir(
     Create an evaluation subdirectory for one prediction output.
 
     Example:
-        classification/evaluation/results/runs/20260810_153000/qwen/
+        classification/evaluation/results/runs/20260810_153000/rule_plus_qwen/
+        classification/evaluation/results/runs/20260810_153000/rule_plus_ollama/
     """
 
     output_eval_dir = evaluation_run_dir / output_name

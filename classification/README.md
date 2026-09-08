@@ -281,6 +281,7 @@ These fields let one metrics table compare:
 | Rule-based baseline | Runs today — `rule_based` |
 | Qwen models | Runs today — `rule_plus_qwen` |
 | OpenRouter models | Runs today — `rule_plus_gpt4o_mini` |
+| Ollama (local) | Runs today — `rule_plus_ollama` |
 | DistilBERT pre-filter | Implemented in `prefilter/`; run via `prefilter.predict`, which writes `rule_plus_bert.csv` and `bert_prefilter.csv` directly |
 | Hybrid rule + BERT + LLM | Registered in `STRATEGY_REGISTRY` (`rule_plus_distilbert_plus_qwen`), not yet in `STRATEGIES_TO_RUN` |
 

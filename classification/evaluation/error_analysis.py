@@ -5,7 +5,7 @@ This module assigns TP/TN/FP/FN labels to prediction outputs and creates
 error-analysis dataframes that can be saved as evaluation artifacts.
 
 It is provider/model agnostic:
-- Works for gpt4o-mini, Qwen, BERT, DistilBERT, Presidio-only, or hybrid outputs.
+- Works for gpt4o-mini, Qwen, Ollama, BERT, DistilBERT, Presidio-only, or hybrid outputs.
 - Works with any prediction column, but defaults to the standardized
   classification output column: predicted_pii.
 """
