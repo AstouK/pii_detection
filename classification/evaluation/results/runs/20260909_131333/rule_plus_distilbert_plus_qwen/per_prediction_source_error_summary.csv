@@ -1,0 +1,5 @@
+prediction_source,error_type,count
+hybrid,false_negative,2
+hybrid,false_positive,2
+hybrid,true_negative,2868
+hybrid,true_positive,628

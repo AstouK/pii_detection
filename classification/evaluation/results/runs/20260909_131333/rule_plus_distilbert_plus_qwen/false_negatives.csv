@@ -1,0 +1,26 @@
+document_id,file_name,document_type,scenario_type,language,source_system,responsible_owner,owner_email,data_source,file_created_date,last_modified_date,dataset_created_at,file_size_mb,full_text,contains_personal_data,PERSON_yes_no,EMAIL_ADDRESS_yes_no,PHONE_NUMBER_yes_no,LOCATION_yes_no,IBAN_CODE_yes_no,CREDIT_CARD_yes_no,PASSPORT_yes_no,NRP_yes_no,DATE_TIME_yes_no,IP_ADDRESS_yes_no,URL_yes_no,MEDICAL_LICENSE_yes_no,personal_data_categories,primary_pii_type,category_count,pii_count,difficulty,edge_case,challenge_category,retention_period_exceeded_3y,recommended_split,synthetic,synthetic_generator,generation_prompt_version,human_reviewed,review_status,review_notes,dataset_version,labeling_notes,entities,per_type_conf,detected_categories,strong_pii_categories,potential_pii_categories,detected_pii,detected_any_pii,has_person_hint,route,routing_reason,needs_llm_review,sweep1_needs_review,pii_probability,routing_zone,routed_to_llm,needs_bert_review,bert_request_success,bert_runtime_seconds,inference_ms,t_low,t_high,PERSON_predicted,EMAIL_ADDRESS_predicted,PHONE_NUMBER_predicted,LOCATION_predicted,IBAN_CODE_predicted,CREDIT_CARD_predicted,PASSPORT_predicted,NRP_predicted,DATE_TIME_predicted,IP_ADDRESS_predicted,URL_predicted,MEDICAL_LICENSE_predicted,llm_provider,llm_model_id,llm_model_name,llm_pii,llm_reason,llm_prompt_tokens,llm_completion_tokens,llm_total_tokens,llm_reasoning_tokens,llm_cached_tokens,llm_request_cost,llm_request_success,bert_pii,final_pii,predicted_pii,run_id,strategy,provider,model_family,model_name,prompt_version,prediction_source,_ground_truth_bool,_prediction_bool,error_type,is_correct,evaluated_ground_truth_col,evaluated_prediction_col
+SYN-CUSTOMER_SUPPORT-0026,synthetic_customer_support_0026.txt,support_ticket,customer_support,de,synthetic_generation,,,synthetic,2026-08-28,2026-08-28,2026-08-28,0,"Kundensupport
+
+Ticketnummer: REF-8389765
+Betreff: Dringende Eskalation des Tickets REF-8389765 aufgrund wiederholter Probleme
+Kunde: Firmenkunde
+Kontakt: Abteilungskontakt
+Beschreibung: Das Ticket REF-8389765 wurde zur Eskalation an die Abteilung für technische Unterstützung weitergeleitet, da der Firmenkunde anhaltende Schwierigkeiten mit unserem Produkt meldet. Emma Killer MBA. hat die Situation eingehend untersucht und festgestellt, dass die Probleme die Betriebsabläufe des Kunden erheblich beeinträchtigen, was zu potenziellen finanziellen Einbußen führt. Es sind bereits mehrere Rückmeldungen vom Kunden eingegangen, die auf eine Unzufriedenheit mit der bisherigen Lösungsfindung hinweisen.
+Bearbeiter: Emma Killer MBA.
+Status: Open
+Lösung: Um dieses Problem effizient zu lösen, wird empfohlen, dass Emma Killer MBA. ein dringendes Treffen mit dem technischen Support-Team einberuft, um die notwendigen Ressourcen für die sofortige Behebung der Probleme bereitzustellen. Darüber hinaus sollte eine kontinuierliche Kommunikation mit dem Firmenkunden gewährleistet werden, um ihn über den Fortschritt der Lösung auf dem Laufenden zu halten.",yes,yes,no,no,no,no,no,no,no,no,no,no,no,PERSON,PERSON,1,1,easy,no,none,no,train,yes,openrouter_gpt4o_mini_field,field_llm_v1,no,,,v2,Synthetic document generated for controlled PII training data.,[],{},[],[],[],False,False,False,local_non_pii,no_meaningful_signal,False,False,,,False,False,False,0.0,0.0,,,no,no,no,no,no,no,no,no,no,no,no,no,dashscope,qwen3_7_plus,qwen3.7-plus,False,,0,0,0,0,0,0.0,False,False,False,False,20260909_131333,rule_plus_distilbert_plus_qwen,dashscope,bert+llm,distilbert+qwen3.7-plus,pii_review_v1,hybrid,True,False,false_negative,False,contains_personal_data,predicted_pii
+SYN-INTERNAL_EMAIL-0163,synthetic_internal_email_0163.txt,email,internal_email,en,synthetic_generation,,,synthetic,2026-08-28,2026-08-28,2026-08-28,0,"Subject: Re: Workshop Preparation
+
+Hi Team,
+
+Thank you all for your input regarding the upcoming workshop. I just wanted to circle back on a few key points as we finalize our preparations.
+
+First, please ensure that your materials are ready by the end of this week. This will give us enough time to review and integrate everyone's contributions effectively. Remember, our focus this time is on enhancing our collaboration strategies, so any examples or case studies you can share will be particularly valuable.
+
+Additionally, if anyone has suggestions for activities or discussions that could facilitate better engagement, please share them by Wednesday. We want to make this workshop not only informative but also interactive.
+
+Looking forward to your thoughts!
+
+Best,  
+Project Office  
+6756774978",yes,no,no,yes,no,no,no,no,no,no,no,no,no,PHONE_NUMBER,PHONE_NUMBER,1,1,easy,no,none,no,train,yes,openrouter_gpt4o_mini_document,llm_rewrite_v1,no,,,v2,Synthetic document generated for controlled PII training data.,[],{},[],[],[],False,False,False,local_non_pii,no_meaningful_signal,False,False,,,False,False,False,0.0,0.0,,,no,no,no,no,no,no,no,no,no,no,no,no,dashscope,qwen3_7_plus,qwen3.7-plus,False,,0,0,0,0,0,0.0,False,False,False,False,20260909_131333,rule_plus_distilbert_plus_qwen,dashscope,bert+llm,distilbert+qwen3.7-plus,pii_review_v1,hybrid,True,False,false_negative,False,contains_personal_data,predicted_pii

@@ -1,0 +1,59 @@
+document_id,file_name,document_type,scenario_type,language,source_system,responsible_owner,owner_email,data_source,file_created_date,last_modified_date,dataset_created_at,file_size_mb,full_text,contains_personal_data,PERSON_yes_no,EMAIL_ADDRESS_yes_no,PHONE_NUMBER_yes_no,LOCATION_yes_no,IBAN_CODE_yes_no,CREDIT_CARD_yes_no,PASSPORT_yes_no,NRP_yes_no,DATE_TIME_yes_no,IP_ADDRESS_yes_no,URL_yes_no,MEDICAL_LICENSE_yes_no,personal_data_categories,primary_pii_type,category_count,pii_count,difficulty,edge_case,challenge_category,retention_period_exceeded_3y,recommended_split,synthetic,synthetic_generator,generation_prompt_version,human_reviewed,review_status,review_notes,dataset_version,labeling_notes,entities,per_type_conf,detected_categories,strong_pii_categories,potential_pii_categories,detected_pii,detected_any_pii,has_person_hint,route,routing_reason,needs_llm_review,sweep1_needs_review,pii_probability,routing_zone,routed_to_llm,needs_bert_review,bert_request_success,bert_runtime_seconds,inference_ms,t_low,t_high,PERSON_predicted,EMAIL_ADDRESS_predicted,PHONE_NUMBER_predicted,LOCATION_predicted,IBAN_CODE_predicted,CREDIT_CARD_predicted,PASSPORT_predicted,NRP_predicted,DATE_TIME_predicted,IP_ADDRESS_predicted,URL_predicted,MEDICAL_LICENSE_predicted,bert_pii,final_pii,predicted_pii,run_id,strategy,provider,model_family,model_name,prompt_version,prediction_source,_ground_truth_bool,_prediction_bool,error_type,is_correct,evaluated_ground_truth_col,evaluated_prediction_col
+SYN-GENERAL_DOCUMENT-0246,synthetic_general_document_0246.txt,general_document,general_document,en,synthetic_generation,,,synthetic,2026-08-28,2026-08-28,2026-08-28,0,"**Project Status Update**
+
+**Project Title:** Process Improvement Initiative  
+**Date:** July 23, 2027  
+**Prepared by:** Corporate Communications Team  
+
+**Current Status:** In Progress  
+**Reference Number:** REF-9024463  
+
+**Overview:**  
+The Process Improvement Initiative is designed to enhance operational efficiencies across various departments within the organization. This project aims to identify bottlenecks and implement streamlined procedures.
+
+**Key Developments:**  
+- A comprehensive analysis of existing workflows has been completed.  
+- Initial feedback sessions with department heads have been conducted to gather insights.  
+- Proposed changes have been drafted and are currently under review.
+
+**Next Steps:**  
+- Finalize proposed adjustments based on feedback received.  
+- Schedule training sessions for staff on new processes.  
+- Target implementation date is set for August 15, 2027.
+
+**Location for Correspondence:**  
+597 Kenneth Pine, Arnoldshire, CT 23745  
+
+Please direct any questions or comments regarding this update to the Corporate Communications Team.",no,no,no,no,no,no,no,no,no,no,no,no,no,,NONE,0,0,easy,no,none,no,validation,yes,openrouter_gpt4o_mini_document,llm_rewrite_v1,no,,,v2,Synthetic document generated for controlled PII training data. Relabeled 2026-09-03: standalone LOCATION with no co-occurring identifier does not meet GDPR Art.4(1) identifiability threshold; corrected from positive to negative.,"[{'type': 'DATE_TIME', 'value': 'August 15, 2027', 'confidence': 0.85, 'source': 'presidio', 'start': 894, 'end': 909}, {'type': 'PERSON', 'value': 'Kenneth Pine', 'confidence': 0.85, 'source': 'presidio', 'start': 951, 'end': 963}, {'type': 'LOCATION', 'value': 'Arnoldshire', 'confidence': 0.85, 'source': 'presidio', 'start': 965, 'end': 976}]",{},"['DATE_TIME', 'LOCATION', 'PERSON']",[],"['DATE_TIME', 'PERSON', 'LOCATION']",False,True,False,low_cost_llm,potential_pii_evidence,False,True,0.9836360216140748,confident_pii,False,True,True,0.045359,45.3589,0.925,0.925,no,no,no,no,no,no,no,no,no,no,no,no,True,True,True,20260909_131333,rule_plus_distilbert,local,bert,distilbert,pii_review_v1,bert,False,True,false_positive,False,contains_personal_data,predicted_pii
+SYN-MEETING_NOTES-0046,synthetic_meeting_notes_0046.txt,meeting_notes,meeting_notes,de,synthetic_generation,,,synthetic,2026-08-28,2026-08-28,2026-08-28,0,"Besprechungsnotizen
+
+Titel: Entscheidungsprotokoll zur Systemmigration
+Datum: 2027-03-28
+Ort: IT-Abteilung
+Teilnehmer: Projektteam
+Kontakt: Abteilungskontakt
+Agenda: 1. Begrüßung und Einführung
+2. Statusbericht zur Systemmigration
+3. Diskussion über die nächsten Schritte
+4. Festlegung von Verantwortlichkeiten
+5. Abschluss und nächste Schritte
+Diskussion: Das Projektteam hat den aktuellen Status der Systemmigration besprochen. Es wurden Herausforderungen identifiziert, insbesondere in Bezug auf die Datenmigration. Die Meinungen der Teilnehmer wurden gehört und es gab Vorschläge zur Optimierung der Prozesse. Es wurde betont, dass eine enge Zusammenarbeit mit der IT-Abteilung notwendig ist, um die Fristen einzuhalten.
+Entscheidungen: Es wurde entschieden, dass die Datenmigration bis zum 15. April 2027 abgeschlossen sein muss. Außerdem wurde beschlossen, dass wöchentliche Status-Updates an das gesamte Projektteam gesendet werden.
+Aufgaben: 1. Verantwortlicher: Max Müller - Datenmigration bis 15. April 2027 abschließen.
+2. Verantwortlicher: Lisa Schmidt - Wöchentliche Status-Updates erstellen und versenden.
+3. Verantwortlicher: Peter Becker - Engen Kontakt zur IT-Abteilung pflegen.",no,no,no,no,no,no,no,no,no,no,no,no,no,,NONE,0,0,easy,no,none,no,validation,yes,openrouter_gpt4o_mini_field,field_llm_v1,no,,,v2,Synthetic document generated for controlled PII training data.,"[{'type': 'LOCATION', 'value': 'Systemmigration', 'confidence': 0.85, 'source': 'presidio', 'start': 55, 'end': 70}, {'type': 'PERSON', 'value': 'Max Müller', 'confidence': 0.85, 'source': 'presidio', 'start': 971, 'end': 981}, {'type': 'PERSON', 'value': 'Lisa Schmidt', 'confidence': 0.85, 'source': 'presidio', 'start': 1052, 'end': 1064}, {'type': 'PERSON', 'value': 'Peter Becker', 'confidence': 0.85, 'source': 'presidio', 'start': 1141, 'end': 1153}, {'type': 'DATE_TIME', 'value': '2027-03-28', 'confidence': 0.6, 'source': 'presidio', 'start': 78, 'end': 88}]",{},"['DATE_TIME', 'LOCATION', 'PERSON']",[],"['LOCATION', 'PERSON', 'DATE_TIME']",False,True,False,low_cost_llm,potential_pii_evidence,False,True,0.920126974582672,confident_non_pii,False,True,True,0.045359,45.3589,0.925,0.925,no,no,no,no,no,no,no,no,no,no,no,no,True,True,True,20260909_131333,rule_plus_distilbert,local,bert,distilbert,pii_review_v1,bert,False,True,false_positive,False,contains_personal_data,predicted_pii
+SYN-SUPPLIER_ONBOARDING-0194,synthetic_supplier_onboarding_0194.txt,form,supplier_onboarding,en,synthetic_generation,,,synthetic,2026-08-28,2026-08-28,2026-08-28,0,"Supplier Onboarding
+
+Company: Supplier Organization
+Address: 673 Richard Glen, North Michaelstad, SC 85080
+Contact: Central Contact Point
+Tax Id: REF-4915814
+Certification: Environmental Compliance
+Risk Level: Medium
+Payment Details: Standard corporate payment process
+Reviewer: Procurement Team
+Comments: The onboarding process for Supplier Organization has been thorough, with all necessary documentation submitted and verified. Their certification in Environmental Compliance aligns well with our sustainability goals. We expect a smooth collaboration moving forward.
+Approval: Approved
+Notes: During the review, the Procurement Team noted that the risk level for Supplier Organization remains medium, and further monitoring may be necessary as the partnership develops. Additionally, payment details have been confirmed to follow the standard corporate payment process, ensuring timely transactions.
+Nationality: Nationality information unavailable
+Identification Number: REF-6666523",no,no,no,no,no,no,no,no,no,no,no,no,no,,NONE,0,0,easy,no,none,no,validation,yes,openrouter_gpt4o_mini_field,field_llm_v1,no,,,v2,Synthetic document generated for controlled PII training data. Relabeled 2026-09-03: standalone LOCATION with no co-occurring identifier does not meet GDPR Art.4(1) identifiability threshold; corrected from positive to negative.,"[{'type': 'PERSON', 'value': 'Richard Glen', 'confidence': 0.85, 'source': 'presidio', 'start': 65, 'end': 77}, {'type': 'LOCATION', 'value': 'North Michaelstad', 'confidence': 0.85, 'source': 'presidio', 'start': 79, 'end': 96}]","{""PERSON"": 0.9906, ""LOCATION"": 0.9889, ""DATE_TIME"": 0.9696}","['LOCATION', 'PERSON']",[],"['PERSON', 'LOCATION']",False,True,True,low_cost_llm,potential_pii_evidence,False,True,0.9992280006408693,confident_pii,False,True,True,0.045359,45.3589,0.925,0.925,yes,no,no,yes,no,no,no,no,yes,no,no,no,True,True,True,20260909_131333,rule_plus_distilbert,local,bert,distilbert,pii_review_v1,bert,False,True,false_positive,False,contains_personal_data,predicted_pii

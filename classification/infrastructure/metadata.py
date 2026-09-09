@@ -167,6 +167,110 @@ def compute_final_prediction(
     return result_df
 
 
+def compute_bert_final_prediction(
+    df: pd.DataFrame,
+    standalone_threshold: float,
+) -> pd.DataFrame:
+    """
+    Final decision for the rule + DistilBERT strategy (no LLM stage).
+
+    Logic:
+    - Sweep 1 strong detection (``detected_pii``) stays positive.
+    - Sweep 1 ambiguous documents scored by BERT (``needs_bert_review``) are
+      positive when the model's probability clears the calibrated standalone
+      threshold.
+    - Everything else is negative.
+
+    Sweep 1 non-ambiguous, non-detected documents (``local_non_pii``) never
+    reach BERT and therefore stay negative.
+    """
+
+    result_df = df.copy()
+
+    detected = (
+        result_df["detected_pii"].fillna(False).astype(bool)
+    )
+
+    scored = (
+        result_df.get("needs_bert_review", False)
+    )
+    scored = pd.Series(scored, index=result_df.index).fillna(False).astype(bool)
+
+    probability = pd.to_numeric(
+        result_df.get("pii_probability"),
+        errors="coerce",
+    ).fillna(0.0)
+
+    bert_pii = scored & (probability >= standalone_threshold)
+
+    result_df["bert_pii"] = bert_pii
+    result_df["final_pii"] = detected | bert_pii
+    result_df["predicted_pii"] = result_df["final_pii"]
+
+    return result_df
+
+
+def compute_hybrid_final_prediction(
+    df: pd.DataFrame,
+) -> pd.DataFrame:
+    """
+    Final decision for the rule + DistilBERT + Qwen hybrid strategy.
+
+    Logic:
+    - Sweep 1 strong detection stays positive.
+    - Among Sweep 1 ambiguous documents scored by BERT:
+        - ``confident_pii`` is positive.
+        - ``confident_non_pii`` is negative.
+        - ``routed_to_llm`` defers to Qwen's decision on exactly those rows.
+
+    Confident BERT decisions are preserved: only rows BERT actually routed to
+    the LLM can be flipped by ``llm_pii``.
+    """
+
+    result_df = df.copy()
+
+    detected = (
+        result_df["detected_pii"].fillna(False).astype(bool)
+    )
+
+    scored = pd.Series(
+        result_df.get("needs_bert_review", False),
+        index=result_df.index,
+    ).fillna(False).astype(bool)
+
+    zone = (
+        result_df.get("routing_zone", "")
+        .astype(str)
+        if "routing_zone" in result_df.columns
+        else pd.Series("", index=result_df.index)
+    )
+
+    confident_pii = scored & (zone == "confident_pii")
+
+    routed = pd.Series(
+        result_df.get("routed_to_llm", False),
+        index=result_df.index,
+    ).fillna(False).astype(bool)
+    routed = scored & routed
+
+    if "llm_pii" not in result_df.columns:
+        result_df["llm_pii"] = False
+
+    llm_pii = (
+        result_df["llm_pii"].fillna(False).astype(bool)
+    )
+
+    result_df["bert_pii"] = confident_pii
+    result_df["final_pii"] = (
+        detected
+        | confident_pii
+        | (routed & llm_pii)
+    )
+    result_df["predicted_pii"] = result_df["final_pii"]
+
+    return result_df
+
+
 def add_output_metadata(
     df: pd.DataFrame,
     strategy: str,
@@ -187,6 +291,8 @@ def add_output_metadata(
         strategy
     )
 
+    runner = strategy_config.get("runner")
+
     result_df = df.copy()
 
     if strategy == "rule_based":
@@ -198,6 +304,31 @@ def add_output_metadata(
 
         resolved_prompt_version = (
             "not_applicable"
+        )
+
+    elif runner == "hybrid":
+
+        # Hybrid combines a local BERT pre-filter with an LLM reviewer, so it
+        # has no single "model" entry. Provider/model_name describe the LLM
+        # stage that produces the escalated decisions, while model_family and
+        # prediction_source mark the combined pipeline.
+        bert_config = get_model_config(
+            strategy_config["bert_model"]
+        )
+        llm_config = get_model_config(
+            strategy_config["llm_model"]
+        )
+
+        provider = llm_config["provider"]
+        model_family = "bert+llm"
+        model_name = (
+            f"{bert_config['model_name']}+{llm_config['model_name']}"
+        )
+        prediction_source = "hybrid"
+
+        resolved_prompt_version = (
+            prompt_version
+            or "unknown"
         )
 
     else:

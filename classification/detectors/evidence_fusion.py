@@ -142,12 +142,12 @@ def fuse_detection_results(
         if entity_type in POTENTIAL_PII:
             potential_categories.append(entity_type)
 
-    # GDPR Art. 4(1): a place or a date is only personal data if it is tied to an identified individual.
-    if "PERSON" not in per_type_conf:
-        if "LOCATION" in potential_categories:
-            potential_categories.remove("LOCATION")
-        if "DATE_TIME" in potential_categories:
-            potential_categories.remove("DATE_TIME")
+    # Previously a place or date without a co-occurring PERSON was stripped from
+    # the potential categories, which routed address-only documents straight to
+    # local_non_pii and cost recall (e.g. incident reports and meeting notes
+    # carrying a full address). We now keep LOCATION/DATE_TIME as potential
+    # evidence so these documents enter the ambiguous route and are decided by
+    # the DistilBERT pre-filter instead of a hard rule.
 
     return {
         "entities": entities,

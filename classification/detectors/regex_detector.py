@@ -55,7 +55,10 @@ _RE_PHONE = re.compile(
 )
 
 _MIN_PHONE_DIGITS = 7
-_MAX_PHONE_DIGITS = 15
+# Raised from 15 to 20 so numbers with a trailing extension (e.g.
+# "+1-805-872-3511x96849", 16 digits) are not discarded. ITU-E.164 real
+# numbers stay at most 15 digits and remain well under the cap.
+_MAX_PHONE_DIGITS = 20
 
 _DATE_FORMATS = (
     "%Y-%m-%d", "%Y.%m.%d", "%Y/%m/%d",

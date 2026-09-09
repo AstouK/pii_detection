@@ -275,6 +275,225 @@ def build_run_metadata(
     }
 
 
+# ─────────────────────────────────────────────────────────────
+# Reusable pipeline inference
+#
+# The functions below expose the pre-filter as a DataFrame-in / DataFrame-out
+# step so the production strategy runner can call it on Sweep 1's ambiguous
+# subset, instead of only through this module's own CLI. They deliberately do
+# not touch routing columns other than the pre-filter's own, so Sweep 1 routing
+# stays intact and the caller decides what escalates to the LLM.
+# ─────────────────────────────────────────────────────────────
+
+#: Columns the pre-filter writes for every document it scores.
+PREFILTER_OUTPUT_COLUMNS = [
+    "pii_probability",
+    "routing_zone",
+    "routed_to_llm",
+    "needs_bert_review",
+    "bert_request_success",
+    "bert_runtime_seconds",
+    "inference_ms",
+    "t_low",
+    "t_high",
+    "per_type_conf",
+]
+
+
+def load_prefilter_bundle(run_name: str, device: str = "") -> dict:
+    """
+    Load everything needed to score documents with a trained pre-filter.
+
+    Returns the model, its config, the calibrated thresholds and a ready
+    tokenizer, so a caller can score several dataframes without reloading.
+    """
+
+    artifacts_dir = run_artifacts_dir(run_name)
+
+    calibration_file = artifacts_dir / "calibration.json"
+    if not calibration_file.exists():
+        raise FileNotFoundError(
+            f"Calibration not found: {calibration_file}. "
+            "Train the pre-filter first or pass a valid run name."
+        )
+
+    torch_device = resolve_device(device)
+    model, config = load_checkpoint(artifacts_dir, device=torch_device)
+    calibration = load_calibration(calibration_file)
+
+    entity_thresholds = {
+        label: float(value)
+        for label, value in calibration.get("entity_thresholds", {}).items()
+    }
+    if not entity_thresholds:
+        entity_thresholds = {
+            label: config.entity_threshold for label in ENTITY_LABELS
+        }
+
+    tokenizer = load_tokenizer(config.pretrained_dir)
+
+    return {
+        "run_name": run_name,
+        "model": model,
+        "config": config,
+        "calibration": calibration,
+        "tokenizer": tokenizer,
+        "entity_thresholds": entity_thresholds,
+        "t_low": float(calibration["t_low"]),
+        "t_high": float(calibration["t_high"]),
+        "device": torch_device,
+    }
+
+
+def _init_prefilter_columns(df: pd.DataFrame) -> pd.DataFrame:
+    """
+    Ensure the pre-filter output columns exist with neutral defaults.
+
+    Rows the pre-filter never scores keep these defaults, which read as
+    "the model did not touch this document".
+    """
+
+    result = df.copy()
+
+    defaults = {
+        "pii_probability": np.nan,
+        "routing_zone": "",
+        "routed_to_llm": False,
+        "needs_bert_review": False,
+        "bert_request_success": False,
+        "bert_runtime_seconds": 0.0,
+        "inference_ms": 0.0,
+        "t_low": np.nan,
+        "t_high": np.nan,
+    }
+
+    for column, default in defaults.items():
+        if column not in result.columns:
+            result[column] = default
+
+    if "per_type_conf" not in result.columns:
+        result["per_type_conf"] = "{}"
+
+    for label in ENTITY_LABELS:
+        column = f"{label}_predicted"
+        if column not in result.columns:
+            result[column] = "no"
+
+    return result
+
+
+def score_ambiguous_documents(
+    df: pd.DataFrame,
+    mask: pd.Series,
+    bundle: dict,
+) -> tuple[pd.DataFrame, dict]:
+    """
+    Score the ``mask`` subset of ``df`` with a loaded pre-filter bundle.
+
+    ``mask`` is the set of documents the caller wants the model to look at —
+    in the production pipeline, Sweep 1's ambiguous rows. Every scored row gets
+    the pre-filter's probability, three-zone routing decision, entity
+    predictions and timing. Rows outside the mask are left at their defaults.
+
+    Returns ``(df_with_columns, runtime_info)``.
+    """
+
+    result = _init_prefilter_columns(df)
+
+    mask = mask.fillna(False).astype(bool)
+    scored_count = int(mask.sum())
+
+    runtime_info = {
+        "bert_runtime_seconds": 0.0,
+        "bert_requests_attempted": scored_count,
+        "bert_requests_successful": 0,
+        "inference_ms_per_document": 0.0,
+        "documents_scored": scored_count,
+        "routed_to_llm": 0,
+        "confident_pii": 0,
+        "confident_non_pii": 0,
+    }
+
+    if scored_count == 0:
+        logger.info("No documents to score with the pre-filter; skipping inference.")
+        return result, runtime_info
+
+    config = bundle["config"]
+    subset = result.loc[mask].reset_index(drop=True)
+
+    dataset = build_dataset(
+        subset,
+        bundle["tokenizer"],
+        config.max_length,
+        with_labels=False,
+    )
+    loader = build_dataloader(dataset, config.eval_batch_size, shuffle=False)
+
+    started = time.perf_counter()
+    probs, entity_probs = predict_probabilities(
+        bundle["model"], loader, bundle["device"]
+    )
+    elapsed = time.perf_counter() - started
+
+    inference_ms = 1000.0 * elapsed / max(scored_count, 1)
+
+    t_low = bundle["t_low"]
+    t_high = bundle["t_high"]
+    auto_no, routed, auto_yes = zone_masks(probs, t_low, t_high)
+    zones = np.where(
+        auto_no,
+        "confident_non_pii",
+        np.where(auto_yes, "confident_pii", "routed_to_llm"),
+    )
+
+    per_type_conf = build_per_type_conf(entity_probs, bundle["entity_thresholds"])
+    entity_predictions = build_entity_predictions(
+        entity_probs, bundle["entity_thresholds"]
+    )
+
+    scored_index = result.index[mask]
+
+    result.loc[scored_index, "pii_probability"] = np.round(probs, 6)
+    result.loc[scored_index, "routing_zone"] = zones
+    result.loc[scored_index, "routed_to_llm"] = routed
+    result.loc[scored_index, "needs_bert_review"] = True
+    result.loc[scored_index, "bert_request_success"] = True
+    result.loc[scored_index, "bert_runtime_seconds"] = round(
+        inference_ms / 1000.0, 6
+    )
+    result.loc[scored_index, "inference_ms"] = round(inference_ms, 4)
+    result.loc[scored_index, "t_low"] = t_low
+    result.loc[scored_index, "t_high"] = t_high
+    result.loc[scored_index, "per_type_conf"] = per_type_conf
+
+    for column, values in entity_predictions.items():
+        result.loc[scored_index, column] = values
+
+    runtime_info.update(
+        {
+            "bert_runtime_seconds": round(elapsed, 4),
+            "bert_requests_successful": scored_count,
+            "inference_ms_per_document": round(inference_ms, 4),
+            "routed_to_llm": int(routed.sum()),
+            "confident_pii": int(auto_yes.sum()),
+            "confident_non_pii": int(auto_no.sum()),
+        }
+    )
+
+    logger.info(
+        "Pre-filter scored %s documents in %.2fs (%.2f ms/doc): "
+        "confident_non_pii=%s, routed=%s, confident_pii=%s",
+        scored_count,
+        elapsed,
+        inference_ms,
+        int(auto_no.sum()),
+        int(routed.sum()),
+        int(auto_yes.sum()),
+    )
+
+    return result, runtime_info
+
+
 def run_prediction(
     run_name: str,
     split: str = "test",

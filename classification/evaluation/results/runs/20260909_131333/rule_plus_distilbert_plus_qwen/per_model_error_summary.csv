@@ -1,0 +1,5 @@
+provider,model_family,model_name,error_type,count
+dashscope,bert+llm,distilbert+qwen3.7-plus,false_negative,2
+dashscope,bert+llm,distilbert+qwen3.7-plus,false_positive,2
+dashscope,bert+llm,distilbert+qwen3.7-plus,true_negative,2868
+dashscope,bert+llm,distilbert+qwen3.7-plus,true_positive,628
