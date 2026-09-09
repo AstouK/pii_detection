@@ -9,8 +9,7 @@ uncertain, to a targeted LLM review.
 ![PyTorch](https://img.shields.io/badge/PyTorch-2.13.0-EE4C2C?style=flat-square&logo=pytorch&logoColor=white)
 ![Transformers](https://img.shields.io/badge/Transformers-5.15.1-FFD21E?style=flat-square&logo=huggingface&logoColor=black)
 
-TUM *Deep Learning and Decision Making*, Bosch case study. This is a university
-project, not a production system.
+Course: TUM *Deep Learning and Decision Making* 
 
 ## Abstract
 
