@@ -1,0 +1,61 @@
+document_id,file_name,document_type,scenario_type,language,source_system,responsible_owner,owner_email,data_source,file_created_date,last_modified_date,dataset_created_at,file_size_mb,full_text,contains_personal_data,PERSON_yes_no,EMAIL_ADDRESS_yes_no,PHONE_NUMBER_yes_no,LOCATION_yes_no,IBAN_CODE_yes_no,CREDIT_CARD_yes_no,PASSPORT_yes_no,NRP_yes_no,DATE_TIME_yes_no,IP_ADDRESS_yes_no,URL_yes_no,MEDICAL_LICENSE_yes_no,personal_data_categories,primary_pii_type,category_count,pii_count,difficulty,edge_case,challenge_category,retention_period_exceeded_3y,recommended_split,synthetic,synthetic_generator,generation_prompt_version,human_reviewed,review_status,review_notes,dataset_version,labeling_notes,entities,per_type_conf,detected_categories,strong_pii_categories,potential_pii_categories,detected_pii,detected_any_pii,has_person_hint,route,routing_reason,needs_llm_review,run_id,strategy,provider,model_family,model_name,prompt_version,prediction_source,predicted_pii
+SYN-CONTRACT-0015,synthetic_contract_0015.txt,contract,contract,en,synthetic_generation,,,synthetic,2026-08-28,2026-08-28,2026-08-28,0,"Contract
+
+Parties: Service Provider and Client Organization
+Effective Date: 2026-01-03
+Subject: This contract outlines the agreement between the Service Provider and Client Organization regarding the provision of services, effective as of the date specified herein. Both parties acknowledge the importance of this contract as a foundation for their ongoing business relationship.
+Terms: The terms of this agreement include all conditions related to the services rendered by the Service Provider to the Client Organization. Payment details are outlined in the Payment terms on file, which both parties agree to follow diligently to ensure timely compensation for services executed under this contract.
+Contact: Service Team
+Signature: Authorized signature
+Termination: This agreement may be terminated by either party with a written notice, provided that the notice period complies with the terms previously established. The effective date of termination shall be determined in accordance with the mutual understanding of both parties, ensuring that all obligations up to the effective date remain fulfilled.
+Payment Details: Payment terms on file",no,no,no,no,no,no,no,no,no,no,no,no,no,,NONE,0,0,easy,no,none,no,test,yes,openrouter_gpt4o_mini_field,field_llm_v1,no,,,v2,Synthetic document generated for controlled PII training data.,[],{},[],[],[],False,False,True,local_non_pii,no_meaningful_signal,False,20260909_112006,rule_based,local,rules,regex_presidio_fusion_v1,not_applicable,rules,False
+SYN-CONTRACT-0020,synthetic_contract_0020.txt,contract,contract,en,synthetic_generation,,,synthetic,2026-08-28,2026-08-28,2026-08-28,0,"Contract
+
+Parties: Contracting Organizations
+Effective Date: 2025-11-10
+Subject: This contract outlines the mutual agreements between the Contracting Organizations regarding the provision of services, specifying the roles and responsibilities of each party involved.
+Terms: The terms of this agreement shall remain in effect from the effective_date of 2025-11-10 until completion of the obligations outlined herein. Payment terms on file shall be adhered to by both parties to ensure timely processing.
+Contact: Central Contact Point
+Signature: Signature pending
+Termination: This contract may be terminated by either party with a written notice, provided that such notice is delivered at least thirty (30) days prior to the intended termination date. Upon termination, all pending obligations must be fulfilled unless otherwise agreed.
+Payment Details: Payment terms on file",no,no,no,no,no,no,no,no,no,no,no,no,no,,NONE,0,0,easy,no,none,no,test,yes,openrouter_gpt4o_mini_field,field_llm_v1,no,,,v2,Synthetic document generated for controlled PII training data.,[],{},[],[],[],False,False,True,local_non_pii,no_meaningful_signal,False,20260909_112006,rule_based,local,rules,regex_presidio_fusion_v1,not_applicable,rules,False
+SYN-CONTRACT-0022,synthetic_contract_0022.txt,contract,contract,en,synthetic_generation,,,synthetic,2026-08-28,2026-08-28,2026-08-28,0,"Contract
+
+Parties: Contracting Organizations
+Effective Date: 2025-10-20
+Subject: This contract governs the terms and conditions under which the parties, Contracting Organizations, agree to collaborate on specified projects, ensuring mutual benefit and compliance with applicable regulations.
+Terms: The parties agree to adhere to the payment terms on file and to fulfill all obligations as outlined in this agreement. Any changes to the scope of work or payment terms must be documented and signed by both parties.
+Contact: Department Contact
+Signature: Authorized signature
+Termination: This agreement may be terminated by either party upon providing thirty (30) days written notice to the other party. Termination shall not relieve either party from obligations incurred prior to the effective date of termination.
+Payment Details: Payment terms on file",no,no,no,no,no,no,no,no,no,no,no,no,no,,NONE,0,0,easy,no,none,no,test,yes,openrouter_gpt4o_mini_field,field_llm_v1,no,,,v2,Synthetic document generated for controlled PII training data.,[],{},[],[],[],False,False,True,local_non_pii,no_meaningful_signal,False,20260909_112006,rule_based,local,rules,regex_presidio_fusion_v1,not_applicable,rules,False
+SYN-CONTRACT-0024,synthetic_contract_0024.txt,contract,contract,en,synthetic_generation,,,synthetic,2026-08-28,2026-08-28,2026-08-28,0,"Contract
+
+Parties: Service Provider and Client Organization
+Effective Date: 2027-01-14
+Subject: Amendment to the existing agreement between the Service Provider and the Client Organization to update specific terms and conditions regarding the scope of services provided.
+Terms: The parties agree to modify the terms related to service delivery timelines, which shall now commence on the effective date of 2027-01-14. Additionally, the payment terms on file shall remain unchanged, ensuring that all financial obligations are met as previously stipulated.
+Contact: Service Team
+Signature: Authorized signature
+Termination: This amendment shall remain in effect until terminated by either party, with at least thirty (30) days written notice provided to the other party. The termination provisions of the original agreement shall apply.
+Payment Details: Payment terms on file",no,no,no,no,no,no,no,no,no,no,no,no,no,,NONE,0,0,easy,no,none,no,test,yes,openrouter_gpt4o_mini_field,field_llm_v1,no,,,v2,Synthetic document generated for controlled PII training data.,[],{},[],[],[],False,False,True,local_non_pii,no_meaningful_signal,False,20260909_112006,rule_based,local,rules,regex_presidio_fusion_v1,not_applicable,rules,False
+SYN-CONTRACT-0027,synthetic_contract_0027.txt,contract,contract,en,synthetic_generation,,,synthetic,2026-08-28,2026-08-28,2026-08-28,0,"Contract
+
+Parties: Contracting Organizations
+Effective Date: 2026-01-12
+Subject: This contract outlines the mutual obligations and responsibilities between the parties involved, ensuring clarity in the execution of services agreed upon by the Contracting Organizations.
+Terms: The terms of this agreement, including the rights and obligations of both parties, will be effective as of the effective_date of 2026-01-12. Payment details, including specific payment terms on file, must be adhered to throughout the duration of this contract.
+Contact: Central Contact Point
+Signature: Authorized signature
+Termination: Termination of this agreement may occur under specific conditions, as outlined herein. Should either party fail to comply with the terms set forth, such action may lead to termination, ensuring that both Contracting Organizations maintain accountability and integrity in the execution of this contract.
+Payment Details: Payment terms on file",no,no,no,no,no,no,no,no,no,no,no,no,no,,NONE,0,0,easy,no,none,no,test,yes,openrouter_gpt4o_mini_field,field_llm_v1,no,,,v2,Synthetic document generated for controlled PII training data.,[],{},[],[],[],False,False,True,local_non_pii,no_meaningful_signal,False,20260909_112006,rule_based,local,rules,regex_presidio_fusion_v1,not_applicable,rules,False
+SYN-CONTRACT-0030,synthetic_contract_0030.txt,contract,contract,de,synthetic_generation,,,synthetic,2026-08-28,2026-08-28,2026-08-28,0,"Vertrag
+
+Vertragsparteien: Christl Holzapfel
+Gültig ab: 2026-03-28
+Betreff: Dieser Vertrag wird zwischen Christl Holzapfel und dem Zentrale Kontaktstelle abgeschlossen, um die Bedingungen der Zusammenarbeit festzulegen.
+Bedingungen: Die Zahlungsmodalitäten für die in diesem Vertrag genannten Dienstleistungen umfassen die Überweisung auf das Konto DE67421964529753355506, gemäß den vereinbarten Fristen und Bedingungen.
+Kontakt: Zentrale Kontaktstelle
+Unterschrift: Unterschrift ausstehend
+Kündigung: Dieser Vertrag kann von beiden Parteien mit einer Frist von drei Monaten zum Ende eines Kalenderjahres gekündigt werden, sofern die Kündigung schriftlich erfolgt.
+Zahlungsdaten: DE67421964529753355506",yes,yes,no,no,no,yes,no,no,no,no,no,no,no,PERSON; IBAN_CODE,MULTIPLE,2,2,easy,no,none,no,test,yes,openrouter_gpt4o_mini_field,field_llm_v1,no,,,v2,Synthetic document generated for controlled PII training data.,"[{'type': 'IBAN_CODE', 'value': 'DE67421964529753355506', 'confidence': 1.0, 'source': 'presidio', 'start': 349, 'end': 371}, {'type': 'IBAN_CODE', 'value': 'DE67421964529753355506', 'confidence': 1.0, 'source': 'presidio', 'start': 680, 'end': 702}, {'type': 'PERSON', 'value': 'Christl Holzapfel', 'confidence': 0.85, 'source': 'presidio', 'start': 27, 'end': 44}, {'type': 'PERSON', 'value': 'Christl Holzapfel', 'confidence': 0.85, 'source': 'presidio', 'start': 105, 'end': 122}, {'type': 'DATE_TIME', 'value': '2026-03-28', 'confidence': 0.6, 'source': 'presidio', 'start': 56, 'end': 66}, {'type': 'IBAN_CODE', 'value': 'DE67421964529753355506', 'confidence': 0.9, 'source': 'custom_regex', 'start': 349, 'end': 371}, {'type': 'IBAN_CODE', 'value': 'DE67421964529753355506', 'confidence': 0.9, 'source': 'custom_regex', 'start': 680, 'end': 702}]","{'IBAN_CODE': 1.0, 'PERSON': 0.85, 'DATE_TIME': 0.6}","['DATE_TIME', 'IBAN_CODE', 'PERSON']",['IBAN_CODE'],"['PERSON', 'DATE_TIME']",True,True,True,local_pii,strong_pii_detected,False,20260909_112006,rule_based,local,rules,regex_presidio_fusion_v1,not_applicable,rules,True

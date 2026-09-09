@@ -1,0 +1,59 @@
+{
+  "run_id": "20260909_112646",
+  "dataset_version": "v2",
+  "prompt_version": "pii_review_v1",
+  "saved_files": [
+    "/Users/maxseidlitz/1-CODING/TUM-Uni/DeepLearningAndDecisionMaking/origin_pii-detection/pii_detection/classification/results/runs/20260909_112646/sweep1.csv",
+    "/Users/maxseidlitz/1-CODING/TUM-Uni/DeepLearningAndDecisionMaking/origin_pii-detection/pii_detection/classification/results/runs/20260909_112646/sweep1_ambiguous_bert.csv",
+    "/Users/maxseidlitz/1-CODING/TUM-Uni/DeepLearningAndDecisionMaking/origin_pii-detection/pii_detection/classification/results/runs/20260909_112646/rule_plus_distilbert_plus_qwen.csv"
+  ],
+  "strategies": [
+    "sweep1_ambiguous_bert",
+    "rule_plus_distilbert_plus_qwen"
+  ],
+  "documents_total": 3500,
+  "documents_sent_to_review": 279,
+  "documents_resolved_locally": 3221,
+  "routing_rate": 0.0797,
+  "local_processing_rate": 0.9203,
+  "documents_sent_to_llm": 0,
+  "sweep1_runtime_seconds": 85.6167,
+  "sweep2_runtime_seconds": 0.119,
+  "pipeline_runtime_seconds": 101.6379,
+  "strategy_runtime_seconds": {
+    "sweep1_ambiguous_bert": 0.0186,
+    "rule_plus_distilbert_plus_qwen": 0.1004
+  },
+  "bert_runtime_seconds": 13.1059,
+  "bert_requests_attempted": 279,
+  "bert_requests_successful": 279,
+  "inference_ms_per_document": 46.9747,
+  "strategy_usage": {
+    "sweep1_ambiguous_bert": {
+      "llm_requests_attempted": 279,
+      "llm_requests_successful": 0,
+      "llm_prompt_tokens": 0,
+      "llm_completion_tokens": 0,
+      "llm_total_tokens": 0,
+      "llm_reasoning_tokens": 0,
+      "llm_cached_tokens": 0,
+      "llm_reported_cost": 0.0,
+      "bert_requests_attempted": 279,
+      "bert_requests_successful": 279,
+      "bert_runtime_seconds": 13.106
+    },
+    "rule_plus_distilbert_plus_qwen": {
+      "llm_requests_attempted": 0,
+      "llm_requests_successful": 0,
+      "llm_prompt_tokens": 0,
+      "llm_completion_tokens": 0,
+      "llm_total_tokens": 0,
+      "llm_reasoning_tokens": 0,
+      "llm_cached_tokens": 0,
+      "llm_reported_cost": 0.0,
+      "bert_requests_attempted": 279,
+      "bert_requests_successful": 279,
+      "bert_runtime_seconds": 13.106
+    }
+  }
+}

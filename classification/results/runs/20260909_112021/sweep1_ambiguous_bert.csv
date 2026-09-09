@@ -1,0 +1,583 @@
+document_id,file_name,document_type,scenario_type,language,source_system,responsible_owner,owner_email,data_source,file_created_date,last_modified_date,dataset_created_at,file_size_mb,full_text,contains_personal_data,PERSON_yes_no,EMAIL_ADDRESS_yes_no,PHONE_NUMBER_yes_no,LOCATION_yes_no,IBAN_CODE_yes_no,CREDIT_CARD_yes_no,PASSPORT_yes_no,NRP_yes_no,DATE_TIME_yes_no,IP_ADDRESS_yes_no,URL_yes_no,MEDICAL_LICENSE_yes_no,personal_data_categories,primary_pii_type,category_count,pii_count,difficulty,edge_case,challenge_category,retention_period_exceeded_3y,recommended_split,synthetic,synthetic_generator,generation_prompt_version,human_reviewed,review_status,review_notes,dataset_version,labeling_notes,entities,per_type_conf,detected_categories,strong_pii_categories,potential_pii_categories,detected_pii,detected_any_pii,has_person_hint,route,routing_reason,needs_llm_review,pii_probability,routing_zone,routed_to_llm,needs_bert_review,bert_request_success,bert_runtime_seconds,inference_ms,t_low,t_high,PERSON_predicted,EMAIL_ADDRESS_predicted,PHONE_NUMBER_predicted,LOCATION_predicted,IBAN_CODE_predicted,CREDIT_CARD_predicted,PASSPORT_predicted,NRP_predicted,DATE_TIME_predicted,IP_ADDRESS_predicted,URL_predicted,MEDICAL_LICENSE_predicted,predicted_pii,run_id,strategy,provider,model_family,model_name,prompt_version,prediction_source,prediction_stage,pipeline_name
+SYN-CONTRACT-0036,synthetic_contract_0036.txt,contract,contract,en,synthetic_generation,,,synthetic,2026-08-28,2026-08-28,2026-08-28,0,"Contract
+
+Parties: Contracting Organizations
+Effective Date: 2025-04-21
+Subject: This contract governs the terms of collaboration between the parties for the provision of services as outlined herein.
+Terms: The parties agree to adhere to the payment details on file and complete deliverables by the specified deadlines. All services will be performed in accordance with industry standards and best practices.
+Contact: Central Contact Point
+Signature: Heather Adams
+Termination: This agreement may be terminated by either party upon thirty (30) days written notice to the other party. Upon termination, all obligations shall cease, except for payment obligations incurred prior to the termination date of 2025-04-21.
+Payment Details: Payment terms on file",yes,yes,no,no,no,no,no,no,no,yes,no,no,no,PERSON; DATE_TIME,MULTIPLE,2,2,easy,no,none,no,test,yes,openrouter_gpt4o_mini_field,field_llm_v1,no,,,v2,Synthetic document generated for controlled PII training data.,"[{'type': 'PERSON', 'value': 'Heather Adams\nTermination', 'confidence': 0.85, 'source': 'presidio', 'start': 451, 'end': 476}, {'type': 'DATE_TIME', 'value': '30) days', 'confidence': 0.85, 'source': 'presidio', 'start': 540, 'end': 548}]","{""PERSON"": 0.998, ""DATE_TIME"": 0.9705}","['DATE_TIME', 'PERSON']",[],"['PERSON', 'DATE_TIME']",False,True,True,low_cost_llm,potential_pii_evidence,True,0.9998379945755005,confident_pii,False,True,True,0.045466,45.4664,0.925,0.925,yes,no,no,no,no,no,no,no,yes,no,no,no,True,20260909_112021,sweep1_ambiguous_bert,local,bert,distilbert-base-multilingual-cased-v1,not_applicable,local_model,bert_prefilter,gdpr_pii_detection
+SYN-CONTRACT-0072,synthetic_contract_0072.txt,contract,contract,de,synthetic_generation,,,synthetic,2026-08-28,2026-08-28,2026-08-28,0,"Vertrag
+
+Vertragsparteien: Hillerstr. 12/42, 89972 Gotha
+Gültig ab: 2026-02-02
+Betreff: Vertrag über die Erbringung von Dienstleistungen zwischen Erhardt Bauer und dem Auftraggeber, Hillerstr. 12/42, 89972 Gotha.
+Bedingungen: Die Vertragsparteien vereinbaren die Erbringung von Dienstleistungen gemäß den festgelegten Spezifikationen und Zeitrahmen. Die Zahlung erfolgt gemäß den hinterlegten Zahlungsbedingungen.
+Kontakt: Erhardt Bauer
+Unterschrift: Unterschrift ausstehend
+Kündigung: Der Vertrag kann von jeder Partei mit einer Frist von 30 Tagen schriftlich gekündigt werden. Bei schwerwiegenden Vertragsverletzungen ist eine fristlose Kündigung möglich.
+Zahlungsdaten: Zahlungsbedingungen hinterlegt",yes,yes,no,no,yes,no,no,no,no,no,no,no,no,PERSON; LOCATION,MULTIPLE,2,2,easy,no,none,no,test,yes,openrouter_gpt4o_mini_field,field_llm_v1,no,,,v2,Synthetic document generated for controlled PII training data.,"[{'type': 'LOCATION', 'value': 'Gotha', 'confidence': 0.85, 'source': 'presidio', 'start': 51, 'end': 56}, {'type': 'PERSON', 'value': 'Erhardt Bauer', 'confidence': 0.85, 'source': 'presidio', 'start': 146, 'end': 159}, {'type': 'LOCATION', 'value': 'Gotha', 'confidence': 0.85, 'source': 'presidio', 'start': 206, 'end': 211}, {'type': 'PERSON', 'value': 'Erhardt Bauer', 'confidence': 0.85, 'source': 'presidio', 'start': 423, 'end': 436}, {'type': 'DATE_TIME', 'value': '2026-02-02', 'confidence': 0.6, 'source': 'presidio', 'start': 68, 'end': 78}]","{""PERSON"": 0.9826, ""LOCATION"": 0.9855}","['DATE_TIME', 'LOCATION', 'PERSON']",[],"['LOCATION', 'PERSON', 'DATE_TIME']",False,True,True,low_cost_llm,potential_pii_evidence,True,0.9992700219154358,confident_pii,False,True,True,0.045466,45.4664,0.925,0.925,yes,no,no,yes,no,no,no,no,no,no,no,no,True,20260909_112021,sweep1_ambiguous_bert,local,bert,distilbert-base-multilingual-cased-v1,not_applicable,local_model,bert_prefilter,gdpr_pii_detection
+SYN-CUSTOMER_SUPPORT-0076,synthetic_customer_support_0076.txt,support_ticket,customer_support,en,synthetic_generation,,,synthetic,2026-08-28,2026-08-28,2026-08-28,0,"Customer Support
+
+Ticket Id: REF-2746492
+Subject: Assistance Required for Billing Inquiry
+Customer: Business Client
+Contact: Service Team
+Description: Dear Service Team, I am reaching out regarding a billing issue that we have encountered with our latest invoice. We believe there may have been an error in the charges applied. The ticket ID for this inquiry is REF-2746492. I would appreciate your prompt assistance in resolving this matter as it is affecting our account management.
+Agent: Service Desk
+Status: Closed
+Resolution: The billing issue has been reviewed and confirmed to be an error in the invoice calculations. A corrected invoice has been issued to the Business Client, and a follow-up has been scheduled to ensure that all charges are accurate moving forward. The ticket is now marked as closed.",no,no,no,no,no,no,no,no,no,no,no,no,no,,NONE,0,0,easy,no,none,no,test,yes,openrouter_gpt4o_mini_field,field_llm_v1,no,,,v2,Synthetic document generated for controlled PII training data.,"[{'type': 'NRP', 'value': 'REF-2746492', 'confidence': 0.85, 'source': 'presidio', 'start': 29, 'end': 40}]",{},['NRP'],[],['NRP'],False,True,False,low_cost_llm,potential_pii_evidence,True,0.00020500000391621143,confident_non_pii,False,True,True,0.045466,45.4664,0.925,0.925,no,no,no,no,no,no,no,no,no,no,no,no,False,20260909_112021,sweep1_ambiguous_bert,local,bert,distilbert-base-multilingual-cased-v1,not_applicable,local_model,bert_prefilter,gdpr_pii_detection
+SYN-CUSTOMER_SUPPORT-0107,synthetic_customer_support_0107.txt,support_ticket,customer_support,en,synthetic_generation,,,synthetic,2026-08-28,2026-08-28,2026-08-28,0,"Customer Support
+
+Ticket Id: REF-6090345
+Subject: Assistance Needed with French Language Support
+Customer: Customer Organization
+Contact: Department Contact
+Description: French
+Agent: Elizabeth Chaney
+Status: Completed
+Resolution: We have successfully addressed your concerns regarding the French language support. If you require further assistance, please feel free to reach out to Elizabeth Chaney.",yes,yes,no,no,no,no,no,no,yes,no,no,no,no,PERSON; NRP,MULTIPLE,2,2,easy,no,none,no,test,yes,openrouter_gpt4o_mini_field,field_llm_v1,no,,,v2,Synthetic document generated for controlled PII training data.,"[{'type': 'NRP', 'value': 'French', 'confidence': 0.85, 'source': 'presidio', 'start': 170, 'end': 176}, {'type': 'PERSON', 'value': 'Elizabeth Chaney', 'confidence': 0.85, 'source': 'presidio', 'start': 184, 'end': 200}, {'type': 'PERSON', 'value': 'Elizabeth Chaney', 'confidence': 0.85, 'source': 'presidio', 'start': 383, 'end': 399}, {'type': 'NRP', 'value': 'French', 'confidence': 0.9, 'source': 'custom_regex', 'start': 73, 'end': 79}, {'type': 'NRP', 'value': 'French', 'confidence': 0.9, 'source': 'custom_regex', 'start': 170, 'end': 176}, {'type': 'NRP', 'value': 'French', 'confidence': 0.9, 'source': 'custom_regex', 'start': 290, 'end': 296}]","{""PERSON"": 0.9965, ""NRP"": 0.9858}","['NRP', 'PERSON']",[],"['NRP', 'PERSON']",False,True,False,low_cost_llm,potential_pii_evidence,True,0.9998390078544617,confident_pii,False,True,True,0.045466,45.4664,0.925,0.925,yes,no,no,no,no,no,no,yes,no,no,no,no,True,20260909_112021,sweep1_ambiguous_bert,local,bert,distilbert-base-multilingual-cased-v1,not_applicable,local_model,bert_prefilter,gdpr_pii_detection
+SYN-CUSTOMER_SUPPORT-0195,synthetic_customer_support_0195.txt,support_ticket,customer_support,de,synthetic_generation,,,synthetic,2026-08-28,2026-08-28,2026-08-28,0,"Kundensupport
+
+Ticketnummer: REF-4812245
+Betreff: Dringende Eskalation: Unterstützung bei dänisch
+Kunde: Univ.Prof. Manuel Mühle B.A.
+Kontakt: Serviceteam
+Beschreibung: dänisch
+Bearbeiter: Kundensupport-Team
+Status: In Progress
+Lösung: Das Kundensupport-Team hat die Angelegenheit priorisiert und arbeitet an einer Lösung. Ein Follow-up-Termin wurde für den 15. November 2023 angesetzt, um die Fortschritte zu überprüfen. Es wurde festgestellt, dass zusätzliche Ressourcen benötigt werden, um die Anliegen von Univ.Prof. Manuel Mühle B.A. effizient zu bearbeiten.",yes,yes,no,no,no,no,no,no,yes,no,no,no,no,PERSON; NRP,MULTIPLE,2,2,easy,no,none,no,test,yes,openrouter_gpt4o_mini_field,field_llm_v1,no,,,v2,Synthetic document generated for controlled PII training data.,"[{'type': 'PERSON', 'value': 'Manuel Mühle', 'confidence': 0.85, 'source': 'presidio', 'start': 116, 'end': 128}, {'type': 'PERSON', 'value': 'Manuel Mühle', 'confidence': 0.85, 'source': 'presidio', 'start': 521, 'end': 533}, {'type': 'URL', 'value': 'Univ.Pro', 'confidence': 0.5, 'source': 'presidio', 'start': 105, 'end': 113}, {'type': 'URL', 'value': 'Univ.Pro', 'confidence': 0.5, 'source': 'presidio', 'start': 510, 'end': 518}, {'type': 'NRP', 'value': 'dänisch', 'confidence': 0.9, 'source': 'custom_regex', 'start': 90, 'end': 97}, {'type': 'NRP', 'value': 'dänisch', 'confidence': 0.9, 'source': 'custom_regex', 'start': 169, 'end': 176}]","{""PERSON"": 0.9981, ""DATE_TIME"": 0.9295}","['NRP', 'PERSON', 'URL']",[],"['PERSON', 'URL', 'NRP']",False,True,False,low_cost_llm,potential_pii_evidence,True,0.999891996383667,confident_pii,False,True,True,0.045466,45.4664,0.925,0.925,yes,no,no,no,no,no,no,no,yes,no,no,no,True,20260909_112021,sweep1_ambiguous_bert,local,bert,distilbert-base-multilingual-cased-v1,not_applicable,local_model,bert_prefilter,gdpr_pii_detection
+SYN-CUSTOMER_SUPPORT-0220,synthetic_customer_support_0220.txt,support_ticket,customer_support,de,synthetic_generation,,,synthetic,2026-08-28,2026-08-28,2026-08-28,0,"Kundensupport
+
+Ticketnummer: REF-7711944
+Betreff: Anfrage zur portugiesischsprachigen Unterstützung
+Kunde: Viola Bolander-Dobes
+Kontakt: Serviceteam
+Beschreibung: portugiesisch
+Bearbeiter: Support-Fachbereich
+Status: Closed
+Lösung: Wir haben Ihre Anfrage bezüglich der Unterstützung in portugiesisch erfolgreich bearbeitet. Bitte zögern Sie nicht, sich bei weiteren Fragen an unser Serviceteam zu wenden.",yes,yes,no,no,no,no,no,no,yes,no,no,no,no,PERSON; NRP,MULTIPLE,2,2,easy,no,none,no,test,yes,openrouter_gpt4o_mini_field,field_llm_v1,no,,,v2,Synthetic document generated for controlled PII training data.,"[{'type': 'PERSON', 'value': 'Viola Bolander-Dobes', 'confidence': 0.85, 'source': 'presidio', 'start': 107, 'end': 127}, {'type': 'LOCATION', 'value': 'Support-Fachbereich', 'confidence': 0.85, 'source': 'presidio', 'start': 189, 'end': 208}, {'type': 'NRP', 'value': 'portugiesisch', 'confidence': 0.9, 'source': 'custom_regex', 'start': 163, 'end': 176}, {'type': 'NRP', 'value': 'portugiesisch', 'confidence': 0.9, 'source': 'custom_regex', 'start': 286, 'end': 299}]","{""PERSON"": 0.9981, ""NRP"": 0.9769}","['LOCATION', 'NRP', 'PERSON']",[],"['PERSON', 'LOCATION', 'NRP']",False,True,False,low_cost_llm,potential_pii_evidence,True,0.9998909831047058,confident_pii,False,True,True,0.045466,45.4664,0.925,0.925,yes,no,no,no,no,no,no,yes,no,no,no,no,True,20260909_112021,sweep1_ambiguous_bert,local,bert,distilbert-base-multilingual-cased-v1,not_applicable,local_model,bert_prefilter,gdpr_pii_detection
+SYN-CUSTOMER_SUPPORT-0247,synthetic_customer_support_0247.txt,support_ticket,customer_support,de,synthetic_generation,,,synthetic,2026-08-28,2026-08-28,2026-08-28,0,"Kundensupport
+
+Ticketnummer: REF-8914912
+Betreff: Anfrage zu österreichischsprachiger Unterstützung
+Kunde: Ing. Hildegunde Nette MBA.
+Kontakt: Serviceteam
+Beschreibung: österreichisch
+Bearbeiter: Service Desk
+Status: In Progress
+Lösung: Vielen Dank für Ihre Anfrage, Frau Ing. Hildegunde Nette MBA. Wir haben Ihr Anliegen zur österreichischen Unterstützung erhalten und arbeiten daran, Ihnen so schnell wie möglich zu helfen. Unser Serviceteam wird sich in Kürze mit weiteren Informationen bei Ihnen melden.",yes,yes,no,no,no,no,no,no,yes,no,no,no,no,PERSON; NRP,MULTIPLE,2,2,easy,no,none,no,test,yes,openrouter_gpt4o_mini_field,field_llm_v1,no,,,v2,Synthetic document generated for controlled PII training data.,"[{'type': 'NRP', 'value': 'österreichisch', 'confidence': 0.9, 'source': 'custom_regex', 'start': 169, 'end': 183}]","{""PERSON"": 0.999}",['NRP'],[],['NRP'],False,True,True,low_cost_llm,potential_pii_evidence,True,0.9999529719352722,confident_pii,False,True,True,0.045466,45.4664,0.925,0.925,yes,no,no,no,no,no,no,no,no,no,no,no,True,20260909_112021,sweep1_ambiguous_bert,local,bert,distilbert-base-multilingual-cased-v1,not_applicable,local_model,bert_prefilter,gdpr_pii_detection
+SYN-EMPLOYEE_RECORD-0006,synthetic_employee_record_0006.txt,hr_record,employee_record,en,synthetic_generation,,,synthetic,2026-08-28,2026-08-28,2026-08-28,0,"Employee Record
+
+Employee: Brian Cunningham
+Department: Administration
+Role: Administrator
+Employee Id: REF-1383222
+Manager: Team Lead
+Start Date: 2024-11-17
+Address: Business address not provided
+Nationality: Nationality not provided
+Contact: Department Contact
+Notes: Brian Cunningham has demonstrated strong organizational skills in his role as an Administrator. He is adept at managing departmental tasks and supporting the Team Lead effectively. Further training may enhance his capabilities in project management.
+License Number: REF-5326515
+Identification Number: REF-9330494",yes,yes,no,no,no,no,no,no,no,no,no,no,no,PERSON,PERSON,1,1,easy,no,none,no,test,yes,openrouter_gpt4o_mini_field,field_llm_v1,no,,,v2,Synthetic document generated for controlled PII training data.,"[{'type': 'DATE_TIME', 'value': '2024-11-17', 'confidence': 0.95, 'source': 'presidio', 'start': 147, 'end': 157}, {'type': 'PERSON', 'value': 'Brian Cunningham\nDepartment', 'confidence': 0.85, 'source': 'presidio', 'start': 27, 'end': 54}, {'type': 'PERSON', 'value': 'Brian Cunningham', 'confidence': 0.85, 'source': 'presidio', 'start': 270, 'end': 286}]","{""PERSON"": 0.9985}","['DATE_TIME', 'PERSON']",[],"['DATE_TIME', 'PERSON']",False,True,True,low_cost_llm,potential_pii_evidence,True,0.9999250173568726,confident_pii,False,True,True,0.045466,45.4664,0.925,0.925,yes,no,no,no,no,no,no,no,no,no,no,no,True,20260909_112021,sweep1_ambiguous_bert,local,bert,distilbert-base-multilingual-cased-v1,not_applicable,local_model,bert_prefilter,gdpr_pii_detection
+SYN-EMPLOYEE_RECORD-0235,synthetic_employee_record_0235.txt,hr_record,employee_record,en,synthetic_generation,,,synthetic,2026-08-28,2026-08-28,2026-08-28,0,"Employee Record
+
+Employee: Internal submission
+Department: Procurement
+Role: Analyst
+Employee Id: REF-6393026
+Manager: Department Manager
+Start Date: 2026-03-23
+Address: Business address not provided
+Nationality: Nationality information unavailable
+Contact: Central Contact Point
+Notes: This employee's performance in the role of Analyst has been commendable since their start date on 2026-03-23. They have demonstrated strong analytical skills and have actively contributed to various procurement projects. Regular feedback from the Department Manager indicates a positive attitude towards teamwork and collaboration. Continued professional development opportunities are recommended to further enhance their expertise in procurement strategies.
+License Number: REF-9278065
+Identification Number: REF-6790518",no,no,no,no,no,no,no,no,no,no,no,no,no,,NONE,0,0,easy,no,none,no,test,yes,openrouter_gpt4o_mini_field,field_llm_v1,no,,,v2,Synthetic document generated for controlled PII training data.,"[{'type': 'NRP', 'value': 'REF-6393026', 'confidence': 0.85, 'source': 'presidio', 'start': 98, 'end': 109}]",{},['NRP'],[],['NRP'],False,True,True,low_cost_llm,potential_pii_evidence,True,0.0001990000018849969,confident_non_pii,False,True,True,0.045466,45.4664,0.925,0.925,no,no,no,no,no,no,no,no,no,no,no,no,False,20260909_112021,sweep1_ambiguous_bert,local,bert,distilbert-base-multilingual-cased-v1,not_applicable,local_model,bert_prefilter,gdpr_pii_detection
+SYN-EXPENSE_REPORT-0137,synthetic_expense_report_0137.txt,form,expense_report,en,synthetic_generation,,,synthetic,2026-08-28,2026-08-28,2026-08-28,0,"Expense Report
+
+Employee: Internal submission
+Contact: Central Contact Point
+Department: Sales
+Date: 2027-06-04
+Category: Training
+Amount: 652.00 EUR
+Cost Center: CC-3150
+Project: Regional Operations
+Destination: Head Office
+Receipt Reference: RCPT-526898
+Payment Method: Cash
+Payment Details: Standard corporate payment process
+Description: This expense report pertains to a training session attended on June 1, 2027, aimed at enhancing sales strategies for the Regional Operations project. The total cost incurred was 652.00 EUR, paid in cash, as per the standard corporate payment process. The receipt reference for this transaction is RCPT-526898, which serves as documentation for reimbursement purposes. The training was conducted at the Head Office, aligning with our department's ongoing professional development initiatives.
+Summary: Expense report submitted for a training session related to the Regional Operations project. Amount: 652.00 EUR; Payment Method: Cash; Status: Rejected. Receipt Reference: RCPT-526898.
+Manager: Team Lead
+Decision: Rejected",no,no,no,no,no,no,no,no,no,no,no,no,no,,NONE,0,0,easy,no,none,no,test,yes,openrouter_gpt4o_mini_field,field_llm_v1,no,,,v2,Synthetic document generated for controlled PII training data.,"[{'type': 'NRP', 'value': 'RCPT-526898', 'confidence': 0.85, 'source': 'presidio', 'start': 639, 'end': 650}]",{},['NRP'],[],['NRP'],False,True,True,low_cost_llm,potential_pii_evidence,True,0.00020700000459328294,confident_non_pii,False,True,True,0.045466,45.4664,0.925,0.925,no,no,no,no,no,no,no,no,no,no,no,no,False,20260909_112021,sweep1_ambiguous_bert,local,bert,distilbert-base-multilingual-cased-v1,not_applicable,local_model,bert_prefilter,gdpr_pii_detection
+SYN-GENERAL_DOCUMENT-0131,synthetic_general_document_0131.txt,general_document,general_document,de,synthetic_generation,,,synthetic,2026-08-28,2026-08-28,2026-08-28,0,"Projektstatus-Update
+
+Datum: 8. Juli 2025  
+Abteilung: Projektmanagement
+
+Betreff: Aktueller Stand des Projekts zur Prozessoptimierung
+
+Zusammenfassung:  
+Das Projekt zur Optimierung der operativen Abläufe verläuft planmäßig. Die Analysephase wurde erfolgreich abgeschlossen, und die Ergebnisse wurden an alle relevanten Abteilungen kommuniziert. 
+
+Aktueller Status:  
+- Die Implementierung der identifizierten Verbesserungsmaßnahmen ist in vollem Gange.
+- Schulungen für die betroffenen Teams sind geplant und werden in den kommenden zwei Wochen durchgeführt.
+  
+Nächste Schritte:  
+- Abschluss der Implementierungsphase bis Ende Juli 2025.
+- Durchführung von Feedback-Sitzungen mit den jeweiligen Abteilungen zur Bewertung der neuen Prozesse.
+
+Bitte beachten Sie, dass alle Updates weiterhin im internen Projektmanagement-Tool dokumentiert werden. 
+
+Vielen Dank für Ihre Mitarbeit.",no,no,no,no,no,no,no,no,no,no,no,no,no,,NONE,0,0,easy,no,none,no,test,yes,openrouter_gpt4o_mini_document,llm_rewrite_v1,no,,,v2,Synthetic document generated for controlled PII training data.,"[{'type': 'PERSON', 'value': 'Projektstatus-Update\n\nDatum', 'confidence': 0.85, 'source': 'presidio', 'start': 0, 'end': 27}]",{},['PERSON'],[],['PERSON'],False,True,False,low_cost_llm,potential_pii_evidence,True,0.00023099999816622585,confident_non_pii,False,True,True,0.045466,45.4664,0.925,0.925,no,no,no,no,no,no,no,no,no,no,no,no,False,20260909_112021,sweep1_ambiguous_bert,local,bert,distilbert-base-multilingual-cased-v1,not_applicable,local_model,bert_prefilter,gdpr_pii_detection
+SYN-GENERAL_DOCUMENT-0195,synthetic_general_document_0195.txt,general_document,general_document,de,synthetic_generation,,,synthetic,2026-08-28,2026-08-28,2026-08-28,0,"Projektstatus-Update
+
+Datum: 19. Februar 2026  
+Abteilung: Projektmanagement  
+
+Aktueller Stand:  
+Das Projektteam hat die Implementierung der neuen internen Richtlinien erfolgreich abgeschlossen. Die Dokumentation wurde überarbeitet und ist nun für alle Abteilungen zugänglich. 
+
+Wichtige Punkte:  
+- Die Inhalte wurden aktualisiert, um den aktuellen Geschäftsvorgängen gerecht zu werden.  
+- Die Referenznummer für die neuen Richtlinien lautet REF-5194942.  
+- Schulungen für alle Mitarbeiter sind für die kommende Woche geplant, um die Änderungen zu vermitteln.  
+
+Nächste Schritte:  
+- Durchführung der Schulungen.  
+- Feedback der Mitarbeiter sammeln und eventuelle Anpassungen vornehmen.  
+
+Bei Fragen oder Anliegen steht das Projektmanagement zur Verfügung.",no,no,no,no,no,no,no,no,no,no,no,no,no,,NONE,0,0,easy,no,none,no,test,yes,openrouter_gpt4o_mini_document,llm_rewrite_v1,no,,,v2,Synthetic document generated for controlled PII training data.,"[{'type': 'PERSON', 'value': 'Projektstatus-Update\n\nDatum', 'confidence': 0.85, 'source': 'presidio', 'start': 0, 'end': 27}]",{},['PERSON'],[],['PERSON'],False,True,True,low_cost_llm,potential_pii_evidence,True,0.0002300000051036477,confident_non_pii,False,True,True,0.045466,45.4664,0.925,0.925,no,no,no,no,no,no,no,no,no,no,no,no,False,20260909_112021,sweep1_ambiguous_bert,local,bert,distilbert-base-multilingual-cased-v1,not_applicable,local_model,bert_prefilter,gdpr_pii_detection
+SYN-GENERAL_DOCUMENT-0218,synthetic_general_document_0218.txt,general_document,general_document,en,synthetic_generation,,,synthetic,2026-08-28,2026-08-28,2026-08-28,0,"**Internal Memo**
+
+**To:** All Staff  
+**From:** David Anderson  
+**Date:** April 23, 2025  
+**Subject:** Update on Operational Process Guidelines  
+
+Dear Team,
+
+I hope this message finds you well. I am writing to provide an important update regarding our operational processes that will enhance our efficiency and ensure consistency across our departments.
+
+**Overview of Changes**  
+As part of our ongoing commitment to optimizing our workflow, we have reviewed our current procedures and identified key areas for improvement. The updated guidelines aim to streamline operations and reduce redundancies.
+
+**Key Updates Include:**  
+- **Process Documentation:** All teams are required to maintain clear and updated documentation of their processes. This will help in onboarding new members and provide a reference for existing staff.
+- **Standardization:** We are implementing standardized templates for reports and project updates to ensure uniformity in our communication.
+- **Accountability:** Each department will designate a process owner responsible for overseeing compliance with these guidelines and addressing any issues that arise.
+
+**Implementation Timeline**  
+These changes will take effect starting May 15, 2025. Training sessions will be scheduled over the next few weeks to familiarize everyone with the new guidelines.
+
+**Next Steps**  
+Please review the attached document that outlines the complete operational process updates. We encourage you to share any feedback or questions by the end of this week.
+
+Thank you for your cooperation as we work together to improve our operations.
+
+Best regards,
+
+David Anderson  
+[Your Position]  
+[Your Department]  
+[Your Company Name]",yes,yes,no,no,no,no,no,no,no,no,no,no,no,PERSON,PERSON,1,1,easy,no,none,no,test,yes,openrouter_gpt4o_mini_document,llm_rewrite_v1,no,,,v2,Synthetic document generated for controlled PII training data.,"[{'type': 'PERSON', 'value': 'David Anderson', 'confidence': 0.85, 'source': 'presidio', 'start': 49, 'end': 63}, {'type': 'DATE_TIME', 'value': 'April 23, 2025', 'confidence': 0.85, 'source': 'presidio', 'start': 76, 'end': 90}, {'type': 'DATE_TIME', 'value': 'the end of this week', 'confidence': 0.85, 'source': 'presidio', 'start': 1502, 'end': 1522}, {'type': 'PERSON', 'value': 'David Anderson', 'confidence': 0.85, 'source': 'presidio', 'start': 1619, 'end': 1633}]","{""PERSON"": 0.996, ""DATE_TIME"": 0.9676}","['DATE_TIME', 'PERSON']",[],"['PERSON', 'DATE_TIME']",False,True,True,low_cost_llm,potential_pii_evidence,True,0.9997900128364563,confident_pii,False,True,True,0.045466,45.4664,0.925,0.925,yes,no,no,no,no,no,no,no,yes,no,no,no,True,20260909_112021,sweep1_ambiguous_bert,local,bert,distilbert-base-multilingual-cased-v1,not_applicable,local_model,bert_prefilter,gdpr_pii_detection
+SYN-INCIDENT_REPORT-0213,synthetic_incident_report_0213.txt,report,incident_report,de,synthetic_generation,,,synthetic,2026-08-28,2026-08-28,2026-08-28,0,"Vorfallsbericht
+
+Datum: 2025-03-25
+Ort: Hauptstandort
+Typ: IT Security Incident
+Beschreibung: Carmela Stiebitz war am 25. März 2025 in den Vorfall verwickelt, der als IT-Sicherheitsvorfall klassifiziert wurde. Die Untersuchung ergab, dass kritische Systeme während ihrer Schicht kompromittiert wurden, was zu einem vorübergehenden Datenzugriffsproblem führte.
+Ursache: Die Hauptursache für den Vorfall war ein mangelhaftes Sicherheitsprotokoll, das nicht die neuesten Bedrohungen berücksichtigte. Eine veraltete Softwareversion wurde verwendet, die anfällig für externe Angriffe war, wodurch unbefugter Zugriff auf sensible Daten ermöglicht wurde.
+Maßnahme: Um zukünftige Vorfälle zu verhindern, wird ein umfassendes Update der Sicherheitsinfrastruktur durchgeführt. Zudem wird ein regelmäßiger Schulungsplan für alle Mitarbeiter implementiert, der die besten Praktiken für IT-Sicherheit behandelt und sicherstellt, dass alle Systeme stets auf dem neuesten Stand sind.
+Verantwortlich: Operations Management
+Frist: 2025-06-26",yes,yes,no,no,no,no,no,no,no,yes,no,no,no,PERSON; DATE_TIME,MULTIPLE,2,2,easy,no,none,no,test,yes,openrouter_gpt4o_mini_field,field_llm_v1,no,,,v2,Synthetic document generated for controlled PII training data.,"[{'type': 'PERSON', 'value': 'Carmela Stiebitz', 'confidence': 0.85, 'source': 'presidio', 'start': 94, 'end': 110}, {'type': 'DATE_TIME', 'value': '2025-03-25', 'confidence': 0.6, 'source': 'presidio', 'start': 24, 'end': 34}]","{""PERSON"": 0.9975, ""DATE_TIME"": 0.9702}","['DATE_TIME', 'PERSON']",[],"['PERSON', 'DATE_TIME']",False,True,True,low_cost_llm,potential_pii_evidence,True,0.9997940063476562,confident_pii,False,True,True,0.045466,45.4664,0.925,0.925,yes,no,no,no,no,no,no,no,yes,no,no,no,True,20260909_112021,sweep1_ambiguous_bert,local,bert,distilbert-base-multilingual-cased-v1,not_applicable,local_model,bert_prefilter,gdpr_pii_detection
+SYN-INCIDENT_REPORT-0228,synthetic_incident_report_0228.txt,report,incident_report,de,synthetic_generation,,,synthetic,2026-08-28,2026-08-28,2026-08-28,0,"Vorfallsbericht
+
+Datum: 2025-11-16
+Ort: Weimerweg 5400, 85643 Mainburg
+Typ: Process Deviation
+Beschreibung: Am 16. November 2025 trat eine Abweichung im Prozessablauf auf, die zu einer Verzögerung der Produktionslinie führte. Die Ursache war eine fehlerhafte Materiallieferung an der Adresse Weimerweg 5400, 85643 Mainburg.
+Ursache: Die fehlerhafte Materiallieferung resultierte aus ungenauen Bestellinformationen, die im System hinterlegt waren, was zu einer falschen Charge führte.
+Maßnahme: Die Bestellinformationen wurden aktualisiert und ein zusätzlicher Prüfungsschritt im Lieferprozess implementiert, um zukünftige Abweichungen zu vermeiden. Verantwortlich ist Dipl.-Ing. Gisa Drewes, mit einer Frist bis zum 5. November 2026.
+Verantwortlich: Dipl.-Ing. Gisa Drewes
+Frist: 2026-11-05",yes,yes,no,no,yes,no,no,no,no,no,no,no,no,PERSON; LOCATION,MULTIPLE,2,2,easy,no,none,no,test,yes,openrouter_gpt4o_mini_field,field_llm_v1,no,,,v2,Synthetic document generated for controlled PII training data.,"[{'type': 'LOCATION', 'value': 'Weimerweg', 'confidence': 0.85, 'source': 'presidio', 'start': 40, 'end': 49}, {'type': 'LOCATION', 'value': 'Mainburg', 'confidence': 0.85, 'source': 'presidio', 'start': 62, 'end': 70}, {'type': 'LOCATION', 'value': 'Weimerweg', 'confidence': 0.85, 'source': 'presidio', 'start': 292, 'end': 301}, {'type': 'LOCATION', 'value': 'Mainburg', 'confidence': 0.85, 'source': 'presidio', 'start': 314, 'end': 322}, {'type': 'PERSON', 'value': 'Dipl.-Ing. Gisa Drewes', 'confidence': 0.85, 'source': 'presidio', 'start': 668, 'end': 690}, {'type': 'PERSON', 'value': 'Dipl.-Ing. Gisa Drewes', 'confidence': 0.85, 'source': 'presidio', 'start': 750, 'end': 772}, {'type': 'DATE_TIME', 'value': '2025-11-16', 'confidence': 0.6, 'source': 'presidio', 'start': 24, 'end': 34}, {'type': 'DATE_TIME', 'value': '2026-11-05', 'confidence': 0.6, 'source': 'presidio', 'start': 780, 'end': 790}]","{""PERSON"": 0.9801, ""LOCATION"": 0.9924, ""DATE_TIME"": 0.9424}","['DATE_TIME', 'LOCATION', 'PERSON']",[],"['LOCATION', 'PERSON', 'DATE_TIME']",False,True,True,low_cost_llm,potential_pii_evidence,True,0.9980639815330505,confident_pii,False,True,True,0.045466,45.4664,0.925,0.925,yes,no,no,yes,no,no,no,no,yes,no,no,no,True,20260909_112021,sweep1_ambiguous_bert,local,bert,distilbert-base-multilingual-cased-v1,not_applicable,local_model,bert_prefilter,gdpr_pii_detection
+SYN-INTERNAL_EMAIL-0108,synthetic_internal_email_0108.txt,email,internal_email,de,synthetic_generation,,,synthetic,2026-08-28,2026-08-28,2026-08-28,0,"**Interne Bekanntmachung**
+
+**Betreff:** Follow-up zur vierteljährlichen Planung
+
+**Datum:** 15. August 2026
+
+Liebe Kolleginnen und Kollegen,
+
+ich hoffe, diese Nachricht trifft euch wohl. Im Rahmen unserer kontinuierlichen Bemühungen um Effizienz und Transparenz möchte ich einen kurzen Überblick über die Ergebnisse unserer letzten vierteljährlichen Planungssitzung geben.
+
+In dieser Sitzung haben wir wichtige strategische Ziele für das kommende Quartal festgelegt. Wir konzentrieren uns auf die Optimierung unserer Prozesse in den Bereichen Projektmanagement und Kundenbetreuung. Insbesondere möchten wir sicherstellen, dass alle Abteilungen eng zusammenarbeiten, um die gesteckten Ziele zu erreichen.
+
+Bitte beachtet, dass weitere Details zu spezifischen Projekten und Verantwortlichkeiten in den nächsten Tagen über die jeweiligen Teamleiter kommuniziert werden. Es ist entscheidend, dass wir alle an einem Strang ziehen, um unseren Erfolg sicherzustellen.
+
+Ich danke euch für euer Engagement und eure harte Arbeit. Bei Fragen oder Anregungen stehe ich euch jederzeit zur Verfügung.
+
+Herzliche Grüße,
+
+Ing. Metin Mangold  
+Leiter der Abteilung Planung und Strategie",yes,yes,no,no,no,no,no,no,no,no,no,no,no,PERSON,PERSON,1,1,easy,no,none,no,test,yes,openrouter_gpt4o_mini_document,llm_rewrite_v1,no,,,v2,Synthetic document generated for controlled PII training data.,"[{'type': 'PERSON', 'value': 'Metin Mangold', 'confidence': 0.85, 'source': 'presidio', 'start': 1112, 'end': 1125}]","{""PERSON"": 0.9968, ""DATE_TIME"": 0.9567}",['PERSON'],[],['PERSON'],False,True,False,low_cost_llm,potential_pii_evidence,True,0.9998340010643005,confident_pii,False,True,True,0.045466,45.4664,0.925,0.925,yes,no,no,no,no,no,no,no,yes,no,no,no,True,20260909_112021,sweep1_ambiguous_bert,local,bert,distilbert-base-multilingual-cased-v1,not_applicable,local_model,bert_prefilter,gdpr_pii_detection
+SYN-INVOICE-0068,synthetic_invoice_0068.txt,invoice,invoice,en,synthetic_generation,,,synthetic,2026-08-28,2026-08-28,2026-08-28,0,"Invoice
+
+Supplier: Supplier Organization
+Customer: Customer Organization
+Contact: Central Contact Point
+Invoice Number: REF-7904751
+Invoice Date: 2027-01-14
+Billing Address: Corporate billing address
+Line Items: 1. Product A - 50 units @ 4.00 EUR each - 200.00 EUR
+2. Service B - Consulting hours - 5 hours @ 8.60 EUR each - 43.00 EUR
+3. Shipping and Handling - Flat rate - 0.00 EUR
+
+Total Amount: 243.00 EUR
+
+Tax ID: REF-6888855
+Amount: 243.00 EUR
+Tax Id: REF-6888855
+Payment Details: Payment terms on file",no,no,no,no,no,no,no,no,no,no,no,no,no,,NONE,0,0,easy,no,none,no,test,yes,openrouter_gpt4o_mini_field,field_llm_v1,no,,,v2,Synthetic document generated for controlled PII training data.,"[{'type': 'PERSON', 'value': 'REF-6888855\nPayment Details', 'confidence': 0.85, 'source': 'presidio', 'start': 457, 'end': 484}]",{},['PERSON'],[],['PERSON'],False,True,True,low_cost_llm,potential_pii_evidence,True,0.00022600000374950469,confident_non_pii,False,True,True,0.045466,45.4664,0.925,0.925,no,no,no,no,no,no,no,no,no,no,no,no,False,20260909_112021,sweep1_ambiguous_bert,local,bert,distilbert-base-multilingual-cased-v1,not_applicable,local_model,bert_prefilter,gdpr_pii_detection
+SYN-INVOICE-0121,synthetic_invoice_0121.txt,invoice,invoice,en,synthetic_generation,,,synthetic,2026-08-28,2026-08-28,2026-08-28,0,"Invoice
+
+Supplier: Service Provider
+Customer: Customer Organization
+Contact: Central Contact Point
+Invoice Number: REF-5951420
+Invoice Date: 2026-12-10
+Billing Address: Billing details on file
+Line Items: 1. Consulting Services - Strategic planning consultation for Q4 2026: 300.00 EUR
+2. Software License - Annual subscription for productivity software: 159.00 EUR
+3. Support Services - Technical support for system integration: 0.00 EUR
+Amount: 459.00 EUR
+Tax Id: REF-2493956
+Payment Details: Payment terms on file",no,no,no,no,no,no,no,no,no,no,no,no,no,,NONE,0,0,easy,no,none,no,test,yes,openrouter_gpt4o_mini_field,field_llm_v1,no,,,v2,Synthetic document generated for controlled PII training data.,"[{'type': 'NRP', 'value': 'REF-5951420', 'confidence': 0.85, 'source': 'presidio', 'start': 115, 'end': 126}]",{},['NRP'],[],['NRP'],False,True,True,low_cost_llm,potential_pii_evidence,True,0.00021399999968707561,confident_non_pii,False,True,True,0.045466,45.4664,0.925,0.925,no,no,no,no,no,no,no,no,no,no,no,no,False,20260909_112021,sweep1_ambiguous_bert,local,bert,distilbert-base-multilingual-cased-v1,not_applicable,local_model,bert_prefilter,gdpr_pii_detection
+SYN-INVOICE-0214,synthetic_invoice_0214.txt,invoice,invoice,en,synthetic_generation,,,synthetic,2026-08-28,2026-08-28,2026-08-28,0,"Invoice
+
+Supplier: Supplier Organization
+Customer: Business Client
+Contact: Department Contact
+Invoice Number: REF-2883091
+Invoice Date: 2027-07-13
+Billing Address: Billing details on file
+Line Items: 1. Consultation Services: Professional consultation provided on project management strategies, totaling 85.00 EUR. 2. Training Workshop: Conducted a training workshop for client teams on efficient workflow techniques, amounting to 27.00 EUR.
+Amount: 112.00 EUR
+Tax Id: REF-8277382
+Payment Details: Standard corporate payment process",no,no,no,no,no,no,no,no,no,no,no,no,no,,NONE,0,0,easy,no,none,no,test,yes,openrouter_gpt4o_mini_field,field_llm_v1,no,,,v2,Synthetic document generated for controlled PII training data.,"[{'type': 'PERSON', 'value': 'REF-8277382\nPayment Details', 'confidence': 0.85, 'source': 'presidio', 'start': 470, 'end': 497}]",{},['PERSON'],[],['PERSON'],False,True,True,low_cost_llm,potential_pii_evidence,True,0.0002099999983329326,confident_non_pii,False,True,True,0.045466,45.4664,0.925,0.925,no,no,no,no,no,no,no,no,no,no,no,no,False,20260909_112021,sweep1_ambiguous_bert,local,bert,distilbert-base-multilingual-cased-v1,not_applicable,local_model,bert_prefilter,gdpr_pii_detection
+SYN-IT_ACCESS_REQUEST-0019,synthetic_it_access_request_0019.txt,form,it_access_request,en,synthetic_generation,,,synthetic,2026-08-28,2026-08-28,2026-08-28,0,"It Access Request
+
+Name: Requester details not provided
+Contact: Service Team
+Department: IT
+Manager: Tracie Smith
+System: ServiceNow
+Access Level: Editor
+Justification: The request for access to the ServiceNow system at the Editor level has been made to facilitate ongoing projects within the IT department. This access is essential for maintaining timely updates and ensuring efficient collaboration among team members on critical tasks. However, the justification lacks adequate details regarding specific projects or tasks that require this level of access, which is necessary for approval.
+Reviewer: Access Management
+Comments: For further information regarding this request or for assistance with the access process, please visit http://brooks.com/
+Approval: Rejected
+Approver: Department Manager
+Signature: Signature pending
+Date: 2027-05-31",yes,yes,no,no,no,no,no,no,no,no,no,yes,no,PERSON; URL,MULTIPLE,2,2,easy,no,none,no,test,yes,openrouter_gpt4o_mini_field,field_llm_v1,no,,,v2,Synthetic document generated for controlled PII training data.,"[{'type': 'PERSON', 'value': 'Tracie Smith\nSystem', 'confidence': 0.85, 'source': 'presidio', 'start': 102, 'end': 121}, {'type': 'URL', 'value': 'http://brooks.com/', 'confidence': 0.6, 'source': 'presidio', 'start': 736, 'end': 754}, {'type': 'URL', 'value': 'http://brooks.com', 'confidence': 0.9, 'source': 'custom_regex', 'start': 736, 'end': 753}]","{""PERSON"": 0.9881, ""URL"": 0.9868}","['PERSON', 'URL']",[],"['PERSON', 'URL']",False,True,True,low_cost_llm,potential_pii_evidence,True,0.9982249736785889,confident_pii,False,True,True,0.045466,45.4664,0.925,0.925,yes,no,no,no,no,no,no,no,no,no,yes,no,True,20260909_112021,sweep1_ambiguous_bert,local,bert,distilbert-base-multilingual-cased-v1,not_applicable,local_model,bert_prefilter,gdpr_pii_detection
+SYN-IT_ACCESS_REQUEST-0100,synthetic_it_access_request_0100.txt,form,it_access_request,de,synthetic_generation,,,synthetic,2026-08-28,2026-08-28,2026-08-28,0,"IT-Zugriffsantrag
+
+Name: Antragstellerangaben nicht angegeben
+Kontakt: Abteilungskontakt
+Abteilung: Procurement
+Vorgesetzter: Eric Bauer
+System: SAP S/4HANA
+Zugriffsstufe: Read Only
+Begründung: Zugriff auf SAP S/4HANA ist erforderlich, um die notwendigen Informationen für die Beschaffung effizient abrufen und analysieren zu können.
+Prüfer: IT Security Team
+Kommentare: https://beyer.com/
+Genehmigung: Approved
+Genehmigende Person: Department Manager
+Unterschrift: Unterschrift ausstehend
+Datum: 2027-06-10",yes,yes,no,no,no,no,no,no,no,no,no,yes,no,PERSON; URL,MULTIPLE,2,2,easy,no,none,no,test,yes,openrouter_gpt4o_mini_field,field_llm_v1,no,,,v2,Synthetic document generated for controlled PII training data.,"[{'type': 'LOCATION', 'value': 'Antragstellerangaben', 'confidence': 0.85, 'source': 'presidio', 'start': 25, 'end': 45}, {'type': 'PERSON', 'value': 'Eric Bauer', 'confidence': 0.85, 'source': 'presidio', 'start': 126, 'end': 136}, {'type': 'LOCATION', 'value': '4HANA', 'confidence': 0.85, 'source': 'presidio', 'start': 212, 'end': 217}, {'type': 'URL', 'value': 'https://beyer.com/', 'confidence': 0.6, 'source': 'presidio', 'start': 371, 'end': 389}, {'type': 'URL', 'value': 'https://beyer.com', 'confidence': 0.9, 'source': 'custom_regex', 'start': 371, 'end': 388}]","{""PERSON"": 0.9877, ""URL"": 0.986}","['LOCATION', 'PERSON', 'URL']",[],"['LOCATION', 'PERSON', 'URL']",False,True,True,low_cost_llm,potential_pii_evidence,True,0.9982529878616333,confident_pii,False,True,True,0.045466,45.4664,0.925,0.925,yes,no,no,no,no,no,no,no,no,no,yes,no,True,20260909_112021,sweep1_ambiguous_bert,local,bert,distilbert-base-multilingual-cased-v1,not_applicable,local_model,bert_prefilter,gdpr_pii_detection
+SYN-IT_ACCESS_REQUEST-0163,synthetic_it_access_request_0163.txt,form,it_access_request,en,synthetic_generation,,,synthetic,2026-08-28,2026-08-28,2026-08-28,0,"It Access Request
+
+Name: Charles Cooper
+Contact: Central Contact Point
+Department: Finance
+Manager: Department Manager
+System: ServiceNow
+Access Level: Power User
+Justification: The request for access to ServiceNow is essential for Charles Cooper in his role within the Finance department. He requires Power User access to effectively manage and oversee financial requests and workflows. This access will enable him to streamline processes, enhance reporting capabilities, and ensure compliance with departmental policies. Additionally, it will facilitate better collaboration with other teams, ultimately improving the overall efficiency of financial operations.
+Reviewer: IT Security Team
+Comments: The IT Security Team has reviewed the access request and noted that Charles Cooper has demonstrated a clear need for the requested access level. They recommend approval, pending final confirmation from the Department Manager, as this will significantly aid in the finance team’s operational effectiveness. Further monitoring of access activities is suggested to ensure compliance with security protocols.
+Approval: Pending
+Approver: Department Manager
+Signature: Signature pending
+Date: 2025-05-28",yes,yes,no,no,no,no,no,no,no,no,no,no,no,PERSON,PERSON,1,1,easy,no,none,no,test,yes,openrouter_gpt4o_mini_field,field_llm_v1,no,,,v2,Synthetic document generated for controlled PII training data.,"[{'type': 'PERSON', 'value': 'Charles Cooper\nContact:', 'confidence': 0.85, 'source': 'presidio', 'start': 25, 'end': 48}, {'type': 'PERSON', 'value': 'Charles Cooper', 'confidence': 0.85, 'source': 'presidio', 'start': 232, 'end': 246}, {'type': 'PERSON', 'value': 'Charles Cooper', 'confidence': 0.85, 'source': 'presidio', 'start': 769, 'end': 783}]","{""PERSON"": 0.9976, ""DATE_TIME"": 0.9684}",['PERSON'],[],['PERSON'],False,True,True,low_cost_llm,potential_pii_evidence,True,0.9998400211334229,confident_pii,False,True,True,0.045466,45.4664,0.925,0.925,yes,no,no,no,no,no,no,no,yes,no,no,no,True,20260909_112021,sweep1_ambiguous_bert,local,bert,distilbert-base-multilingual-cased-v1,not_applicable,local_model,bert_prefilter,gdpr_pii_detection
+SYN-MEDICAL_RECORD-0045,synthetic_medical_record_0045.txt,medical_record,medical_record,en,synthetic_generation,,,synthetic,2026-08-28,2026-08-28,2026-08-28,0,"Medical Record
+
+Patient: Patient information withheld
+Date: 2026-01-28
+Provider: Medical Team
+Location: Operations Area
+Reason: Samantha Cain presented with persistent headaches and fatigue, seeking evaluation and management.
+Assessment: The medical team assessed that the symptoms are likely related to stress and possible dehydration. No acute conditions were identified.
+Treatment: Recommended a hydration regimen and stress management techniques. Prescribed a mild analgesic for headache relief as needed.
+Follow Up: Samantha Cain is advised to return in two weeks for a follow-up appointment to monitor symptom progress and response to treatment.
+Notes: Samantha Cain",yes,yes,no,no,no,no,no,no,no,no,no,no,no,PERSON,PERSON,1,1,easy,no,none,no,test,yes,openrouter_gpt4o_mini_field,field_llm_v1,no,,,v2,Synthetic document generated for controlled PII training data.,"[{'type': 'DATE_TIME', 'value': '2026-01-28', 'confidence': 0.95, 'source': 'presidio', 'start': 60, 'end': 70}, {'type': 'PERSON', 'value': 'Samantha Cain', 'confidence': 0.85, 'source': 'presidio', 'start': 128, 'end': 141}, {'type': 'PERSON', 'value': 'Samantha Cain', 'confidence': 0.85, 'source': 'presidio', 'start': 521, 'end': 534}, {'type': 'DATE_TIME', 'value': 'two weeks', 'confidence': 0.85, 'source': 'presidio', 'start': 559, 'end': 568}, {'type': 'PERSON', 'value': 'Samantha Cain', 'confidence': 0.85, 'source': 'presidio', 'start': 659, 'end': 672}]","{""PERSON"": 0.9976, ""DATE_TIME"": 0.9587}","['DATE_TIME', 'PERSON']",[],"['DATE_TIME', 'PERSON']",False,True,False,low_cost_llm,potential_pii_evidence,True,0.9997029900550842,confident_pii,False,True,True,0.045466,45.4664,0.925,0.925,yes,no,no,no,no,no,no,no,yes,no,no,no,True,20260909_112021,sweep1_ambiguous_bert,local,bert,distilbert-base-multilingual-cased-v1,not_applicable,local_model,bert_prefilter,gdpr_pii_detection
+SYN-MEDICAL_RECORD-0139,synthetic_medical_record_0139.txt,medical_record,medical_record,de,synthetic_generation,,,synthetic,2026-08-28,2026-08-28,2026-08-28,0,"Medizinische Dokumentation
+
+Patient: Ewald Bender-Schinke
+Datum: 2026-12-17
+Behandler: Betriebsärztlicher Dienst
+Ort: Adolfine-Radisch-Platz 35/61, 39916 Bad Mergentheim
+Grund: Ewald Bender-Schinke stellte sich mit Beschwerden im Bereich des oberen Bauchraums vor, die seit zwei Wochen bestehen.
+Beurteilung: Klinische Untersuchung ergab eine Druckempfindlichkeit im Epigastrium. Verdacht auf gastrische Beschwerden oder Ulkus.
+Behandlung: Empfohlene diätetische Anpassungen und die Verordnung von Antazida zur Linderung der Symptome.
+Nachsorge: Kontrolltermin in zwei Wochen zur Neubewertung der Symptome und Anpassung der Therapie, falls erforderlich.
+Notizen: Patient wurde über die Bedeutung der Nachsorge und mögliche Warnzeichen informiert. Adresse: Adolfine-Radisch-Platz 35/61, 39916 Bad Mergentheim.",yes,yes,no,no,yes,no,no,no,no,no,no,no,no,PERSON; LOCATION,MULTIPLE,2,2,easy,no,none,no,test,yes,openrouter_gpt4o_mini_field,field_llm_v1,no,,,v2,Synthetic document generated for controlled PII training data.,"[{'type': 'PERSON', 'value': 'Ewald Bender-Schinke', 'confidence': 0.85, 'source': 'presidio', 'start': 37, 'end': 57}, {'type': 'LOCATION', 'value': 'Adolfine-Radisch-Platz', 'confidence': 0.85, 'source': 'presidio', 'start': 118, 'end': 140}, {'type': 'LOCATION', 'value': 'Bad Mergentheim', 'confidence': 0.85, 'source': 'presidio', 'start': 154, 'end': 169}, {'type': 'PERSON', 'value': 'Ewald Bender-Schinke', 'confidence': 0.85, 'source': 'presidio', 'start': 177, 'end': 197}, {'type': 'LOCATION', 'value': 'Epigastrium', 'confidence': 0.85, 'source': 'presidio', 'start': 367, 'end': 378}, {'type': 'LOCATION', 'value': 'Adolfine-Radisch-Platz', 'confidence': 0.85, 'source': 'presidio', 'start': 756, 'end': 778}, {'type': 'LOCATION', 'value': 'Bad Mergentheim', 'confidence': 0.85, 'source': 'presidio', 'start': 792, 'end': 807}, {'type': 'DATE_TIME', 'value': '2026-12-17', 'confidence': 0.6, 'source': 'presidio', 'start': 65, 'end': 75}]","{""PERSON"": 0.9904, ""LOCATION"": 0.9873, ""DATE_TIME"": 0.9452}","['DATE_TIME', 'LOCATION', 'PERSON']",[],"['PERSON', 'LOCATION', 'DATE_TIME']",False,True,True,low_cost_llm,potential_pii_evidence,True,0.9994810223579407,confident_pii,False,True,True,0.045466,45.4664,0.925,0.925,yes,no,no,yes,no,no,no,no,yes,no,no,no,True,20260909_112021,sweep1_ambiguous_bert,local,bert,distilbert-base-multilingual-cased-v1,not_applicable,local_model,bert_prefilter,gdpr_pii_detection
+SYN-MEDICAL_RECORD-0222,synthetic_medical_record_0222.txt,medical_record,medical_record,de,synthetic_generation,,,synthetic,2026-08-28,2026-08-28,2026-08-28,0,"Medizinische Dokumentation
+
+Patient: Dr. Volkmar Geißler B.Eng.
+Datum: 2025-03-21
+Behandler: Medizinische Fachabteilung
+Ort: Hauptstandort
+Grund: Patient klagt über anhaltende Rückenschmerzen, die seit zwei Wochen bestehen.
+Beurteilung: Untersuchung zeigt muskuläre Verspannungen im Lendenbereich. Keine neurologischen Ausfälle festgestellt.
+Behandlung: Physiotherapie empfohlen, um die Muskulatur zu entspannen. Einnahme von Schmerzmitteln bei Bedarf.
+Nachsorge: 2024-02-16
+Notizen: Patient wird gebeten, ein Schmerztagebuch zu führen. Überprüfung der Symptome im nächsten Termin.",yes,yes,no,no,no,no,no,no,no,yes,no,no,no,PERSON; DATE_TIME,MULTIPLE,2,2,easy,no,none,no,test,yes,openrouter_gpt4o_mini_field,field_llm_v1,no,,,v2,Synthetic document generated for controlled PII training data.,"[{'type': 'PERSON', 'value': 'Volkmar Geißler', 'confidence': 0.85, 'source': 'presidio', 'start': 41, 'end': 56}, {'type': 'DATE_TIME', 'value': '2025-03-21', 'confidence': 0.6, 'source': 'presidio', 'start': 71, 'end': 81}]","{""PERSON"": 0.9979, ""DATE_TIME"": 0.9719}","['DATE_TIME', 'PERSON']",[],"['PERSON', 'DATE_TIME']",False,True,True,low_cost_llm,potential_pii_evidence,True,0.9998270273208618,confident_pii,False,True,True,0.045466,45.4664,0.925,0.925,yes,no,no,no,no,no,no,no,yes,no,no,no,True,20260909_112021,sweep1_ambiguous_bert,local,bert,distilbert-base-multilingual-cased-v1,not_applicable,local_model,bert_prefilter,gdpr_pii_detection
+SYN-MEETING_NOTES-0006,synthetic_meeting_notes_0006.txt,meeting_notes,meeting_notes,en,synthetic_generation,,,synthetic,2026-08-28,2026-08-28,2026-08-28,0,"Meeting Notes
+
+Title: IT Department Weekly Sync
+Date: 2027-05-21
+Location: IT Department
+Participants: Working Group
+Contact: Department Contact
+Agenda: 1. Project Updates
+2. Resource Allocation
+3. Upcoming Deadlines
+4. Feedback Session
+Discussion: We reviewed project statuses:
+- Team A is on track with their deliverables.
+- Team B needs more resources; they’re behind schedule.
+- Discussed potential collaboration between teams for efficiency.
+- Shared feedback on the new software tool; some bugs reported.
+Decisions: 1. Allocate two additional developers to Team B.
+2. Schedule a follow-up meeting to address software tool issues next week.
+Action Items: 1. Team leads to provide updated timelines by end of the week.
+2. IT support to prioritize bug fixes on the software tool.
+3. Next meeting to be scheduled for May 28, 2027.",no,no,no,no,no,no,no,no,no,no,no,no,no,,NONE,0,0,easy,no,none,no,test,yes,openrouter_gpt4o_mini_field,field_llm_v1,no,,,v2,Synthetic document generated for controlled PII training data.,"[{'type': 'DATE_TIME', 'value': '2027-05-21', 'confidence': 0.95, 'source': 'presidio', 'start': 54, 'end': 64}, {'type': 'PERSON', 'value': 'Weekly Sync', 'confidence': 0.85, 'source': 'presidio', 'start': 36, 'end': 47}, {'type': 'PERSON', 'value': 'Team B.\n2', 'confidence': 0.85, 'source': 'presidio', 'start': 563, 'end': 572}, {'type': 'DATE_TIME', 'value': 'next week', 'confidence': 0.85, 'source': 'presidio', 'start': 635, 'end': 644}]",{},"['DATE_TIME', 'PERSON']",[],"['DATE_TIME', 'PERSON']",False,True,True,low_cost_llm,potential_pii_evidence,True,0.0002119999990100041,confident_non_pii,False,True,True,0.045466,45.4664,0.925,0.925,no,no,no,no,no,no,no,no,no,no,no,no,False,20260909_112021,sweep1_ambiguous_bert,local,bert,distilbert-base-multilingual-cased-v1,not_applicable,local_model,bert_prefilter,gdpr_pii_detection
+SYN-MEETING_NOTES-0112,synthetic_meeting_notes_0112.txt,meeting_notes,meeting_notes,de,synthetic_generation,,,synthetic,2026-08-28,2026-08-28,2026-08-28,0,"Besprechungsnotizen
+
+Titel: Entscheidungsprotokoll des Projektteams
+Datum: 2027-04-01
+Ort: Hauptstandort
+Teilnehmer: Projektteam
+Kontakt: Zentrale Kontaktstelle
+Agenda: 1. Statusupdate der aktuellen Projekte 2. Diskussion über Ressourcenplanung 3. Festlegung der nächsten Schritte
+Diskussion: Das Projektteam hat die Fortschritte der aktuellen Projekte besprochen. Es wurde festgestellt, dass die Ressourcenplanung optimiert werden muss, um Engpässe zu vermeiden. Zudem wurde die Notwendigkeit betont, klare Verantwortlichkeiten für die nächsten Schritte zu definieren.
+Entscheidungen: Das Projektteam hat beschlossen, dass die Ressourcenplanung bis zum 15. April 2027 überarbeitet werden muss. Außerdem wurden die Projektziele für das zweite Quartal 2027 festgelegt.
+Aufgaben: 1. Verantwortlicher für die Überarbeitung der Ressourcenplanung: Max Müller 2. Erstellung eines detaillierten Berichts über die Projektziele bis zum 10. April 2027: Lisa Schmidt 3. Nächstes Treffen zur Überprüfung der Fortschritte: 20. April 2027",no,no,no,no,no,no,no,no,no,no,no,no,no,,NONE,0,0,easy,no,none,no,test,yes,openrouter_gpt4o_mini_field,field_llm_v1,no,,,v2,Synthetic document generated for controlled PII training data.,"[{'type': 'PERSON', 'value': 'Max Müller', 'confidence': 0.85, 'source': 'presidio', 'start': 843, 'end': 853}, {'type': 'PERSON', 'value': 'Lisa Schmidt', 'confidence': 0.85, 'source': 'presidio', 'start': 943, 'end': 955}]",{},['PERSON'],[],['PERSON'],False,True,False,low_cost_llm,potential_pii_evidence,True,0.00025599999935366213,confident_non_pii,False,True,True,0.045466,45.4664,0.925,0.925,no,no,no,no,no,no,no,no,no,no,no,no,False,20260909_112021,sweep1_ambiguous_bert,local,bert,distilbert-base-multilingual-cased-v1,not_applicable,local_model,bert_prefilter,gdpr_pii_detection
+SYN-MEETING_NOTES-0118,synthetic_meeting_notes_0118.txt,meeting_notes,meeting_notes,en,synthetic_generation,,,synthetic,2026-08-28,2026-08-28,2026-08-28,0,"Meeting Notes
+
+Title: Decisions from the December 2025 Service Team Meeting
+Date: 2025-12-18
+Location: Main Office
+Participants: Julie Simmons
+Contact: Service Team
+Agenda: 1. Review of current service initiatives
+2. Identification of key decision points
+3. Assignment of action items for follow-up
+Discussion: During the meeting, Julie Simmons led a review of the ongoing service initiatives. The team discussed the progress made on customer feedback implementation and the impact on service delivery. Key decision points were highlighted, particularly around resources needed for upcoming projects. The importance of timely follow-up on action items was emphasized to ensure continuity and accountability.
+Decisions: The team decided to allocate additional resources to the customer feedback project, with Julie Simmons as the owner responsible for overseeing the implementation. It was agreed that a follow-up meeting would be scheduled for January 2026 to assess progress.
+Action Items: 1. Julie Simmons will prepare a resource allocation plan by December 30, 2025.
+2. Schedule the follow-up meeting for January 2026 to review progress on the customer feedback project.",yes,yes,no,no,no,no,no,no,no,no,no,no,no,PERSON,PERSON,1,1,easy,no,none,no,test,yes,openrouter_gpt4o_mini_field,field_llm_v1,no,,,v2,Synthetic document generated for controlled PII training data.,"[{'type': 'DATE_TIME', 'value': '2025-12-18', 'confidence': 0.95, 'source': 'presidio', 'start': 82, 'end': 92}, {'type': 'DATE_TIME', 'value': 'December', 'confidence': 0.85, 'source': 'presidio', 'start': 41, 'end': 49}, {'type': 'PERSON', 'value': 'Julie Simmons', 'confidence': 0.85, 'source': 'presidio', 'start': 129, 'end': 142}, {'type': 'PERSON', 'value': 'Julie Simmons', 'confidence': 0.85, 'source': 'presidio', 'start': 331, 'end': 344}, {'type': 'PERSON', 'value': 'Julie Simmons', 'confidence': 0.85, 'source': 'presidio', 'start': 808, 'end': 821}, {'type': 'DATE_TIME', 'value': 'January 2026', 'confidence': 0.85, 'source': 'presidio', 'start': 944, 'end': 956}, {'type': 'PERSON', 'value': 'Julie Simmons', 'confidence': 0.85, 'source': 'presidio', 'start': 994, 'end': 1007}, {'type': 'DATE_TIME', 'value': 'December 30, 2025', 'confidence': 0.85, 'source': 'presidio', 'start': 1051, 'end': 1068}, {'type': 'DATE_TIME', 'value': 'January 2026', 'confidence': 0.85, 'source': 'presidio', 'start': 1108, 'end': 1120}]","{""PERSON"": 0.9964, ""DATE_TIME"": 0.979}","['DATE_TIME', 'PERSON']",[],"['DATE_TIME', 'PERSON']",False,True,False,low_cost_llm,potential_pii_evidence,True,0.9996280074119568,confident_pii,False,True,True,0.045466,45.4664,0.925,0.925,yes,no,no,no,no,no,no,no,yes,no,no,no,True,20260909_112021,sweep1_ambiguous_bert,local,bert,distilbert-base-multilingual-cased-v1,not_applicable,local_model,bert_prefilter,gdpr_pii_detection
+SYN-MEETING_NOTES-0126,synthetic_meeting_notes_0126.txt,meeting_notes,meeting_notes,de,synthetic_generation,,,synthetic,2026-08-28,2026-08-28,2026-08-28,0,"Besprechungsnotizen
+
+Titel: Entscheidungen aus dem Projektteam-Meeting
+Datum: 2025-04-24
+Ort: Hauptstandort
+Teilnehmer: Projektteam
+Kontakt: Abteilungskontakt
+Agenda: Besprechung der aktuellen Projektfortschritte, Identifikation von Herausforderungen und Festlegung von nächsten Schritten.
+Diskussion: Im Meeting wurden die Fortschritte des Projekts erörtert, insbesondere die Herausforderungen bei der Implementierung neuer Funktionen. Es wurde festgestellt, dass einige Teammitglieder zusätzliche Unterstützung benötigen, um bestimmte Aufgaben fristgerecht abzuschließen. Die Bedeutung einer klaren Kommunikation wurde hervorgehoben, um Missverständnisse zu vermeiden.
+Entscheidungen: Es wurde entschieden, dass das Team wöchentliche Statusupdates einführen wird, um den Fortschritt besser zu überwachen. Zudem soll ein zusätzliches Meeting in der nächsten Woche stattfinden, um die spezifischen Herausforderungen zu besprechen.
+Aufgaben: 1. Max Müller wird die wöchentlichen Statusupdates organisieren. 2. Sarah Schmidt wird die Agenda für das nächste Meeting vorbereiten. 3. Alle Teammitglieder sollen bis Ende der Woche ihre aktuellen Aufgaben und Herausforderungen an das Projektteam kommunizieren.",no,no,no,no,no,no,no,no,no,no,no,no,no,,NONE,0,0,easy,no,none,no,test,yes,openrouter_gpt4o_mini_field,field_llm_v1,no,,,v2,Synthetic document generated for controlled PII training data.,"[{'type': 'LOCATION', 'value': 'Projektteam-Meeting', 'confidence': 0.85, 'source': 'presidio', 'start': 51, 'end': 70}, {'type': 'PERSON', 'value': 'Max Müller', 'confidence': 0.85, 'source': 'presidio', 'start': 944, 'end': 954}, {'type': 'PERSON', 'value': 'Sarah Schmidt', 'confidence': 0.85, 'source': 'presidio', 'start': 1009, 'end': 1022}, {'type': 'DATE_TIME', 'value': '2025-04-24', 'confidence': 0.6, 'source': 'presidio', 'start': 78, 'end': 88}]",{},"['DATE_TIME', 'LOCATION', 'PERSON']",[],"['LOCATION', 'PERSON', 'DATE_TIME']",False,True,False,low_cost_llm,potential_pii_evidence,True,0.0002099999983329326,confident_non_pii,False,True,True,0.045466,45.4664,0.925,0.925,no,no,no,no,no,no,no,no,no,no,no,no,False,20260909_112021,sweep1_ambiguous_bert,local,bert,distilbert-base-multilingual-cased-v1,not_applicable,local_model,bert_prefilter,gdpr_pii_detection
+SYN-MEETING_NOTES-0141,synthetic_meeting_notes_0141.txt,meeting_notes,meeting_notes,en,synthetic_generation,,,synthetic,2026-08-28,2026-08-28,2026-08-28,0,"Meeting Notes
+
+Title: IT Department Strategy Alignment Meeting
+Date: 2027-07-29
+Location: IT Department
+Participants: Department Representatives
+Contact: Central Contact Point
+Agenda: 1. Review current project statuses
+2. Discuss upcoming initiatives
+3. Assign ownership for new tasks
+Discussion: The meeting commenced with a review of the ongoing projects. Each representative provided updates, highlighting successes and areas needing improvement. There was a thorough discussion on the upcoming initiatives that align with the department's strategic goals, focusing on resource allocation and timeline expectations. The importance of collaboration across teams was emphasized to ensure all initiatives are successfully executed.
+Decisions: It was decided to prioritize the development of the new project management tool and to allocate additional resources to the cybersecurity initiative. Additionally, each team will submit a weekly progress report to maintain transparency and accountability.
+Action Items: 1. John Smith will lead the development of the project management tool by August 15.
+2. Sarah Johnson is tasked with enhancing the cybersecurity initiative and will report back on progress by August 22.
+3. All teams are to submit their weekly progress reports starting next week.",no,no,no,no,no,no,no,no,no,no,no,no,no,,NONE,0,0,easy,no,none,no,test,yes,openrouter_gpt4o_mini_field,field_llm_v1,no,,,v2,Synthetic document generated for controlled PII training data.,"[{'type': 'DATE_TIME', 'value': 'weekly', 'confidence': 0.85, 'source': 'presidio', 'start': 931, 'end': 937}, {'type': 'PERSON', 'value': 'John Smith', 'confidence': 0.85, 'source': 'presidio', 'start': 1016, 'end': 1026}, {'type': 'DATE_TIME', 'value': 'August 15', 'confidence': 0.85, 'source': 'presidio', 'start': 1087, 'end': 1096}, {'type': 'PERSON', 'value': 'Sarah Johnson', 'confidence': 0.85, 'source': 'presidio', 'start': 1101, 'end': 1114}, {'type': 'DATE_TIME', 'value': 'August 22', 'confidence': 0.85, 'source': 'presidio', 'start': 1205, 'end': 1214}, {'type': 'DATE_TIME', 'value': 'weekly', 'confidence': 0.85, 'source': 'presidio', 'start': 1249, 'end': 1255}, {'type': 'DATE_TIME', 'value': 'next week', 'confidence': 0.85, 'source': 'presidio', 'start': 1282, 'end': 1291}]",{},"['DATE_TIME', 'PERSON']",[],"['DATE_TIME', 'PERSON']",False,True,False,low_cost_llm,potential_pii_evidence,True,0.00021300000662449747,confident_non_pii,False,True,True,0.045466,45.4664,0.925,0.925,no,no,no,no,no,no,no,no,no,no,no,no,False,20260909_112021,sweep1_ambiguous_bert,local,bert,distilbert-base-multilingual-cased-v1,not_applicable,local_model,bert_prefilter,gdpr_pii_detection
+SYN-MEETING_NOTES-0161,synthetic_meeting_notes_0161.txt,meeting_notes,meeting_notes,en,synthetic_generation,,,synthetic,2026-08-28,2026-08-28,2026-08-28,0,"Meeting Notes
+
+Title: IT Department Weekly Project Review
+Date: 2024-10-24
+Location: IT Department
+Participants: Joshua Jennings
+Contact: Service Team
+Agenda: 1. Review of current project statuses
+2. Discussion of upcoming deadlines
+3. Addressing challenges faced by team members
+4. Planning for next week's tasks
+Discussion: The meeting commenced with Joshua Jennings presenting the current status of ongoing projects within the IT Department. Each project team provided updates, highlighting progress and any obstacles encountered. The team discussed the approaching deadlines for the software deployment scheduled for November 15, 2024, and reviewed the necessary adjustments to meet these timelines. Challenges related to resource allocation and inter-departmental communications were addressed, with team members encouraged to voice any additional concerns.
+Decisions: It was decided that a follow-up meeting will be scheduled for November 7, 2024, to ensure all teams are on track for the upcoming software deployment. Additionally, it was agreed that a dedicated channel will be established for real-time updates on project challenges.
+Action Items: 1. Joshua Jennings will coordinate the setup of the new communication channel by October 31, 2024.
+2. Each project team is to submit a revised timeline for their respective tasks by November 3, 2024.
+3. All team members are to prepare a brief summary of their current challenges for discussion at the next meeting.",yes,yes,no,no,no,no,no,no,no,yes,no,no,no,PERSON; DATE_TIME,MULTIPLE,2,2,easy,no,none,no,test,yes,openrouter_gpt4o_mini_field,field_llm_v1,no,,,v2,Synthetic document generated for controlled PII training data.,"[{'type': 'DATE_TIME', 'value': '2024-10-24', 'confidence': 0.95, 'source': 'presidio', 'start': 64, 'end': 74}, {'type': 'PERSON', 'value': 'Joshua Jennings', 'confidence': 0.85, 'source': 'presidio', 'start': 113, 'end': 128}, {'type': 'DATE_TIME', 'value': ""next week's"", 'confidence': 0.85, 'source': 'presidio', 'start': 296, 'end': 307}, {'type': 'PERSON', 'value': 'Joshua Jennings', 'confidence': 0.85, 'source': 'presidio', 'start': 353, 'end': 368}, {'type': 'PERSON', 'value': 'Joshua Jennings', 'confidence': 0.85, 'source': 'presidio', 'start': 1160, 'end': 1175}, {'type': 'DATE_TIME', 'value': 'October 31, 2024', 'confidence': 0.85, 'source': 'presidio', 'start': 1238, 'end': 1254}, {'type': 'DATE_TIME', 'value': 'November 3, 2024', 'confidence': 0.85, 'source': 'presidio', 'start': 1339, 'end': 1355}]","{""PERSON"": 0.9965, ""DATE_TIME"": 0.9815}","['DATE_TIME', 'PERSON']",[],"['DATE_TIME', 'PERSON']",False,True,False,low_cost_llm,potential_pii_evidence,True,0.9996510148048401,confident_pii,False,True,True,0.045466,45.4664,0.925,0.925,yes,no,no,no,no,no,no,no,yes,no,no,no,True,20260909_112021,sweep1_ambiguous_bert,local,bert,distilbert-base-multilingual-cased-v1,not_applicable,local_model,bert_prefilter,gdpr_pii_detection
+SYN-MEETING_NOTES-0207,synthetic_meeting_notes_0207.txt,meeting_notes,meeting_notes,de,synthetic_generation,,,synthetic,2026-08-28,2026-08-28,2026-08-28,0,"Besprechungsnotizen
+
+Titel: Entscheidungen zur Projektumsetzung
+Datum: 2025-11-10
+Ort: IT-Abteilung
+Teilnehmer: Projektteam
+Kontakt: Zentrale Kontaktstelle
+Agenda: Besprechung der aktuellen Fortschritte und Festlegung weiterer Schritte.
+Diskussion: Im Rahmen der Sitzung hat das Projektteam die bisherigen Fortschritte bei der Umsetzung des Projekts bewertet. Es wurden mehrere Herausforderungen identifiziert, darunter Verzögerungen bei der Softwareentwicklung und benötigte Ressourcen für die nächsten Phasen. Die Teilnehmer haben Vorschläge zur Optimierung der Arbeitsabläufe diskutiert, wobei der Schwerpunkt auf der Verbesserung der Kommunikation zwischen den Abteilungen lag.
+Entscheidungen: Es wurde beschlossen, die Frist für die nächsten Meilensteine um zwei Wochen zu verlängern, um den Entwicklungsprozess nicht zu behindern. Zudem wurde ein wöchentlicher Statusbericht eingeführt, um die Fortschritte besser überwachen zu können.
+Aufgaben: 1. Max Müller wird die aktualisierten Fristen im Projektplan einpflegen. 2. Sarah Schmidt übernimmt die Verantwortung für die Erstellung des ersten wöchentlichen Statusberichts. 3. Das Team wird ein Follow-up-Meeting in einer Woche ansetzen, um den Fortschritt zu überprüfen.",no,no,no,no,no,no,no,no,no,no,no,no,no,,NONE,0,0,easy,no,none,no,test,yes,openrouter_gpt4o_mini_field,field_llm_v1,no,,,v2,Synthetic document generated for controlled PII training data.,"[{'type': 'PERSON', 'value': 'Max Müller', 'confidence': 0.85, 'source': 'presidio', 'start': 955, 'end': 965}, {'type': 'PERSON', 'value': 'Sarah Schmidt', 'confidence': 0.85, 'source': 'presidio', 'start': 1028, 'end': 1041}]",{},['PERSON'],[],['PERSON'],False,True,False,low_cost_llm,potential_pii_evidence,True,0.0002099999983329326,confident_non_pii,False,True,True,0.045466,45.4664,0.925,0.925,no,no,no,no,no,no,no,no,no,no,no,no,False,20260909_112021,sweep1_ambiguous_bert,local,bert,distilbert-base-multilingual-cased-v1,not_applicable,local_model,bert_prefilter,gdpr_pii_detection
+SYN-MEETING_NOTES-0217,synthetic_meeting_notes_0217.txt,meeting_notes,meeting_notes,de,synthetic_generation,,,synthetic,2026-08-28,2026-08-28,2026-08-28,0,"Besprechungsnotizen
+
+Titel: Entscheidungen zur Optimierung des Lagerbetriebs
+Datum: 2024-10-17
+Ort: Lagerbereich
+Teilnehmer: Arbeitsgruppe
+Kontakt: Zentrale Kontaktstelle
+Agenda: 1. Begrüßung und Einführung
+2. Vorstellung der aktuellen Lagerkennzahlen
+3. Diskussion über Optimierungsmöglichkeiten
+4. Festlegung von Maßnahmen und Verantwortlichkeiten
+5. Abschluss und nächste Schritte
+Diskussion: Die Teilnehmer haben die aktuellen Lagerkennzahlen analysiert und verschiedene Optimierungsmöglichkeiten erörtert. Es wurden Herausforderungen im Bereich der Bestandsführung identifiziert, die durch den Einsatz neuer Technologien und verbesserte Prozesse angegangen werden können. Die Wichtigkeit der Schulung des Personals wurde ebenfalls hervorgehoben, um eine reibungslose Implementierung der neuen Systeme zu gewährleisten.
+Entscheidungen: Es wurde beschlossen, die Implementierung eines neuen Lagerverwaltungssystems zu priorisieren, um die Effizienz zu steigern. Zudem wurde die Schulung des Lagerpersonals als entscheidend angesehen, um die Akzeptanz der neuen Technologien zu fördern.
+Aufgaben: 1. Verantwortlicher: Max Müller – Recherche und Auswahl eines geeigneten Lagerverwaltungssystems bis zum 31.10.2024.
+2. Verantwortlicher: Anna Schmidt – Entwicklung eines Schulungsplans für das Lagerpersonal bis zum 15.11.2024.",no,no,no,no,no,no,no,no,no,no,no,no,no,,NONE,0,0,easy,no,none,no,test,yes,openrouter_gpt4o_mini_field,field_llm_v1,no,,,v2,Synthetic document generated for controlled PII training data.,"[{'type': 'LOCATION', 'value': 'Lagerpersonals', 'confidence': 0.85, 'source': 'presidio', 'start': 994, 'end': 1008}, {'type': 'PERSON', 'value': 'Max Müller', 'confidence': 0.85, 'source': 'presidio', 'start': 1120, 'end': 1130}, {'type': 'PERSON', 'value': 'Anna Schmidt', 'confidence': 0.85, 'source': 'presidio', 'start': 1237, 'end': 1249}, {'type': 'LOCATION', 'value': 'Lagerpersonal', 'confidence': 0.85, 'source': 'presidio', 'start': 1293, 'end': 1306}, {'type': 'LOCATION', 'value': '15.11.2024.', 'confidence': 0.85, 'source': 'presidio', 'start': 1315, 'end': 1326}, {'type': 'DATE_TIME', 'value': '31.10.2024', 'confidence': 0.6, 'source': 'presidio', 'start': 1204, 'end': 1214}, {'type': 'DATE_TIME', 'value': '15.11.2024', 'confidence': 0.6, 'source': 'presidio', 'start': 1315, 'end': 1325}]",{},"['DATE_TIME', 'LOCATION', 'PERSON']",[],"['LOCATION', 'PERSON', 'DATE_TIME']",False,True,False,low_cost_llm,potential_pii_evidence,True,0.0003480000013951212,confident_non_pii,False,True,True,0.045466,45.4664,0.925,0.925,no,no,no,no,no,no,no,no,no,no,no,no,False,20260909_112021,sweep1_ambiguous_bert,local,bert,distilbert-base-multilingual-cased-v1,not_applicable,local_model,bert_prefilter,gdpr_pii_detection
+SYN-MEETING_NOTES-0232,synthetic_meeting_notes_0232.txt,meeting_notes,meeting_notes,de,synthetic_generation,,,synthetic,2026-08-28,2026-08-28,2026-08-28,0,"Besprechungsnotizen
+
+Titel: Protokoll der Abteilungsbesprechung vom 15. April 2027
+Datum: 2027-04-15
+Ort: Lagerbereich
+Teilnehmer: Abteilungsvertretungen
+Kontakt: Abteilungskontakt
+Agenda: 1. Begrüßung und Feststellung der Beschlussfähigkeit
+2. Genehmigung des letzten Protokolls
+3. Aktuelle Themen im Lagerbereich
+4. Maßnahmen zur Effizienzsteigerung
+5. Verschiedenes
+Diskussion: Die Sitzung wurde um 10:00 Uhr von der Vorsitzenden eröffnet. Nach der Feststellung der Beschlussfähigkeit wurde das Protokoll der letzten Sitzung genehmigt. Im Rahmen des Punktes zu aktuellen Themen im Lagerbereich wurde die Notwendigkeit einer Überprüfung der Lagerbestände angesprochen, um Engpässe zu vermeiden. Des Weiteren wurde diskutiert, wie die Effizienz im Lagerbereich durch optimierte Arbeitsabläufe gesteigert werden kann. Verschiedene Vorschläge zur Implementierung von neuen Softwarelösungen wurden vorgestellt und deren Vor- und Nachteile erörtert.
+Entscheidungen: Es wurde beschlossen, eine Arbeitsgruppe zu bilden, die bis zur nächsten Sitzung konkrete Vorschläge zur Effizienzsteigerung im Lagerbereich ausarbeiten soll. Darüber hinaus wurde die Überprüfung der Lagerbestände bis Ende April 2027 als dringlich eingestuft.
+Aufgaben: 1. Bildung einer Arbeitsgruppe zur Effizienzsteigerung, verantwortlich: Herr Müller, bis zum 30. April 2027.
+2. Durchführung der Lagerbestandsüberprüfung, verantwortlich: Frau Schmidt, bis zum 28. April 2027.",no,no,no,no,no,no,no,no,no,no,no,no,no,,NONE,0,0,easy,no,none,no,test,yes,openrouter_gpt4o_mini_field,field_llm_v1,no,,,v2,Synthetic document generated for controlled PII training data.,"[{'type': 'PERSON', 'value': 'Herr Müller', 'confidence': 0.85, 'source': 'presidio', 'start': 1305, 'end': 1316}, {'type': 'PERSON', 'value': 'Frau Schmidt', 'confidence': 0.85, 'source': 'presidio', 'start': 1404, 'end': 1416}]",{},['PERSON'],[],['PERSON'],False,True,True,low_cost_llm,potential_pii_evidence,True,0.000615999975707382,confident_non_pii,False,True,True,0.045466,45.4664,0.925,0.925,no,no,no,no,no,no,no,no,no,no,no,no,False,20260909_112021,sweep1_ambiguous_bert,local,bert,distilbert-base-multilingual-cased-v1,not_applicable,local_model,bert_prefilter,gdpr_pii_detection
+SYN-PASSPORT_RECORD-0199,synthetic_passport_record_0199.txt,identity_record,passport_record,de,synthetic_generation,,,synthetic,2026-08-28,2026-08-28,2026-08-28,0,"Identitätsprüfung
+
+Inhaber: Walter Kensy-Schönland
+Passnummer: Dokumentennummer nicht verfügbar
+Nationalität: Nationalität nicht angegeben
+Geburtsdatum: 2024-03-23
+Ausstellungsdatum: 2026-08-28
+Ablaufdatum: 2036-08-25
+Prüfstatus: Ausstehend",yes,yes,no,no,no,no,no,no,no,yes,no,no,no,PERSON; DATE_TIME,MULTIPLE,2,2,easy,no,none,no,test,yes,faker_archetype_v1,template_v1,no,,,v2,Synthetic document generated for controlled PII training data.,"[{'type': 'PERSON', 'value': 'Walter Kensy-Schönland', 'confidence': 0.85, 'source': 'presidio', 'start': 28, 'end': 50}, {'type': 'DATE_TIME', 'value': '2024-03-23', 'confidence': 0.6, 'source': 'presidio', 'start': 153, 'end': 163}, {'type': 'DATE_TIME', 'value': '2026-08-28', 'confidence': 0.6, 'source': 'presidio', 'start': 183, 'end': 193}, {'type': 'DATE_TIME', 'value': '2036-08-25', 'confidence': 0.6, 'source': 'presidio', 'start': 207, 'end': 217}]","{""PERSON"": 0.9982, ""DATE_TIME"": 0.9807}","['DATE_TIME', 'PERSON']",[],"['PERSON', 'DATE_TIME']",False,True,True,low_cost_llm,potential_pii_evidence,True,0.9998499751091003,confident_pii,False,True,True,0.045466,45.4664,0.925,0.925,yes,no,no,no,no,no,no,no,yes,no,no,no,True,20260909_112021,sweep1_ambiguous_bert,local,bert,distilbert-base-multilingual-cased-v1,not_applicable,local_model,bert_prefilter,gdpr_pii_detection
+SYN-SUPPLIER_ONBOARDING-0227,synthetic_supplier_onboarding_0227.txt,form,supplier_onboarding,de,synthetic_generation,,,synthetic,2026-08-28,2026-08-28,2026-08-28,0,"Lieferantenaufnahme
+
+Unternehmen: Lieferantenorganisation
+Adresse: Geschäftsadresse nicht angegeben
+Kontakt: Saban Heydrich
+Steuernummer: REF-1126006
+Certification: Supplier Code of Conduct
+Risk Level: Low
+Zahlungsdaten: Zahlungsbedingungen hinterlegt
+Prüfer: Procurement Team
+Kommentare: Die Überprüfung der Lieferantenorganisation verlief reibungslos. Saban Heydrich hat alle erforderlichen Unterlagen eingereicht und die Einhaltung des Supplier Code of Conduct bestätigt. Die Risikobewertung wurde als niedrig eingestuft, was positiv für die zukünftige Zusammenarbeit ist.
+Genehmigung: Approved
+Notizen: Die Zahlungsbedingungen wurden erfolgreich hinterlegt. Es wird empfohlen, regelmäßig den Kontakt zu Saban Heydrich aufrechtzuerhalten, um mögliche zukünftige Herausforderungen frühzeitig zu erkennen und zu adressieren. Die dänische Herkunft des Unternehmens könnte auch potenzielle Vorteile in der Zusammenarbeit mit skandinavischen Märkten bieten.
+Nationalität: dänisch
+Ausweisnummer: REF-8610916",yes,yes,no,no,no,no,no,no,yes,no,no,no,no,PERSON; NRP,MULTIPLE,2,2,easy,no,none,no,test,yes,openrouter_gpt4o_mini_field,field_llm_v1,no,,,v2,Synthetic document generated for controlled PII training data.,"[{'type': 'PERSON', 'value': 'Saban Heydrich', 'confidence': 0.85, 'source': 'presidio', 'start': 109, 'end': 123}, {'type': 'PERSON', 'value': 'Saban Heydrich', 'confidence': 0.85, 'source': 'presidio', 'start': 354, 'end': 368}, {'type': 'PERSON', 'value': 'Saban Heydrich', 'confidence': 0.85, 'source': 'presidio', 'start': 707, 'end': 721}, {'type': 'NRP', 'value': 'dänisch', 'confidence': 0.9, 'source': 'custom_regex', 'start': 970, 'end': 977}]","{""PERSON"": 0.9978}","['NRP', 'PERSON']",[],"['PERSON', 'NRP']",False,True,True,low_cost_llm,potential_pii_evidence,True,0.9998310208320618,confident_pii,False,True,True,0.045466,45.4664,0.925,0.925,yes,no,no,no,no,no,no,no,no,no,no,no,True,20260909_112021,sweep1_ambiguous_bert,local,bert,distilbert-base-multilingual-cased-v1,not_applicable,local_model,bert_prefilter,gdpr_pii_detection
+SYN-TRAINING_EVALUATION-0064,synthetic_training_evaluation_0064.txt,form,training_evaluation,en,synthetic_generation,,,synthetic,2026-08-28,2026-08-28,2026-08-28,0,"Training Evaluation
+
+Participant: Jacob Burke
+Contact: Service Team
+Course: Data Protection Essentials
+Date: 2025-07-07
+Content: The Data Protection Essentials course provided valuable insights into compliance requirements and best practices for handling personal data. Jacob Burke found the materials very engaging and relevant to everyday operations. The interactive elements enhanced understanding and retention of the subject matter. Overall, a beneficial experience for all participants.
+Trainer: Internal Training Team
+Material: Very Good
+Comments: https://www.jordan-brady.com/
+Recommendation: It would be helpful to include more case studies in future sessions to illustrate real-world applications of data protection principles.",yes,yes,no,no,no,no,no,no,no,no,no,yes,no,PERSON; URL,MULTIPLE,2,2,easy,no,none,no,test,yes,openrouter_gpt4o_mini_field,field_llm_v1,no,,,v2,Synthetic document generated for controlled PII training data.,"[{'type': 'DATE_TIME', 'value': '2025-07-07', 'confidence': 0.95, 'source': 'presidio', 'start': 109, 'end': 119}, {'type': 'PERSON', 'value': 'Jacob Burke\nContact', 'confidence': 0.85, 'source': 'presidio', 'start': 34, 'end': 53}, {'type': 'PERSON', 'value': 'Jacob Burke', 'confidence': 0.85, 'source': 'presidio', 'start': 270, 'end': 281}, {'type': 'URL', 'value': 'https://www.jordan-brady.com/', 'confidence': 0.6, 'source': 'presidio', 'start': 555, 'end': 584}, {'type': 'URL', 'value': 'https://www.jordan-brady.com', 'confidence': 0.9, 'source': 'custom_regex', 'start': 555, 'end': 583}]","{""PERSON"": 0.9915, ""URL"": 0.9859}","['DATE_TIME', 'PERSON', 'URL']",[],"['DATE_TIME', 'PERSON', 'URL']",False,True,False,low_cost_llm,potential_pii_evidence,True,0.9985960125923157,confident_pii,False,True,True,0.045466,45.4664,0.925,0.925,yes,no,no,no,no,no,no,no,no,no,yes,no,True,20260909_112021,sweep1_ambiguous_bert,local,bert,distilbert-base-multilingual-cased-v1,not_applicable,local_model,bert_prefilter,gdpr_pii_detection
+SYN-TRAINING_EVALUATION-0082,synthetic_training_evaluation_0082.txt,form,training_evaluation,de,synthetic_generation,,,synthetic,2026-08-28,2026-08-28,2026-08-28,0,"Schulungsbewertung
+
+Teilnehmer: Zofia Hartmann
+Kontakt: Zentrale Kontaktstelle
+Kurs: Project Management Fundamentals
+Datum: 2026-07-27
+Inhalt: Die Schulung zum Projektmanagement-Grundlagen war informativ und gut strukturiert. Zofia Hartmann hat die vermittelten Inhalte als praxisnah empfunden, insbesondere die Gruppenarbeiten haben den Lernprozess gefördert. Die Verwendung von realen Fallstudien war besonders hilfreich, um die Theorie in der Praxis anzuwenden.
+Trainer: External Training Provider
+Material: Satisfactory
+Kommentare: https://www.benthin.com/
+Empfehlung: Für zukünftige Schulungen könnte die Einbeziehung weiterer interaktiver Elemente, wie Workshops oder Rollenspiele, die Teilnehmerengagement und den Lernerfolg weiter steigern.",yes,yes,no,no,no,no,no,no,no,no,no,yes,no,PERSON; URL,MULTIPLE,2,2,easy,no,none,no,test,yes,openrouter_gpt4o_mini_field,field_llm_v1,no,,,v2,Synthetic document generated for controlled PII training data.,"[{'type': 'PERSON', 'value': 'Zofia Hartmann', 'confidence': 0.85, 'source': 'presidio', 'start': 32, 'end': 46}, {'type': 'LOCATION', 'value': 'Projektmanagement-Grundlagen', 'confidence': 0.85, 'source': 'presidio', 'start': 160, 'end': 188}, {'type': 'DATE_TIME', 'value': '2026-07-27', 'confidence': 0.6, 'source': 'presidio', 'start': 124, 'end': 134}, {'type': 'URL', 'value': 'https://www.benthin.com/', 'confidence': 0.6, 'source': 'presidio', 'start': 536, 'end': 560}, {'type': 'URL', 'value': 'https://www.benthin.com', 'confidence': 0.9, 'source': 'custom_regex', 'start': 536, 'end': 559}]","{""PERSON"": 0.9914, ""URL"": 0.9868}","['DATE_TIME', 'LOCATION', 'PERSON', 'URL']",[],"['PERSON', 'LOCATION', 'DATE_TIME', 'URL']",False,True,False,low_cost_llm,potential_pii_evidence,True,0.9982420206069946,confident_pii,False,True,True,0.045466,45.4664,0.925,0.925,yes,no,no,no,no,no,no,no,no,no,yes,no,True,20260909_112021,sweep1_ambiguous_bert,local,bert,distilbert-base-multilingual-cased-v1,not_applicable,local_model,bert_prefilter,gdpr_pii_detection
+SYN-TRAINING_EVALUATION-0095,synthetic_training_evaluation_0095.txt,form,training_evaluation,en,synthetic_generation,,,synthetic,2026-08-28,2026-08-28,2026-08-28,0,"Training Evaluation
+
+Participant: Participant details not provided
+Contact: Central Contact Point
+Course: Leadership Development
+Date: 2024-02-18
+Content: The Leadership Development course delivered by the External Training Provider on 2024-02-18 was well-structured and engaging. Participants expressed appreciation for the interactive elements and real-world applications of the concepts discussed. The materials provided were comprehensive and supported the learning objectives effectively. However, there is room for improvement in the pacing of the sessions, as some participants felt that certain topics were rushed. Incorporating more time for discussion and Q&A could enhance the overall experience and understanding of the material.
+Trainer: External Training Provider
+Material: Good
+Comments: Jennifer Owens
+Recommendation: To improve future sessions, consider extending the duration of the course to allow for deeper exploration of each topic, particularly in areas where participants showed strong interest. Additionally, integrating more case studies relevant to the participants' industries could further enrich the learning experience.",yes,yes,no,no,no,no,no,no,no,yes,no,no,no,PERSON; DATE_TIME,MULTIPLE,2,2,easy,no,none,no,test,yes,openrouter_gpt4o_mini_field,field_llm_v1,no,,,v2,Synthetic document generated for controlled PII training data.,"[{'type': 'PERSON', 'value': 'Jennifer Owens', 'confidence': 0.85, 'source': 'presidio', 'start': 803, 'end': 817}]","{""PERSON"": 0.9968, ""DATE_TIME"": 0.9709}",['PERSON'],[],['PERSON'],False,True,False,low_cost_llm,potential_pii_evidence,True,0.9997199773788452,confident_pii,False,True,True,0.045466,45.4664,0.925,0.925,yes,no,no,no,no,no,no,no,yes,no,no,no,True,20260909_112021,sweep1_ambiguous_bert,local,bert,distilbert-base-multilingual-cased-v1,not_applicable,local_model,bert_prefilter,gdpr_pii_detection
+SYN-TRAINING_EVALUATION-0174,synthetic_training_evaluation_0174.txt,form,training_evaluation,de,synthetic_generation,,,synthetic,2026-08-28,2026-08-28,2026-08-28,0,"Schulungsbewertung
+
+Teilnehmer: Bewertungsteilnehmende Person
+Kontakt: Serviceteam
+Kurs: Project Management Fundamentals
+Datum: 2025-04-23
+Inhalt: Die Schulung von Dolores Gierschner-Hecker war informativ, aber die Materialien könnten klarer strukturiert sein. Einige Konzepte wurden nicht ausreichend vertieft, was zu Unsicherheiten bei den Teilnehmenden führte.
+Trainer: Dolores Gierschner-Hecker
+Material: Needs Improvement
+Kommentare: http://gutknecht.de/
+Empfehlung: Es wäre hilfreich, zusätzliche Beispiele und praktische Übungen anzubieten, um das Verständnis zu fördern und die Teilnehmenden aktiver einzubeziehen.",yes,yes,no,no,no,no,no,no,no,no,no,yes,no,PERSON; URL,MULTIPLE,2,2,easy,no,none,no,test,yes,openrouter_gpt4o_mini_field,field_llm_v1,no,,,v2,Synthetic document generated for controlled PII training data.,"[{'type': 'PERSON', 'value': 'Dolores Gierschner-Hecker', 'confidence': 0.85, 'source': 'presidio', 'start': 164, 'end': 189}, {'type': 'PERSON', 'value': 'Dolores Gierschner-Hecker', 'confidence': 0.85, 'source': 'presidio', 'start': 373, 'end': 398}, {'type': 'DATE_TIME', 'value': '2025-04-23', 'confidence': 0.6, 'source': 'presidio', 'start': 128, 'end': 138}, {'type': 'URL', 'value': 'http://gutknecht.de/', 'confidence': 0.6, 'source': 'presidio', 'start': 439, 'end': 459}, {'type': 'URL', 'value': 'http://gutknecht.de', 'confidence': 0.9, 'source': 'custom_regex', 'start': 439, 'end': 458}]","{""PERSON"": 0.9898, ""URL"": 0.9864}","['DATE_TIME', 'PERSON', 'URL']",[],"['PERSON', 'DATE_TIME', 'URL']",False,True,False,low_cost_llm,potential_pii_evidence,True,0.9980599880218506,confident_pii,False,True,True,0.045466,45.4664,0.925,0.925,yes,no,no,no,no,no,no,no,no,no,yes,no,True,20260909_112021,sweep1_ambiguous_bert,local,bert,distilbert-base-multilingual-cased-v1,not_applicable,local_model,bert_prefilter,gdpr_pii_detection
+SYN-TRAINING_EVALUATION-0185,synthetic_training_evaluation_0185.txt,form,training_evaluation,de,synthetic_generation,,,synthetic,2026-08-28,2026-08-28,2026-08-28,0,"Schulungsbewertung
+
+Teilnehmer: Herr Juan Mangold B.Sc.
+Kontakt: Zentrale Kontaktstelle
+Kurs: Process Improvement Workshop
+Datum: 2026-05-17
+Inhalt: Herr Juan Mangold B.Sc. äußerte, dass die Schulungsinhalte in einigen Bereichen nicht ausreichend auf die praktischen Anwendungen eingehen. Besonders der Abschnitt zu Prozessoptimierungen könnte konkretere Beispiele und Übungen beinhalten, um die Theorie besser zu veranschaulichen.
+Trainer: Internal Training Team
+Material: Needs Improvement
+Kommentare: http://www.beer.net/
+Empfehlung: Es wird empfohlen, die Schulungsmaterialien zu überarbeiten, um praxisnahe Fallstudien und interaktive Elemente einzuführen. Dies könnte die Teilnehmerbindung erhöhen und die Lernziele effektiver erreichen.",yes,yes,no,no,no,no,no,no,no,no,no,yes,no,PERSON; URL,MULTIPLE,2,2,easy,no,none,no,test,yes,openrouter_gpt4o_mini_field,field_llm_v1,no,,,v2,Synthetic document generated for controlled PII training data.,"[{'type': 'PERSON', 'value': 'Juan Mangold', 'confidence': 0.85, 'source': 'presidio', 'start': 37, 'end': 49}, {'type': 'PERSON', 'value': 'Juan Mangold', 'confidence': 0.85, 'source': 'presidio', 'start': 154, 'end': 166}, {'type': 'DATE_TIME', 'value': '2026-05-17', 'confidence': 0.6, 'source': 'presidio', 'start': 130, 'end': 140}, {'type': 'URL', 'value': 'http://www.beer.net/', 'confidence': 0.6, 'source': 'presidio', 'start': 504, 'end': 524}, {'type': 'URL', 'value': 'B.Sc', 'confidence': 0.5, 'source': 'presidio', 'start': 50, 'end': 54}, {'type': 'URL', 'value': 'B.Sc', 'confidence': 0.5, 'source': 'presidio', 'start': 167, 'end': 171}, {'type': 'URL', 'value': 'http://www.beer.net', 'confidence': 0.9, 'source': 'custom_regex', 'start': 504, 'end': 523}]","{""PERSON"": 0.992, ""URL"": 0.9838}","['DATE_TIME', 'PERSON', 'URL']",[],"['PERSON', 'DATE_TIME', 'URL']",False,True,True,low_cost_llm,potential_pii_evidence,True,0.9986159801483154,confident_pii,False,True,True,0.045466,45.4664,0.925,0.925,yes,no,no,no,no,no,no,no,no,no,yes,no,True,20260909_112021,sweep1_ambiguous_bert,local,bert,distilbert-base-multilingual-cased-v1,not_applicable,local_model,bert_prefilter,gdpr_pii_detection
+SYN-TRAINING_EVALUATION-0207,synthetic_training_evaluation_0207.txt,form,training_evaluation,de,synthetic_generation,,,synthetic,2026-08-28,2026-08-28,2026-08-28,0,"Schulungsbewertung
+
+Teilnehmer: Bewertungsteilnehmende Person
+Kontakt: Zentrale Kontaktstelle
+Kurs: Data Protection Essentials
+Datum: 2026-10-06
+Inhalt: Die Schulung zu den Grundlagen des Datenschutzes, die am 6. Oktober 2026 unter der Leitung von Nicolai Dehmel B.Eng. stattfand, war insgesamt informativ und gut strukturiert. Die Teilnehmer zeigten ein hohes Maß an Engagement, was sich in der aktiven Teilnahme an den Diskussionen widerspiegelte. Besonders positiv hervorzuheben ist die klare Kommunikation der rechtlichen Rahmenbedingungen sowie die praktischen Beispiele, die zur Veranschaulichung der Themen genutzt wurden. Ein Verbesserungsvorschlag wäre, mehr interaktive Elemente einzuführen, um das Wissen der Teilnehmer noch stärker anzuwenden und zu vertiefen. Darüber hinaus könnten spezifische Fallstudien aus der Branche integriert werden, um die Relevanz der Inhalte zu erhöhen.
+Trainer: Nicolai Dehmel B.Eng.
+Material: Satisfactory
+Kommentare: https://weiss.de/
+Empfehlung: Es wird empfohlen, zukünftige Schulungen um interaktive Workshops zu erweitern, in denen die Teilnehmer in Gruppenarbeit spezifische Datenschutzszenarien bearbeiten können. Dies würde nicht nur das Verständnis vertiefen, sondern auch den Austausch unter den Teilnehmern fördern. Zudem könnte eine Nachbesprechung der praktischen Übungen in Form von Feedback-Runden etabliert werden, um die Lernerfahrungen zu optimieren.",yes,yes,no,no,no,no,no,no,no,no,no,yes,no,PERSON; URL,MULTIPLE,2,2,easy,no,none,no,test,yes,openrouter_gpt4o_mini_field,field_llm_v1,no,,,v2,Synthetic document generated for controlled PII training data.,"[{'type': 'PERSON', 'value': 'Nicolai Dehmel', 'confidence': 0.85, 'source': 'presidio', 'start': 248, 'end': 262}, {'type': 'PERSON', 'value': 'Nicolai Dehmel', 'confidence': 0.85, 'source': 'presidio', 'start': 904, 'end': 918}, {'type': 'DATE_TIME', 'value': '2026-10-06', 'confidence': 0.6, 'source': 'presidio', 'start': 134, 'end': 144}, {'type': 'URL', 'value': 'https://weiss.de/', 'confidence': 0.6, 'source': 'presidio', 'start': 961, 'end': 978}, {'type': 'URL', 'value': 'https://weiss.de', 'confidence': 0.9, 'source': 'custom_regex', 'start': 961, 'end': 977}]","{""PERSON"": 0.9901}","['DATE_TIME', 'PERSON', 'URL']",[],"['PERSON', 'DATE_TIME', 'URL']",False,True,False,low_cost_llm,potential_pii_evidence,True,0.9978579878807068,confident_pii,False,True,True,0.045466,45.4664,0.925,0.925,yes,no,no,no,no,no,no,no,no,no,no,no,True,20260909_112021,sweep1_ambiguous_bert,local,bert,distilbert-base-multilingual-cased-v1,not_applicable,local_model,bert_prefilter,gdpr_pii_detection
+SYN-TRAINING_EVALUATION-0223,synthetic_training_evaluation_0223.txt,form,training_evaluation,en,synthetic_generation,,,synthetic,2026-08-28,2026-08-28,2026-08-28,0,"Training Evaluation
+
+Participant: Richard Clark
+Contact: Central Contact Point
+Course: Process Improvement Workshop
+Date: 2025-02-01
+Content: The Process Improvement Workshop led by the Internal Training Team on February 1, 2025, provided valuable insights into operational efficiencies. Richard Clark actively participated, contributing thoughtful questions that enhanced group discussions. However, the workshop material could benefit from more real-world examples to better illustrate the concepts being taught and engage the participants effectively. Furthermore, incorporating interactive elements such as breakout sessions could foster a more hands-on learning environment.
+Trainer: Internal Training Team
+Material: Needs Improvement
+Comments: Richard Clark demonstrated a solid understanding of the workshop topics and was eager to share his perspectives. His engagement level was commendable, as he consistently prompted further exploration of the material presented. Nevertheless, some attendees expressed that the content was too theoretical and lacked practical application, which is critical for a workshop focused on process improvement. Addressing this feedback could significantly enhance participant satisfaction and learning outcomes.
+Recommendation: To improve future sessions, it is recommended that the Internal Training Team revise the existing material for the Process Improvement Workshop. Incorporating case studies relevant to the participants' industries would provide practical context and enhance comprehension. Additionally, implementing more interactive activities, such as group exercises or role-playing scenarios, could facilitate better retention of the concepts discussed and promote a collaborative learning atmosphere.",yes,yes,no,no,no,no,no,no,no,no,no,no,no,PERSON,PERSON,1,1,easy,no,none,no,test,yes,openrouter_gpt4o_mini_field,field_llm_v1,no,,,v2,Synthetic document generated for controlled PII training data.,"[{'type': 'DATE_TIME', 'value': '2025-02-01', 'confidence': 0.95, 'source': 'presidio', 'start': 122, 'end': 132}, {'type': 'PERSON', 'value': 'Richard Clark', 'confidence': 0.85, 'source': 'presidio', 'start': 34, 'end': 47}, {'type': 'DATE_TIME', 'value': 'February 1, 2025', 'confidence': 0.85, 'source': 'presidio', 'start': 212, 'end': 228}, {'type': 'PERSON', 'value': 'Richard Clark', 'confidence': 0.85, 'source': 'presidio', 'start': 288, 'end': 301}, {'type': 'PERSON', 'value': 'Richard Clark', 'confidence': 0.85, 'source': 'presidio', 'start': 750, 'end': 763}]","{""PERSON"": 0.9967, ""DATE_TIME"": 0.9802}","['DATE_TIME', 'PERSON']",[],"['DATE_TIME', 'PERSON']",False,True,False,low_cost_llm,potential_pii_evidence,True,0.9997310042381287,confident_pii,False,True,True,0.045466,45.4664,0.925,0.925,yes,no,no,no,no,no,no,no,yes,no,no,no,True,20260909_112021,sweep1_ambiguous_bert,local,bert,distilbert-base-multilingual-cased-v1,not_applicable,local_model,bert_prefilter,gdpr_pii_detection
