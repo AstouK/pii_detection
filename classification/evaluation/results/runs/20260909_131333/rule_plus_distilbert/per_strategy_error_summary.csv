@@ -1,0 +1,5 @@
+strategy,error_type,count
+rule_plus_distilbert,false_negative,2
+rule_plus_distilbert,false_positive,3
+rule_plus_distilbert,true_negative,2867
+rule_plus_distilbert,true_positive,628

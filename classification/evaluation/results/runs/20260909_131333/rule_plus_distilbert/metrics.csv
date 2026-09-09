@@ -1,0 +1,17 @@
+metric_group,metric_name,label,n,accuracy,precision,recall,f1,TP,TN,FP,FN,run_id,strategy,provider,model_family,model_name,prompt_version,dataset_version,prediction_source
+document,standardized,standardized,3500,0.9986,0.9952,0.9968,0.996,628,2867,3,2,20260909_131333,rule_plus_distilbert,local,bert,distilbert,pii_review_v1,v2,bert
+document,sweep1_strong,sweep1_strong,3500,0.942,1.0,0.6778,0.8079,427,2870,0,203,20260909_131333,rule_plus_distilbert,local,bert,distilbert,pii_review_v1,v2,bert
+document,sweep1_any,sweep1_any,3500,0.8571,0.5577,0.9968,0.7153,628,2372,498,2,20260909_131333,rule_plus_distilbert,local,bert,distilbert,pii_review_v1,v2,bert
+document,final,final,3500,0.9986,0.9952,0.9968,0.996,628,2867,3,2,20260909_131333,rule_plus_distilbert,local,bert,distilbert,pii_review_v1,v2,bert
+entity,PERSON,entity_PERSON,3500,0.9934,0.9706,0.9869,0.9787,529,2948,16,7,20260909_131333,rule_plus_distilbert,local,bert,distilbert,pii_review_v1,v2,bert
+entity,EMAIL_ADDRESS,entity_EMAIL_ADDRESS,3500,1.0,1.0,1.0,1.0,75,3425,0,0,20260909_131333,rule_plus_distilbert,local,bert,distilbert,pii_review_v1,v2,bert
+entity,PHONE_NUMBER,entity_PHONE_NUMBER,3500,0.9997,1.0,0.9831,0.9915,58,3441,0,1,20260909_131333,rule_plus_distilbert,local,bert,distilbert,pii_review_v1,v2,bert
+entity,LOCATION,entity_LOCATION,3500,0.9809,0.3402,0.9167,0.4962,33,3400,64,3,20260909_131333,rule_plus_distilbert,local,bert,distilbert,pii_review_v1,v2,bert
+entity,IBAN_CODE,entity_IBAN_CODE,3500,1.0,1.0,1.0,1.0,60,3440,0,0,20260909_131333,rule_plus_distilbert,local,bert,distilbert,pii_review_v1,v2,bert
+entity,CREDIT_CARD,entity_CREDIT_CARD,3500,0.9997,0.9836,1.0,0.9917,60,3439,1,0,20260909_131333,rule_plus_distilbert,local,bert,distilbert,pii_review_v1,v2,bert
+entity,PASSPORT,entity_PASSPORT,3500,1.0,1.0,1.0,1.0,62,3438,0,0,20260909_131333,rule_plus_distilbert,local,bert,distilbert,pii_review_v1,v2,bert
+entity,NRP,entity_NRP,3500,0.998,0.9412,0.9231,0.932,48,3445,3,4,20260909_131333,rule_plus_distilbert,local,bert,distilbert,pii_review_v1,v2,bert
+entity,DATE_TIME,entity_DATE_TIME,3500,0.9137,0.1616,0.9831,0.2775,58,3140,301,1,20260909_131333,rule_plus_distilbert,local,bert,distilbert,pii_review_v1,v2,bert
+entity,IP_ADDRESS,entity_IP_ADDRESS,3500,1.0,1.0,1.0,1.0,60,3440,0,0,20260909_131333,rule_plus_distilbert,local,bert,distilbert,pii_review_v1,v2,bert
+entity,URL,entity_URL,3500,0.9737,0.2328,0.9,0.3699,27,3381,89,3,20260909_131333,rule_plus_distilbert,local,bert,distilbert,pii_review_v1,v2,bert
+entity,MEDICAL_LICENSE,entity_MEDICAL_LICENSE,3500,0.998,0.8939,1.0,0.944,59,3434,7,0,20260909_131333,rule_plus_distilbert,local,bert,distilbert,pii_review_v1,v2,bert

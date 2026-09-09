@@ -1,0 +1,10 @@
+primary_pii_type,error_type,count
+EMAIL_ADDRESS,true_positive,14
+IP_ADDRESS,true_positive,19
+MULTIPLE,false_negative,127
+MULTIPLE,true_positive,347
+NONE,true_negative,2870
+PASSPORT,true_positive,7
+PERSON,false_negative,75
+PHONE_NUMBER,false_negative,1
+PHONE_NUMBER,true_positive,40

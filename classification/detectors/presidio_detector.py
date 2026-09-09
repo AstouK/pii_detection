@@ -42,6 +42,24 @@ _RE_LOCATION_QUARTER = re.compile(r"^Q[1-4]$")
 
 _LOCATION_TITLE_TOKENS = {"univ.", "prof.", "univ.prof."}
 
+#: A reference identifier such as ``REF-4324364`` or ``EMP-42`` is a
+#: letter-prefixed code, not a phone number. Presidio nonetheless scores the
+#: trailing digit run as ``PHONE_NUMBER`` (see the false positives on
+#: SYN-EMPLOYEE_RECORD-0020 and the supplier onboarding documents). We detect
+#: the ``<LETTERS>-`` prefix immediately before the match and drop it.
+_RE_REFERENCE_PREFIX = re.compile(r"[A-Z]{2,6}-\s*$")
+
+
+def _looks_like_reference_id(text: str, start: int) -> bool:
+    """
+    Return True when the span at ``start`` is the numeric tail of a reference
+    code (e.g. ``REF-4324364``) rather than a standalone phone number.
+    """
+
+    window = text[max(0, start - 8):start]
+
+    return bool(_RE_REFERENCE_PREFIX.search(window))
+
 
 def _is_generic_location_fp(value: str) -> bool:
 
@@ -125,6 +143,10 @@ def detect_presidio(
 
         if entity_type == "LOCATION":
             if _is_generic_location_fp(stripped_value):
+                continue
+
+        if entity_type == "PHONE_NUMBER":
+            if _looks_like_reference_id(text, item.start):
                 continue
 
         entities.append(
