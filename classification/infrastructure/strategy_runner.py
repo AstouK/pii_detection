@@ -26,11 +26,14 @@ import logging
 import pandas as pd
 
 from classification.config import (
+    get_model_config,
     get_strategy_config,
 )
 from classification.infrastructure.metadata import (
     add_output_metadata,
+    compute_bert_final_prediction,
     compute_final_prediction,
+    compute_hybrid_final_prediction,
 )
 from classification.infrastructure.outputs import (
     build_output_file,
@@ -129,14 +132,77 @@ def run_strategy_pipeline(
         )
 
     elif runner == "rule_plus_bert":
-        raise NotImplementedError(
-            f"Rule plus BERT strategy '{strategy}' "
-            "is not yet implemented."
+        # Sweep 1, then DistilBERT on the ambiguous subset only. No LLM stage.
+        # Imported lazily so the rest of the pipeline does not require torch.
+        from classification.prefilter.predict import (
+            load_prefilter_bundle,
+            score_ambiguous_documents,
+        )
+
+        model_config = get_model_config(strategy_config["model"])
+        checkpoint_run_name = model_config["checkpoint_run_name"]
+
+        # Preserve Sweep 1's own routing decision under a distinct name so it
+        # is not confused with the later BERT/LLM routing flags.
+        df_strategy["sweep1_needs_review"] = (
+            df_strategy["needs_llm_review"].fillna(False).astype(bool)
+        )
+
+        bundle = load_prefilter_bundle(checkpoint_run_name)
+
+        df_strategy, _bert_runtime = score_ambiguous_documents(
+            df=df_strategy,
+            mask=df_strategy["sweep1_needs_review"],
+            bundle=bundle,
+        )
+
+        # This strategy never calls an LLM; zero out the review flag so the
+        # usage aggregator reports no LLM attempts.
+        df_strategy["needs_llm_review"] = False
+
+        df_strategy = compute_bert_final_prediction(
+            df_strategy,
+            standalone_threshold=bundle["config"].standalone_threshold,
         )
 
     elif runner == "hybrid":
-        raise NotImplementedError(
-            f"Hybrid strategy '{strategy}' is not yet implemented."
+        # Sweep 1, then DistilBERT on the ambiguous subset, then Qwen on the
+        # documents DistilBERT is uncertain about (routed_to_llm).
+        from classification.prefilter.predict import (
+            load_prefilter_bundle,
+            score_ambiguous_documents,
+        )
+
+        bert_config = get_model_config(strategy_config["bert_model"])
+        checkpoint_run_name = bert_config["checkpoint_run_name"]
+
+        df_strategy["sweep1_needs_review"] = (
+            df_strategy["needs_llm_review"].fillna(False).astype(bool)
+        )
+
+        bundle = load_prefilter_bundle(checkpoint_run_name)
+
+        df_strategy, _bert_runtime = score_ambiguous_documents(
+            df=df_strategy,
+            mask=df_strategy["sweep1_needs_review"],
+            bundle=bundle,
+        )
+
+        # Only BERT's uncertain zone escalates to the LLM. This overwrites the
+        # Sweep 1 review flag on purpose: run_llm and the usage aggregator both
+        # read needs_llm_review, and here it must mean "routed by BERT to Qwen".
+        df_strategy["needs_llm_review"] = (
+            df_strategy["routed_to_llm"].fillna(False).astype(bool)
+        )
+
+        df_strategy = run_llm(
+            df=df_strategy,
+            model_id=strategy_config["llm_model"],
+            prompt_version=prompt_version,
+        )
+
+        df_strategy = compute_hybrid_final_prediction(
+            df_strategy
         )
 
     else:

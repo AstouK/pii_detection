@@ -72,6 +72,9 @@ MODEL_REGISTRY = {
         "model_name": "distilbert",
         "prediction_source": "bert",
         "is_local": True,
+        # Trained pre-filter run under classification/prefilter/artifacts/.
+        # Its calibration.json holds the routing thresholds used at inference.
+        "checkpoint_run_name": "distilbert_prefilter_3500",
     },
 
     "modernbert": {
@@ -80,6 +83,7 @@ MODEL_REGISTRY = {
         "model_name": "modernbert",
         "prediction_source": "bert",
         "is_local": True,
+        "checkpoint_run_name": "modernbert_prefilter",
     },
 }
 

@@ -1,0 +1,45 @@
+document_id,file_name,document_type,scenario_type,language,source_system,responsible_owner,owner_email,data_source,file_created_date,last_modified_date,dataset_created_at,file_size_mb,full_text,contains_personal_data,PERSON_yes_no,EMAIL_ADDRESS_yes_no,PHONE_NUMBER_yes_no,LOCATION_yes_no,IBAN_CODE_yes_no,CREDIT_CARD_yes_no,PASSPORT_yes_no,NRP_yes_no,DATE_TIME_yes_no,IP_ADDRESS_yes_no,URL_yes_no,MEDICAL_LICENSE_yes_no,personal_data_categories,primary_pii_type,category_count,pii_count,difficulty,edge_case,challenge_category,retention_period_exceeded_3y,recommended_split,synthetic,synthetic_generator,generation_prompt_version,human_reviewed,review_status,review_notes,dataset_version,labeling_notes,entities,per_type_conf,detected_categories,strong_pii_categories,potential_pii_categories,detected_pii,detected_any_pii,has_person_hint,route,routing_reason,needs_llm_review,run_id,strategy,provider,model_family,model_name,prompt_version,prediction_source,predicted_pii,_ground_truth_bool,_prediction_bool,error_type,is_correct,evaluated_ground_truth_col,evaluated_prediction_col
+SYN-EMPLOYEE_RECORD-0020,synthetic_employee_record_0020.txt,hr_record,employee_record,en,synthetic_generation,,,synthetic,2026-08-28,2026-08-28,2026-08-28,0,"Employee Record
+
+Employee: Employee details not provided
+Department: IT
+Role: Specialist
+Employee Id: REF-4324364
+Manager: Team Lead
+Start Date: 2024-10-16
+Address: Registered office information pending
+Nationality: Nationality not provided
+Contact: Department Contact
+Notes: Employee REF-4324364 is scheduled to start on 2024-10-16. Further details regarding registered office information and nationality are pending. Manager is designated as Team Lead. License number REF-1649446 and identification number REF-4568871 are noted for compliance.
+License Number: REF-1649446
+Identification Number: REF-4568871",no,no,no,no,no,no,no,no,no,no,no,no,no,,NONE,0,0,easy,no,none,no,test,yes,openrouter_gpt4o_mini_field,field_llm_v1,no,,,v2,Synthetic document generated for controlled PII training data.,"[{'type': 'PHONE_NUMBER', 'value': '1649446', 'confidence': 0.75, 'source': 'presidio', 'start': 474, 'end': 481}, {'type': 'PHONE_NUMBER', 'value': '1649446', 'confidence': 0.75, 'source': 'presidio', 'start': 566, 'end': 573}]",{'PHONE_NUMBER': 0.75},['PHONE_NUMBER'],['PHONE_NUMBER'],[],True,True,True,local_pii,strong_pii_detected,False,20260909_124319,rule_based,local,rules,regex_presidio_fusion_v1,not_applicable,rules,True,False,True,false_positive,False,contains_personal_data,predicted_pii
+SYN-SUPPLIER_ONBOARDING-0120,synthetic_supplier_onboarding_0120.txt,form,supplier_onboarding,en,synthetic_generation,,,synthetic,2026-08-28,2026-08-28,2026-08-28,0,"Supplier Onboarding
+
+Company: Vendor Organization
+Address: Business address not provided
+Contact: Department Contact
+Tax Id: REF-4572595
+Certification: Supplier Code of Conduct
+Risk Level: Low
+Payment Details: Standard corporate payment process
+Reviewer: Procurement Team
+Comments: The vendor has completed all necessary onboarding steps. Awaiting final approval from the Procurement Team.
+Approval: Pending Review
+Notes: Ensure compliance with the Supplier Code of Conduct before moving forward with the approval process.
+Nationality: Nationality not provided
+Identification Number: REF-3107931",no,no,no,no,no,no,no,no,no,no,no,no,no,,NONE,0,0,easy,no,none,no,train,yes,openrouter_gpt4o_mini_field,field_llm_v1,no,,,v2,Synthetic document generated for controlled PII training data.,"[{'type': 'PHONE_NUMBER', 'value': '3107931', 'confidence': 0.75, 'source': 'presidio', 'start': 588, 'end': 595}]",{'PHONE_NUMBER': 0.75},['PHONE_NUMBER'],['PHONE_NUMBER'],[],True,True,True,local_pii,strong_pii_detected,False,20260909_124319,rule_based,local,rules,regex_presidio_fusion_v1,not_applicable,rules,True,False,True,false_positive,False,contains_personal_data,predicted_pii
+SYN-SUPPLIER_ONBOARDING-0221,synthetic_supplier_onboarding_0221.txt,form,supplier_onboarding,en,synthetic_generation,,,synthetic,2026-08-28,2026-08-28,2026-08-28,0,"Supplier Onboarding
+
+Company: Vendor Organization
+Address: Business address not provided
+Contact: Central Contact Point
+Tax Id: REF-6536235
+Certification: Supplier Code of Conduct
+Risk Level: High
+Payment Details: Payment terms on file
+Reviewer: Procurement Team
+Comments: Supplier Organization has met all onboarding requirements as per the Supplier Code of Conduct. Compliance documentation reviewed by the Procurement Team indicates adherence to standards despite the high risk level.
+Approval: Approved
+Notes: Further evaluation may be necessary to address the high risk level associated with Vendor Organization. Continuous monitoring is recommended to ensure ongoing compliance with payment terms on file.
+Nationality: Nationality not provided
+Identification Number: REF-1680850",no,no,no,no,no,no,no,no,no,no,no,no,no,,NONE,0,0,easy,no,none,no,test,yes,openrouter_gpt4o_mini_field,field_llm_v1,no,,,v2,Synthetic document generated for controlled PII training data.,"[{'type': 'PHONE_NUMBER', 'value': '1680850', 'confidence': 0.75, 'source': 'presidio', 'start': 777, 'end': 784}]",{'PHONE_NUMBER': 0.75},['PHONE_NUMBER'],['PHONE_NUMBER'],[],True,True,True,local_pii,strong_pii_detected,False,20260909_124319,rule_based,local,rules,regex_presidio_fusion_v1,not_applicable,rules,True,False,True,false_positive,False,contains_personal_data,predicted_pii

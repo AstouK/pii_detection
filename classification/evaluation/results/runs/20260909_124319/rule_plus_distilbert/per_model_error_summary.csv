@@ -1,0 +1,5 @@
+provider,model_family,model_name,error_type,count
+local,bert,distilbert,false_negative,13
+local,bert,distilbert,false_positive,6
+local,bert,distilbert,true_negative,2864
+local,bert,distilbert,true_positive,617

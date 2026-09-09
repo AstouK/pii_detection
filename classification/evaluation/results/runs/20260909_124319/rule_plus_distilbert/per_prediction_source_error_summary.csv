@@ -1,0 +1,5 @@
+prediction_source,error_type,count
+bert,false_negative,13
+bert,false_positive,6
+bert,true_negative,2864
+bert,true_positive,617

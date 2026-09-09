@@ -1,0 +1,17 @@
+metric_group,metric_name,label,n,accuracy,precision,recall,f1,TP,TN,FP,FN,run_id,strategy,provider,model_family,model_name,prompt_version,dataset_version,prediction_source
+document,standardized,standardized,3500,0.9949,0.992,0.9794,0.9856,617,2865,5,13,20260909_124319,rule_plus_distilbert_plus_qwen,dashscope,bert+llm,distilbert+qwen3.7-plus,pii_review_v1,v2,hybrid
+document,sweep1_strong,sweep1_strong,3500,0.9409,0.993,0.6762,0.8045,426,2867,3,204,20260909_124319,rule_plus_distilbert_plus_qwen,dashscope,bert+llm,distilbert+qwen3.7-plus,pii_review_v1,v2,hybrid
+document,sweep1_any,sweep1_any,3500,0.9703,0.8715,0.9794,0.9223,617,2779,91,13,20260909_124319,rule_plus_distilbert_plus_qwen,dashscope,bert+llm,distilbert+qwen3.7-plus,pii_review_v1,v2,hybrid
+document,final,final,3500,0.9949,0.992,0.9794,0.9856,617,2865,5,13,20260909_124319,rule_plus_distilbert_plus_qwen,dashscope,bert+llm,distilbert+qwen3.7-plus,pii_review_v1,v2,hybrid
+entity,PERSON,entity_PERSON,3500,0.9949,0.9832,0.9832,0.9832,527,2955,9,9,20260909_124319,rule_plus_distilbert_plus_qwen,dashscope,bert+llm,distilbert+qwen3.7-plus,pii_review_v1,v2,hybrid
+entity,EMAIL_ADDRESS,entity_EMAIL_ADDRESS,3500,1.0,1.0,1.0,1.0,75,3425,0,0,20260909_124319,rule_plus_distilbert_plus_qwen,dashscope,bert+llm,distilbert+qwen3.7-plus,pii_review_v1,v2,hybrid
+entity,PHONE_NUMBER,entity_PHONE_NUMBER,3500,0.9986,0.95,0.9661,0.958,57,3438,3,2,20260909_124319,rule_plus_distilbert_plus_qwen,dashscope,bert+llm,distilbert+qwen3.7-plus,pii_review_v1,v2,hybrid
+entity,LOCATION,entity_LOCATION,3500,0.864,0.0686,0.9722,0.1282,35,2989,475,1,20260909_124319,rule_plus_distilbert_plus_qwen,dashscope,bert+llm,distilbert+qwen3.7-plus,pii_review_v1,v2,hybrid
+entity,IBAN_CODE,entity_IBAN_CODE,3500,1.0,1.0,1.0,1.0,60,3440,0,0,20260909_124319,rule_plus_distilbert_plus_qwen,dashscope,bert+llm,distilbert+qwen3.7-plus,pii_review_v1,v2,hybrid
+entity,CREDIT_CARD,entity_CREDIT_CARD,3500,0.9997,0.9836,1.0,0.9917,60,3439,1,0,20260909_124319,rule_plus_distilbert_plus_qwen,dashscope,bert+llm,distilbert+qwen3.7-plus,pii_review_v1,v2,hybrid
+entity,PASSPORT,entity_PASSPORT,3500,1.0,1.0,1.0,1.0,62,3438,0,0,20260909_124319,rule_plus_distilbert_plus_qwen,dashscope,bert+llm,distilbert+qwen3.7-plus,pii_review_v1,v2,hybrid
+entity,NRP,entity_NRP,3500,0.998,0.9412,0.9231,0.932,48,3445,3,4,20260909_124319,rule_plus_distilbert_plus_qwen,dashscope,bert+llm,distilbert+qwen3.7-plus,pii_review_v1,v2,hybrid
+entity,DATE_TIME,entity_DATE_TIME,3500,0.8517,0.1021,1.0,0.1852,59,2922,519,0,20260909_124319,rule_plus_distilbert_plus_qwen,dashscope,bert+llm,distilbert+qwen3.7-plus,pii_review_v1,v2,hybrid
+entity,IP_ADDRESS,entity_IP_ADDRESS,3500,1.0,1.0,1.0,1.0,60,3440,0,0,20260909_124319,rule_plus_distilbert_plus_qwen,dashscope,bert+llm,distilbert+qwen3.7-plus,pii_review_v1,v2,hybrid
+entity,URL,entity_URL,3500,0.9737,0.2328,0.9,0.3699,27,3381,89,3,20260909_124319,rule_plus_distilbert_plus_qwen,dashscope,bert+llm,distilbert+qwen3.7-plus,pii_review_v1,v2,hybrid
+entity,MEDICAL_LICENSE,entity_MEDICAL_LICENSE,3500,0.998,0.8939,1.0,0.944,59,3434,7,0,20260909_124319,rule_plus_distilbert_plus_qwen,dashscope,bert+llm,distilbert+qwen3.7-plus,pii_review_v1,v2,hybrid
