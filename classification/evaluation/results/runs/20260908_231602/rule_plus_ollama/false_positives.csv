@@ -1,0 +1,83 @@
+document_id,file_name,document_type,scenario_type,language,source_system,responsible_owner,owner_email,data_source,file_created_date,last_modified_date,dataset_created_at,file_size_mb,full_text,contains_personal_data,PERSON_yes_no,EMAIL_ADDRESS_yes_no,PHONE_NUMBER_yes_no,LOCATION_yes_no,IBAN_CODE_yes_no,CREDIT_CARD_yes_no,PASSPORT_yes_no,NRP_yes_no,DATE_TIME_yes_no,IP_ADDRESS_yes_no,URL_yes_no,MEDICAL_LICENSE_yes_no,personal_data_categories,primary_pii_type,category_count,pii_count,difficulty,edge_case,challenge_category,retention_period_exceeded_3y,recommended_split,synthetic,synthetic_generator,generation_prompt_version,human_reviewed,review_status,review_notes,dataset_version,labeling_notes,entities,per_type_conf,detected_categories,strong_pii_categories,potential_pii_categories,detected_pii,detected_any_pii,has_person_hint,route,routing_reason,needs_llm_review,llm_provider,llm_model_id,llm_model_name,llm_pii,llm_reason,llm_prompt_tokens,llm_completion_tokens,llm_total_tokens,llm_reasoning_tokens,llm_cached_tokens,llm_request_cost,llm_request_success,final_pii,predicted_pii,run_id,strategy,provider,model_family,model_name,prompt_version,prediction_source,_ground_truth_bool,_prediction_bool,error_type,is_correct,evaluated_ground_truth_col,evaluated_prediction_col
+SYN-EMPLOYEE_RECORD-0020,synthetic_employee_record_0020.txt,hr_record,employee_record,en,synthetic_generation,,,synthetic,2026-08-28,2026-08-28,2026-08-28,0,"Employee Record
+
+Employee: Employee details not provided
+Department: IT
+Role: Specialist
+Employee Id: REF-4324364
+Manager: Team Lead
+Start Date: 2024-10-16
+Address: Registered office information pending
+Nationality: Nationality not provided
+Contact: Department Contact
+Notes: Employee REF-4324364 is scheduled to start on 2024-10-16. Further details regarding registered office information and nationality are pending. Manager is designated as Team Lead. License number REF-1649446 and identification number REF-4568871 are noted for compliance.
+License Number: REF-1649446
+Identification Number: REF-4568871",no,no,no,no,no,no,no,no,no,no,no,no,no,,NONE,0,0,easy,no,none,no,test,yes,openrouter_gpt4o_mini_field,field_llm_v1,no,,,v2,Synthetic document generated for controlled PII training data.,"[{'type': 'PHONE_NUMBER', 'value': '1649446', 'confidence': 0.75, 'source': 'presidio', 'start': 474, 'end': 481}, {'type': 'PHONE_NUMBER', 'value': '1649446', 'confidence': 0.75, 'source': 'presidio', 'start': 566, 'end': 573}]",{'PHONE_NUMBER': 0.75},['PHONE_NUMBER'],['PHONE_NUMBER'],[],True,True,True,local_pii,strong_pii_detected,False,ollama,ollama_local,qwen2.5,False,,0,0,0,0,0,0.0,False,True,True,20260908_231602,rule_plus_ollama,ollama,llm,qwen2.5,pii_review_v1,llm,False,True,false_positive,False,contains_personal_data,predicted_pii
+SYN-MEETING_NOTES-0007,synthetic_meeting_notes_0007.txt,meeting_notes,meeting_notes,de,synthetic_generation,,,synthetic,2026-08-28,2026-08-28,2026-08-28,0,"Besprechungsnotizen
+
+Titel: Entscheidungsprotokoll vom 03.07.2025
+Datum: 2025-07-03
+Ort: Betriebsbereich
+Teilnehmer: Projektteam
+Kontakt: Zentrale Kontaktstelle
+Agenda: Besprechung zur Projektfortschritt und strategischen Entscheidungen
+Diskussion: Das Projektteam hat die aktuellen Fortschritte des Projekts diskutiert und mögliche Hindernisse identifiziert. Es wurde festgestellt, dass die Fristen für die nächsten Schritte eingehalten werden können, wenn die Ressourcen entsprechend verteilt werden. Zudem wurde das Feedback der Stakeholder erörtert, das positive Rückmeldungen zur bisherigen Umsetzung beinhaltete. Die Notwendigkeit für regelmäßige Updates wurde hervorgehoben, um die Transparenz innerhalb des Teams zu gewährleisten.
+Entscheidungen: Das Projektteam hat beschlossen, die Ressourcen für die nächsten zwei Monate um 15% aufzustocken, um die Effizienz zu steigern. Darüber hinaus wurde entschieden, wöchentliche Statusmeetings einzuführen, um den Fortschritt besser zu verfolgen.
+Aufgaben: 1. Verantwortlicher: Max Müller, der die Ressourcenverteilung bis zum 10.07.2025 anpassen wird. 2. Verantwortlicher: Anna Schmidt, die die ersten wöchentlichen Statusmeetings ab dem 15.07.2025 organisieren wird.",no,no,no,no,no,no,no,no,no,no,no,no,no,,NONE,0,0,easy,no,none,no,train,yes,openrouter_gpt4o_mini_field,field_llm_v1,no,,,v2,Synthetic document generated for controlled PII training data.,"[{'type': 'PERSON', 'value': 'Max Müller', 'confidence': 0.85, 'source': 'presidio', 'start': 1029, 'end': 1039}, {'type': 'PERSON', 'value': 'Anna Schmidt', 'confidence': 0.85, 'source': 'presidio', 'start': 1125, 'end': 1137}, {'type': 'DATE_TIME', 'value': '10.07.2025', 'confidence': 0.6, 'source': 'presidio', 'start': 1078, 'end': 1088}, {'type': 'DATE_TIME', 'value': '15.07.2025', 'confidence': 0.6, 'source': 'presidio', 'start': 1190, 'end': 1200}]","{'PERSON': 0.85, 'DATE_TIME': 0.6}","['DATE_TIME', 'PERSON']",[],"['PERSON', 'DATE_TIME']",False,True,False,low_cost_llm,potential_pii_evidence,True,ollama,ollama_local,qwen2.5,True,"The text includes names (Max Müller, Anna Schmidt) which are personal data.",550,32,582,0,410,0.0,True,True,True,20260908_231602,rule_plus_ollama,ollama,llm,qwen2.5,pii_review_v1,llm,False,True,false_positive,False,contains_personal_data,predicted_pii
+SYN-MEETING_NOTES-0087,synthetic_meeting_notes_0087.txt,meeting_notes,meeting_notes,de,synthetic_generation,,,synthetic,2026-08-28,2026-08-28,2026-08-28,0,"Besprechungsnotizen
+
+Titel: Entscheidungen zur Systemmigration
+Datum: 2025-09-10
+Ort: IT-Abteilung
+Teilnehmer: Projektteam
+Kontakt: Abteilungskontakt
+Agenda: 1. Status der aktuellen Migration 2. Diskussion über Probleme 3. Festlegung von Verantwortlichkeiten 4. Planung der nächsten Schritte
+Diskussion: Das Projektteam hat den aktuellen Status der Systemmigration besprochen. Es wurden einige technische Schwierigkeiten identifiziert, insbesondere in Bezug auf die Datenintegration. Diese Probleme wurden von den Teammitgliedern eingehend erörtert. Es wurde auch darauf hingewiesen, dass die Schulung der Mitarbeiter für die neuen Systeme entscheidend ist. Der Zeitrahmen für die Migration bleibt jedoch unverändert, da die Frist von der Geschäftsführung festgelegt wurde.
+Entscheidungen: Die Entscheidung wurde getroffen, zusätzliche Ressourcen für die Datenintegration bereitzustellen. Außerdem wurde beschlossen, ein wöchentliches Update-Meeting einzuführen, um den Fortschritt zu überwachen.
+Aufgaben: Max Müller wird die zusätzlichen Ressourcen bis zum 15. September 2025 anfordern. Anna Schmidt ist verantwortlich für die Organisation des ersten Update-Meetings, das am 20. September 2025 stattfinden soll.",no,no,no,no,no,no,no,no,no,no,no,no,no,,NONE,0,0,easy,no,none,no,train,yes,openrouter_gpt4o_mini_field,field_llm_v1,no,,,v2,Synthetic document generated for controlled PII training data.,"[{'type': 'PERSON', 'value': 'Max Müller', 'confidence': 0.85, 'source': 'presidio', 'start': 1007, 'end': 1017}, {'type': 'PERSON', 'value': 'Anna Schmidt', 'confidence': 0.85, 'source': 'presidio', 'start': 1089, 'end': 1101}]",{'PERSON': 0.85},['PERSON'],[],['PERSON'],False,True,True,low_cost_llm,potential_pii_evidence,True,ollama,ollama_local,qwen2.5,True,"The text includes the names Max Müller and Anna Schmidt, which are personal identifiers.",532,32,564,0,410,0.0,True,True,True,20260908_231602,rule_plus_ollama,ollama,llm,qwen2.5,pii_review_v1,llm,False,True,false_positive,False,contains_personal_data,predicted_pii
+SYN-MEETING_NOTES-0199,synthetic_meeting_notes_0199.txt,meeting_notes,meeting_notes,en,synthetic_generation,,,synthetic,2026-08-28,2026-08-28,2026-08-28,0,"Meeting Notes
+
+Title: Q4 Strategy Alignment Meeting
+Date: 2025-11-01
+Location: Operations Area
+Participants: Department Representatives
+Contact: Department Contact
+Agenda: 1. Review Q3 performance metrics
+2. Discuss strategic initiatives for Q4
+3. Assign ownership for key projects
+4. Define action items and deadlines
+Discussion: During the meeting, participants reviewed the Q3 performance metrics and identified areas for improvement. The discussion included insights from various department representatives on how to better align their efforts with overall company goals. Key strategic initiatives for Q4 were proposed, focusing on enhancing operational efficiency and customer engagement. The group emphasized the importance of clear ownership for each initiative to ensure accountability and progress. Each representative contributed their thoughts on potential challenges and opportunities within their departments.
+Decisions: The team decided to prioritize three main initiatives for Q4: 1) Implementation of a new customer feedback system, 2) Streamlining the supply chain processes, and 3) Launching a targeted marketing campaign. It was agreed that each initiative would have a designated owner responsible for its execution.
+Action Items: 1. John Doe will lead the implementation of the customer feedback system by December 1, 2025.
+2. Sarah Smith is tasked with evaluating and proposing improvements to the supply chain processes by November 15, 2025.
+3. Mark Johnson is assigned to develop a detailed plan for the marketing campaign by November 30, 2025.",no,no,no,no,no,no,no,no,no,no,no,no,no,,NONE,0,0,easy,no,none,no,train,yes,openrouter_gpt4o_mini_field,field_llm_v1,no,,,v2,Synthetic document generated for controlled PII training data.,"[{'type': 'PERSON', 'value': 'John Doe', 'confidence': 0.85, 'source': 'presidio', 'start': 1254, 'end': 1262}, {'type': 'DATE_TIME', 'value': 'December 1, 2025', 'confidence': 0.85, 'source': 'presidio', 'start': 1327, 'end': 1343}, {'type': 'PERSON', 'value': 'Sarah Smith', 'confidence': 0.85, 'source': 'presidio', 'start': 1348, 'end': 1359}, {'type': 'DATE_TIME', 'value': 'November 15, 2025', 'confidence': 0.85, 'source': 'presidio', 'start': 1446, 'end': 1463}, {'type': 'PERSON', 'value': 'Mark Johnson', 'confidence': 0.85, 'source': 'presidio', 'start': 1468, 'end': 1480}, {'type': 'DATE_TIME', 'value': 'November 30, 2025', 'confidence': 0.85, 'source': 'presidio', 'start': 1550, 'end': 1567}]","{'PERSON': 0.85, 'DATE_TIME': 0.85}","['DATE_TIME', 'PERSON']",[],"['PERSON', 'DATE_TIME']",False,True,False,low_cost_llm,potential_pii_evidence,True,ollama,ollama_local,qwen2.5,True,"The text includes names of individuals (John Doe, Sarah Smith, Mark Johnson).",532,33,565,0,410,0.0,True,True,True,20260908_231602,rule_plus_ollama,ollama,llm,qwen2.5,pii_review_v1,llm,False,True,false_positive,False,contains_personal_data,predicted_pii
+SYN-SUPPLIER_ONBOARDING-0120,synthetic_supplier_onboarding_0120.txt,form,supplier_onboarding,en,synthetic_generation,,,synthetic,2026-08-28,2026-08-28,2026-08-28,0,"Supplier Onboarding
+
+Company: Vendor Organization
+Address: Business address not provided
+Contact: Department Contact
+Tax Id: REF-4572595
+Certification: Supplier Code of Conduct
+Risk Level: Low
+Payment Details: Standard corporate payment process
+Reviewer: Procurement Team
+Comments: The vendor has completed all necessary onboarding steps. Awaiting final approval from the Procurement Team.
+Approval: Pending Review
+Notes: Ensure compliance with the Supplier Code of Conduct before moving forward with the approval process.
+Nationality: Nationality not provided
+Identification Number: REF-3107931",no,no,no,no,no,no,no,no,no,no,no,no,no,,NONE,0,0,easy,no,none,no,train,yes,openrouter_gpt4o_mini_field,field_llm_v1,no,,,v2,Synthetic document generated for controlled PII training data.,"[{'type': 'PHONE_NUMBER', 'value': '3107931', 'confidence': 0.75, 'source': 'presidio', 'start': 588, 'end': 595}]",{'PHONE_NUMBER': 0.75},['PHONE_NUMBER'],['PHONE_NUMBER'],[],True,True,True,local_pii,strong_pii_detected,False,ollama,ollama_local,qwen2.5,False,,0,0,0,0,0,0.0,False,True,True,20260908_231602,rule_plus_ollama,ollama,llm,qwen2.5,pii_review_v1,llm,False,True,false_positive,False,contains_personal_data,predicted_pii
+SYN-SUPPLIER_ONBOARDING-0221,synthetic_supplier_onboarding_0221.txt,form,supplier_onboarding,en,synthetic_generation,,,synthetic,2026-08-28,2026-08-28,2026-08-28,0,"Supplier Onboarding
+
+Company: Vendor Organization
+Address: Business address not provided
+Contact: Central Contact Point
+Tax Id: REF-6536235
+Certification: Supplier Code of Conduct
+Risk Level: High
+Payment Details: Payment terms on file
+Reviewer: Procurement Team
+Comments: Supplier Organization has met all onboarding requirements as per the Supplier Code of Conduct. Compliance documentation reviewed by the Procurement Team indicates adherence to standards despite the high risk level.
+Approval: Approved
+Notes: Further evaluation may be necessary to address the high risk level associated with Vendor Organization. Continuous monitoring is recommended to ensure ongoing compliance with payment terms on file.
+Nationality: Nationality not provided
+Identification Number: REF-1680850",no,no,no,no,no,no,no,no,no,no,no,no,no,,NONE,0,0,easy,no,none,no,test,yes,openrouter_gpt4o_mini_field,field_llm_v1,no,,,v2,Synthetic document generated for controlled PII training data.,"[{'type': 'PHONE_NUMBER', 'value': '1680850', 'confidence': 0.75, 'source': 'presidio', 'start': 777, 'end': 784}]",{'PHONE_NUMBER': 0.75},['PHONE_NUMBER'],['PHONE_NUMBER'],[],True,True,True,local_pii,strong_pii_detected,False,ollama,ollama_local,qwen2.5,False,,0,0,0,0,0,0.0,False,True,True,20260908_231602,rule_plus_ollama,ollama,llm,qwen2.5,pii_review_v1,llm,False,True,false_positive,False,contains_personal_data,predicted_pii

@@ -1,0 +1,5 @@
+error_type,count,percentage
+false_negative,24,0.006857142857142857
+false_positive,38,0.010857142857142857
+true_negative,2832,0.8091428571428572
+true_positive,606,0.17314285714285715
